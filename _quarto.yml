@@ -1,0 +1,32 @@
+project:
+  type: manuscript
+  execute-dir: project
+
+manuscript:
+  article: index.qmd
+  notebooks:
+    - notebook: notebooks/cars-plot.qmd
+      title: CarsPlot
+  code-links:
+    - text: CarsPlot Code
+      icon: file-code
+      href: notebooks/cars-plot.qmd
+  resources:
+    - data/cars.csv
+
+format:
+  html:
+    comments:
+      hypothesis: true
+    other-links:
+      - text: NASA Open Data
+        href: https://data.nasa.gov/
+  # docx: default
+  # jats: default
+  # pdf: default
+
+# execute:
+#   freeze: true
+
+
+

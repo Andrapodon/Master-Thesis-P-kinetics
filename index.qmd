@@ -1,0 +1,52 @@
+---
+# For Scolar Frontmatter doc: https://quarto.org/docs/authoring/front-matter.html
+title: My Test Manuscript
+# date: 2024-10-16
+authors:
+  - name: Lukas Graz
+    affiliation: 
+      - name: ETH Zurich
+        city: Zurich
+        state: Switzerland
+        url: www.ethz.ch
+    roles: writing
+    orcid: 0009-0003-5147-8370
+    corresponding: true
+bibliography: writing/references.bib
+# license: "CC BY-NC-SA"
+# citation: 
+# funding: "The author received no specific funding for this work."
+keywords:
+  - KI
+  - AI
+abstract: > 
+  Bla Bla
+  Bla ...
+---
+
+
+This is a simple placeholder for the manuscript's main document [@knuth84].
+
+{{< include writing/05-preface.qmd >}}
+
+{{< include writing/10-abstract.qmd >}}
+
+{{< include writing/15-intro.qmd >}}
+
+{{< include writing/20-methods.qmd >}}
+
+{{< include writing/25-results.qmd >}}
+
+{{< include writing/30-discussion.qmd >}}
+
+{{< include writing/35-conclusion.qmd >}}
+
+{{< include writing/40-acknowledgments.qmd >}}
+
+{{< include writing/45-legal-disclosure.qmd >}}
+
+{{< include writing/50-references.qmd >}}
+
+{{< include writing/55-appendix.qmd >}}
+
+{{< include writing/60-supplements.qmd >}}
