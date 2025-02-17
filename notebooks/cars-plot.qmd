@@ -1,0 +1,26 @@
+---
+title: Cars Plot
+author: Lukas Graz
+date: 2024-10-16
+---
+
+```{r cars-plot, fig.cap="A scatter plot of the cars data set."}
+library(qreport)
+library(ggplot2)
+```
+
+
+```{r}
+#| echo: false
+plot(cars)
+```
+
+```{r}
+xfun::cache_rds({
+    Sys.sleep(10) # simulate long computation
+    summary(cars)
+  }, 
+  file = "dummy.rds", dir = "cache/",
+  hash = list("cars") # dependencies
+)
+```
