@@ -11,12 +11,12 @@ When a soil is used agronomically, P-sinks such as leaching and plant P-uptake
 
 ## Struktur
 
-### Warum ist die Arbeit wichtig
+## Warum ist die Arbeit wichtig
 P ist endlich, Umweltproblme
-### P ist sehr komplex
+## P ist sehr komplex
 Siehe oben
-### Wie wird bisher P-Ernährung angegangen
+## Wie wird bisher P-Ernährung angegangen
 GRUD
-### Warum Bodentest
-### Warum kinetischer Bodentest
+## Warum Bodentest
+## Warum kinetischer Bodentest
 
