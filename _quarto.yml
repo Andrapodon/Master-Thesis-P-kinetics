@@ -4,15 +4,6 @@ project:
 
 manuscript:
   article: index.qmd
-  notebooks:
-    - notebook: notebooks/cars-plot.qmd
-      title: CarsPlot
-  code-links:
-    - text: CarsPlot Code
-      icon: file-code
-      href: notebooks/cars-plot.qmd
-  resources:
-    - data/cars.csv
 
 format:
   html:
@@ -22,8 +13,8 @@ format:
   # jats: default
   # pdf: default
 
- execute:
-   freeze: auto
+execute:
+  freeze: auto
 
 
 
