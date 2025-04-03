@@ -3,7 +3,7 @@
 title: My Test Manuscript
 # date: 2024-10-16
 authors:
-  - name: Lukas Graz
+  - name: Marc Pérez
     affiliation: 
       - name: ETH Zurich
         city: Zurich
