@@ -5,10 +5,8 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-    <meta name="author" content="Marc Pérez">
-    <meta name="dcterms.date" content="2024-10-16">
 
-    <title>Cars Plot</title>
+    <title>first-thoughts-w-lukas</title>
     <style>
       code{white-space: pre-wrap;}
       span.smallcaps{font-variant: small-caps;}
@@ -20,40 +18,6 @@
         width: 0.8em;
         margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
         vertical-align: middle;
-      }
-      /* CSS for syntax highlighting */
-      pre > code.sourceCode { white-space: pre; position: relative; }
-      pre > code.sourceCode > span { line-height: 1.25; }
-      pre > code.sourceCode > span:empty { height: 1.2em; }
-      .sourceCode { overflow: visible; }
-      code.sourceCode > span { color: inherit; text-decoration: inherit; }
-      div.sourceCode { margin: 1em 0; }
-      pre.sourceCode { margin: 0; }
-      @media screen {
-      div.sourceCode { overflow: auto; }
-      }
-      @media print {
-      pre > code.sourceCode { white-space: pre-wrap; }
-      pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
-      }
-      pre.numberSource code
-        { counter-reset: source-line 0; }
-      pre.numberSource code > span
-        { position: relative; left: -4em; counter-increment: source-line; }
-      pre.numberSource code > span > a:first-child::before
-        { content: counter(source-line);
-          position: relative; left: -1em; text-align: right; vertical-align: baseline;
-          border: none; display: inline-block;
-          -webkit-touch-callout: none; -webkit-user-select: none;
-          -khtml-user-select: none; -moz-user-select: none;
-          -ms-user-select: none; user-select: none;
-          padding: 0 4px; width: 4em;
-        }
-      pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-      div.sourceCode
-        {   }
-      @media screen {
-      pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
       }
     </style>
 
@@ -158,9 +122,6 @@
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap-cbf367297292b8e2858f4d7b7fd861d6.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
-<script src="../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
-<link href="../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
-<link href="../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
      <script async="" src="https://hypothes.is/embed.js"></script>
 <script>
   window.document.addEventListener("DOMContentLoaded", function (_event) {
@@ -173,69 +134,46 @@
     <div id="quarto-embed-header" class="headroom fixed-top bg-primary">
       
       <a onclick="window.quartoBackToArticle(); return false;" class="btn btn-primary quarto-back-link" href=""><i class="bi bi-caret-left"></i> Back to Article</a>
-      <h6><i class="bi bi-journal-code"></i> Cars Plot</h6>
+      <h6><i class="bi bi-journal-code"></i> Anova</h6>
 
-            <a href="../notebooks/cars-plot.qmd" class="btn btn-primary quarto-download-embed" download="cars-plot.qmd">Download Source</a>
+            <a href="../notes/01-first-thoughts-w-Lukas.md" class="btn btn-primary quarto-download-embed" download="01-first-thoughts-w-Lukas.md">Download Notebook</a>
           </div>
 
-     <header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
-  <div class="quarto-title-banner page-columns page-full">
-    <div class="quarto-title column-body">
-      <h1 class="title">Cars Plot</h1>
-          </div>
-
-    
-    <div class="quarto-title-meta-container">
-      <div class="quarto-title-meta-column-start">
-        
-        <div class="quarto-title-meta">
-
-                <div>
-            <div class="quarto-title-meta-heading">Author</div>
-            <div class="quarto-title-meta-contents">
-                        <p>Marc Pérez </p>
-                      </div>
-          </div>
-                
-                <div>
-            <div class="quarto-title-meta-heading">Published</div>
-            <div class="quarto-title-meta-contents">
-              <p class="date">October 16, 2024</p>
-            </div>
-          </div>
-          
-                
-              </div>
-      </div>
-      <div class="quarto-title-meta-column-end quarto-other-formats-target">
-      </div>
-    </div>
-
-
-
-    <div class="quarto-other-links-text-target">
-    </div>  </div>
-</header><div id="quarto-content" class="page-columns page-rows-contents page-layout-article toc-left">
+     <div id="quarto-content" class="page-columns page-rows-contents page-layout-article toc-left">
 <div id="quarto-sidebar-toc-left" class="sidebar toc-left">
-  
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#anova" id="toc-anova" class="nav-link active" data-scroll-target="#anova">Anova</a></li>
+  <li><a href="#datenerhebung" id="toc-datenerhebung" class="nav-link" data-scroll-target="#datenerhebung">Datenerhebung</a></li>
+  </ul>
+</nav>
 </div>
 <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
 </div>
-<main class="content quarto-banner-title-block" id="quarto-document-content">      
-
-     <div class="cell-container"><div class="cell-decorator"><pre>In [1]:</pre></div><div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div></div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [2]:</pre></div><div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(cars)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div class="">
-<figure class="figure">
-<p class=""><a href="cars-plot_files/figure-html/unnamed-chunk-1-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="cars-plot_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></a></p>
-</figure>
-</div>
-</div>
-</div></div>
+<main class="content quarto-banner-title-block" id="quarto-document-content">      <section id="anova" class="level1">
+<h1>Anova</h1>
+<p>simple: y ~ 1 categorical: y ~ as.factor(t)</p>
+<p>y’ = y^n y’ = y</p>
+<p>y ~ ln(t) - linear? == y/ln(t) ~ 1 –&gt; überprüfe indem wir uns fragen ob: “y/ln(t) ~ as.factor(t)” daten besser erklärt als “y/ln(t) ~ 1” == one-way ANOVA</p>
+<p>y ~ 1/t - 2te ordnung?</p>
+<hr>
+<p>H2O Lösungsmittel –&gt; Differenz</p>
+<p>Tongehalt</p>
+<p>Kinetik = funktion(messwerte-über-zeit) Wie stark wird das restliche (mässig labile = Differenz) in wasser mit der Zeit gelöst Kinetik ~ Differenz (wir erwarten gute korrelation)</p>
+<p>Entzug (Phosphor) GE (GemessenErtrag) WP (Wünschen Phosphor) WE (Wünschen Ertrag)</p>
+<p>Bodenarten x Dünungen</p>
+<p>Frage: ist unsere kinetik hilfreich? (Ertrag Analog) Entzug ~ Bodentyp + H2O + Lösungsmittel Entzug ~ f(Kinetik)*Bodentyp + H2O + Lösungsmittel –&gt; 2 ML-modelle (XGboost) + CrossValidation: ist das hinzufügen von Kinetik hilfreich? wir müssen hier f() nicht kennen – ML-modell dies selber herausfinden kann problem: das extrahieren von f() ist nicht trivial</p>
+<p>Versuche f() herauszufinden -&gt; vorschlag g() (zB median von ableitungen) –&gt; vergleiche wie oben die zwei modelle hier Entzug ~ f(Kinetik)<em>Bodentyp + H2O + Lösungsmittel Entzug ~ g(Kinetik)</em>Bodentyp + H2O + Lösungsmittel</p>
+<p>==&gt; somit haben wir eine kenngrösse für die kinetik (d.h. f() geschätzt) ==&gt; Bauer: misst seine Kinetik -&gt; wissen wie viel er düngen muss um Enzug/Ertrag zu optimieren</p>
+<hr>
+</section>
+<section id="datenerhebung" class="level1">
+<h1>Datenerhebung</h1>
+<p>Kinetik: 6 Zeitpunkte machen 0 5 10 20 30 45 60</p>
+<p>4 * 6 * 6 * 1 Zeitpunk wie viel kostet jeder weitere Zeitpunkt</p>
+</section>
      </main>
 <!-- /main column -->  <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
@@ -653,37 +591,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
 });
-</script>  </div> <!-- /content -->  <script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
-(function() {
-  let previousOnload = window.onload;
-  window.onload = () => {
-    if (previousOnload) {
-      previousOnload();
-    }
-    lightboxQuarto.on('slide_before_load', (data) => {
-      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
-      const href = trigger.getAttribute('href');
-      if (href !== null) {
-        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
-        if (imgEl !== null) {
-          const srcAttr = imgEl.getAttribute("src");
-          if (srcAttr && srcAttr.startsWith("data:")) {
-            slideConfig.href = srcAttr;
-          }
-        }
-      } 
-    });
-  
-    lightboxQuarto.on('slide_after_load', (data) => {
-      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
-      if (window.Quarto?.typesetMath) {
-        window.Quarto.typesetMath(slideNode);
-      }
-    });
-  
-  };
-  
-})();
-          </script> 
+</script>  </div> <!-- /content --> 
   
 </body></html>
