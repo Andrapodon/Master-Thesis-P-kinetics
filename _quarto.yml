@@ -18,15 +18,12 @@ format:
   html:
     comments:
       hypothesis: true
-    other-links:
-      - text: NASA Open Data
-        href: https://data.nasa.gov/
   # docx: default
   # jats: default
   # pdf: default
 
-# execute:
-#   freeze: true
+ execute:
+   freeze: auto
 
 
 
