@@ -10,18 +10,16 @@ authors:
         state: Switzerland
         url: www.ethz.ch
     roles: writing
-    orcid: 0009-0003-5147-8370
     corresponding: true
 bibliography: writing/references.bib
 # license: "CC BY-NC-SA"
 # citation: 
 # funding: "The author received no specific funding for this work."
 keywords:
-  - KI
-  - AI
+  - Phosphorus release kinetics
+  - Fertiizer requirements prediction
 abstract: > 
-  Bla Bla
-  Bla ...
+  Hier kommt das Abstract
 ---
 
 
