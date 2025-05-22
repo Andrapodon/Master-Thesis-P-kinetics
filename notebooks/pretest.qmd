@@ -33,6 +33,7 @@ $log(1-\frac{P(t)}{P^S})=-kt$
 
 
 ```{r setup}
+#| echo: false
 library(tidyr)
 library(lme4)
 library(ggplot2)
@@ -54,6 +55,7 @@ Now we can see, whether our linearized model displays a linear relation.
 ```{r}
 #| echo: false
 #| warning: false
+#| message: false
 res <- lmList(Y1 ~ t.min. | uid, d,na.action = na.pass)
 summary(res)
 ggplot(d, aes(y=Y1, x=t.min., col = Repetition)) +
@@ -69,6 +71,7 @@ If the parameter for the plateau could be estimated directly by using a non-line
 ```{r}
 #| echo: false
 #| warning: false
+#| message: false
 
 Res <- nlsList(Pv.mg.L. ~ PS * (1 - exp(-k * t.min.)) | uid, d[, c("Pv.mg.L.", "uid", "t.min.")],  start=list(PS=0.1,k=0.2))
 Res
