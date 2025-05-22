@@ -34,6 +34,8 @@ $log(1-\frac{P(t)}{P^S})=-kt$
 
 ```{r setup}
 #| echo: false
+#| message: false
+#| warning: false
 library(tidyr)
 library(lme4)
 library(ggplot2)
@@ -77,11 +79,13 @@ Res <- nlsList(Pv.mg.L. ~ PS * (1 - exp(-k * t.min.)) | uid, d[, c("Pv.mg.L.", "
 Res
 d$nls_pred <- predict(Res)
 
-ggplot(d, aes(y=Pv.mg.L., x=t.min., col = Repetition)) +
+p1 <- ggplot(d, aes(y=Pv.mg.L., x=t.min., col = Repetition)) +
   geom_point() +
     geom_smooth(method="nls", se=FALSE, formula = Pv.mg.L. ~ PS * (1 - exp(-k * t.min.))) +
   facet_grid(Treatment ~ Site) +
   geom_line(aes(y=nls_pred))
+
+suppressWarnings(print(p1))
 
 ```
 
