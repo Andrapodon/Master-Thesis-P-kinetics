@@ -1,0 +1,84 @@
+---
+title: "Pretest"
+format: html
+author: Marc Pérez
+date: 2025-05-22
+---
+
+## Context
+
+To explore, whether the proposed mechanisms and experiments to assess their dynamique, in a first step the Treatment levels $0P$ and $166P$ for all sites were analysed. The experiments were conducted as displayed in the original paper of Flossmann & Richter with adjustments according to developments in technique and available equipment of the soil laboratory. Instead of the CAL-method, the Olsen-method was used to measure and estimate the quantity of P.
+
+## Model of P-release after Flossman & Richter
+$\frac{dP}{dt}=k\times(P^S-P)$
+The constant $P^S$ denotes the amount of semi-labile P and was originally estimated as $P_\text{Olsen}-P_{H_2O}$. Subsequently the DE is solved exactly, since the soil is as $t=0$ mixed with deionized water, it was assummed that $P(0)=0$
+
+## Exact Solution
+$P(t)=P^{\text{S}}-C\times e^{-kt}$
+for $P(0)=P_0$ we receive:
+$P(t)=P^S-(P^S-P_0)\times e^{-kt}$
+If we set $P(0)=0$ we receive:
+$P(t)=P^S\times(1-e^{-kt})$
+
+## Linearisierung
+Now we linearize the DE, so that a linear model can be employed to test the relation and estimate the parameters of interest:
+$P(t)=P^S-(P^S-P_0)\times e^{-kt}$
+$P(t)-P^S=-(P^S-P_0)\times e^{-kt}$
+$P^S-P(t)=(P^S-P_0)\times e^{-kt}$
+$1-\frac{P(t)}{P^S}=(1-\frac{P_0}{P^S})\times e^{-kt}$
+Given $P_0=0$,
+$log(1-\frac{P(t)}{P^S})=-kt$
+
+## Setup and preparation of dataset
+
+
+```{r setup}
+library(tidyr)
+library(lme4)
+library(ggplot2)
+library(ggpmisc)
+library(nlme)
+# Dataset preparation
+d <- read.csv(file = "~/Documents/Master Thesis/Master-Thesis-P-kinetics/data/P-release.csv", na.strings = c("", "n.a."))
+d$Treatment <- d$Treatment |> factor()
+d$uid <- paste(d$Site, d$Treatment, as.character(d$Repetition), sep="_")
+d$Repetition <- as.factor(d$Repetition)
+d$flos <- d$Pv_Olsen.mg.L.-d$Pv_labile.mg.L.
+d$flos[d$flos <= 0] <- quantile(d$flos[d$flos > 0], 0.025, na.rm=TRUE)/2
+d$Y1 <- log(1 - d$Pv.mg.L. / d$flos) # one timeseries removed, since flos too low
+d$Y1[is.nan(d$Y1)] <- NA
+```
+
+Now we can see, whether our linearized model displays a linear relation.
+
+```{r}
+#| echo: false
+#| warning: false
+res <- lmList(Y1 ~ t.min. | uid, d,na.action = na.pass)
+summary(res)
+ggplot(d, aes(y=Y1, x=t.min., col = Repetition)) +
+  geom_point() +
+  facet_grid(Site ~ Treatment) + 
+  ylab("ln(1 - P / Ps)")+
+  geom_smooth(method="lm", alpha = 0.3)
+
+```
+
+If the parameter for the plateau could be estimated directly by using a non-linear non-least-squares model, we could omit the Olsen-measurement in the future.
+
+```{r}
+#| echo: false
+#| warning: false
+
+Res <- nlsList(Pv.mg.L. ~ PS * (1 - exp(-k * t.min.)) | uid, d[, c("Pv.mg.L.", "uid", "t.min.")],  start=list(PS=0.1,k=0.2))
+Res
+d$nls_pred <- predict(Res)
+
+ggplot(d, aes(y=Pv.mg.L., x=t.min., col = Repetition)) +
+  geom_point() +
+    geom_smooth(method="nls", se=FALSE, formula = Pv.mg.L. ~ PS * (1 - exp(-k * t.min.))) +
+  facet_grid(Treatment ~ Site) +
+  geom_line(aes(y=nls_pred))
+
+```
+
