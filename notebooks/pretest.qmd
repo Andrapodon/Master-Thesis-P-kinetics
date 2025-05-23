@@ -33,7 +33,7 @@ $log(1-\frac{P(t)}{P^S})=-kt$
 
 
 ```{r setup}
-#| echo: false
+#| include: false
 #| message: false
 #| warning: false
 library(tidyr)
