@@ -77,7 +77,7 @@ If the parameter for the plateau could be estimated directly by using a non-line
 #| message: false
 
 Res <- nlsList(Pv.mg.L. ~ PS * (1 - exp(-k * t.min.)) | uid, d[, c("Pv.mg.L.", "uid", "t.min.")],  start=list(PS=0.1,k=0.2))
-Res
+summary(Res)
 d$nls_pred <- predict(Res)
 
 p1 <- ggplot(d, aes(y=Pv.mg.L., x=t.min., col = Repetition)) +
