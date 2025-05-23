@@ -33,11 +33,15 @@ $log(1-\frac{P(t)}{P^S})=-kt$
 
 
 ```{r setup}
+#| echo: false
+#| message: false
+#| warning: false
 library(tidyr)
 library(lme4)
 library(ggplot2)
 library(ggpmisc)
 library(nlme)
+options(warn = -1)
 # Dataset preparation
 d <- read.csv(file = "~/Documents/Master Thesis/Master-Thesis-P-kinetics/data/P-release.csv", na.strings = c("", "n.a."))
 d$Treatment <- d$Treatment |> factor()
@@ -53,7 +57,10 @@ Now we can see, whether our linearized model displays a linear relation.
 
 ```{r}
 #| echo: false
-lmList(Y1 ~ t.min. | uid, d) |> summary()
+#| warning: false
+#| message: false
+res <- lmList(Y1 ~ t.min. | uid, d,na.action = na.pass)
+summary(res)
 ggplot(d, aes(y=Y1, x=t.min., col = Repetition)) +
   geom_point() +
   facet_grid(Site ~ Treatment) + 
@@ -67,16 +74,19 @@ If the parameter for the plateau could be estimated directly by using a non-line
 ```{r}
 #| echo: false
 #| warning: false
+#| message: false
 
 Res <- nlsList(Pv.mg.L. ~ PS * (1 - exp(-k * t.min.)) | uid, d[, c("Pv.mg.L.", "uid", "t.min.")],  start=list(PS=0.1,k=0.2))
 Res
 d$nls_pred <- predict(Res)
 
-ggplot(d, aes(y=Pv.mg.L., x=t.min., col = Repetition)) +
+p1 <- ggplot(d, aes(y=Pv.mg.L., x=t.min., col = Repetition)) +
   geom_point() +
     geom_smooth(method="nls", se=FALSE, formula = Pv.mg.L. ~ PS * (1 - exp(-k * t.min.))) +
   facet_grid(Treatment ~ Site) +
   geom_line(aes(y=nls_pred))
+
+suppressWarnings(print(p1))
 
 ```
 
