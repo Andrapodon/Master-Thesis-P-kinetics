@@ -41,6 +41,7 @@ library(lme4)
 library(ggplot2)
 library(ggpmisc)
 library(nlme)
+options(warn = -1)
 # Dataset preparation
 d <- read.csv(file = "~/Documents/Master Thesis/Master-Thesis-P-kinetics/data/P-release.csv", na.strings = c("", "n.a."))
 d$Treatment <- d$Treatment |> factor()
