@@ -9,6 +9,11 @@ format:
   html:
     comments:
       hypothesis: true
+    math: mathjax
+    
+  pdf:
+    keep-tex: true
+    
   # docx: default
   # jats: default
   # pdf: default
