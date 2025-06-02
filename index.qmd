@@ -1,7 +1,6 @@
 ---
 # For Scolar Frontmatter doc: https://quarto.org/docs/authoring/front-matter.html
 title: My Test Manuscript
-pdf-engine: lualatex
 # date: 2024-10-16
 authors:
   - name: Marc Pérez
