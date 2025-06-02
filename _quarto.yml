@@ -11,7 +11,7 @@ format:
       hypothesis: true
     math: mathjax
     
-  # docx: default
+  docx: default
   # jats: default
   pdf: default
 
