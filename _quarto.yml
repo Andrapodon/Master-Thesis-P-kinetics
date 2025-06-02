@@ -13,7 +13,7 @@ format:
     
   # docx: default
   # jats: default
-  # pdf: default
+  pdf: default
 
 execute:
   freeze: auto
