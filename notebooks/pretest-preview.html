@@ -239,15 +239,25 @@
 </section>
 <section id="model-of-p-release-after-flossman-richter" class="level2">
 <h2 class="anchored" data-anchor-id="model-of-p-release-after-flossman-richter">Model of P-release after Flossman &amp; Richter</h2>
-<p><span class="math inline">\(\frac{dP}{dt}=k\times(P^S-P)\)</span> The constant <span class="math inline">\(P^S\)</span> denotes the amount of semi-labile P and was originally estimated as <span class="math inline">\(P_\text{Olsen}-P_{H_2O}\)</span>. Subsequently the DE is solved exactly, since the soil is as <span class="math inline">\(t=0\)</span> mixed with deionized water, it was assummed that <span class="math inline">\(P(0)=0\)</span></p>
+<p><span class="math display">\[\frac{dP}{dt}=k\times(P^S-P)\]</span> The constant <span class="math inline">\(P^S\)</span> denotes the amount of semi-labile P and was originally estimated as <span class="math inline">\(P_\text{Olsen}-P_{H_2O}\)</span>. Subsequently the DE is solved exactly, since the soil is as <span class="math inline">\(t=0\)</span> mixed with deionized water, it was assummed that <span class="math inline">\(P(0)=0\)</span></p>
 </section>
 <section id="exact-solution" class="level2">
 <h2 class="anchored" data-anchor-id="exact-solution">Exact Solution</h2>
-<p><span class="math inline">\(P(t)=P^{\text{S}}-C\times e^{-kt}\)</span> for <span class="math inline">\(P(0)=P_0\)</span> we receive: <span class="math inline">\(P(t)=P^S-(P^S-P_0)\times e^{-kt}\)</span> If we set <span class="math inline">\(P(0)=0\)</span> we receive: <span class="math inline">\(P(t)=P^S\times(1-e^{-kt})\)</span></p>
+<p><span class="math display">\[P(t)=P^{\text{S}}-C\times e^{-kt}\]</span></p>
+<p>for <span class="math inline">\(P(0)=P_0\)</span> we receive:</p>
+<p><span class="math display">\[P(t)=P^S-(P^S-P_0)\times e^{-kt}\]</span></p>
+<p>If we set <span class="math inline">\(P(0)=0\)</span> we receive:</p>
+<p><span class="math display">\[P(t)=P^S\times(1-e^{-kt})\]</span></p>
 </section>
 <section id="linearisierung" class="level2">
 <h2 class="anchored" data-anchor-id="linearisierung">Linearisierung</h2>
-<p>Now we linearize the DE, so that a linear model can be employed to test the relation and estimate the parameters of interest: <span class="math inline">\(P(t)=P^S-(P^S-P_0)\times e^{-kt}\)</span> <span class="math inline">\(P(t)-P^S=-(P^S-P_0)\times e^{-kt}\)</span> <span class="math inline">\(P^S-P(t)=(P^S-P_0)\times e^{-kt}\)</span> <span class="math inline">\(1-\frac{P(t)}{P^S}=(1-\frac{P_0}{P^S})\times e^{-kt}\)</span> Given <span class="math inline">\(P_0=0\)</span>, <span class="math inline">\(log(1-\frac{P(t)}{P^S})=-kt\)</span></p>
+<p>Now we linearize the DE, so that a linear model can be employed to test the relation and estimate the parameters of interest:</p>
+<p><span class="math display">\[P(t)=P^S-(P^S-P_0)\times e^{-kt}\]</span></p>
+<p><span class="math display">\[P(t)-P^S=-(P^S-P_0)\times e^{-kt}\]</span></p>
+<p><span class="math display">\[P^S-P(t)=(P^S-P_0)\times e^{-kt}\]</span></p>
+<p><span class="math display">\[1-\frac{P(t)}{P^S}=(1-\frac{P_0}{P^S})\times e^{-kt}\]</span></p>
+<p>Given <span class="math inline">\(P_0=0\)</span>,</p>
+<p><span class="math display">\[log(1-\frac{P(t)}{P^S})=-kt\]</span></p>
 </section>
 <section id="setup-and-preparation-of-dataset" class="level2">
 <h2 class="anchored" data-anchor-id="setup-and-preparation-of-dataset">Setup and preparation of dataset</h2>
@@ -267,7 +277,8 @@ Attaching package: 'Matrix'</code></pre>
     expand, pack, unpack</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggpmisc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggtext)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggpmisc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Loading required package: ggpp</code></pre>
 </div>
@@ -296,16 +307,19 @@ Attaching package: 'nlme'</code></pre>
 
     lmList</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">warn =</span> <span class="sc">-</span><span class="dv">1</span>)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Dataset preparation</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file =</span> <span class="st">"~/Documents/Master Thesis/Master-Thesis-P-kinetics/data/P-release.csv"</span>, <span class="at">na.strings =</span> <span class="fu">c</span>(<span class="st">""</span>, <span class="st">"n.a."</span>))</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Treatment <span class="ot">&lt;-</span> d<span class="sc">$</span>Treatment <span class="sc">|&gt;</span> <span class="fu">factor</span>()</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>uid <span class="ot">&lt;-</span> <span class="fu">paste</span>(d<span class="sc">$</span>Site, d<span class="sc">$</span>Treatment, <span class="fu">as.character</span>(d<span class="sc">$</span>Repetition), <span class="at">sep=</span><span class="st">"_"</span>)</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Repetition <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(d<span class="sc">$</span>Repetition)</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>flos <span class="ot">&lt;-</span> d<span class="sc">$</span>Pv_Olsen.mg.L.<span class="sc">-</span>d<span class="sc">$</span>Pv_labile.mg.L.</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>flos[d<span class="sc">$</span>flos <span class="sc">&lt;=</span> <span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="fu">quantile</span>(d<span class="sc">$</span>flos[d<span class="sc">$</span>flos <span class="sc">&gt;</span> <span class="dv">0</span>], <span class="fl">0.025</span>, <span class="at">na.rm=</span><span class="cn">TRUE</span>)<span class="sc">/</span><span class="dv">2</span></span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Y1 <span class="ot">&lt;-</span> <span class="fu">log</span>(<span class="dv">1</span> <span class="sc">-</span> d<span class="sc">$</span>Pv.mg.L. <span class="sc">/</span> d<span class="sc">$</span>flos) <span class="co"># one timeseries removed, since flos too low</span></span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Y1[<span class="fu">is.nan</span>(d<span class="sc">$</span>Y1)] <span class="ot">&lt;-</span> <span class="cn">NA</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(latex2exp)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">warn =</span> <span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Dataset preparation</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file =</span> <span class="st">"~/Documents/Master Thesis/Master-Thesis-P-kinetics/data/P-release.csv"</span>, <span class="at">na.strings =</span> <span class="fu">c</span>(<span class="st">""</span>, <span class="st">"n.a."</span>))</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Treatment <span class="ot">&lt;-</span> d<span class="sc">$</span>Treatment <span class="sc">|&gt;</span> <span class="fu">factor</span>()</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>uid <span class="ot">&lt;-</span> <span class="fu">paste</span>(d<span class="sc">$</span>Site, d<span class="sc">$</span>Treatment, <span class="fu">as.character</span>(d<span class="sc">$</span>Repetition), <span class="at">sep=</span><span class="st">"_"</span>)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Repetition <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(d<span class="sc">$</span>Repetition)</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>flos <span class="ot">&lt;-</span> d<span class="sc">$</span>Pv_Olsen.mg.L.<span class="sc">-</span>d<span class="sc">$</span>Pv_labile.mg.L.</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>flos[d<span class="sc">$</span>flos <span class="sc">&lt;=</span> <span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="fu">quantile</span>(d<span class="sc">$</span>flos[d<span class="sc">$</span>flos <span class="sc">&gt;</span> <span class="dv">0</span>], <span class="fl">0.025</span>, <span class="at">na.rm=</span><span class="cn">TRUE</span>)<span class="sc">/</span><span class="dv">2</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Y1 <span class="ot">&lt;-</span> <span class="fu">log</span>(<span class="dv">1</span> <span class="sc">-</span> d<span class="sc">$</span>Pv.mg.L. <span class="sc">/</span> d<span class="sc">$</span>flos) <span class="co"># one timeseries removed, since flos too low</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Y1[<span class="fu">is.nan</span>(d<span class="sc">$</span>Y1)] <span class="ot">&lt;-</span> <span class="cn">NA</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div>
 <p>Now we can see, whether our linearized model displays a linear relation.</p>
 <div class="cell-container"><div class="cell-decorator"><pre>In [2]:</pre></div><div class="cell">
@@ -335,10 +349,10 @@ Reckenholz_0P_1     -0.10545869 0.03511973  -3.0028328 3.619229e-03
 Reckenholz_0P_2     -0.08557888 0.03511973  -2.4367748 1.715867e-02
 Reckenholz_166P_1   -0.17172348 0.03511973  -4.8896578 5.500413e-06
 Reckenholz_166P_2   -0.23296391 0.03511973  -6.6334190 4.271053e-09
-Rümlang_0P_1                 NA         NA          NA           NA
+Rümlang_0P_1        -0.01851905 0.03511973  -0.5273117 5.995131e-01
 Rümlang_0P_2        -0.08675331 0.03511973  -2.4702155 1.574495e-02
 Rümlang_166P_1      -0.26153690 0.03511973  -7.4470068 1.250859e-10
-Rümlang_166P_2      -0.01851905 0.03511973  -0.5273117 5.995131e-01
+Rümlang_166P_2               NA         NA          NA           NA
    t.min. 
                          Estimate  Std. Error       t value     Pr(&gt;|t|)
 Cadenazzo_0P_1      -1.318800e-03 0.001024548 -1.287202e+00 2.019304e-01
@@ -357,18 +371,19 @@ Reckenholz_0P_1      2.780943e-04 0.001024548  2.714312e-01 7.867953e-01
 Reckenholz_0P_2     -7.752286e-04 0.001024548 -7.566543e-01 4.515963e-01
 Reckenholz_166P_1   -1.609218e-03 0.001024548 -1.570662e+00 1.204155e-01
 Reckenholz_166P_2   -4.831330e-03 0.001024548 -4.715572e+00 1.071276e-05
-Rümlang_0P_1                   NA          NA            NA           NA
+Rümlang_0P_1         8.878899e-20 0.001024548  8.666163e-17 1.000000e+00
 Rümlang_0P_2        -1.438957e-03 0.001024548 -1.404480e+00 1.642498e-01
 Rümlang_166P_1      -1.090605e-03 0.001024548 -1.064475e+00 2.904841e-01
-Rümlang_166P_2       8.878899e-20 0.001024548  8.666163e-17 1.000000e+00
+Rümlang_166P_2                 NA          NA            NA           NA
 
 Residual standard error: 0.04841825 on 76 degrees of freedom</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(d, <span class="fu">aes</span>(<span class="at">y=</span>Y1, <span class="at">x=</span>t.min., <span class="at">col =</span> Repetition)) <span class="sc">+</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(Site <span class="sc">~</span> Treatment) <span class="sc">+</span> </span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"ln(1 - P / Ps)"</span>)<span class="sc">+</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">"lm"</span>, <span class="at">alpha =</span> <span class="fl">0.3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="fu">TeX</span>(<span class="st">"$Time (min)$"</span>),</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">y=</span><span class="fu">TeX</span>(<span class="st">"$ln(1-</span><span class="sc">\\</span><span class="st">frac{P}{P_S})$"</span>)) <span class="sc">+</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">"lm"</span>, <span class="at">alpha =</span> <span class="fl">0.3</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
@@ -409,10 +424,10 @@ Reckenholz_0P_1     0.04591586 0.005598303  8.201746 6.168881e-05
 Reckenholz_0P_2     0.05514129 0.006021669  9.157143 2.378478e-05
 Reckenholz_166P_1   0.20764276 0.006253103 33.206354 5.985151e-07
 Reckenholz_166P_2   0.28976606 0.006695124 43.280162 5.064407e-06
-Rümlang_0P_1        0.28357079 0.006186035 45.840473 3.622764e-05
+Rümlang_0P_1                NA          NA        NA           NA
 Rümlang_0P_2        0.02473237 0.005974511  4.139648 7.082977e-04
 Rümlang_166P_1      0.22830740 0.005767171 39.587419 1.399370e-07
-Rümlang_166P_2              NA          NA        NA           NA
+Rümlang_166P_2      0.28357079 0.006186035 45.840473 3.622764e-05
    k 
                      Estimate Std. Error    t value     Pr(&gt;|t|)
 Cadenazzo_0P_1      0.1860143 0.09177173  2.0269238 0.0231676247
@@ -431,23 +446,31 @@ Reckenholz_0P_1     0.4471166 0.53588164  0.8343569 0.1484857769
 Reckenholz_0P_2     0.2479159 0.15017659  1.6508290 0.0157753244
 Reckenholz_166P_1   0.2019537 0.02984791  6.7660896 0.0003309717
 Reckenholz_166P_2   0.1539725 0.01532640 10.0462280 0.0015716983
-Rümlang_0P_1        0.2130559 0.02349203  9.0692875 0.0164722585
+Rümlang_0P_1               NA         NA         NA           NA
 Rümlang_0P_2        0.2605606 0.36125350  0.7212680 0.1761252416
 Rümlang_166P_1      0.3379258 0.06071881  5.5654217 0.0003408420
-Rümlang_166P_2             NA         NA         NA           NA
+Rümlang_166P_2      0.2130559 0.02349203  9.0692875 0.0164722585
 
 Residual standard error: 0.01200381 on 76 degrees of freedom</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>nls_pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(Res)</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(d, <span class="fu">aes</span>(<span class="at">y=</span>Pv.mg.L., <span class="at">x=</span>t.min., <span class="at">col =</span> Repetition)) <span class="sc">+</span></span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">"nls"</span>, <span class="at">se=</span><span class="cn">FALSE</span>, <span class="at">formula =</span> Pv.mg.L. <span class="sc">~</span> PS <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">exp</span>(<span class="sc">-</span>k <span class="sc">*</span> t.min.))) <span class="sc">+</span></span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(Treatment <span class="sc">~</span> Site) <span class="sc">+</span></span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y=</span>nls_pred))</span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressWarnings</span>(<span class="fu">print</span>(p1))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>rr <span class="ot">&lt;-</span> <span class="fu">coef</span>(Res) <span class="sc">%&gt;%</span> <span class="fu">as.data.frame</span>() </span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>rr<span class="sc">$</span>uid <span class="ot">&lt;-</span> rr <span class="sc">%&gt;%</span> <span class="fu">rownames</span>()</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">merge</span>(d,rr,<span class="at">by=</span> <span class="st">"uid"</span>)</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> d, <span class="fu">aes</span>(<span class="at">y=</span>Pv.mg.L., <span class="at">x=</span>t.min., <span class="at">col =</span> Repetition)) <span class="sc">+</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="fu">aes</span>(<span class="at">yintercept =</span> PS),d) <span class="sc">+</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">"nls"</span>, <span class="at">se=</span><span class="cn">FALSE</span>, <span class="at">formula =</span> Pv.mg.L. <span class="sc">~</span> PS <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">exp</span>(<span class="sc">-</span>k <span class="sc">*</span> t.min.))) <span class="sc">+</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(Treatment <span class="sc">~</span> Site) <span class="sc">+</span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y=</span>nls_pred)) <span class="sc">+</span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="fu">TeX</span>(<span class="st">"$Time (min)$"</span>),</span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>       <span class="at">y=</span><span class="fu">TeX</span>(<span class="st">"$P_{V}(</span><span class="sc">\\</span><span class="st">frac{mg}{L})$"</span>)) </span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressWarnings</span>(<span class="fu">print</span>(p1))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="">
 <figure class="figure">
@@ -456,6 +479,38 @@ Residual standard error: 0.01200381 on 76 degrees of freedom</code></pre>
 </div>
 </div>
 </div></div>
+<p>As a next step it is of interest, if the model parameters of method LM and method NLS compare favourably to observed values. We plot the measured labile P vs.&nbsp;the model Parameters.</p>
+<div class="cell-container"><div class="cell-decorator"><pre>In [4]:</pre></div><div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(d,<span class="fu">aes</span>(<span class="at">y=</span>k<span class="sc">*</span>PS, <span class="at">x=</span>Pv_labile.mg.L., <span class="at">col =</span> Repetition, <span class="at">group =</span> Site)) <span class="sc">+</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">shape=</span>Site, <span class="at">size =</span> Treatment)) <span class="sc">+</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="fu">TeX</span>(<span class="st">"$P_{H_2O}(</span><span class="sc">\\</span><span class="st">frac{mg}{L})$"</span>),</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">y=</span><span class="fu">TeX</span>(<span class="st">"$V_{Desorption}=k*P_S (</span><span class="sc">\\</span><span class="st">frac{mg}{L*min})$"</span>))</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="co">#facet_grid(Site ~ Treatment) + </span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>p2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="pretest_files/figure-html/unnamed-chunk-3-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="pretest_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></a></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(d,<span class="fu">aes</span>(<span class="at">y=</span>k, <span class="at">x=</span>Pv_labile.mg.L., <span class="at">col =</span> Repetition, <span class="at">group =</span> Site)) <span class="sc">+</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">shape=</span>Site, <span class="at">size =</span> Treatment)) <span class="sc">+</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="fu">TeX</span>(<span class="st">"$P_{H_2O}(</span><span class="sc">\\</span><span class="st">frac{mg}{L})$"</span>),</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">y=</span><span class="fu">TeX</span>(<span class="st">"k(s^{-1}"</span>))</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="co">#facet_grid(Site ~ Treatment) + </span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>p3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="pretest_files/figure-html/unnamed-chunk-3-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="pretest_files/figure-html/unnamed-chunk-3-2.png" class="img-fluid figure-img" width="672"></a></p>
+</figure>
+</div>
+</div>
+</div></div>
+
 </section>
      </main>
 <!-- /main column -->  <script id="quarto-html-after-body" type="application/javascript">
