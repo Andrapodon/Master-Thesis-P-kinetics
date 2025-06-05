@@ -12,7 +12,7 @@ authors:
         url: www.ethz.ch
     roles: writing
     corresponding: true
-    bibliography: writing/references.bib
+bibliography: writing/references.bib
 # license: "CC BY-NC-SA"
 # citation: 
 # funding: "The author received no specific funding for this work."
