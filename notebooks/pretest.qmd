@@ -7,11 +7,11 @@ date: 2025-05-22
 
 ## Context
 
-To explore, whether the proposed mechanisms and experiments to assess their dynamique, in a first step the Treatment levels $0P$ and $166P$ for all sites were analysed. The experiments were conducted as displayed in the original paper of Flossmann & Richter with adjustments according to developments in technique and available equipment of the soil laboratory. Instead of the CAL-method, the Olsen-method was used to measure and estimate the quantity of P.
+To explore, whether the proposed mechanisms and experiments to assess their dynamic, in a first step the Treatment levels $0P$ and $166P$ for all sites were analyzed. The experiments were conducted as displayed in the original paper of Flossmann & Richter with adjustments according to developments in technique and available equipment of the soil laboratory. Instead of the CAL-method, the Olsen-method was used to measure and estimate the quantity of P.
 
 ## Model of P-release after Flossman & Richter
 $$\frac{dP}{dt}=k\times(P^S-P)$$
-The constant $P^S$ denotes the amount of semi-labile P and was originally estimated as $P_\text{Olsen}-P_{H_2O}$. Subsequently the DE is solved exactly, since the soil is as $t=0$ mixed with deionized water, it was assummed that $P(0)=0$
+The constant $P^S$ denotes the amount of semi-labile P and was originally estimated as $P_\text{Olsen}-P_{H_2O}$. Subsequently the DE is solved exactly, since the soil is as $t=0$ mixed with deionized water, it was assumed that $P(0)=0$
 
 ## Exact Solution
 $$P(t)=P^{\text{S}}-C\times e^{-kt}$$
@@ -24,7 +24,7 @@ If we set $P(0)=0$ we receive:
 
 $$P(t)=P^S\times(1-e^{-kt})$$
 
-## Linearisierung
+## Linearization
 Now we linearize the DE, so that a linear model can be employed to test the relation and estimate the parameters of interest:
 
 $$P(t)=P^S-(P^S-P_0)\times e^{-kt}$$
@@ -57,7 +57,7 @@ library(kableExtra)
 library(broom)
 options(warn = -1)
 # Dataset preparation
-d <- read.csv(file = "~/Documents/Master Thesis/Master-Thesis-P-kinetics/data/P-release.csv", na.strings = c("", "n.a."))
+d <- read.csv(file = "./data/P-release.csv", na.strings = c("", "n.a."))
 d$Treatment <- d$Treatment |> factor()
 d$uid <- paste(d$Site, d$Treatment, as.character(d$Repetition), sep="_")
 d$Repetition <- as.factor(d$Repetition)

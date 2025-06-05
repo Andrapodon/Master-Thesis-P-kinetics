@@ -224,7 +224,7 @@
   <li><a href="#context" id="toc-context" class="nav-link active" data-scroll-target="#context">Context</a></li>
   <li><a href="#model-of-p-release-after-flossman-richter" id="toc-model-of-p-release-after-flossman-richter" class="nav-link" data-scroll-target="#model-of-p-release-after-flossman-richter">Model of P-release after Flossman &amp; Richter</a></li>
   <li><a href="#exact-solution" id="toc-exact-solution" class="nav-link" data-scroll-target="#exact-solution">Exact Solution</a></li>
-  <li><a href="#linearisierung" id="toc-linearisierung" class="nav-link" data-scroll-target="#linearisierung">Linearisierung</a></li>
+  <li><a href="#linearization" id="toc-linearization" class="nav-link" data-scroll-target="#linearization">Linearization</a></li>
   <li><a href="#setup-and-preparation-of-dataset" id="toc-setup-and-preparation-of-dataset" class="nav-link" data-scroll-target="#setup-and-preparation-of-dataset">Setup and preparation of dataset</a></li>
   </ul>
 </nav>
@@ -235,11 +235,11 @@
 
        <section id="context" class="level2">
 <h2 class="anchored" data-anchor-id="context">Context</h2>
-<p>To explore, whether the proposed mechanisms and experiments to assess their dynamique, in a first step the Treatment levels <span class="math inline">\(0P\)</span> and <span class="math inline">\(166P\)</span> for all sites were analysed. The experiments were conducted as displayed in the original paper of Flossmann &amp; Richter with adjustments according to developments in technique and available equipment of the soil laboratory. Instead of the CAL-method, the Olsen-method was used to measure and estimate the quantity of P.</p>
+<p>To explore, whether the proposed mechanisms and experiments to assess their dynamic, in a first step the Treatment levels <span class="math inline">\(0P\)</span> and <span class="math inline">\(166P\)</span> for all sites were analyzed. The experiments were conducted as displayed in the original paper of Flossmann &amp; Richter with adjustments according to developments in technique and available equipment of the soil laboratory. Instead of the CAL-method, the Olsen-method was used to measure and estimate the quantity of P.</p>
 </section>
 <section id="model-of-p-release-after-flossman-richter" class="level2">
 <h2 class="anchored" data-anchor-id="model-of-p-release-after-flossman-richter">Model of P-release after Flossman &amp; Richter</h2>
-<p><span class="math display">\[\frac{dP}{dt}=k\times(P^S-P)\]</span> The constant <span class="math inline">\(P^S\)</span> denotes the amount of semi-labile P and was originally estimated as <span class="math inline">\(P_\text{Olsen}-P_{H_2O}\)</span>. Subsequently the DE is solved exactly, since the soil is as <span class="math inline">\(t=0\)</span> mixed with deionized water, it was assummed that <span class="math inline">\(P(0)=0\)</span></p>
+<p><span class="math display">\[\frac{dP}{dt}=k\times(P^S-P)\]</span> The constant <span class="math inline">\(P^S\)</span> denotes the amount of semi-labile P and was originally estimated as <span class="math inline">\(P_\text{Olsen}-P_{H_2O}\)</span>. Subsequently the DE is solved exactly, since the soil is as <span class="math inline">\(t=0\)</span> mixed with deionized water, it was assumed that <span class="math inline">\(P(0)=0\)</span></p>
 </section>
 <section id="exact-solution" class="level2">
 <h2 class="anchored" data-anchor-id="exact-solution">Exact Solution</h2>
@@ -249,8 +249,8 @@
 <p>If we set <span class="math inline">\(P(0)=0\)</span> we receive:</p>
 <p><span class="math display">\[P(t)=P^S\times(1-e^{-kt})\]</span></p>
 </section>
-<section id="linearisierung" class="level2">
-<h2 class="anchored" data-anchor-id="linearisierung">Linearisierung</h2>
+<section id="linearization" class="level2">
+<h2 class="anchored" data-anchor-id="linearization">Linearization</h2>
 <p>Now we linearize the DE, so that a linear model can be employed to test the relation and estimate the parameters of interest:</p>
 <p><span class="math display">\[P(t)=P^S-(P^S-P_0)\times e^{-kt}\]</span></p>
 <p><span class="math display">\[P(t)-P^S=-(P^S-P_0)\times e^{-kt}\]</span></p>
@@ -312,7 +312,7 @@ Attaching package: 'nlme'</code></pre>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">warn =</span> <span class="sc">-</span><span class="dv">1</span>)</span>
 <span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Dataset preparation</span></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file =</span> <span class="st">"~/Documents/Master Thesis/Master-Thesis-P-kinetics/data/P-release.csv"</span>, <span class="at">na.strings =</span> <span class="fu">c</span>(<span class="st">""</span>, <span class="st">"n.a."</span>))</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file =</span> <span class="st">"./data/P-release.csv"</span>, <span class="at">na.strings =</span> <span class="fu">c</span>(<span class="st">""</span>, <span class="st">"n.a."</span>))</span>
 <span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Treatment <span class="ot">&lt;-</span> d<span class="sc">$</span>Treatment <span class="sc">|&gt;</span> <span class="fu">factor</span>()</span>
 <span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>uid <span class="ot">&lt;-</span> <span class="fu">paste</span>(d<span class="sc">$</span>Site, d<span class="sc">$</span>Treatment, <span class="fu">as.character</span>(d<span class="sc">$</span>Repetition), <span class="at">sep=</span><span class="st">"_"</span>)</span>
 <span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Repetition <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(d<span class="sc">$</span>Repetition)</span>
