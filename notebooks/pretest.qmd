@@ -1,6 +1,10 @@
 ---
 title: "Pretest"
-format: html
+format: 
+  html:
+    math: mathjax
+  pdf: default
+  docx: default
 author: Marc Pérez
 date: 2025-05-22
 ---
