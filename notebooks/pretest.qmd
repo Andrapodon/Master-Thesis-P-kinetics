@@ -61,11 +61,14 @@ library(kableExtra)
 library(broom)
 options(warn = -1)
 # Dataset preparation
-d <- read.csv(file = "./data/P-release.csv", na.strings = c("", "n.a."))
+d <- read.csv(file = "~/Documents/Master Thesis/Master-Thesis-P-kinetics/data/release-Data.csv", na.strings = c("", "n.a."))
 d$Treatment <- d$Treatment |> factor()
+d$Pv.mg.L. <- as.numeric(d$Pv.mg.L.)
+d$Pv_labile.mg.L. <- as.numeric(d$Pv_labile.mg.L.)
+d$Pv_Olsen.mg.L. <- as.numeric(d$Pv_Olsen.mg.L.)
 d$uid <- paste(d$Site, d$Treatment, as.character(d$Repetition), sep="_")
 d$Repetition <- as.factor(d$Repetition)
-d$flos <- d$Pv_Olsen.mg.L.-d$Pv_labile.mg.L.
+d$flos <- as.numeric(d$Pv_Olsen.mg.L.)-as.numeric(d$Pv_labile.mg.L.)
 d$flos[d$flos <= 0] <- quantile(d$flos[d$flos > 0], 0.025, na.rm=TRUE)/2
 d$Y1 <- log(1 - d$Pv.mg.L. / d$flos) # one timeseries removed, since flos too low
 d$Y1[is.nan(d$Y1)] <- NA

@@ -312,14 +312,17 @@ Attaching package: 'nlme'</code></pre>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">warn =</span> <span class="sc">-</span><span class="dv">1</span>)</span>
 <span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Dataset preparation</span></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file =</span> <span class="st">"./data/P-release.csv"</span>, <span class="at">na.strings =</span> <span class="fu">c</span>(<span class="st">""</span>, <span class="st">"n.a."</span>))</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file =</span> <span class="st">"~/Documents/Master Thesis/Master-Thesis-P-kinetics/data/release-Data.csv"</span>, <span class="at">na.strings =</span> <span class="fu">c</span>(<span class="st">""</span>, <span class="st">"n.a."</span>))</span>
 <span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Treatment <span class="ot">&lt;-</span> d<span class="sc">$</span>Treatment <span class="sc">|&gt;</span> <span class="fu">factor</span>()</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>uid <span class="ot">&lt;-</span> <span class="fu">paste</span>(d<span class="sc">$</span>Site, d<span class="sc">$</span>Treatment, <span class="fu">as.character</span>(d<span class="sc">$</span>Repetition), <span class="at">sep=</span><span class="st">"_"</span>)</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Repetition <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(d<span class="sc">$</span>Repetition)</span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>flos <span class="ot">&lt;-</span> d<span class="sc">$</span>Pv_Olsen.mg.L.<span class="sc">-</span>d<span class="sc">$</span>Pv_labile.mg.L.</span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>flos[d<span class="sc">$</span>flos <span class="sc">&lt;=</span> <span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="fu">quantile</span>(d<span class="sc">$</span>flos[d<span class="sc">$</span>flos <span class="sc">&gt;</span> <span class="dv">0</span>], <span class="fl">0.025</span>, <span class="at">na.rm=</span><span class="cn">TRUE</span>)<span class="sc">/</span><span class="dv">2</span></span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Y1 <span class="ot">&lt;-</span> <span class="fu">log</span>(<span class="dv">1</span> <span class="sc">-</span> d<span class="sc">$</span>Pv.mg.L. <span class="sc">/</span> d<span class="sc">$</span>flos) <span class="co"># one timeseries removed, since flos too low</span></span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Y1[<span class="fu">is.nan</span>(d<span class="sc">$</span>Y1)] <span class="ot">&lt;-</span> <span class="cn">NA</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Pv.mg.L. <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(d<span class="sc">$</span>Pv.mg.L.)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Pv_labile.mg.L. <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(d<span class="sc">$</span>Pv_labile.mg.L.)</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Pv_Olsen.mg.L. <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(d<span class="sc">$</span>Pv_Olsen.mg.L.)</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>uid <span class="ot">&lt;-</span> <span class="fu">paste</span>(d<span class="sc">$</span>Site, d<span class="sc">$</span>Treatment, <span class="fu">as.character</span>(d<span class="sc">$</span>Repetition), <span class="at">sep=</span><span class="st">"_"</span>)</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Repetition <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(d<span class="sc">$</span>Repetition)</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>flos <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(d<span class="sc">$</span>Pv_Olsen.mg.L.)<span class="sc">-</span><span class="fu">as.numeric</span>(d<span class="sc">$</span>Pv_labile.mg.L.)</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>flos[d<span class="sc">$</span>flos <span class="sc">&lt;=</span> <span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="fu">quantile</span>(d<span class="sc">$</span>flos[d<span class="sc">$</span>flos <span class="sc">&gt;</span> <span class="dv">0</span>], <span class="fl">0.025</span>, <span class="at">na.rm=</span><span class="cn">TRUE</span>)<span class="sc">/</span><span class="dv">2</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Y1 <span class="ot">&lt;-</span> <span class="fu">log</span>(<span class="dv">1</span> <span class="sc">-</span> d<span class="sc">$</span>Pv.mg.L. <span class="sc">/</span> d<span class="sc">$</span>flos) <span class="co"># one timeseries removed, since flos too low</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Y1[<span class="fu">is.nan</span>(d<span class="sc">$</span>Y1)] <span class="ot">&lt;-</span> <span class="cn">NA</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div>
 <p>Now we can see, whether our linearized model displays a linear relation.</p>
 <div class="cell-container"><div class="cell-decorator"><pre>In [2]:</pre></div><div class="cell">
@@ -332,51 +335,129 @@ Attaching package: 'nlme'</code></pre>
 
 Coefficients:
    (Intercept) 
-                       Estimate Std. Error     t value     Pr(&gt;|t|)
-Cadenazzo_0P_1      -0.12891945 0.03511973  -3.6708551 4.469113e-04
-Cadenazzo_0P_2      -0.12037045 0.03511973  -3.4274305 9.866107e-04
-Cadenazzo_166P_1    -0.26932199 0.03511973  -7.6686797 4.731057e-11
-Cadenazzo_166P_2    -0.19243796 0.03511973  -5.4794822 5.325856e-07
-Ellinghausen_0P_1   -0.10464296 0.03511973  -2.9796059 3.873686e-03
-Ellinghausen_0P_2   -0.11438112 0.03511973  -3.2568902 1.684445e-03
-Ellinghausen_166P_1 -0.70012081 0.03511973 -19.9352540 6.438545e-32
-Ellinghausen_166P_2 -0.16852646 0.03511973  -4.7986256 7.805298e-06
-Oensingen_0P_1      -0.03432646 0.03511973  -0.9774122 3.314662e-01
-Oensingen_0P_2      -0.05745952 0.03511973  -1.6361036 1.059529e-01
-Oensingen_166P_1    -0.13275856 0.03511973  -3.7801698 3.099301e-04
-Oensingen_166P_2    -0.17051390 0.03511973  -4.8552162 6.281383e-06
-Reckenholz_0P_1     -0.10545869 0.03511973  -3.0028328 3.619229e-03
-Reckenholz_0P_2     -0.08557888 0.03511973  -2.4367748 1.715867e-02
-Reckenholz_166P_1   -0.17172348 0.03511973  -4.8896578 5.500413e-06
-Reckenholz_166P_2   -0.23296391 0.03511973  -6.6334190 4.271053e-09
-Rümlang_0P_1        -0.01851905 0.03511973  -0.5273117 5.995131e-01
-Rümlang_0P_2        -0.08675331 0.03511973  -2.4702155 1.574495e-02
-Rümlang_166P_1      -0.26153690 0.03511973  -7.4470068 1.250859e-10
-Rümlang_166P_2               NA         NA          NA           NA
+                       Estimate Std. Error    t value     Pr(&gt;|t|)
+Cadenazzo_0P_1      -0.12891945 0.01537006  -8.387702 4.332766e-12
+Cadenazzo_0P_2      -0.12037045 0.01537006  -7.831491 4.433395e-11
+Cadenazzo_0P_3               NA         NA         NA           NA
+Cadenazzo_0P_4               NA         NA         NA           NA
+Cadenazzo_100P_1             NA         NA         NA           NA
+Cadenazzo_100P_2             NA         NA         NA           NA
+Cadenazzo_100P_3             NA         NA         NA           NA
+Cadenazzo_100P_4             NA         NA         NA           NA
+Cadenazzo_166P_1    -0.26932199 0.01537006 -17.522512 6.499702e-27
+Cadenazzo_166P_2    -0.19243796 0.01537006 -12.520316 2.550625e-19
+Cadenazzo_166P_3             NA         NA         NA           NA
+Cadenazzo_166P_4             NA         NA         NA           NA
+Ellinghausen_0P_1   -0.10464296 0.01537006  -6.808236 3.136905e-09
+Ellinghausen_0P_2   -0.11438112 0.01537006  -7.441815 2.257472e-10
+Ellinghausen_0P_3            NA         NA         NA           NA
+Ellinghausen_0P_4            NA         NA         NA           NA
+Ellinghausen_100P_1          NA         NA         NA           NA
+Ellinghausen_100P_2          NA         NA         NA           NA
+Ellinghausen_100P_3          NA         NA         NA           NA
+Ellinghausen_100P_4          NA         NA         NA           NA
+Ellinghausen_166P_1          NA         NA         NA           NA
+Ellinghausen_166P_3          NA         NA         NA           NA
+Ellinghausen_166P_4          NA         NA         NA           NA
+Oensingen_0P_1      -0.03432646 0.01537006  -2.233333 2.882091e-02
+Oensingen_0P_2      -0.05745952 0.01537006  -3.738407 3.819350e-04
+Oensingen_0P_3               NA         NA         NA           NA
+Oensingen_0P_4               NA         NA         NA           NA
+Oensingen_100P_1             NA         NA         NA           NA
+Oensingen_100P_2             NA         NA         NA           NA
+Oensingen_100P_3             NA         NA         NA           NA
+Oensingen_100P_4             NA         NA         NA           NA
+Oensingen_166P_1    -0.13275856 0.01537006  -8.637481 1.527196e-12
+Oensingen_166P_2    -0.17051390 0.01537006 -11.093902 6.616653e-17
+Oensingen_166P_3             NA         NA         NA           NA
+Oensingen_166P_4             NA         NA         NA           NA
+Reckenholz_0P_1     -0.10545869 0.01537006  -6.861308 2.519112e-09
+Reckenholz_0P_2     -0.08557888 0.01537006  -5.567897 4.753375e-07
+Reckenholz_0P_3              NA         NA         NA           NA
+Reckenholz_0P_4              NA         NA         NA           NA
+Reckenholz_100P_1            NA         NA         NA           NA
+Reckenholz_100P_2            NA         NA         NA           NA
+Reckenholz_100P_3            NA         NA         NA           NA
+Reckenholz_100P_4            NA         NA         NA           NA
+Reckenholz_166P_1   -0.17172348 0.01537006 -11.172600 4.839473e-17
+Reckenholz_166P_2   -0.23296391 0.01537006 -15.156998 1.712692e-23
+Reckenholz_166P_3            NA         NA         NA           NA
+Reckenholz_166P_4            NA         NA         NA           NA
+Rümlang_0P_1        -0.01851905 0.01537006  -1.204878 2.324269e-01
+Rümlang_0P_2        -0.08675331 0.01537006  -5.644307 3.515958e-07
+Rümlang_0P_3                 NA         NA         NA           NA
+Rümlang_0P_4                 NA         NA         NA           NA
+Rümlang_100P_1               NA         NA         NA           NA
+Rümlang_100P_2               NA         NA         NA           NA
+Rümlang_100P_3               NA         NA         NA           NA
+Rümlang_100P_4               NA         NA         NA           NA
+Rümlang_166P_1      -0.26153690 0.01537006 -17.016002 3.315417e-26
+Rümlang_166P_2               NA         NA         NA           NA
+Rümlang_166P_3               NA         NA         NA           NA
+Rümlang_166P_4               NA         NA         NA           NA
    t.min. 
-                         Estimate  Std. Error       t value     Pr(&gt;|t|)
-Cadenazzo_0P_1      -1.318800e-03 0.001024548 -1.287202e+00 2.019304e-01
-Cadenazzo_0P_2      -1.272378e-03 0.001024548 -1.241892e+00 2.180954e-01
-Cadenazzo_166P_1    -5.270369e-03 0.001024548 -5.144093e+00 2.036541e-06
-Cadenazzo_166P_2    -3.394812e-03 0.001024548 -3.313473e+00 1.413160e-03
-Ellinghausen_0P_1    4.952586e-05 0.001024548  4.833923e-02 9.615727e-01
-Ellinghausen_0P_2   -1.260933e-04 0.001024548 -1.230721e-01 9.023749e-01
-Ellinghausen_166P_1 -9.924785e-03 0.001024548 -9.686990e+00 6.518479e-15
-Ellinghausen_166P_2 -4.817603e-04 0.001024548 -4.702174e-01 6.395463e-01
-Oensingen_0P_1       1.049070e-04 0.001024548  1.023934e-01 9.187141e-01
-Oensingen_0P_2      -1.837559e-04 0.001024548 -1.793531e-01 8.581377e-01
-Oensingen_166P_1    -2.320568e-04 0.001024548 -2.264968e-01 8.214231e-01
-Oensingen_166P_2    -5.531502e-04 0.001024548 -5.398969e-01 5.908467e-01
-Reckenholz_0P_1      2.780943e-04 0.001024548  2.714312e-01 7.867953e-01
-Reckenholz_0P_2     -7.752286e-04 0.001024548 -7.566543e-01 4.515963e-01
-Reckenholz_166P_1   -1.609218e-03 0.001024548 -1.570662e+00 1.204155e-01
-Reckenholz_166P_2   -4.831330e-03 0.001024548 -4.715572e+00 1.071276e-05
-Rümlang_0P_1         8.878899e-20 0.001024548  8.666163e-17 1.000000e+00
-Rümlang_0P_2        -1.438957e-03 0.001024548 -1.404480e+00 1.642498e-01
-Rümlang_166P_1      -1.090605e-03 0.001024548 -1.064475e+00 2.904841e-01
-Rümlang_166P_2                 NA          NA            NA           NA
+                         Estimate   Std. Error       t value     Pr(&gt;|t|)
+Cadenazzo_0P_1      -1.318800e-03 0.0004483906 -2.941186e+00 4.466020e-03
+Cadenazzo_0P_2      -1.272378e-03 0.0004483906 -2.837654e+00 5.984783e-03
+Cadenazzo_0P_3                 NA           NA            NA           NA
+Cadenazzo_0P_4                 NA           NA            NA           NA
+Cadenazzo_100P_1               NA           NA            NA           NA
+Cadenazzo_100P_2               NA           NA            NA           NA
+Cadenazzo_100P_3               NA           NA            NA           NA
+Cadenazzo_100P_4               NA           NA            NA           NA
+Cadenazzo_166P_1    -5.270369e-03 0.0004483906 -1.175397e+01 4.905164e-18
+Cadenazzo_166P_2    -3.394812e-03 0.0004483906 -7.571105e+00 1.316077e-10
+Cadenazzo_166P_3               NA           NA            NA           NA
+Cadenazzo_166P_4               NA           NA            NA           NA
+Ellinghausen_0P_1    4.952586e-05 0.0004483906  1.104525e-01 9.123759e-01
+Ellinghausen_0P_2   -1.260933e-04 0.0004483906 -2.812130e-01 7.794010e-01
+Ellinghausen_0P_3              NA           NA            NA           NA
+Ellinghausen_0P_4              NA           NA            NA           NA
+Ellinghausen_100P_1            NA           NA            NA           NA
+Ellinghausen_100P_2            NA           NA            NA           NA
+Ellinghausen_100P_3            NA           NA            NA           NA
+Ellinghausen_100P_4            NA           NA            NA           NA
+Ellinghausen_166P_1            NA           NA            NA           NA
+Ellinghausen_166P_3            NA           NA            NA           NA
+Ellinghausen_166P_4            NA           NA            NA           NA
+Oensingen_0P_1       1.049070e-04 0.0004483906  2.339634e-01 8.157164e-01
+Oensingen_0P_2      -1.837559e-04 0.0004483906 -4.098121e-01 6.832320e-01
+Oensingen_0P_3                 NA           NA            NA           NA
+Oensingen_0P_4                 NA           NA            NA           NA
+Oensingen_100P_1               NA           NA            NA           NA
+Oensingen_100P_2               NA           NA            NA           NA
+Oensingen_100P_3               NA           NA            NA           NA
+Oensingen_100P_4               NA           NA            NA           NA
+Oensingen_166P_1    -2.320568e-04 0.0004483906 -5.175327e-01 6.064639e-01
+Oensingen_166P_2    -5.531502e-04 0.0004483906 -1.233635e+00 2.215861e-01
+Oensingen_166P_3               NA           NA            NA           NA
+Oensingen_166P_4               NA           NA            NA           NA
+Reckenholz_0P_1      2.780943e-04 0.0004483906  6.202053e-01 5.371956e-01
+Reckenholz_0P_2     -7.752286e-04 0.0004483906 -1.728914e+00 8.836252e-02
+Reckenholz_0P_3                NA           NA            NA           NA
+Reckenholz_0P_4                NA           NA            NA           NA
+Reckenholz_100P_1              NA           NA            NA           NA
+Reckenholz_100P_2              NA           NA            NA           NA
+Reckenholz_100P_3              NA           NA            NA           NA
+Reckenholz_100P_4              NA           NA            NA           NA
+Reckenholz_166P_1   -1.609218e-03 0.0004483906 -3.588876e+00 6.216266e-04
+Reckenholz_166P_2   -4.831330e-03 0.0004483906 -1.077482e+01 2.367928e-16
+Reckenholz_166P_3              NA           NA            NA           NA
+Reckenholz_166P_4              NA           NA            NA           NA
+Rümlang_0P_1         8.878899e-20 0.0004483906  1.980171e-16 1.000000e+00
+Rümlang_0P_2        -1.438957e-03 0.0004483906 -3.209160e+00 2.032261e-03
+Rümlang_0P_3                   NA           NA            NA           NA
+Rümlang_0P_4                   NA           NA            NA           NA
+Rümlang_100P_1                 NA           NA            NA           NA
+Rümlang_100P_2                 NA           NA            NA           NA
+Rümlang_100P_3                 NA           NA            NA           NA
+Rümlang_100P_4                 NA           NA            NA           NA
+Rümlang_166P_1      -1.090605e-03 0.0004483906 -2.432266e+00 1.764226e-02
+Rümlang_166P_2                 NA           NA            NA           NA
+Rümlang_166P_3                 NA           NA            NA           NA
+Rümlang_166P_4                 NA           NA            NA           NA
 
-Residual standard error: 0.04841825 on 76 degrees of freedom</code></pre>
+Residual standard error: 0.02119011 on 68 degrees of freedom</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(d, <span class="fu">aes</span>(<span class="at">y=</span>Y1, <span class="at">x=</span>t.min., <span class="at">col =</span> Repetition)) <span class="sc">+</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
@@ -408,50 +489,128 @@ Residual standard error: 0.04841825 on 76 degrees of freedom</code></pre>
 Coefficients:
    PS 
                       Estimate  Std. Error   t value     Pr(&gt;|t|)
-Cadenazzo_0P_1      0.06070933 0.006367393  9.534409 7.288716e-05
-Cadenazzo_0P_2      0.04823007 0.006449888  7.477660 2.041978e-05
-Cadenazzo_166P_1    0.26046234 0.007080384 36.786472 3.535515e-05
-Cadenazzo_166P_2    0.19714649 0.006831288 28.859341 1.016884e-04
-Ellinghausen_0P_1   0.05381540 0.005788589  9.296807 6.183024e-05
-Ellinghausen_0P_2   0.07242959 0.005737112 12.624746 4.089668e-06
-Ellinghausen_166P_1 0.42710025 0.006031346 70.813425 1.520956e-06
-Ellinghausen_166P_2 0.17258461 0.005648951 30.551621 1.161850e-07
-Oensingen_0P_1      0.03588753 0.005646097  6.356166 1.721624e-04
-Oensingen_0P_2      0.04031233 0.005880837  6.854864 1.796695e-07
-Oensingen_166P_1    0.13227917 0.005571500 23.742113 3.312794e-07
-Oensingen_166P_2    0.16110989 0.005680400 28.362420 6.041451e-07
-Reckenholz_0P_1     0.04591586 0.005598303  8.201746 6.168881e-05
-Reckenholz_0P_2     0.05514129 0.006021669  9.157143 2.378478e-05
-Reckenholz_166P_1   0.20764276 0.006253103 33.206354 5.985151e-07
-Reckenholz_166P_2   0.28976606 0.006695124 43.280162 5.064407e-06
+Cadenazzo_0P_1      0.06070933 0.007574649  8.014805 7.288716e-05
+Cadenazzo_0P_2      0.04823007 0.007672785  6.285862 2.041978e-05
+Cadenazzo_0P_3      0.06074577 0.007177928  8.462857 1.167290e-05
+Cadenazzo_0P_4      0.06166446 0.006676206  9.236453 7.322988e-06
+Cadenazzo_100P_1    0.08968743 0.006512157 13.772309 2.088131e-06
+Cadenazzo_100P_2    0.11422723 0.006890727 16.576950 1.252484e-05
+Cadenazzo_100P_3    0.08153638 0.007272170 11.212111 3.721017e-05
+Cadenazzo_100P_4    0.07888688 0.007587564 10.396864 6.283054e-05
+Cadenazzo_166P_1    0.26046234 0.008422823 30.923403 3.535515e-05
+Cadenazzo_166P_2    0.19714649 0.008126499 24.259708 1.016884e-04
+Cadenazzo_166P_3    0.16020634 0.007306091 21.927777 9.448086e-06
+Cadenazzo_166P_4    0.19973943 0.008475139 23.567687 8.505216e-05
+Ellinghausen_0P_1   0.05381540 0.006886104  7.815072 6.183024e-05
+Ellinghausen_0P_2   0.07242959 0.006824867 10.612600 4.089668e-06
+Ellinghausen_0P_3   0.04316481 0.006979769  6.184275 9.061863e-07
+Ellinghausen_0P_4   0.02298018 0.006475520  3.548778 3.411874e-06
+Ellinghausen_100P_1 0.21510579 0.006765791 31.793147 8.252564e-06
+Ellinghausen_100P_2 0.11503894 0.006447441 17.842572 2.000077e-07
+Ellinghausen_100P_3 0.10781554 0.006568677 16.413584 4.321452e-06
+Ellinghausen_100P_4 0.10645322 0.006401105 16.630445 7.798606e-07
+Ellinghausen_166P_1 0.39660304 0.006319844 62.755193 1.953201e-06
+Ellinghausen_166P_3 0.19124780 0.006621216 28.884089 3.467573e-06
+Ellinghausen_166P_4 0.24225542 0.006384658 37.943369 1.327334e-06
+Oensingen_0P_1      0.03588753 0.006716595  5.343113 1.721624e-04
+Oensingen_0P_2      0.04031233 0.006995842  5.762328 1.796695e-07
+Oensingen_0P_3      0.02985226 0.006154205  4.850709 1.049322e-08
+Oensingen_0P_4      0.04119080 0.006523403  6.314312 9.911161e-07
+Oensingen_100P_1    0.09355791 0.006102984 15.329862 3.500142e-08
+Oensingen_100P_2    0.08599650 0.006191555 13.889323 4.163910e-09
+Oensingen_100P_3    0.09209488 0.006359944 14.480453 2.466529e-07
+Oensingen_100P_4    0.06840187 0.006436084 10.627872 7.718232e-06
+Oensingen_166P_1    0.13227917 0.006627854 19.958069 3.312794e-07
+Oensingen_166P_2    0.16110989 0.006757402 23.841986 6.041451e-07
+Oensingen_166P_3    0.18641449 0.006635038 28.095467 1.072208e-06
+Oensingen_166P_4    0.16870425 0.009040830 18.660260 6.154050e-06
+Reckenholz_0P_1     0.04591586 0.006659740  6.894543 6.168881e-05
+Reckenholz_0P_2     0.05514129 0.007163376  7.697668 2.378478e-05
+Reckenholz_0P_3     0.07176667 0.006533437 10.984521 1.837498e-06
+Reckenholz_0P_4     0.07297290 0.006560519 11.123038 3.378830e-06
+Reckenholz_100P_1   0.11794804 0.006206627 19.003564 2.205040e-07
+Reckenholz_100P_2   0.18552189 0.006981793 26.572244 4.501079e-06
+Reckenholz_100P_3   0.13745457 0.006568198 20.927288 1.338323e-06
+Reckenholz_100P_4   0.13220565 0.006455753 20.478735 6.750694e-07
+Reckenholz_166P_1   0.20764276 0.007438690 27.913889 5.985151e-07
+Reckenholz_166P_2   0.28976606 0.007964518 36.382122 5.064407e-06
+Reckenholz_166P_3   0.27195763 0.006660148 40.833572 4.171222e-06
+Reckenholz_166P_4   0.27300807 0.006343720 43.035961 3.181532e-07
 Rümlang_0P_1                NA          NA        NA           NA
-Rümlang_0P_2        0.02473237 0.005974511  4.139648 7.082977e-04
-Rümlang_166P_1      0.22830740 0.005767171 39.587419 1.399370e-07
-Rümlang_166P_2      0.28357079 0.006186035 45.840473 3.622764e-05
+Rümlang_0P_2        0.02473237 0.007107277  3.479866 7.082977e-04
+Rümlang_0P_3        0.02393885 0.006874766  3.482134 7.210005e-06
+Rümlang_0P_4        0.03066907 0.006227998  4.924386 2.262660e-05
+Rümlang_100P_1      0.12442617 0.006351643 19.589603 1.549679e-05
+Rümlang_100P_2      0.08931526 0.006351727 14.061572 2.237079e-06
+Rümlang_100P_3      0.06878610 0.006388718 10.766807 3.042207e-07
+Rümlang_100P_4      0.08281685 0.006378167 12.984427 7.870553e-07
+Rümlang_166P_1      0.22830740 0.006860625 33.277933 1.399370e-07
+Rümlang_166P_2      0.28357079 0.007358906 38.534368 3.622764e-05
+Rümlang_166P_3      0.16662777 0.005232270 31.846171 9.225540e-06
+Rümlang_166P_4              NA          NA        NA           NA
    k 
                      Estimate Std. Error    t value     Pr(&gt;|t|)
-Cadenazzo_0P_1      0.1860143 0.09177173  2.0269238 0.0231676247
-Cadenazzo_0P_2      0.1763490 0.10808902  1.6315163 0.0071593720
-Cadenazzo_166P_1    0.1305482 0.01424574  9.1640166 0.0073041626
-Cadenazzo_166P_2    0.1444512 0.02097456  6.8869722 0.0209502243
-Ellinghausen_0P_1   0.3278123 0.24372124  1.3450299 0.0639937279
-Ellinghausen_0P_2   0.3532154 0.20791116  1.6988765 0.0094696414
-Ellinghausen_166P_1 0.2454902 0.01910501 12.8495204 0.0012746628
-Ellinghausen_166P_2 0.4073354 0.11613413  3.5074563 0.0006247999
-Oensingen_0P_1      0.4093747 0.56444515  0.7252693 0.1972167802
-Oensingen_0P_2      0.2904299 0.26383630  1.1007957 0.0002587916
-Oensingen_166P_1    0.4719238 0.21108405  2.2357152 0.0035657912
-Oensingen_166P_2    0.3861901 0.11138315  3.4672218 0.0023655991
-Reckenholz_0P_1     0.4471166 0.53588164  0.8343569 0.1484857769
-Reckenholz_0P_2     0.2479159 0.15017659  1.6508290 0.0157753244
-Reckenholz_166P_1   0.2019537 0.02984791  6.7660896 0.0003309717
-Reckenholz_166P_2   0.1539725 0.01532640 10.0462280 0.0015716983
+Cadenazzo_0P_1      0.1860143 0.10917162  1.7038705 2.316762e-02
+Cadenazzo_0P_2      0.1763490 0.12858267  1.3714834 7.159372e-03
+Cadenazzo_0P_3      0.1932184 0.10359706  1.8650954 1.234245e-02
+Cadenazzo_0P_4      0.2905812 0.14917088  1.9479753 1.011790e-02
+Cadenazzo_100P_1    0.3672249 0.13114000  2.8002505 4.129379e-03
+Cadenazzo_100P_2    0.2352798 0.06588323  3.5711642 1.424242e-02
+Cadenazzo_100P_3    0.1835017 0.07369439  2.4900367 2.868742e-02
+Cadenazzo_100P_4    0.1590476 0.06706172  2.3716595 3.771540e-02
+Cadenazzo_166P_1    0.1305482 0.01694672  7.7034455 7.304163e-03
+Cadenazzo_166P_2    0.1444512 0.02495134  5.7893190 2.095022e-02
+Cadenazzo_166P_3    0.1803359 0.03692759  4.8835017 1.000237e-02
+Cadenazzo_166P_4    0.1460997 0.02457619  5.9447653 1.503636e-02
+Ellinghausen_0P_1   0.3278123 0.28993072  1.1306575 6.399373e-02
+Ellinghausen_0P_2   0.3532154 0.24733106  1.4281077 9.469641e-03
+Ellinghausen_0P_3   0.2196071 0.16367337  1.3417399 1.480010e-03
+Ellinghausen_0P_4   0.3925178 0.55245676  0.7104951 6.682441e-03
+Ellinghausen_100P_1 0.2635567 0.03890558  6.7742651 1.069334e-02
+Ellinghausen_100P_2 0.4150146 0.11794950  3.5185788 5.690364e-04
+Ellinghausen_100P_3 0.3352795 0.09876792  3.3946199 7.114773e-03
+Ellinghausen_100P_4 0.4593657 0.14481189  3.1721545 2.300816e-03
+Ellinghausen_166P_1 0.5622197 0.05142694 10.9323973 7.457599e-03
+Ellinghausen_166P_3 0.3113264 0.05154447  6.0399576 5.652876e-03
+Ellinghausen_166P_4 0.4775566 0.06696931  7.1309779 3.913697e-03
+Oensingen_0P_1      0.4093747 0.67146379  0.6096751 1.972168e-01
+Oensingen_0P_2      0.2904299 0.31385958  0.9253496 2.587916e-04
+Oensingen_0P_3      0.8421535 1.33736812  0.6297096 2.522870e-04
+Oensingen_0P_4      0.3602511 0.27949331  1.2889434 2.108751e-03
+Oensingen_100P_1    0.9446677 0.53358139  1.7704285 1.339205e-03
+Oensingen_100P_2    0.7731630 0.39728108  1.9461360 7.173699e-05
+Oensingen_100P_3    0.5074458 0.19130003  2.6526173 9.728885e-04
+Oensingen_100P_4    0.4250001 0.20423128  2.0809744 1.410160e-02
+Oensingen_166P_1    0.4719238 0.25110553  1.8793845 3.565791e-03
+Oensingen_166P_2    0.3861901 0.13250136  2.9146122 2.365599e-03
+Oensingen_166P_3    0.3057453 0.05191780  5.8890250 2.010961e-03
+Oensingen_166P_4    0.1078527 0.02235238  4.8251130 3.752416e-03
+Reckenholz_0P_1     0.4471166 0.63748465  0.7013762 1.484858e-01
+Reckenholz_0P_2     0.2479159 0.17865003  1.3877180 1.577532e-02
+Reckenholz_0P_3     0.3543070 0.15749698  2.2496113 3.583603e-03
+Reckenholz_0P_4     0.3394472 0.14786262  2.2956928 5.841702e-03
+Reckenholz_100P_1   0.7463441 0.27224724  2.7414203 2.577690e-03
+Reckenholz_100P_2   0.2192842 0.03803038  5.7660276 6.034368e-03
+Reckenholz_100P_3   0.3355208 0.07753008  4.3276214 2.601165e-03
+Reckenholz_100P_4   0.4080418 0.10055322  4.0579687 1.705635e-03
+Reckenholz_166P_1   0.2019537 0.03550707  5.6877028 3.309717e-04
+Reckenholz_166P_2   0.1539725 0.01823228  8.4450491 1.571698e-03
+Reckenholz_166P_3   0.2962534 0.03447833  8.5924522 6.432221e-03
+Reckenholz_166P_4   0.5287144 0.06835523  7.7348044 1.339998e-03
 Rümlang_0P_1               NA         NA         NA           NA
-Rümlang_0P_2        0.2605606 0.36125350  0.7212680 0.1761252416
-Rümlang_166P_1      0.3379258 0.06071881  5.5654217 0.0003408420
-Rümlang_166P_2      0.2130559 0.02349203  9.0692875 0.0164722585
+Rümlang_0P_2        0.2605606 0.42974706  0.6063115 1.761252e-01
+Rümlang_0P_3        0.2384309 0.31825772  0.7491757 9.226117e-03
+Rümlang_0P_4        0.7091919 0.95938869  0.7392122 7.190871e-02
+Rümlang_100P_1      0.5181683 0.14577723  3.5545212 3.111494e-02
+Rümlang_100P_2      0.5180589 0.20302392  2.5517135 7.055888e-03
+Rümlang_100P_3      0.4729400 0.23283430  2.0312298 1.031067e-03
+Rümlang_100P_4      0.4851082 0.20005596  2.4248626 2.546756e-03
+Rümlang_166P_1      0.3379258 0.07223108  4.6783986 3.408420e-04
+Rümlang_166P_2      0.2130559 0.02794611  7.6238145 1.647226e-02
+Rümlang_166P_3      0.9140623 0.27358972  3.3409966 2.725234e-01
+Rümlang_166P_4             NA         NA         NA           NA
 
-Residual standard error: 0.01200381 on 76 degrees of freedom</code></pre>
+Residual standard error: 0.01427972 on 269 degrees of freedom</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>nls_pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(Res)</span>
