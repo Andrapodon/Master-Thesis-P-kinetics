@@ -1,6 +1,10 @@
 ---
 title: "Pretest"
-format: html
+format: 
+  html:
+    math: mathjax
+  pdf: default
+  docx: default
 author: Marc Pérez
 date: 2025-05-22
 ---
@@ -55,13 +59,18 @@ library(nlme)
 library(latex2exp)
 library(kableExtra)
 library(broom)
+library(dplyr)
+
 options(warn = -1)
 # Dataset preparation
-d <- read.csv(file = "./data/P-release.csv", na.strings = c("", "n.a."))
+d <- read.csv(file = "~/Documents/Master Thesis/Master-Thesis-P-kinetics/data/release-Data.csv", na.strings = c("", "n.a."))
 d$Treatment <- d$Treatment |> factor()
+d$Pv.mg.L. <- as.numeric(d$Pv.mg.L.)
+d$Pv_labile.mg.L. <- as.numeric(d$Pv_labile.mg.L.)
+d$Pv_Olsen.mg.L. <- as.numeric(d$Pv_Olsen.mg.L.)
 d$uid <- paste(d$Site, d$Treatment, as.character(d$Repetition), sep="_")
 d$Repetition <- as.factor(d$Repetition)
-d$flos <- d$Pv_Olsen.mg.L.-d$Pv_labile.mg.L.
+d$flos <- as.numeric(d$Pv_Olsen.mg.L.)-as.numeric(d$Pv_labile.mg.L.)
 d$flos[d$flos <= 0] <- quantile(d$flos[d$flos > 0], 0.025, na.rm=TRUE)/2
 d$Y1 <- log(1 - d$Pv.mg.L. / d$flos) # one timeseries removed, since flos too low
 d$Y1[is.nan(d$Y1)] <- NA
@@ -94,14 +103,11 @@ If the parameter for the plateau could be estimated directly by using a non-line
 Res <- nlsList(Pv.mg.L. ~ PS * (1 - exp(-k * t.min.)) | uid, d[, c("Pv.mg.L.", "uid", "t.min.")],  start=list(PS=0.1,k=0.2))
 summary(Res)
 d$nls_pred <- predict(Res)
-rr <- coef(Res) %>% as.data.frame() 
-rr$uid <- rr %>% rownames()
-d <- merge(d,rr,by= "uid")
 
 
 p1 <- ggplot(data = d, aes(y=Pv.mg.L., x=t.min., col = Repetition)) +
   geom_point() +
-  geom_hline(aes(yintercept = PS),d) +
+  #geom_hline(aes(yintercept = PS),d) +
     geom_smooth(method="nls", se=FALSE, formula = Pv.mg.L. ~ PS * (1 - exp(-k * t.min.))) +
   facet_grid(Treatment ~ Site) +
   geom_line(aes(y=nls_pred)) +
@@ -117,7 +123,37 @@ As a next step it is of interest, if the model parameters of method LM and metho
 
 
 ```{r}
-p2 <- ggplot(d,aes(y=k*PS, x=Pv_labile.mg.L., col = Repetition, group = Site)) +
+
+rr <- coef(Res) 
+rr$uid <- rr %>% rownames()
+d <- merge(d,rr,by= "uid",by.x = "uid")
+
+# d2 <- subset(d,select = c(Site,Treatment,Repetition,Pv_labile.mg.L.,k,PS))
+# d2$ui <- paste(d2$Site,d2$Treatment,sep ="_")
+# 
+# d2 <- d2 %>%
+#    group_by(ui) %>%
+#    summarise(k = mean(k),
+#              PS = mean(PS),
+#              Plabile = mean(Pv_labile.mg.L.),
+#              Treatment = mean(Treatment))
+# 
+
+
+# Create a unique ID combining Site and Treatment
+d2 <- d2 %>%
+  mutate(ui = paste(Site, Treatment, sep = "_")) %>%
+  group_by(ui, Site, Treatment) %>%
+  summarise(
+    k = mean(k, na.rm = TRUE),
+    PS = mean(PS, na.rm = TRUE),
+    Plabile = mean(Pv_labile.mg.L., na.rm = TRUE),
+    .groups = "drop"
+  )
+
+
+
+p2 <- ggplot(d2,aes(y=k*PS, x=Plabile, col = Site)) +
   geom_point(aes(shape=Site, size = Treatment)) +
   labs(x=TeX("$P_{H_2O}(\\frac{mg}{L})$"),
          y=TeX("$V_{Desorption}=k*P_S (\\frac{mg}{L*min})$"))
@@ -125,7 +161,7 @@ p2 <- ggplot(d,aes(y=k*PS, x=Pv_labile.mg.L., col = Repetition, group = Site)) +
   
 p2
 
-p3 <- ggplot(d,aes(y=k, x=Pv_labile.mg.L., col = Repetition, group = Site)) +
+p3 <- ggplot(d2,aes(y=k, x=Plabile, col = Site, group = Treatment)) +
   geom_point(aes(shape=Site, size = Treatment)) +
   labs(x=TeX("$P_{H_2O}(\\frac{mg}{L})$"),
          y=TeX("k(s^{-1}"))
