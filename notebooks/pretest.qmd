@@ -142,6 +142,18 @@ d2 <- d2 %>%
     .groups = "drop"
   )
 
+d3 <- subset(d,select = c(Site,Treatment,Repetition,Pv_labile.mg.L.,k,PS,uid))
+d3 <- d3 %>%
+  mutate(ui = paste(Site, Treatment, sep = "_")) %>%
+  group_by(uid, Site, Treatment) %>%
+  summarise(
+    k = mean(k, na.rm = TRUE),
+    PS = mean(PS, na.rm = TRUE),
+    Plabile = mean(Pv_labile.mg.L., na.rm = TRUE),
+    .groups = "drop"
+  )
+
+
 
 
 p2 <- ggplot(d2,aes(y=k*PS, x=Plabile, col = Site)) +
@@ -159,6 +171,27 @@ p3 <- ggplot(d2,aes(y=k, x=Plabile, col = Site, group = Treatment)) +
   #facet_grid(Site ~ Treatment) + 
   
 p3
+
+p4 <- ggplot(d3,aes(y=k*PS, x=Plabile, col = Site)) +
+  geom_point(aes(shape=Site, size = Treatment)) +
+  labs(x=TeX("$P_{H_2O}(\\frac{mg}{L})$"),
+         y=TeX("$V_{Desorption}=k*P_S (\\frac{mg}{L*min})$"))
+  #facet_grid(Site ~ Treatment) + 
+  
+p4
+
+p5 <- ggplot(d3,aes(y=k, x=Plabile, col = Site, group = Treatment)) +
+  geom_point(aes(shape=Site, size = Treatment)) +
+  labs(x=TeX("$P_{H_2O}(\\frac{mg}{L})$"),
+         y=TeX("k(s^{-1}"))
+  #facet_grid(Site ~ Treatment) + 
+  
+p5
+
+
+
+
+
 
 
 ```
