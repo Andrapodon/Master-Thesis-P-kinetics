@@ -1,1 +1,5 @@
 # Results
+
+```{r}
+RES <- readRDS("./cache/RES.rds")
+```
