@@ -126,7 +126,7 @@ ggplot(d, aes(y=Y1, x=t.min., col = Repetition)) +
 If the parameter for the plateau could be estimated directly by using a non-linear non-least-squares model, we could omit the Olsen-measurement in the future.
 
 ```{r}
-#| echo: false
+#| echo: true
 #| warning: false
 #| message: false
 
@@ -146,10 +146,10 @@ time_seq <- seq(min(d$t.min., na.rm = TRUE), max(d$t.min., na.rm = TRUE), length
 
 # Create prediction data
 pred_data <- d_plot %>%
-  select(uid, Site, Treatment, Repetition, PS.x, k.x) %>%
+  select(uid, Site, Treatment, Repetition, PS, k) %>%
   distinct() %>%
   crossing(t.min. = time_seq) %>%
-  mutate(pred_Pv = PS.x * (1 - exp(-k.x * t.min.)))
+  mutate(pred_Pv = PS * (1 - exp(-k * t.min.)))
 
 # Final plot
 p1 <- ggplot() +
@@ -313,8 +313,3 @@ p5
 ```
 
 
-
-
-```{r}
-#saveRDS(RES, "cache/RES.rds")
-```
