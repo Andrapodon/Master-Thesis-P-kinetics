@@ -50,6 +50,11 @@ $$log(1-\frac{P(t)}{P^S})=-kt$$
 #| include: false
 #| message: false
 #| warning: false
+
+RES <- list()
+
+library(multcomp)
+library(car)
 library(tidyr)
 library(lme4)
 library(ggplot2)
@@ -74,6 +79,31 @@ d$flos <- as.numeric(d$Pv_Olsen.mg.L.)-as.numeric(d$Pv_labile.mg.L.)
 d$flos[d$flos <= 0] <- quantile(d$flos[d$flos > 0], 0.025, na.rm=TRUE)/2
 d$Y1 <- log(1 - d$Pv.mg.L. / d$flos) # one timeseries removed, since flos too low
 d$Y1[is.nan(d$Y1)] <- NA
+
+str(d)
+#> data.frame:	353 obs. of  21 variables:
+#>  $ Site              : chr  "Cadenazzo" "Cadenazzo" "Cadenazzo" "Cadenazzo" ...
+#>  $ Treatment         : Factor w/ 3 levels "0P","100P","166P": 1 1 1 1 1 1 1 1 1 1 ...
+#>  $ Repetition        : Factor w/ 4 levels "1","2","3","4": 2 2 2 2 2 2 1 1 1 1 ...
+#>  $ Nummer            : num  1 1 1 1 1 1 2 2 2 2 ...
+#>  $ mSoil_Olsen.g.    : chr  "10.05" "10.05" "10.05" "10.05" ...
+#>  $ mSoil_H2O.g.      : num  10.3 10.3 10.3 10.3 10.3 ...
+#>  $ Abs_labile.1.     : chr  "0.26" "0.26" "0.26" "0.26" ...
+#>  $ Abs_Olsen.1.      : chr  "1.02" "1.02" "1.02" "1.02" ...
+#>  $ Abs_Olsen1_10.1.  : chr  "0.28" "0.28" "0.28" "0.28" ...
+#>  $ t.min.            : num  5 10 20 30 45 60 5 10 20 30 ...
+#>  $ Abs.1.            : num  0.21 0.22 0.23 0.24 0.26 0.25 0.22 0.24 0.25 0.27 ...
+#>  $ Pv_labile.mg.L.   : num  0.05 0.05 0.05 0.05 0.05 0.05 0.06 0.06 0.06 0.06 ...
+#>  $ Pv_Olsen.mg.L.    : num  0.35 0.35 0.35 0.35 0.35 0.35 0.42 0.42 0.42 0.42 ...
+#>  $ Pv_Olsen1_10.mg.L.: chr  "0.46" "0.46" "0.46" "0.46" ...
+#>  $ Pv.mg.L.          : num  0.03 0.04 0.04 0.05 0.05 0.05 0.04 0.05 0.05 0.06 ...
+#>  $ Dilution.1.       : num  20 20 20 20 20 20 20 20 20 20 ...
+#>  $ V_H2O.L.          : num  0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 ...
+#>  $ uid               : chr  "Cadenazzo_0P_2" "Cadenazzo_0P_2" "Cadenazzo_0P_2" "Cadenazzo_0P_2" ...
+#>  $ flos              : num  0.3 0.3 0.3 0.3 0.3 0.3 0.36 0.36 0.36 0.36 ...
+#>  $ Y1                : num  -0.105 -0.143 -0.143 -0.182 -0.182 ...
+#>  $ nls_pred          : num  0.0283 0.04 0.0468 0.048 0.0482 ...
+#>   ..- attr(*, "label")= chr "Fitted values"
 ```
 
 Now we can see, whether our linearized model displays a linear relation.
@@ -96,30 +126,116 @@ ggplot(d, aes(y=Y1, x=t.min., col = Repetition)) +
 If the parameter for the plateau could be estimated directly by using a non-linear non-least-squares model, we could omit the Olsen-measurement in the future.
 
 ```{r}
-#| echo: false
+#| echo: true
 #| warning: false
 #| message: false
 
 Res <- nlsList(Pv.mg.L. ~ PS * (1 - exp(-k * t.min.)) | uid, d[, c("Pv.mg.L.", "uid", "t.min.")],  start=list(PS=0.1,k=0.2))
-summary(Res)
-d$nls_pred <- predict(Res)
+# summary(Res)
+# d$nls_pred <- predict(Res)
 
+# Extract coefficients from the nlsList results
+nls_coefs <- coef(Res)
+nls_coefs$uid <- rownames(nls_coefs)
 
-p1 <- ggplot(data = d, aes(y=Pv.mg.L., x=t.min., col = Repetition)) +
-  geom_point() +
-  #geom_hline(aes(yintercept = PS),d) +
-    geom_smooth(method="nls", se=FALSE, formula = Pv.mg.L. ~ PS * (1 - exp(-k * t.min.))) +
+# Merge coefficients back to the main dataset
+d_plot <- merge(d, nls_coefs, by = "uid")
+
+# Most straightforward approach - create curves manually
+time_seq <- seq(min(d$t.min., na.rm = TRUE), max(d$t.min., na.rm = TRUE), length.out = 100)
+
+# Create prediction data
+pred_data <- d_plot %>%
+  select(uid, Site, Treatment, Repetition, PS, k) %>%
+  distinct() %>%
+  crossing(t.min. = time_seq) %>%
+  mutate(pred_Pv = PS * (1 - exp(-k * t.min.)))
+
+# Final plot
+p1 <- ggplot() +
+  geom_point(data = d_plot, aes(y = Pv.mg.L., x = t.min., col = Repetition)) +
+  geom_line(data = pred_data, aes(x = t.min., y = pred_Pv, col = Repetition), size = 0.5) +
   facet_grid(Treatment ~ Site) +
-  geom_line(aes(y=nls_pred)) +
-  
-  labs(x=TeX("$Time (min)$"),
-       y=TeX("$P_{V}(\\frac{mg}{L})$")) 
+  labs(x = TeX("$Time (min)$"),
+       y = TeX("$P_{V}(\\frac{mg}{L})$")); suppressWarnings(print(p1))
 
-suppressWarnings(print(p1))
+p1
 
+d$ui <- interaction(d$Site, d$Treatment)
+
+nlme.coef.avg <- list()
+nlme.coef <- list()
+for (lvl in levels(d$ui)){
+  d.tmp <- subset(d, ui == lvl)
+  # first get nlsList coefs for comparison only (unused)
+  temp_nls <- coef(nlsList(Pv.mg.L. ~ PS * (1 - exp(-k * t.min.)) | uid, 
+                    d.tmp[, c("Pv.mg.L.", "uid", "t.min.")], 
+                    start = list(PS = 0.1, k = 0.2)))
+  nlsList_coefs <- c(apply(temp_nls, 2, \(x) c(mean=mean(x), sd=sd(x))))
+  names(nlsList_coefs) <- c("PS.mean", "PS.sd", "k.mean", "k.sd")
+
+  # now do the real thing
+  model4 <- nlme(Pv.mg.L. ~ PS * (1 - exp(-k * t.min.)),
+                fixed = PS + k ~ 1,
+                random = PS + k ~ 1 | uid,
+                data = d.tmp[, c("Pv.mg.L.", "uid", "t.min.")],
+                start = c(PS = 0.1, k = 0.2))
+  coef(model4)
+  fixef <- model4$coefficients$fixed
+  ranefs <- ranef(model4)
+  colnames(ranefs) <- paste0("ranef_",colnames(ranefs))
+  nlme.coef[[lvl]]  <- cbind(coef(model4), ranefs, rep=1:nrow(ranef(model4)), ui=lvl, Site=d.tmp[1, "Site"], Treatment=d.tmp[1, "Treatment"], uid = rownames(coef(model4)))
+  nlme.coef.avg[[lvl]] <- data.frame(PS=fixef["PS"], k=fixef["k"], ui=lvl, Site=d.tmp[1, "Site"], Treatment=d.tmp[1, "Treatment"], uid = d.tmp$uid)
+}
+
+nlme.coef.avg <- do.call(rbind, nlme.coef.avg)
+# folgendes datenset wollen wir benutzen um ihn mit dem Boden zu kombinieren
+nlme.coef <- do.call(rbind, nlme.coef)
+```
+
+
+LG: hier machen wir folgendes:
+
+1. Visualisiere Daten
+2. for k*PS use sqrt-scale
+3. Erkenne, dass keine offenslichtichen verletzuungen für ein lineares modell vorhanden sind
+4. fitte ordinary linear squares model, with Treatment as the factor of interest and Site as covariate (analougous to paired t-test and equivalent to anova with Site as block factor)
+5. Perform a classical Type II anova (using the car::Anova function)
+6. Perform (post-hoc) TukeyHSD test (using multcomp package)
+
+```{r}
+ggplot(nlme.coef, aes(y=PS  , x=Treatment, col=Site)) + geom_point() + geom_line(aes(group=Site))
+ggplot(nlme.coef, aes(y=k   , x=Treatment, col=Site)) + geom_point() + geom_line(aes(group=Site))
+ggplot(nlme.coef, aes(y=k*PS, x=Treatment, col=Site)) + geom_point() + geom_line(aes(group=Site)) + scale_y_sqrt()
+
+fit.PS   <- lm(PS            ~ Treatment + Site, nlme.coef)
+fit.k    <- lm(k             ~ Treatment + Site, nlme.coef)
+fit.kPS  <- lm(I(sqrt(k*PS)) ~ Treatment + Site, nlme.coef)
+
+Anova(fit.PS)
+summary(glht(fit.PS, mcp(Treatment = "Tukey")))
+# Fazit: PS wird von treatment stark beeinfluss, k eher nicht (dafür von site)
+Anova(fit.k)
+summary(glht(fit.k, mcp(Treatment = "Tukey")))
+
+Anova(fit.kPS)
+summary(glht(fit.kPS, mcp(Treatment = "Tukey")))
+```
+
+Results:
+
+1. for PS Treatment explains a lot, and site not so much. c.f. plot for a monotonous relationship
+2. for k, the Treatment seems to be little relevant
+
+
+
+```{r}
+# new Data set, that gives info about Soil
+
+# 1. merge this with nlme.coef
 
 ```
-As a next step it is of interest, if the model parameters of method LM and method NLS compare favourably to observed values. We plot the measured labile P vs. the model Parameters.
+
 
 
 ```{r}
@@ -195,4 +311,5 @@ p5
 
 
 ```
+
 
