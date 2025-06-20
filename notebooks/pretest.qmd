@@ -68,7 +68,7 @@ library(dplyr)
 
 options(warn = -1)
 # Dataset preparation
-d <- read.csv(file = "./data/release-Data.csv", na.strings = c("", "n.a."))
+d <- read.csv(file = "~/Documents/Master Thesis/Master-Thesis-P-kinetics/data/release-Data.csv", na.strings = c("", "n.a."))
 d$Treatment <- d$Treatment |> factor()
 d$Pv.mg.L. <- as.numeric(d$Pv.mg.L.)
 d$Pv_labile.mg.L. <- as.numeric(d$Pv_labile.mg.L.)
@@ -146,19 +146,20 @@ time_seq <- seq(min(d$t.min., na.rm = TRUE), max(d$t.min., na.rm = TRUE), length
 
 # Create prediction data
 pred_data <- d_plot %>%
-  select(uid, Site, Treatment, Repetition, PS, k) %>%
+  select(uid, Site, Treatment, Repetition, PS.x, k.x) %>%
   distinct() %>%
   crossing(t.min. = time_seq) %>%
-  mutate(pred_Pv = PS * (1 - exp(-k * t.min.)))
+  mutate(pred_Pv = PS.x * (1 - exp(-k.x * t.min.)))
 
 # Final plot
 p1 <- ggplot() +
   geom_point(data = d_plot, aes(y = Pv.mg.L., x = t.min., col = Repetition)) +
-  geom_line(data = pred_data, aes(x = t.min., y = pred_Pv, col = Repetition), size = 1) +
+  geom_line(data = pred_data, aes(x = t.min., y = pred_Pv, col = Repetition), size = 0.5) +
   facet_grid(Treatment ~ Site) +
   labs(x = TeX("$Time (min)$"),
        y = TeX("$P_{V}(\\frac{mg}{L})$")); suppressWarnings(print(p1))
 
+p1
 
 d$ui <- interaction(d$Site, d$Treatment)
 
@@ -203,13 +204,13 @@ LG: hier machen wir folgendes:
 6. Perform (post-hoc) TukeyHSD test (using multcomp package)
 
 ```{r}
-ggplot(nlme.coefs, aes(y=PS  , x=Treatment, col=Site)) + geom_point() + geom_line(aes(group=Site))
-ggplot(nlme.coefs, aes(y=k   , x=Treatment, col=Site)) + geom_point() + geom_line(aes(group=Site))
-ggplot(nlme.coefs, aes(y=k*PS, x=Treatment, col=Site)) + geom_point() + geom_line(aes(group=Site)) + scale_y_sqrt()
+ggplot(nlme.coef, aes(y=PS  , x=Treatment, col=Site)) + geom_point() + geom_line(aes(group=Site))
+ggplot(nlme.coef, aes(y=k   , x=Treatment, col=Site)) + geom_point() + geom_line(aes(group=Site))
+ggplot(nlme.coef, aes(y=k*PS, x=Treatment, col=Site)) + geom_point() + geom_line(aes(group=Site)) + scale_y_sqrt()
 
-fit.PS   <- lm(PS            ~ Treatment + Site, nlme.coefs)
-fit.k    <- lm(k             ~ Treatment + Site, nlme.coefs)
-fit.kPS  <- lm(I(sqrt(k*PS)) ~ Treatment + Site, nlme.coefs)
+fit.PS   <- lm(PS            ~ Treatment + Site, nlme.coef)
+fit.k    <- lm(k             ~ Treatment + Site, nlme.coef)
+fit.kPS  <- lm(I(sqrt(k*PS)) ~ Treatment + Site, nlme.coef)
 
 Anova(fit.PS)
 summary(glht(fit.PS, mcp(Treatment = "Tukey")))
@@ -221,7 +222,7 @@ Anova(fit.kPS)
 summary(glht(fit.kPS, mcp(Treatment = "Tukey")))
 ```
 
-LG: Results:
+Results:
 
 1. for PS Treatment explains a lot, and site not so much. c.f. plot for a monotonous relationship
 2. for k, the Treatment seems to be little relevant
@@ -235,7 +236,6 @@ LG: Results:
 
 ```
 
-As a next step it is of interest, if the model parameters of method LM and method NLS compare favourably to observed values. We plot the measured labile P vs. the model Parameters.
 
 
 ```{r}
