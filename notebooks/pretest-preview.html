@@ -627,52 +627,43 @@ Residual standard error: 0.02119011 on 68 degrees of freedom</code></pre>
 <span id="cb37-28"><a href="#cb37-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">TeX</span>(<span class="st">"$Time (min)$"</span>),</span>
 <span id="cb37-29"><a href="#cb37-29" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="fu">TeX</span>(<span class="st">"$P_{V}(</span><span class="sc">\\</span><span class="st">frac{mg}{L})$"</span>)); <span class="fu">suppressWarnings</span>(<span class="fu">print</span>(p1))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
+<div class="">
 <figure class="figure">
-<p><a href="pretest_files/figure-html/unnamed-chunk-2-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="pretest_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></a></p>
+<p class=""><a href="pretest_files/figure-html/unnamed-chunk-2-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="pretest_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></a></p>
 </figure>
 </div>
 </div>
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>p1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="pretest_files/figure-html/unnamed-chunk-2-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="pretest_files/figure-html/unnamed-chunk-2-2.png" class="img-fluid figure-img" width="672"></a></p>
-</figure>
-</div>
-</div>
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>ui <span class="ot">&lt;-</span> <span class="fu">interaction</span>(d<span class="sc">$</span>Site, d<span class="sc">$</span>Treatment)</span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>nlme.coef.avg <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>nlme.coef <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (lvl <span class="cf">in</span> <span class="fu">levels</span>(d<span class="sc">$</span>ui)){</span>
-<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>  d.tmp <span class="ot">&lt;-</span> <span class="fu">subset</span>(d, ui <span class="sc">==</span> lvl)</span>
-<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># first get nlsList coefs for comparison only (unused)</span></span>
-<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>  temp_nls <span class="ot">&lt;-</span> <span class="fu">coef</span>(<span class="fu">nlsList</span>(Pv.mg.L. <span class="sc">~</span> PS <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">exp</span>(<span class="sc">-</span>k <span class="sc">*</span> t.min.)) <span class="sc">|</span> uid, </span>
-<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>                    d.tmp[, <span class="fu">c</span>(<span class="st">"Pv.mg.L."</span>, <span class="st">"uid"</span>, <span class="st">"t.min."</span>)], </span>
-<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a>                    <span class="at">start =</span> <span class="fu">list</span>(<span class="at">PS =</span> <span class="fl">0.1</span>, <span class="at">k =</span> <span class="fl">0.2</span>)))</span>
-<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a>  nlsList_coefs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">apply</span>(temp_nls, <span class="dv">2</span>, \(x) <span class="fu">c</span>(<span class="at">mean=</span><span class="fu">mean</span>(x), <span class="at">sd=</span><span class="fu">sd</span>(x))))</span>
-<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>(nlsList_coefs) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"PS.mean"</span>, <span class="st">"PS.sd"</span>, <span class="st">"k.mean"</span>, <span class="st">"k.sd"</span>)</span>
-<span id="cb39-14"><a href="#cb39-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-15"><a href="#cb39-15" aria-hidden="true" tabindex="-1"></a>  <span class="co"># now do the real thing</span></span>
-<span id="cb39-16"><a href="#cb39-16" aria-hidden="true" tabindex="-1"></a>  model4 <span class="ot">&lt;-</span> <span class="fu">nlme</span>(Pv.mg.L. <span class="sc">~</span> PS <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">exp</span>(<span class="sc">-</span>k <span class="sc">*</span> t.min.)),</span>
-<span id="cb39-17"><a href="#cb39-17" aria-hidden="true" tabindex="-1"></a>                <span class="at">fixed =</span> PS <span class="sc">+</span> k <span class="sc">~</span> <span class="dv">1</span>,</span>
-<span id="cb39-18"><a href="#cb39-18" aria-hidden="true" tabindex="-1"></a>                <span class="at">random =</span> PS <span class="sc">+</span> k <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> uid,</span>
-<span id="cb39-19"><a href="#cb39-19" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> d.tmp[, <span class="fu">c</span>(<span class="st">"Pv.mg.L."</span>, <span class="st">"uid"</span>, <span class="st">"t.min."</span>)],</span>
-<span id="cb39-20"><a href="#cb39-20" aria-hidden="true" tabindex="-1"></a>                <span class="at">start =</span> <span class="fu">c</span>(<span class="at">PS =</span> <span class="fl">0.1</span>, <span class="at">k =</span> <span class="fl">0.2</span>))</span>
-<span id="cb39-21"><a href="#cb39-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coef</span>(model4)</span>
-<span id="cb39-22"><a href="#cb39-22" aria-hidden="true" tabindex="-1"></a>  fixef <span class="ot">&lt;-</span> model4<span class="sc">$</span>coefficients<span class="sc">$</span>fixed</span>
-<span id="cb39-23"><a href="#cb39-23" aria-hidden="true" tabindex="-1"></a>  ranefs <span class="ot">&lt;-</span> <span class="fu">ranef</span>(model4)</span>
-<span id="cb39-24"><a href="#cb39-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colnames</span>(ranefs) <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"ranef_"</span>,<span class="fu">colnames</span>(ranefs))</span>
-<span id="cb39-25"><a href="#cb39-25" aria-hidden="true" tabindex="-1"></a>  nlme.coef[[lvl]]  <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">coef</span>(model4), ranefs, <span class="at">rep=</span><span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(<span class="fu">ranef</span>(model4)), <span class="at">ui=</span>lvl, <span class="at">Site=</span>d.tmp[<span class="dv">1</span>, <span class="st">"Site"</span>], <span class="at">Treatment=</span>d.tmp[<span class="dv">1</span>, <span class="st">"Treatment"</span>], <span class="at">uid =</span> <span class="fu">rownames</span>(<span class="fu">coef</span>(model4)))</span>
-<span id="cb39-26"><a href="#cb39-26" aria-hidden="true" tabindex="-1"></a>  nlme.coef.avg[[lvl]] <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">PS=</span>fixef[<span class="st">"PS"</span>], <span class="at">k=</span>fixef[<span class="st">"k"</span>], <span class="at">ui=</span>lvl, <span class="at">Site=</span>d.tmp[<span class="dv">1</span>, <span class="st">"Site"</span>], <span class="at">Treatment=</span>d.tmp[<span class="dv">1</span>, <span class="st">"Treatment"</span>], <span class="at">uid =</span> d.tmp<span class="sc">$</span>uid)</span>
-<span id="cb39-27"><a href="#cb39-27" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb39-28"><a href="#cb39-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-29"><a href="#cb39-29" aria-hidden="true" tabindex="-1"></a>nlme.coef.avg <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, nlme.coef.avg)</span>
-<span id="cb39-30"><a href="#cb39-30" aria-hidden="true" tabindex="-1"></a><span class="co"># folgendes datenset wollen wir benutzen um ihn mit dem Boden zu kombinieren</span></span>
-<span id="cb39-31"><a href="#cb39-31" aria-hidden="true" tabindex="-1"></a>nlme.coef <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, nlme.coef)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>ui <span class="ot">&lt;-</span> <span class="fu">interaction</span>(d<span class="sc">$</span>Site, d<span class="sc">$</span>Treatment)</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>nlme.coef.avg <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>nlme.coef <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (lvl <span class="cf">in</span> <span class="fu">levels</span>(d<span class="sc">$</span>ui)){</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>  d.tmp <span class="ot">&lt;-</span> <span class="fu">subset</span>(d, ui <span class="sc">==</span> lvl)</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># first get nlsList coefs for comparison only (unused)</span></span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>  temp_nls <span class="ot">&lt;-</span> <span class="fu">coef</span>(<span class="fu">nlsList</span>(Pv.mg.L. <span class="sc">~</span> PS <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">exp</span>(<span class="sc">-</span>k <span class="sc">*</span> t.min.)) <span class="sc">|</span> uid, </span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>                    d.tmp[, <span class="fu">c</span>(<span class="st">"Pv.mg.L."</span>, <span class="st">"uid"</span>, <span class="st">"t.min."</span>)], </span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>                    <span class="at">start =</span> <span class="fu">list</span>(<span class="at">PS =</span> <span class="fl">0.1</span>, <span class="at">k =</span> <span class="fl">0.2</span>)))</span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>  nlsList_coefs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">apply</span>(temp_nls, <span class="dv">2</span>, \(x) <span class="fu">c</span>(<span class="at">mean=</span><span class="fu">mean</span>(x), <span class="at">sd=</span><span class="fu">sd</span>(x))))</span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>(nlsList_coefs) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"PS.mean"</span>, <span class="st">"PS.sd"</span>, <span class="st">"k.mean"</span>, <span class="st">"k.sd"</span>)</span>
+<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-15"><a href="#cb38-15" aria-hidden="true" tabindex="-1"></a>  <span class="co"># now do the real thing</span></span>
+<span id="cb38-16"><a href="#cb38-16" aria-hidden="true" tabindex="-1"></a>  model4 <span class="ot">&lt;-</span> <span class="fu">nlme</span>(Pv.mg.L. <span class="sc">~</span> PS <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">exp</span>(<span class="sc">-</span>k <span class="sc">*</span> t.min.)),</span>
+<span id="cb38-17"><a href="#cb38-17" aria-hidden="true" tabindex="-1"></a>                <span class="at">fixed =</span> PS <span class="sc">+</span> k <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb38-18"><a href="#cb38-18" aria-hidden="true" tabindex="-1"></a>                <span class="at">random =</span> PS <span class="sc">+</span> k <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> uid,</span>
+<span id="cb38-19"><a href="#cb38-19" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> d.tmp[, <span class="fu">c</span>(<span class="st">"Pv.mg.L."</span>, <span class="st">"uid"</span>, <span class="st">"t.min."</span>)],</span>
+<span id="cb38-20"><a href="#cb38-20" aria-hidden="true" tabindex="-1"></a>                <span class="at">start =</span> <span class="fu">c</span>(<span class="at">PS =</span> <span class="fl">0.1</span>, <span class="at">k =</span> <span class="fl">0.2</span>))</span>
+<span id="cb38-21"><a href="#cb38-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coef</span>(model4)</span>
+<span id="cb38-22"><a href="#cb38-22" aria-hidden="true" tabindex="-1"></a>  fixef <span class="ot">&lt;-</span> model4<span class="sc">$</span>coefficients<span class="sc">$</span>fixed</span>
+<span id="cb38-23"><a href="#cb38-23" aria-hidden="true" tabindex="-1"></a>  ranefs <span class="ot">&lt;-</span> <span class="fu">ranef</span>(model4)</span>
+<span id="cb38-24"><a href="#cb38-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colnames</span>(ranefs) <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"ranef_"</span>,<span class="fu">colnames</span>(ranefs))</span>
+<span id="cb38-25"><a href="#cb38-25" aria-hidden="true" tabindex="-1"></a>  nlme.coef[[lvl]]  <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">coef</span>(model4), ranefs, <span class="at">rep=</span><span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(<span class="fu">ranef</span>(model4)), <span class="at">ui=</span>lvl, <span class="at">Site=</span>d.tmp[<span class="dv">1</span>, <span class="st">"Site"</span>], <span class="at">Treatment=</span>d.tmp[<span class="dv">1</span>, <span class="st">"Treatment"</span>], <span class="at">uid =</span> <span class="fu">rownames</span>(<span class="fu">coef</span>(model4)))</span>
+<span id="cb38-26"><a href="#cb38-26" aria-hidden="true" tabindex="-1"></a>  nlme.coef.avg[[lvl]] <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">PS=</span>fixef[<span class="st">"PS"</span>], <span class="at">k=</span>fixef[<span class="st">"k"</span>], <span class="at">ui=</span>lvl, <span class="at">Site=</span>d.tmp[<span class="dv">1</span>, <span class="st">"Site"</span>], <span class="at">Treatment=</span>d.tmp[<span class="dv">1</span>, <span class="st">"Treatment"</span>], <span class="at">uid =</span> d.tmp<span class="sc">$</span>uid)</span>
+<span id="cb38-27"><a href="#cb38-27" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb38-28"><a href="#cb38-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-29"><a href="#cb38-29" aria-hidden="true" tabindex="-1"></a>nlme.coef.avg <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, nlme.coef.avg)</span>
+<span id="cb38-30"><a href="#cb38-30" aria-hidden="true" tabindex="-1"></a><span class="co"># folgendes datenset wollen wir benutzen um ihn mit dem Boden zu kombinieren</span></span>
+<span id="cb38-31"><a href="#cb38-31" aria-hidden="true" tabindex="-1"></a>nlme.coef <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, nlme.coef)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div>
 <p>LG: hier machen wir folgendes:</p>
 <ol type="1">
@@ -684,35 +675,35 @@ Residual standard error: 0.02119011 on 68 degrees of freedom</code></pre>
 <li>Perform (post-hoc) TukeyHSD test (using multcomp package)</li>
 </ol>
 <div class="cell-container"><div class="cell-decorator"><pre>In [4]:</pre></div><div class="cell">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(nlme.coef, <span class="fu">aes</span>(<span class="at">y=</span>PS  , <span class="at">x=</span>Treatment, <span class="at">col=</span>Site)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">group=</span>Site))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(nlme.coef, <span class="fu">aes</span>(<span class="at">y=</span>PS  , <span class="at">x=</span>Treatment, <span class="at">col=</span>Site)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">group=</span>Site))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="pretest_files/figure-html/unnamed-chunk-3-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="pretest_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></a></p>
+<p><a href="pretest_files/figure-html/unnamed-chunk-3-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="pretest_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></a></p>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(nlme.coef, <span class="fu">aes</span>(<span class="at">y=</span>k   , <span class="at">x=</span>Treatment, <span class="at">col=</span>Site)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">group=</span>Site))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(nlme.coef, <span class="fu">aes</span>(<span class="at">y=</span>k   , <span class="at">x=</span>Treatment, <span class="at">col=</span>Site)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">group=</span>Site))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="pretest_files/figure-html/unnamed-chunk-3-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="pretest_files/figure-html/unnamed-chunk-3-2.png" class="img-fluid figure-img" width="672"></a></p>
+<p><a href="pretest_files/figure-html/unnamed-chunk-3-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="pretest_files/figure-html/unnamed-chunk-3-2.png" class="img-fluid figure-img" width="672"></a></p>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(nlme.coef, <span class="fu">aes</span>(<span class="at">y=</span>k<span class="sc">*</span>PS, <span class="at">x=</span>Treatment, <span class="at">col=</span>Site)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">group=</span>Site)) <span class="sc">+</span> <span class="fu">scale_y_sqrt</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(nlme.coef, <span class="fu">aes</span>(<span class="at">y=</span>k<span class="sc">*</span>PS, <span class="at">x=</span>Treatment, <span class="at">col=</span>Site)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">group=</span>Site)) <span class="sc">+</span> <span class="fu">scale_y_sqrt</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="pretest_files/figure-html/unnamed-chunk-3-3.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="pretest_files/figure-html/unnamed-chunk-3-3.png" class="img-fluid figure-img" width="672"></a></p>
+<p><a href="pretest_files/figure-html/unnamed-chunk-3-3.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="pretest_files/figure-html/unnamed-chunk-3-3.png" class="img-fluid figure-img" width="672"></a></p>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>fit.PS   <span class="ot">&lt;-</span> <span class="fu">lm</span>(PS            <span class="sc">~</span> Treatment <span class="sc">+</span> Site, nlme.coef)</span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>fit.k    <span class="ot">&lt;-</span> <span class="fu">lm</span>(k             <span class="sc">~</span> Treatment <span class="sc">+</span> Site, nlme.coef)</span>
-<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>fit.kPS  <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">I</span>(<span class="fu">sqrt</span>(k<span class="sc">*</span>PS)) <span class="sc">~</span> Treatment <span class="sc">+</span> Site, nlme.coef)</span>
-<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a><span class="fu">Anova</span>(fit.PS)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>fit.PS   <span class="ot">&lt;-</span> <span class="fu">lm</span>(PS            <span class="sc">~</span> Treatment <span class="sc">+</span> Site, nlme.coef)</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>fit.k    <span class="ot">&lt;-</span> <span class="fu">lm</span>(k             <span class="sc">~</span> Treatment <span class="sc">+</span> Site, nlme.coef)</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>fit.kPS  <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">I</span>(<span class="fu">sqrt</span>(k<span class="sc">*</span>PS)) <span class="sc">~</span> Treatment <span class="sc">+</span> Site, nlme.coef)</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a><span class="fu">Anova</span>(fit.PS)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Anova Table (Type II tests)
 
@@ -724,7 +715,7 @@ Residuals 0.074562 52
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">glht</span>(fit.PS, <span class="fu">mcp</span>(<span class="at">Treatment =</span> <span class="st">"Tukey"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">glht</span>(fit.PS, <span class="fu">mcp</span>(<span class="at">Treatment =</span> <span class="st">"Tukey"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
      Simultaneous Tests for General Linear Hypotheses
@@ -743,8 +734,8 @@ Linear Hypotheses:
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fazit: PS wird von treatment stark beeinfluss, k eher nicht (dafür von site)</span></span>
-<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="fu">Anova</span>(fit.k)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fazit: PS wird von treatment stark beeinfluss, k eher nicht (dafür von site)</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="fu">Anova</span>(fit.k)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Anova Table (Type II tests)
 
@@ -756,7 +747,7 @@ Residuals 0.69239 52
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">glht</span>(fit.k, <span class="fu">mcp</span>(<span class="at">Treatment =</span> <span class="st">"Tukey"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">glht</span>(fit.k, <span class="fu">mcp</span>(<span class="at">Treatment =</span> <span class="st">"Tukey"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
      Simultaneous Tests for General Linear Hypotheses
@@ -770,12 +761,12 @@ Linear Hypotheses:
                  Estimate Std. Error t value Pr(&gt;|t|)  
 100P - 0P == 0    0.08238    0.03649   2.258   0.0710 .
 166P - 0P == 0   -0.02956    0.03700  -0.799   0.7053  
-166P - 100P == 0 -0.11195    0.03700  -3.025   0.0106 *
+166P - 100P == 0 -0.11195    0.03700  -3.025   0.0105 *
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Anova</span>(fit.kPS)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Anova</span>(fit.kPS)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Anova Table (Type II tests)
 
@@ -787,7 +778,7 @@ Residuals 0.109944 52
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">glht</span>(fit.kPS, <span class="fu">mcp</span>(<span class="at">Treatment =</span> <span class="st">"Tukey"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">glht</span>(fit.kPS, <span class="fu">mcp</span>(<span class="at">Treatment =</span> <span class="st">"Tukey"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
      Simultaneous Tests for General Linear Hypotheses
@@ -801,7 +792,7 @@ Linear Hypotheses:
                  Estimate Std. Error t value Pr(&gt;|t|)    
 100P - 0P == 0    0.08759    0.01454   6.024  &lt; 0.001 ***
 166P - 0P == 0    0.13278    0.01474   9.005  &lt; 0.001 ***
-166P - 100P == 0  0.04518    0.01474   3.064  0.00951 ** 
+166P - 100P == 0  0.04518    0.01474   3.064  0.00952 ** 
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
@@ -813,96 +804,96 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 <li>for k, the Treatment seems to be little relevant</li>
 </ol>
 <div class="cell-container"><div class="cell-decorator"><pre>In [5]:</pre></div><div class="cell">
-<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="co"># new Data set, that gives info about Soil</span></span>
-<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. merge this with nlme.coef</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="co"># new Data set, that gives info about Soil</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. merge this with nlme.coef</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div>
 <div class="cell-container"><div class="cell-decorator"><pre>In [6]:</pre></div><div class="cell">
-<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>rr <span class="ot">&lt;-</span> <span class="fu">coef</span>(Res) </span>
-<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>rr<span class="sc">$</span>uid <span class="ot">&lt;-</span> rr <span class="sc">%&gt;%</span> <span class="fu">rownames</span>()</span>
-<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">merge</span>(d,rr,<span class="at">by=</span> <span class="st">"uid"</span>,<span class="at">by.x =</span> <span class="st">"uid"</span>)</span>
-<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>d2 <span class="ot">&lt;-</span> <span class="fu">subset</span>(d,<span class="at">select =</span> <span class="fu">c</span>(Site,Treatment,Repetition,Pv_labile.mg.L.,k,PS))</span>
-<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-8"><a href="#cb56-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a unique ID combining Site and Treatment</span></span>
-<span id="cb56-9"><a href="#cb56-9" aria-hidden="true" tabindex="-1"></a>d2 <span class="ot">&lt;-</span> d2 <span class="sc">%&gt;%</span></span>
-<span id="cb56-10"><a href="#cb56-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ui =</span> <span class="fu">paste</span>(Site, Treatment, <span class="at">sep =</span> <span class="st">"_"</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb56-11"><a href="#cb56-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(ui, Site, Treatment) <span class="sc">%&gt;%</span></span>
-<span id="cb56-12"><a href="#cb56-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb56-13"><a href="#cb56-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">k =</span> <span class="fu">mean</span>(k, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb56-14"><a href="#cb56-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">PS =</span> <span class="fu">mean</span>(PS, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb56-15"><a href="#cb56-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">Plabile =</span> <span class="fu">mean</span>(Pv_labile.mg.L., <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb56-16"><a href="#cb56-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">"drop"</span></span>
-<span id="cb56-17"><a href="#cb56-17" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb56-18"><a href="#cb56-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-19"><a href="#cb56-19" aria-hidden="true" tabindex="-1"></a>d3 <span class="ot">&lt;-</span> <span class="fu">subset</span>(d,<span class="at">select =</span> <span class="fu">c</span>(Site,Treatment,Repetition,Pv_labile.mg.L.,k,PS,uid))</span>
-<span id="cb56-20"><a href="#cb56-20" aria-hidden="true" tabindex="-1"></a>d3 <span class="ot">&lt;-</span> d3 <span class="sc">%&gt;%</span></span>
-<span id="cb56-21"><a href="#cb56-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ui =</span> <span class="fu">paste</span>(Site, Treatment, <span class="at">sep =</span> <span class="st">"_"</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb56-22"><a href="#cb56-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(uid, Site, Treatment) <span class="sc">%&gt;%</span></span>
-<span id="cb56-23"><a href="#cb56-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb56-24"><a href="#cb56-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">k =</span> <span class="fu">mean</span>(k, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb56-25"><a href="#cb56-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">PS =</span> <span class="fu">mean</span>(PS, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb56-26"><a href="#cb56-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">Plabile =</span> <span class="fu">mean</span>(Pv_labile.mg.L., <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb56-27"><a href="#cb56-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">"drop"</span></span>
-<span id="cb56-28"><a href="#cb56-28" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb56-29"><a href="#cb56-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-30"><a href="#cb56-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-31"><a href="#cb56-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-32"><a href="#cb56-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-33"><a href="#cb56-33" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(d2,<span class="fu">aes</span>(<span class="at">y=</span>k<span class="sc">*</span>PS, <span class="at">x=</span>Plabile, <span class="at">col =</span> Site)) <span class="sc">+</span></span>
-<span id="cb56-34"><a href="#cb56-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">shape=</span>Site, <span class="at">size =</span> Treatment)) <span class="sc">+</span></span>
-<span id="cb56-35"><a href="#cb56-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="fu">TeX</span>(<span class="st">"$P_{H_2O}(</span><span class="sc">\\</span><span class="st">frac{mg}{L})$"</span>),</span>
-<span id="cb56-36"><a href="#cb56-36" aria-hidden="true" tabindex="-1"></a>         <span class="at">y=</span><span class="fu">TeX</span>(<span class="st">"$V_{Desorption}=k*P_S (</span><span class="sc">\\</span><span class="st">frac{mg}{L*min})$"</span>))</span>
-<span id="cb56-37"><a href="#cb56-37" aria-hidden="true" tabindex="-1"></a>  <span class="co">#facet_grid(Site ~ Treatment) + </span></span>
-<span id="cb56-38"><a href="#cb56-38" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb56-39"><a href="#cb56-39" aria-hidden="true" tabindex="-1"></a>p2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>rr <span class="ot">&lt;-</span> <span class="fu">coef</span>(Res) </span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>rr<span class="sc">$</span>uid <span class="ot">&lt;-</span> rr <span class="sc">%&gt;%</span> <span class="fu">rownames</span>()</span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">merge</span>(d,rr,<span class="at">by=</span> <span class="st">"uid"</span>,<span class="at">by.x =</span> <span class="st">"uid"</span>)</span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>d2 <span class="ot">&lt;-</span> <span class="fu">subset</span>(d,<span class="at">select =</span> <span class="fu">c</span>(Site,Treatment,Repetition,Pv_labile.mg.L.,k,PS))</span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a unique ID combining Site and Treatment</span></span>
+<span id="cb55-9"><a href="#cb55-9" aria-hidden="true" tabindex="-1"></a>d2 <span class="ot">&lt;-</span> d2 <span class="sc">%&gt;%</span></span>
+<span id="cb55-10"><a href="#cb55-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ui =</span> <span class="fu">paste</span>(Site, Treatment, <span class="at">sep =</span> <span class="st">"_"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb55-11"><a href="#cb55-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(ui, Site, Treatment) <span class="sc">%&gt;%</span></span>
+<span id="cb55-12"><a href="#cb55-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb55-13"><a href="#cb55-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">k =</span> <span class="fu">mean</span>(k, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb55-14"><a href="#cb55-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">PS =</span> <span class="fu">mean</span>(PS, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb55-15"><a href="#cb55-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">Plabile =</span> <span class="fu">mean</span>(Pv_labile.mg.L., <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb55-16"><a href="#cb55-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">"drop"</span></span>
+<span id="cb55-17"><a href="#cb55-17" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb55-18"><a href="#cb55-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-19"><a href="#cb55-19" aria-hidden="true" tabindex="-1"></a>d3 <span class="ot">&lt;-</span> <span class="fu">subset</span>(d,<span class="at">select =</span> <span class="fu">c</span>(Site,Treatment,Repetition,Pv_labile.mg.L.,k,PS,uid))</span>
+<span id="cb55-20"><a href="#cb55-20" aria-hidden="true" tabindex="-1"></a>d3 <span class="ot">&lt;-</span> d3 <span class="sc">%&gt;%</span></span>
+<span id="cb55-21"><a href="#cb55-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ui =</span> <span class="fu">paste</span>(Site, Treatment, <span class="at">sep =</span> <span class="st">"_"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb55-22"><a href="#cb55-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(uid, Site, Treatment) <span class="sc">%&gt;%</span></span>
+<span id="cb55-23"><a href="#cb55-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb55-24"><a href="#cb55-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">k =</span> <span class="fu">mean</span>(k, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb55-25"><a href="#cb55-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">PS =</span> <span class="fu">mean</span>(PS, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb55-26"><a href="#cb55-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">Plabile =</span> <span class="fu">mean</span>(Pv_labile.mg.L., <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb55-27"><a href="#cb55-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">"drop"</span></span>
+<span id="cb55-28"><a href="#cb55-28" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb55-29"><a href="#cb55-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-30"><a href="#cb55-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-31"><a href="#cb55-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-32"><a href="#cb55-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-33"><a href="#cb55-33" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(d2,<span class="fu">aes</span>(<span class="at">y=</span>k<span class="sc">*</span>PS, <span class="at">x=</span>Plabile, <span class="at">col =</span> Site)) <span class="sc">+</span></span>
+<span id="cb55-34"><a href="#cb55-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">shape=</span>Site, <span class="at">size =</span> Treatment)) <span class="sc">+</span></span>
+<span id="cb55-35"><a href="#cb55-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="fu">TeX</span>(<span class="st">"$P_{H_2O}(</span><span class="sc">\\</span><span class="st">frac{mg}{L})$"</span>),</span>
+<span id="cb55-36"><a href="#cb55-36" aria-hidden="true" tabindex="-1"></a>         <span class="at">y=</span><span class="fu">TeX</span>(<span class="st">"$V_{Desorption}=k*P_S (</span><span class="sc">\\</span><span class="st">frac{mg}{L*min})$"</span>))</span>
+<span id="cb55-37"><a href="#cb55-37" aria-hidden="true" tabindex="-1"></a>  <span class="co">#facet_grid(Site ~ Treatment) + </span></span>
+<span id="cb55-38"><a href="#cb55-38" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb55-39"><a href="#cb55-39" aria-hidden="true" tabindex="-1"></a>p2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="pretest_files/figure-html/unnamed-chunk-5-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7"><img src="pretest_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></a></p>
+<p><a href="pretest_files/figure-html/unnamed-chunk-5-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="pretest_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></a></p>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(d2,<span class="fu">aes</span>(<span class="at">y=</span>k, <span class="at">x=</span>Plabile, <span class="at">col =</span> Site, <span class="at">group =</span> Treatment)) <span class="sc">+</span></span>
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(d2,<span class="fu">aes</span>(<span class="at">y=</span>k, <span class="at">x=</span>Plabile, <span class="at">col =</span> Site, <span class="at">group =</span> Treatment)) <span class="sc">+</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">shape=</span>Site, <span class="at">size =</span> Treatment)) <span class="sc">+</span></span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="fu">TeX</span>(<span class="st">"$P_{H_2O}(</span><span class="sc">\\</span><span class="st">frac{mg}{L})$"</span>),</span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">y=</span><span class="fu">TeX</span>(<span class="st">"k(s^{-1}"</span>))</span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>  <span class="co">#facet_grid(Site ~ Treatment) + </span></span>
+<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a>p3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="pretest_files/figure-html/unnamed-chunk-5-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7"><img src="pretest_files/figure-html/unnamed-chunk-5-2.png" class="img-fluid figure-img" width="672"></a></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>p4 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(d3,<span class="fu">aes</span>(<span class="at">y=</span>k<span class="sc">*</span>PS, <span class="at">x=</span>Plabile, <span class="at">col =</span> Site)) <span class="sc">+</span></span>
 <span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">shape=</span>Site, <span class="at">size =</span> Treatment)) <span class="sc">+</span></span>
 <span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="fu">TeX</span>(<span class="st">"$P_{H_2O}(</span><span class="sc">\\</span><span class="st">frac{mg}{L})$"</span>),</span>
-<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">y=</span><span class="fu">TeX</span>(<span class="st">"k(s^{-1}"</span>))</span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">y=</span><span class="fu">TeX</span>(<span class="st">"$V_{Desorption}=k*P_S (</span><span class="sc">\\</span><span class="st">frac{mg}{L*min})$"</span>))</span>
 <span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>  <span class="co">#facet_grid(Site ~ Treatment) + </span></span>
 <span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a>p3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a>p4</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="pretest_files/figure-html/unnamed-chunk-5-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8"><img src="pretest_files/figure-html/unnamed-chunk-5-2.png" class="img-fluid figure-img" width="672"></a></p>
+<p><a href="pretest_files/figure-html/unnamed-chunk-5-3.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8"><img src="pretest_files/figure-html/unnamed-chunk-5-3.png" class="img-fluid figure-img" width="672"></a></p>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>p4 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(d3,<span class="fu">aes</span>(<span class="at">y=</span>k<span class="sc">*</span>PS, <span class="at">x=</span>Plabile, <span class="at">col =</span> Site)) <span class="sc">+</span></span>
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>p5 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(d3,<span class="fu">aes</span>(<span class="at">y=</span>k, <span class="at">x=</span>Plabile, <span class="at">col =</span> Site, <span class="at">group =</span> Treatment)) <span class="sc">+</span></span>
 <span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">shape=</span>Site, <span class="at">size =</span> Treatment)) <span class="sc">+</span></span>
 <span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="fu">TeX</span>(<span class="st">"$P_{H_2O}(</span><span class="sc">\\</span><span class="st">frac{mg}{L})$"</span>),</span>
-<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">y=</span><span class="fu">TeX</span>(<span class="st">"$V_{Desorption}=k*P_S (</span><span class="sc">\\</span><span class="st">frac{mg}{L*min})$"</span>))</span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">y=</span><span class="fu">TeX</span>(<span class="st">"k(s^{-1}"</span>))</span>
 <span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a>  <span class="co">#facet_grid(Site ~ Treatment) + </span></span>
 <span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb58-7"><a href="#cb58-7" aria-hidden="true" tabindex="-1"></a>p4</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb58-7"><a href="#cb58-7" aria-hidden="true" tabindex="-1"></a>p5</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="pretest_files/figure-html/unnamed-chunk-5-3.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9"><img src="pretest_files/figure-html/unnamed-chunk-5-3.png" class="img-fluid figure-img" width="672"></a></p>
-</figure>
-</div>
-</div>
-<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>p5 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(d3,<span class="fu">aes</span>(<span class="at">y=</span>k, <span class="at">x=</span>Plabile, <span class="at">col =</span> Site, <span class="at">group =</span> Treatment)) <span class="sc">+</span></span>
-<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">shape=</span>Site, <span class="at">size =</span> Treatment)) <span class="sc">+</span></span>
-<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="fu">TeX</span>(<span class="st">"$P_{H_2O}(</span><span class="sc">\\</span><span class="st">frac{mg}{L})$"</span>),</span>
-<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">y=</span><span class="fu">TeX</span>(<span class="st">"k(s^{-1}"</span>))</span>
-<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a>  <span class="co">#facet_grid(Site ~ Treatment) + </span></span>
-<span id="cb59-6"><a href="#cb59-6" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb59-7"><a href="#cb59-7" aria-hidden="true" tabindex="-1"></a>p5</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="pretest_files/figure-html/unnamed-chunk-5-4.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10"><img src="pretest_files/figure-html/unnamed-chunk-5-4.png" class="img-fluid figure-img" width="672"></a></p>
+<p><a href="pretest_files/figure-html/unnamed-chunk-5-4.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9"><img src="pretest_files/figure-html/unnamed-chunk-5-4.png" class="img-fluid figure-img" width="672"></a></p>
 </figure>
 </div>
 </div>

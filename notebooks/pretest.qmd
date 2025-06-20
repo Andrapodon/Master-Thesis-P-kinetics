@@ -159,8 +159,6 @@ p1 <- ggplot() +
   labs(x = TeX("$Time (min)$"),
        y = TeX("$P_{V}(\\frac{mg}{L})$")); suppressWarnings(print(p1))
 
-p1
-
 d$ui <- interaction(d$Site, d$Treatment)
 
 nlme.coef.avg <- list()
