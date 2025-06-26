@@ -182,7 +182,7 @@ for (lvl in levels(d$ui)){
   fixef <- model4$coefficients$fixed
   ranefs <- ranef(model4)
   colnames(ranefs) <- paste0("ranef_",colnames(ranefs))
-  nlme.coef[[lvl]]  <- cbind(coef(model4), ranefs, rep=1:nrow(ranef(model4)), ui=lvl, Site=d.tmp[1, "Site"], Treatment=d.tmp[1, "Treatment"], uid = rownames(coef(model4)))
+  nlme.coef[[lvl]]  <- cbind(coef(model4), ranefs, Rep=1:nrow(ranef(model4)), ui=lvl, Site=d.tmp[1, "Site"], Treatment=d.tmp[1, "Treatment"], uid = rownames(coef(model4)))
   nlme.coef.avg[[lvl]] <- data.frame(PS=fixef["PS"], k=fixef["k"], ui=lvl, Site=d.tmp[1, "Site"], Treatment=d.tmp[1, "Treatment"], uid = d.tmp$uid)
 }
 
@@ -202,9 +202,14 @@ LG: hier machen wir folgendes:
 6. Perform (post-hoc) TukeyHSD test (using multcomp package)
 
 ```{r}
-ggplot(nlme.coef, aes(y=PS  , x=Treatment, col=Site)) + geom_point() + geom_line(aes(group=Site))
-ggplot(nlme.coef, aes(y=k   , x=Treatment, col=Site)) + geom_point() + geom_line(aes(group=Site))
-ggplot(nlme.coef, aes(y=k*PS, x=Treatment, col=Site)) + geom_point() + geom_line(aes(group=Site)) + scale_y_sqrt()
+ggplot(nlme.coef, aes(y=PS  , x=Treatment, col=Site)) + geom_point() #+ geom_line(aes(group=Site))
+ggplot(nlme.coef, aes(y=k   , x=Treatment, col=Site)) + geom_point() #+ geom_line(aes(group=Site))
+ggplot(nlme.coef, aes(y=k*PS, x=Treatment, col=Site)) + geom_point() + scale_y_sqrt()#+ geom_line(aes(group=Site)) 
+
+
+ggplot(nlme.coef, aes(y=PS  , x=Site, col=Treatment)) + geom_point() #+ geom_line(aes(group=Site))
+ggplot(nlme.coef, aes(y=k   , x=Site, col=Treatment)) + geom_point() #+ geom_line(aes(group=Site))
+ggplot(nlme.coef, aes(y=k*PS, x=Site, col=Treatment)) + geom_point() + scale_y_sqrt()#+ geom_line(aes(group=Site)) 
 
 fit.PS   <- lm(PS            ~ Treatment + Site, nlme.coef)
 fit.k    <- lm(k             ~ Treatment + Site, nlme.coef)
@@ -229,9 +234,30 @@ Results:
 
 ```{r}
 # new Data set, that gives info about Soil
+allP <- readRDS("~/Documents/Master Thesis/Master-Thesis-P-kinetics/data/all_P.rds")
+allP$rep <- allP$rep %>% as.roman() %>% as.integer()
+allP$uid <- paste(allP$location,allP$treatment_ID,as.character(allP$rep),sep = "_")
 
 # 1. merge this with nlme.coef
+nlme.coef <- merge(nlme.coef,allP[allP$year==2018,],by = "uid")
 
+fit.PS   <- lm(PS            ~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + fert_P_tot, nlme.coef)
+fit.k    <- lm(k             ~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + fert_P_tot, nlme.coef)
+fit.kPS  <- lm(I(sqrt(k*PS)) ~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + fert_P_tot, nlme.coef)
+
+
+fit.Yrel     <- lm(Ymain_rel         ~ k + PS + I(sqrt(k*PS)), nlme.coef)
+fit.Puptake  <- lm(annual_P_uptake   ~ k + PS + I(sqrt(k*PS)), nlme.coef)
+Anova(fit.PS)
+#summary(glht(fit.PS, mcp(soil_0_20_clay = "Tukey")))
+# Fazit: PS wird von treatment stark beeinfluss, k eher nicht (dafür von site)
+Anova(fit.k)
+#summary(glht(fit.k, mcp(soil_0_20_clay = "Tukey")))
+
+Anova(fit.kPS)
+#summary(glht(fit.kPS, mcp(soil_0_20_clay = "Tukey")))
+Anova(fit.Yrel)
+Anova(fit.Puptake)
 ```
 
 
@@ -281,7 +307,7 @@ p2
 p3 <- ggplot(d2,aes(y=k, x=Plabile, col = Site, group = Treatment)) +
   geom_point(aes(shape=Site, size = Treatment)) +
   labs(x=TeX("$P_{H_2O}(\\frac{mg}{L})$"),
-         y=TeX("k(s^{-1}"))
+         y=TeX("k(s\\^{-1})"))
   #facet_grid(Site ~ Treatment) + 
   
 p3
@@ -297,7 +323,7 @@ p4
 p5 <- ggplot(d3,aes(y=k, x=Plabile, col = Site, group = Treatment)) +
   geom_point(aes(shape=Site, size = Treatment)) +
   labs(x=TeX("$P_{H_2O}(\\frac{mg}{L})$"),
-         y=TeX("k(s^{-1}"))
+         y=TeX("k(s^{-1})"))
   #facet_grid(Site ~ Treatment) + 
   
 p5
