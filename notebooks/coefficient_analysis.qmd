@@ -1,0 +1,223 @@
+---
+title: "Kinetic Model Coefficient Analysis"
+format: 
+  html:
+    math: mathjax
+  pdf: default
+  docx: default
+author: Marc Pérez
+date: 2025-05-22
+---
+
+```{r setup}
+#| include: false
+#| message: false
+#| warning: false
+
+RES <- list()
+
+library(multcomp)
+library(car)
+library(tidyr)
+library(lme4)
+library(ggplot2)
+library(ggtext)
+library(ggpmisc)
+library(nlme)
+library(latex2exp)
+library(kableExtra)
+library(broom)
+library(dplyr)
+
+options(warn = -1)
+RES <- readRDS("~/Documents/Master Thesis/Master-Thesis-P-kinetics/data/RES.rds")
+nlme.coef <- RES$nlme.coef
+d <- RES$data
+```
+
+
+
+
+
+```{r}
+#| echo: false
+
+rr <- coef(Res) 
+rr$uid <- rr %>% rownames()
+d <- merge(d,rr,by= "uid",by.x = "uid")
+
+d2 <- subset(d,select = c(Site,Treatment,Repetition,Pv_labile.mg.L.,k,PS))
+
+
+# Create a unique ID combining Site and Treatment
+d2 <- d2 %>%
+  mutate(ui = paste(Site, Treatment, sep = "_")) %>%
+  group_by(ui, Site, Treatment) %>%
+  summarise(
+    k = mean(k, na.rm = TRUE),
+    PS = mean(PS, na.rm = TRUE),
+    Plabile = mean(Pv_labile.mg.L., na.rm = TRUE),
+    .groups = "drop"
+  )
+
+d3 <- subset(d,select = c(Site,Treatment,Repetition,Pv_labile.mg.L.,k,PS,uid))
+d3 <- d3 %>%
+  mutate(ui = paste(Site, Treatment, sep = "_")) %>%
+  group_by(uid, Site, Treatment) %>%
+  summarise(
+    k = mean(k, na.rm = TRUE),
+    PS = mean(PS, na.rm = TRUE),
+    Plabile = mean(Pv_labile.mg.L., na.rm = TRUE),
+    .groups = "drop"
+  )
+
+
+
+
+p2 <- ggplot(d2,aes(y=k*PS, x=Plabile, col = Site)) +
+  geom_point(aes(shape=Site, size = Treatment)) +
+  labs(x=TeX("$P_{H_2O}(\\frac{mg}{L})$"),
+         y=TeX("$V_{Desorption}=k*P_S (mg/L*min($"))
+  #facet_grid(Site ~ Treatment) + 
+  
+p2
+
+p3 <- ggplot(d2,aes(y=k, x=Plabile, col = Site, group = Treatment)) +
+  geom_point(aes(shape=Site, size = Treatment)) +
+  labs(x=TeX("$P_{H_2O}(mg/L)$"),
+         y=TeX("k(1/s)"))
+  #facet_grid(Site ~ Treatment) + 
+  
+p3
+
+p4 <- ggplot(d3,aes(y=k*PS, x=Plabile, col = Site)) +
+  geom_point(aes(shape=Site, size = Treatment)) +
+  labs(x=TeX("$P_{H_2O}(\\frac{mg}{L})$"),
+         y=TeX("$V_{Desorption}=k*P_S (mg/L*min)$"))
+  #facet_grid(Site ~ Treatment) + 
+  
+p4
+
+p5 <- ggplot(d3,aes(y=k, x=Plabile, col = Site, group = Treatment)) +
+  geom_point(aes(shape=Site, size = Treatment)) +
+  labs(x=TeX("$P_{H_2O}(\\frac{mg}{L})$"),
+         y=TeX("k(s^{-1})"))
+  #facet_grid(Site ~ Treatment) + 
+  
+p5
+
+
+p6 <- ggplot(nlme.coef,aes(y=soil_0_20_P_AAE10, x=soil_0_20_P_CO2, col=Site, size = Treatment)) +
+  geom_point(shape = 7) +
+  labs(x=TeX("$P_{H_2O10}(mg/kg Soil)$"),
+         y=TeX("$P_{AAEDTA}(mg/kg Soil)$"))
+  
+
+p6
+  
+p7 <- ggplot(nlme.coef,aes(y=PS, x=soil_0_20_P_CO2, col=Site, size = Treatment)) +
+  geom_point(shape = 7) +
+  labs(x=TeX("$P_{CO_2}(mg/kg Soil)$"),
+         y=TeX("$PS(mg/kg Soil)$"))
+
+
+p7
+
+p8 <- ggplot(nlme.coef,aes(y=k, x=soil_0_20_P_CO2, col=Site, size = Treatment)) +
+  geom_point(shape = 7) +
+  labs(x=TeX("$P_{CO_2}(mg/kg Soil)$"),
+         y=TeX("$k(1/s)$"))
+
+p8
+
+p9 <- ggplot(nlme.coef,aes(y=k*PS, x=soil_0_20_P_CO2, col=Site, size = Treatment)) +
+  geom_point(shape = 7) +
+  labs(x=TeX("$P_{CO_2}(mg/kg Soil)$"),
+         y=TeX("$v=k*PS(mg/s*kg Soil)$"))
+
+p9
+
+p10 <- ggplot(nlme.coef,aes(y=sqrt(k*PS), x=soil_0_20_P_CO2, col=Site, size = Treatment)) +
+  geom_point(shape = 7) +
+  labs(x=TeX("$P_{CO_2}(mg/kg Soil)$"),
+         y=TeX("$\\sqrt{v}=(k*PS)^{0.5}(mg/s*kg Soil)$"))
+
+p10
+
+p11 <- ggplot(nlme.coef,aes(y=PS, x=soil_0_20_P_AAE10, col=Site, size = Treatment)) +
+  geom_point(shape = 7) +
+  labs(x=TeX("$P_{AAEDTA}(mg/kg Soil)$"),
+         y=TeX("$PS(mg/kg Soil)$"))
+
+
+p11
+
+p12 <- ggplot(nlme.coef,aes(y=k, x=soil_0_20_P_AAE10, col=Site, size = Treatment)) +
+  geom_point(shape = 7) +
+  labs(x=TeX("$P_{AAEDTA}(mg/kg Soil)$"),
+         y=TeX("$k(1/s)$"))
+
+p12
+
+p13 <- ggplot(nlme.coef,aes(y=k*PS, x=soil_0_20_P_AAE10, col=Site, size = Treatment)) +
+  geom_point(shape = 7) +
+  labs(x=TeX("$P_{AAEDTA}(mg/kg Soil)$"),
+         y=TeX("$v=k*PS(mg/s*kg Soil)$"))
+
+p13
+
+
+p14 <- ggplot(nlme.coef,aes(y=sqrt(k*PS), x=soil_0_20_P_AAE10, col=Site, size = Treatment)) +
+  geom_point(shape = 7) +
+  labs(x=TeX("$P_{AAEDTA}(mg/kg Soil)$"),
+         y=TeX("$\\sqrt{v}=(k*PS)^{0.5}(mg/s*kg Soil)$"))
+
+
+p14
+
+```
+
+
+Nun noch die Linearen Regressionen, die ausstehend sind:
+
+```{r}
+# Wovon hängen Modelparameter ab?
+
+fit.PS       <- lm(PS            ~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + fert_P_tot, nlme.coef)
+fit.k        <- lm(k             ~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + fert_P_tot, nlme.coef)
+fit.kPS      <- lm(I(sqrt(k*PS)) ~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + fert_P_tot, nlme.coef)
+fit.Yrel     <- lm(Ymain_rel         ~ k + PS + I(sqrt(k*PS)) + Treatment + Site, nlme.coef)
+fit.Puptake  <- lm(annual_P_uptake   ~ k + PS + I(sqrt(k*PS)) + Treatment + Site, nlme.coef)
+
+Anova(fit.PS)
+#summary(glht(fit.PS))
+# Fazit: PS wird von treatment stark beeinfluss, k eher nicht (dafür von site)
+Anova(fit.k)
+summary(glht(fit.k))
+Anova(fit.kPS)
+summary(glht(fit.kPS))
+Anova(fit.Yrel)
+Anova(fit.Puptake)
+
+# Verhalten der Modelparameter und Ertragsdaten auf P-CO2 und P-AAE10
+
+fit.PS       <- lm(PS            ~ soil_0_20_P_CO2 + soil_0_20_P_AAE10 + fert_P_tot, nlme.coef)
+fit.k        <- lm(k             ~ soil_0_20_P_CO2 + soil_0_20_P_AAE10 + fert_P_tot, nlme.coef)
+fit.kPS      <- lm(I(sqrt(k*PS)) ~ soil_0_20_P_CO2 + soil_0_20_P_AAE10 + fert_P_tot, nlme.coef)
+fit.Yrel     <- lm(Ymain_rel         ~ soil_0_20_P_CO2 + soil_0_20_P_AAE10 + fert_P_tot, nlme.coef)
+fit.Puptake  <- lm(annual_P_uptake   ~ soil_0_20_P_CO2 + soil_0_20_P_AAE10 + fert_P_tot, nlme.coef)
+
+Anova(fit.PS)
+#summary(glht(fit.PS))
+# Fazit: PS wird von treatment stark beeinfluss, k eher nicht (dafür von site)
+Anova(fit.k)
+summary(glht(fit.k))
+Anova(fit.kPS)
+summary(glht(fit.kPS))
+Anova(fit.Yrel)
+Anova(fit.Puptake)
+
+
+
+```
+
