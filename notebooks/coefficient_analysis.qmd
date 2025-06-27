@@ -30,7 +30,7 @@ library(broom)
 library(dplyr)
 
 options(warn = -1)
-RES <- readRDS("~/Documents/Master Thesis/Master-Thesis-P-kinetics/data/RES.rds")
+RES <- readRDS("data/RES.rds")
 nlme.coef <- RES$nlme.coef
 d <- RES$data
 ```
