@@ -352,3 +352,14 @@ Dmlr$k
 
 subset(Dmlr, select = c("Ymain_rel", P_var_sets$AAE10_CO2_kPS, Weather_vars))
 ```
+
+
+
+# Methods
+
+we used machine learning methods to assess how much information different sets of variables (c.f. `P_var_sets`) have each on the dependent variable (Puptake, Y-rel, P-balance), how redundant this information is.
+The machine learning methods to quantify the predictive power of different variable sets are: i) ordinary least squares (OLS) as a baseline; ii) XGBoost (gradient boosting with tree-based models and hyperparameter tuning for learning rate and tree depth) (arxiv:1603.02754); iii) Random Forests (with default parameters) (doi:10.1023/A:1010933404324). Computations were performed using the mlr3 framework (doi:10.21105/joss.01903). Performance was measured as percentage of explained variance on hold-out data via 5-fold cross-validation, calculated as (1 - MSE/Variance(y)), where MSE represents mean squared error. 
+
+We tried adjusting for weather variables but it seems that the ML-methods rather reconstruct the site-specific patterns....
+
+
