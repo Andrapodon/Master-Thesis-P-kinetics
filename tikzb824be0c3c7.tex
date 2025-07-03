@@ -1,0 +1,16 @@
+\documentclass[
+%% TIKZ_CLASSOPTION %%
+tikz
+]{standalone}
+\usepackage{amsmath}
+\usetikzlibrary{matrix}
+%% EXTRA_TIKZ_PREAMBLE_CODE %%
+\begin{document}
+%% TIKZ_CODE %%
+lmList(Y1 ~ t.min. | uid, d,na.action = na.omit) |> summary()
+ggplot(d, aes(y=Y1, x=t.min., col = Repetition)) +
+  geom_point() +
+  facet_grid(Site ~ Treatment) + 
+  ylab("ln(1 - P / Ps)")+
+  geom_smooth(method="lm", alpha = 0.3)
+\end{document}
