@@ -66,9 +66,15 @@ library(kableExtra)
 library(broom)
 library(dplyr)
 
+
+try(setwd("~/Documents/Master Thesis/Master-Thesis-P-kinetics/"), silent=TRUE)
+
 options(warn = -1)
 # Dataset preparation
-d <- read.csv(file = "~/Documents/Master Thesis/Master-Thesis-P-kinetics/data/release-Data.csv", na.strings = c("", "n.a."))
+d <- tryCatch(read.csv(file = "./data/release-Data.csv", na.strings = c("", "n.a.")))
+if (inherits(d, "try-error")){
+  d <- read.csv(file = "~/Documents/Master Thesis/Master-Thesis-P-kinetics/data/release-Data.csv", na.strings = c("", "n.a."))
+}
 d$Treatment <- d$Treatment |> factor()
 d$Pv.mg.L. <- as.numeric(d$Pv.mg.L.)
 d$Pv_labile.mg.L. <- as.numeric(d$Pv_labile.mg.L.)
@@ -79,6 +85,8 @@ d$flos <- as.numeric(d$Pv_Olsen.mg.L.)-as.numeric(d$Pv_labile.mg.L.)
 d$flos[d$flos <= 0] <- quantile(d$flos[d$flos > 0], 0.025, na.rm=TRUE)/2
 d$Y1 <- log(1 - d$Pv.mg.L. / d$flos) # one timeseries removed, since flos too low
 d$Y1[is.nan(d$Y1)] <- NA
+d$t.dt <- d$t.min. + 3
+
 
 str(d)
 #> data.frame:	353 obs. of  21 variables:
@@ -125,12 +133,14 @@ ggplot(d, aes(y=Y1, x=t.min., col = Repetition)) +
 
 If the parameter for the plateau could be estimated directly by using a non-linear non-least-squares model, we could omit the Olsen-measurement in the future.
 
+LG: our nls is very sensitive to moderatly high Pv.mg.L at small time points. Since the ... disolves already before we start measureing, we will add 3 min to our time-measurement.
+
 ```{r}
 #| echo: true
 #| warning: false
 #| message: false
 
-Res <- nlsList(Pv.mg.L. ~ PS * (1 - exp(-k * t.min.)) | uid, d[, c("Pv.mg.L.", "uid", "t.min.")],  start=list(PS=0.1,k=0.2))
+Res <- nlsList(Pv.mg.L. ~ PS * (1 - exp(-k * (t.dt))) | uid, d[, c("Pv.mg.L.", "uid", "t.dt")],  start=list(PS=0.1,k=0.2))
 # summary(Res)
 # d$nls_pred <- predict(Res)
 
@@ -142,19 +152,19 @@ nls_coefs$uid <- rownames(nls_coefs)
 d_plot <- merge(d, nls_coefs, by = "uid")
 
 # Most straightforward approach - create curves manually
-time_seq <- seq(min(d$t.min., na.rm = TRUE), max(d$t.min., na.rm = TRUE), length.out = 100)
+time_seq <- seq(min(d$t.dt, na.rm = TRUE), max(d$t.dt, na.rm = TRUE), length.out = 100)
 
 # Create prediction data
 pred_data <- d_plot %>%
   select(uid, Site, Treatment, Repetition, PS, k) %>%
   distinct() %>%
-  crossing(t.min. = time_seq) %>%
-  mutate(pred_Pv = PS * (1 - exp(-k * t.min.)))
+  crossing(t.dt = time_seq) %>%
+  mutate(pred_Pv = PS * (1 - exp(-k * (t.dt))))
 
 # Final plot
 p1 <- ggplot() +
-  geom_point(data = d_plot, aes(y = Pv.mg.L., x = t.min., col = Repetition)) +
-  geom_line(data = pred_data, aes(x = t.min., y = pred_Pv, col = Repetition), size = 0.5) +
+  geom_point(data = d_plot, aes(y = Pv.mg.L., x = t.dt, col = Repetition)) +
+  geom_line(data = pred_data, aes(x = t.dt, y = pred_Pv, col = Repetition), size = 0.5) +
   facet_grid(Treatment ~ Site) +
   labs(x = TeX("$Time (min)$"),
        y = TeX("$P_{V}(\\frac{mg}{L})$")); suppressWarnings(print(p1))
@@ -166,18 +176,19 @@ nlme.coef <- list()
 for (lvl in levels(d$ui)){
   d.tmp <- subset(d, ui == lvl)
   # first get nlsList coefs for comparison only (unused)
-  temp_nls <- coef(nlsList(Pv.mg.L. ~ PS * (1 - exp(-k * t.min.)) | uid, 
-                    d.tmp[, c("Pv.mg.L.", "uid", "t.min.")], 
+  temp_nls <- coef(nlsList(Pv.mg.L. ~ PS * (1 - exp(-k * t.dt)) | uid, 
+                    d.tmp[, c("Pv.mg.L.", "uid", "t.dt")], 
                     start = list(PS = 0.1, k = 0.2)))
   nlsList_coefs <- c(apply(temp_nls, 2, \(x) c(mean=mean(x), sd=sd(x))))
   names(nlsList_coefs) <- c("PS.mean", "PS.sd", "k.mean", "k.sd")
 
   # now do the real thing
-  model4 <- nlme(Pv.mg.L. ~ PS * (1 - exp(-k * t.min.)),
+  model4 <- nlme(Pv.mg.L. ~ PS * (1 - exp(-k * t.dt)),
                 fixed = PS + k ~ 1,
                 random = PS + k ~ 1 | uid,
-                data = d.tmp[, c("Pv.mg.L.", "uid", "t.min.")],
-                start = c(PS = 0.1, k = 0.2))
+                data = d.tmp[, c("Pv.mg.L.", "uid", "t.dt")],
+                start = c(PS = 0.05, k = 0.15),
+                control = nlmeControl(maxIter = 200))
   coef(model4)
   fixef <- model4$coefficients$fixed
   ranefs <- ranef(model4)
@@ -203,18 +214,26 @@ LG: hier machen wir folgendes:
 6. Perform (post-hoc) TukeyHSD test (using multcomp package)
 
 ```{r}
-ggplot(nlme.coef, aes(y=PS  , x=Treatment, col=Site)) + geom_boxplot()#+ geom_line(aes(group=Site))
-ggplot(nlme.coef, aes(y=k   , x=Treatment, col=Site)) + geom_boxplot() #+ geom_line(aes(group=Site))
-ggplot(nlme.coef, aes(y=k*PS, x=Treatment, col=Site)) + geom_boxplot() + scale_y_sqrt()#+ geom_line(aes(group=Site)) 
+
+points <- geom_point(position=position_dodge(width=0.5), size = 3, alpha = 0.5)
+
+ggplot(nlme.coef, aes(y=PS  , x=Treatment, col=Site, pch=Treatment)) + points + scale_y_log10()
+ggplot(nlme.coef, aes(y=k   , x=Treatment, col=Site, pch=Treatment)) + points
+ggplot(nlme.coef, aes(y=k*PS, x=Treatment, col=Site, pch=Treatment)) + points + scale_y_log10()
 
 
-ggplot(nlme.coef, aes(y=PS  , x=Site, col=Treatment)) + geom_boxplot() #+ geom_line(aes(group=Site))
-ggplot(nlme.coef, aes(y=k   , x=Site, col=Treatment)) + geom_boxplot() #+ geom_line(aes(group=Site))
-ggplot(nlme.coef, aes(y=k*PS, x=Site, col=Treatment)) + geom_boxplot() + scale_y_sqrt()#+ geom_line(aes(group=Site)) 
+ggplot(nlme.coef, aes(y=PS  , x=Site, col=Treatment)) + points + scale_y_log10()
+ggplot(nlme.coef, aes(y=k   , x=Site, col=Treatment)) + points
+ggplot(nlme.coef, aes(y=k*PS, x=Site, col=Treatment)) + points + scale_y_log10()
 
-fit.PS   <- lm(PS            ~ Treatment + Site, nlme.coef)
-fit.k    <- lm(k             ~ Treatment + Site, nlme.coef)
-fit.kPS  <- lm(I(sqrt(k*PS)) ~ Treatment + Site, nlme.coef)
+# k PS macht von der interpretation her Sinn
+# aber PS ist log-normal verteilt
+
+
+fit.PS   <- lm(log(PS)      ~ Treatment + Site, nlme.coef)
+fit.k    <- lm(k            ~ Treatment + Site, nlme.coef)
+fit.kPS  <- lm(I(log(k*PS)) ~ Treatment + Site, nlme.coef)
+
 
 Anova(fit.PS)
 summary(glht(fit.PS, mcp(Treatment = "Tukey")))
@@ -235,17 +254,40 @@ Results:
 
 ```{r}
 # new Data set, that gives info about Soil
-allP <- readRDS("~/Documents/Master Thesis/Master-Thesis-P-kinetics/data/all_P.rds")
+allP <- tryCatch(readRDS("./data/all_P.rds"))
+if (inherits(d, "try-error")){
+  allP <- tryCatch(readRDS("~/Documents/Master Thesis/Master-Thesis-P-kinetics/data/all_P.rds"))
+}
 allP$rep <- allP$rep %>% as.roman() %>% as.integer()
 allP$uid <- paste(allP$location,allP$treatment_ID,as.character(allP$rep),sep = "_")
+```
 
+
+
+```{r}
 # 1. merge this with nlme.coef
-nlme.coef <- merge(nlme.coef,allP[allP$year==2018,],by = "uid")
+nlme.coef$kPS <- nlme.coef$k * nlme.coef$PS
 
-RES$nlme.coef <- nlme.coef
+
+nlme.coef.mrg <- merge(nlme.coef,allP[allP$year>=2017,],by = "uid")
+# add log-transformed versions
+nlme.coef.mrg$kPS_log <- log(nlme.coef.mrg$kPS)
+nlme.coef.mrg$PS_log <- log(nlme.coef.mrg$PS)
+nlme.coef.mrg$soil_0_20_P_AAE10_log <- log(nlme.coef.mrg$soil_0_20_P_AAE10)
+nlme.coef.mrg$soil_0_20_P_CO2_log <- log(nlme.coef.mrg$soil_0_20_P_CO2)
+
+nrow(nlme.coef.mrg)
+names(nlme.coef.mrg)
+
+nrow(allP[allP$year==2017,])
+nrow(allP[allP$year==2018,])
+
+RES$nlme.coef.mrg <- nlme.coef.mrg
 RES$nlme.coef.avg <- nlme.coef.avg
 RES$data <- d
-saveRDS(RES, file = "~/Documents/Master Thesis/Master-Thesis-P-kinetics/data/RES.rds")
+
+
+saveRDS(RES, file = "./data/RES.rds")
 
 ```
 
