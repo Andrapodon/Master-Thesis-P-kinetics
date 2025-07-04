@@ -177,7 +177,7 @@ for (lvl in levels(d$ui)){
   d.tmp <- subset(d, ui == lvl)
   # first get nlsList coefs for comparison only (unused)
   temp_nls <- coef(nlsList(Pv.mg.L. ~ PS * (1 - exp(-k * t.dt)) | uid, 
-                    d.tmp[, c("Pv.mg.L.", "uid", "t.dt")], 
+                    d[, c("Pv.mg.L.", "uid", "t.dt")], 
                     start = list(PS = 0.1, k = 0.2)))
   nlsList_coefs <- c(apply(temp_nls, 2, \(x) c(mean=mean(x), sd=sd(x))))
   names(nlsList_coefs) <- c("PS.mean", "PS.sd", "k.mean", "k.sd")
@@ -186,7 +186,7 @@ for (lvl in levels(d$ui)){
   model4 <- nlme(Pv.mg.L. ~ PS * (1 - exp(-k * t.dt)),
                 fixed = PS + k ~ 1,
                 random = PS + k ~ 1 | uid,
-                data = d.tmp[, c("Pv.mg.L.", "uid", "t.dt")],
+                data = d[, c("Pv.mg.L.", "uid", "t.dt")],
                 start = c(PS = 0.05, k = 0.15),
                 control = nlmeControl(maxIter = 200))
   coef(model4)
