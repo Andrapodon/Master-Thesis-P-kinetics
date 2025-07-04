@@ -336,17 +336,17 @@ annual_P_balance
 
 
 ```{r}
-nlme.coef$kPS <- nlme.coef$k * nlme.coef$PS
-
-
-nlme.coef.mrg <- merge(nlme.coef,allP[allP$year>=2017,],by = "uid")
-# add log-transformed versions
-Dmlr$kPS_log <- log(Dmlr$kPS)
-Dmlr$PS_log <- log(Dmlr$PS)
-Dmlr$soil_0_20_P_AAE10_log <- log(Dmlr$soil_0_20_P_AAE10)
-Dmlr$soil_0_20_P_CO2_log <- log(Dmlr$soil_0_20_P_CO2)
-
-Dmlr$k
+# nlme.coef$kPS <- nlme.coef$k * nlme.coef$PS
+# 
+# 
+# nlme.coef.mrg <- merge(nlme.coef,allP[allP$year>=2017,],by = "uid")
+# # add log-transformed versions
+# Dmlr$kPS_log <- log(Dmlr$kPS)
+# Dmlr$PS_log <- log(Dmlr$PS)
+# Dmlr$soil_0_20_P_AAE10_log <- log(Dmlr$soil_0_20_P_AAE10)
+# Dmlr$soil_0_20_P_CO2_log <- log(Dmlr$soil_0_20_P_CO2)
+# 
+# Dmlr$k
 
 
 
