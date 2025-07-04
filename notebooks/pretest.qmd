@@ -185,9 +185,9 @@ for (lvl in levels(d$ui)){
   # now do the real thing
   model4 <- nlme(Pv.mg.L. ~ PS * (1 - exp(-k * t.dt)),
                 fixed = PS + k ~ 1,
-                random = PS + k ~ 1 | uid,
+                random = PS + k  ~ 1 | uid,
                 data = d.tmp[, c("Pv.mg.L.", "uid", "t.dt")],
-                start = c(PS = 0.05, k = 0.15),
+                start = c(PS = 0.05, k = 0.12),
                 control = nlmeControl(maxIter = 200))
   coef(model4)
   fixef <- model4$coefficients$fixed
