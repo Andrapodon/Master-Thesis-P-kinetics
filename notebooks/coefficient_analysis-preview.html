@@ -225,9 +225,7 @@
 
      <div class="cell-container"><div class="cell-decorator"><pre>In [1]:</pre></div><div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>RES <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(multcomp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(multcomp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Loading required package: mvtnorm</code></pre>
 </div>
@@ -344,18 +342,27 @@ Attaching package: 'dplyr'</code></pre>
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">warn =</span> <span class="sc">-</span><span class="dv">1</span>)</span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>RES <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"data/RES.rds"</span>)</span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>nlme.coef <span class="ot">&lt;-</span> RES<span class="sc">$</span>nlme.coef</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>D <span class="ot">&lt;-</span> RES<span class="sc">$</span>nlme.coef.mrg</span>
 <span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> RES<span class="sc">$</span>data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div>
+<p>Model Agroscope <span class="math display">\[Y_{rel}\sim A*(1-e^{rate*P_{CO_2}+Env})\]</span></p>
+<p>Wir ersetzen nur rate mit unserer Schätzung k: <span class="math display">\[Y_{rel}\sim A*(1-e^{k*P_{CO_2}+Env})\]</span></p>
+<p>Sind unsere Modelparameter gute Prediktoren?? <span class="math display">\[Y_{rel}\sim A*(1-e^{k*PS}+Env})\]</span></p>
+<p>Es gibt noch die Kovariaten Niederschlag pro Jahr, Jahresdurchschnittstemperatur und Temperatur in Jugendphase</p>
 <div class="cell-container"><div class="cell-decorator"><pre>In [2]:</pre></div><div class="cell">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>p6 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(nlme.coef,<span class="fu">aes</span>(<span class="at">y=</span>soil_0_20_P_AAE10, <span class="at">x=</span>soil_0_20_P_CO2, <span class="at">col=</span>Site, <span class="at">size =</span> Treatment)) <span class="sc">+</span></span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">7</span>) <span class="sc">+</span></span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="fu">TeX</span>(<span class="st">"$P_{H_2O10}(mg/kg Soil)$"</span>),</span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">y=</span><span class="fu">TeX</span>(<span class="st">"$P_{AAEDTA}(mg/kg Soil)$"</span>))</span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>p6</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GGally)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Registered S3 method overwritten by 'GGally':
+  method from   
+  +.gg   ggplot2</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggpairs</span>(D, </span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">col=</span>Site, <span class="at">size =</span> Treatment), </span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">columns =</span> <span class="fu">c</span>(<span class="st">"soil_0_20_P_AAE10"</span>, <span class="st">"soil_0_20_P_CO2"</span>, <span class="st">"PS"</span>, <span class="st">"k"</span>, <span class="st">"kPS"</span>),</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">shape =</span> <span class="dv">2</span></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -363,14 +370,12 @@ Attaching package: 'dplyr'</code></pre>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>p7 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(nlme.coef,<span class="fu">aes</span>(<span class="at">y=</span>PS, <span class="at">x=</span>soil_0_20_P_CO2, <span class="at">col=</span>Site, <span class="at">size =</span> Treatment)) <span class="sc">+</span></span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">7</span>) <span class="sc">+</span></span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="fu">TeX</span>(<span class="st">"$P_{CO_2}(mg/kg Soil)$"</span>),</span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">y=</span><span class="fu">TeX</span>(<span class="st">"$PS(mg/kg Soil)$"</span>))</span>
-<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>p7</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>p6 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(D,<span class="fu">aes</span>(<span class="at">y=</span>soil_0_20_P_AAE10, <span class="at">x=</span>soil_0_20_P_CO2, <span class="at">col=</span>Site, <span class="at">size =</span> Treatment)) <span class="sc">+</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">7</span>) <span class="sc">+</span> </span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span> <span class="fu">scale_y_log10</span>() <span class="sc">+</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="fu">TeX</span>(<span class="st">"$P_{H_2O10}(mg/kg Soil)$"</span>),</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">y=</span><span class="fu">TeX</span>(<span class="st">"$P_{AAEDTA}(mg/kg Soil)$"</span>)); p6</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -378,13 +383,12 @@ Attaching package: 'dplyr'</code></pre>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>p8 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(nlme.coef,<span class="fu">aes</span>(<span class="at">y=</span>k, <span class="at">x=</span>soil_0_20_P_CO2, <span class="at">col=</span>Site, <span class="at">size =</span> Treatment)) <span class="sc">+</span></span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">7</span>) <span class="sc">+</span></span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="fu">TeX</span>(<span class="st">"$P_{CO_2}(mg/kg Soil)$"</span>),</span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">y=</span><span class="fu">TeX</span>(<span class="st">"$k(1/s)$"</span>))</span>
-<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>p8</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>p7 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(D,<span class="fu">aes</span>(<span class="at">y=</span>PS, <span class="at">x=</span>soil_0_20_P_CO2, <span class="at">col=</span>Site, <span class="at">size =</span> Treatment)) <span class="sc">+</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">7</span>) <span class="sc">+</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span> <span class="fu">scale_y_log10</span>() <span class="sc">+</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="fu">TeX</span>(<span class="st">"$P_{CO_2}(mg/kg Soil)$"</span>),</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">y=</span><span class="fu">TeX</span>(<span class="st">"$PS(mg/kg Soil)$"</span>)); p7</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -392,13 +396,12 @@ Attaching package: 'dplyr'</code></pre>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>p9 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(nlme.coef,<span class="fu">aes</span>(<span class="at">y=</span>k<span class="sc">*</span>PS, <span class="at">x=</span>soil_0_20_P_CO2, <span class="at">col=</span>Site, <span class="at">size =</span> Treatment)) <span class="sc">+</span></span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">7</span>) <span class="sc">+</span></span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="fu">TeX</span>(<span class="st">"$P_{CO_2}(mg/kg Soil)$"</span>),</span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">y=</span><span class="fu">TeX</span>(<span class="st">"$v=k*PS(mg/s*kg Soil)$"</span>))</span>
-<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>p9</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>p8 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(D,<span class="fu">aes</span>(<span class="at">y=</span>k, <span class="at">x=</span>soil_0_20_P_CO2, <span class="at">col=</span>Site, <span class="at">size =</span> Treatment)) <span class="sc">+</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">7</span>) <span class="sc">+</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="fu">TeX</span>(<span class="st">"$P_{CO_2}(mg/kg Soil)$"</span>),</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">y=</span><span class="fu">TeX</span>(<span class="st">"$k(1/s)$"</span>)); p8</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -406,13 +409,12 @@ Attaching package: 'dplyr'</code></pre>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>p10 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(nlme.coef,<span class="fu">aes</span>(<span class="at">y=</span><span class="fu">sqrt</span>(k<span class="sc">*</span>PS), <span class="at">x=</span>soil_0_20_P_CO2, <span class="at">col=</span>Site, <span class="at">size =</span> Treatment)) <span class="sc">+</span></span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">7</span>) <span class="sc">+</span></span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="fu">TeX</span>(<span class="st">"$P_{CO_2}(mg/kg Soil)$"</span>),</span>
-<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">y=</span><span class="fu">TeX</span>(<span class="st">"$</span><span class="sc">\\</span><span class="st">sqrt{v}=(k*PS)^{0.5}(mg/s*kg Soil)$"</span>))</span>
-<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>p10</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>p9 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(D,<span class="fu">aes</span>(<span class="at">y=</span>k<span class="sc">*</span>PS, <span class="at">x=</span>soil_0_20_P_CO2, <span class="at">col=</span>Site, <span class="at">size =</span> Treatment)) <span class="sc">+</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">7</span>) <span class="sc">+</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span> <span class="fu">scale_y_log10</span>() <span class="sc">+</span></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="fu">TeX</span>(<span class="st">"$P_{CO_2}(mg/kg Soil)$"</span>),</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">y=</span><span class="fu">TeX</span>(<span class="st">"$v=k*PS(mg/s*kg Soil)$"</span>));p9</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -420,14 +422,12 @@ Attaching package: 'dplyr'</code></pre>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>p11 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(nlme.coef,<span class="fu">aes</span>(<span class="at">y=</span>PS, <span class="at">x=</span>soil_0_20_P_AAE10, <span class="at">col=</span>Site, <span class="at">size =</span> Treatment)) <span class="sc">+</span></span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">7</span>) <span class="sc">+</span></span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="fu">TeX</span>(<span class="st">"$P_{AAEDTA}(mg/kg Soil)$"</span>),</span>
-<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">y=</span><span class="fu">TeX</span>(<span class="st">"$PS(mg/kg Soil)$"</span>))</span>
-<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>p11</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>p11 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(D,<span class="fu">aes</span>(<span class="at">y=</span>PS, <span class="at">x=</span>soil_0_20_P_AAE10, <span class="at">col=</span>Site, <span class="at">size =</span> Treatment)) <span class="sc">+</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span> <span class="fu">scale_y_log10</span>() <span class="sc">+</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">7</span>) <span class="sc">+</span></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="fu">TeX</span>(<span class="st">"$P_{AAEDTA}(mg/kg Soil)$"</span>),</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">y=</span><span class="fu">TeX</span>(<span class="st">"$PS(mg/kg Soil)$"</span>)); p11</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -435,13 +435,14 @@ Attaching package: 'dplyr'</code></pre>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>p12 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(nlme.coef,<span class="fu">aes</span>(<span class="at">y=</span>k, <span class="at">x=</span>soil_0_20_P_AAE10, <span class="at">col=</span>Site, <span class="at">size =</span> Treatment)) <span class="sc">+</span></span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">7</span>) <span class="sc">+</span></span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="fu">TeX</span>(<span class="st">"$P_{AAEDTA}(mg/kg Soil)$"</span>),</span>
-<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">y=</span><span class="fu">TeX</span>(<span class="st">"$k(1/s)$"</span>))</span>
-<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>p12</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>p12 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(D,<span class="fu">aes</span>(<span class="at">y=</span>k, <span class="at">x=</span>soil_0_20_P_AAE10, <span class="at">col=</span>Site, <span class="at">size =</span> Treatment)) <span class="sc">+</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">7</span>) <span class="sc">+</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>   <span class="fu">scale_x_log10</span>() <span class="sc">+</span> <span class="fu">scale_y_log10</span>() <span class="sc">+</span></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="fu">TeX</span>(<span class="st">"$P_{AAEDTA}(mg/kg Soil)$"</span>),</span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">y=</span><span class="fu">TeX</span>(<span class="st">"$k(1/s)$"</span>))</span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>p12</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -449,13 +450,13 @@ Attaching package: 'dplyr'</code></pre>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>p13 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(nlme.coef,<span class="fu">aes</span>(<span class="at">y=</span>k<span class="sc">*</span>PS, <span class="at">x=</span>soil_0_20_P_AAE10, <span class="at">col=</span>Site, <span class="at">size =</span> Treatment)) <span class="sc">+</span></span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">7</span>) <span class="sc">+</span></span>
-<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="fu">TeX</span>(<span class="st">"$P_{AAEDTA}(mg/kg Soil)$"</span>),</span>
-<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">y=</span><span class="fu">TeX</span>(<span class="st">"$v=k*PS(mg/s*kg Soil)$"</span>))</span>
-<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>p13</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>p13 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(D,<span class="fu">aes</span>(<span class="at">y=</span>k<span class="sc">*</span>PS, <span class="at">x=</span>soil_0_20_P_AAE10, <span class="at">col=</span>Site, <span class="at">size =</span> Treatment)) <span class="sc">+</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">7</span>) <span class="sc">+</span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="fu">TeX</span>(<span class="st">"$P_{AAEDTA}(mg/kg Soil)$"</span>),</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">y=</span><span class="fu">TeX</span>(<span class="st">"$v=k*PS(mg/s*kg Soil)$"</span>))</span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>p13</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -463,14 +464,14 @@ Attaching package: 'dplyr'</code></pre>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>p14 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(nlme.coef,<span class="fu">aes</span>(<span class="at">y=</span><span class="fu">sqrt</span>(k<span class="sc">*</span>PS), <span class="at">x=</span>soil_0_20_P_AAE10, <span class="at">col=</span>Site, <span class="at">size =</span> Treatment)) <span class="sc">+</span></span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">7</span>) <span class="sc">+</span></span>
-<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="fu">TeX</span>(<span class="st">"$P_{AAEDTA}(mg/kg Soil)$"</span>),</span>
-<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">y=</span><span class="fu">TeX</span>(<span class="st">"$</span><span class="sc">\\</span><span class="st">sqrt{v}=(k*PS)^{0.5}(mg/s*kg Soil)$"</span>))</span>
-<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>p14</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>p14 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(D,<span class="fu">aes</span>(<span class="at">y=</span><span class="fu">sqrt</span>(k<span class="sc">*</span>PS), <span class="at">x=</span>soil_0_20_P_AAE10, <span class="at">col=</span>Site, <span class="at">size =</span> Treatment)) <span class="sc">+</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">7</span>) <span class="sc">+</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="fu">TeX</span>(<span class="st">"$P_{AAEDTA}(mg/kg Soil)$"</span>),</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">y=</span><span class="fu">TeX</span>(<span class="st">"$</span><span class="sc">\\</span><span class="st">sqrt{v}=(k*PS)^{0.5}(mg/s*kg Soil)$"</span>))</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>p14</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -480,240 +481,307 @@ Attaching package: 'dplyr'</code></pre>
 </div>
 </div></div>
 <p>Nun noch die Linearen Regressionen, die ausstehend sind:</p>
+<p><code>(1|year) + (1|Site)  + (1|Site:block) + (Treatment|Site)</code></p>
+<p>Random intercept per year and site, block nested in site. and Treatment nested in site (could also be modelled as a random slope to allow for correlations)</p>
 <div class="cell-container"><div class="cell-decorator"><pre>In [3]:</pre></div><div class="cell">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Wovon hängen Modelparameter ab?</span></span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>fit.PS       <span class="ot">&lt;-</span> <span class="fu">lm</span>(PS            <span class="sc">~</span> soil_0_20_clay<span class="sc">+</span> soil_0_20_pH_H2O <span class="sc">+</span> soil_0_20_Corg <span class="sc">+</span> soil_0_20_silt <span class="sc">+</span> fert_P_tot, nlme.coef)</span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>fit.k        <span class="ot">&lt;-</span> <span class="fu">lm</span>(k             <span class="sc">~</span> soil_0_20_clay<span class="sc">+</span> soil_0_20_pH_H2O <span class="sc">+</span> soil_0_20_Corg <span class="sc">+</span> soil_0_20_silt <span class="sc">+</span> fert_P_tot, nlme.coef)</span>
-<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>fit.kPS      <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">I</span>(<span class="fu">sqrt</span>(k<span class="sc">*</span>PS)) <span class="sc">~</span> soil_0_20_clay<span class="sc">+</span> soil_0_20_pH_H2O <span class="sc">+</span> soil_0_20_Corg <span class="sc">+</span> soil_0_20_silt <span class="sc">+</span> fert_P_tot, nlme.coef)</span>
-<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>fit.Yrel     <span class="ot">&lt;-</span> <span class="fu">lm</span>(Ymain_rel         <span class="sc">~</span> k <span class="sc">+</span> PS <span class="sc">+</span> <span class="fu">I</span>(<span class="fu">sqrt</span>(k<span class="sc">*</span>PS)) <span class="sc">+</span> Treatment <span class="sc">+</span> Site, nlme.coef)</span>
-<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>fit.Puptake  <span class="ot">&lt;-</span> <span class="fu">lm</span>(annual_P_uptake   <span class="sc">~</span> k <span class="sc">+</span> PS <span class="sc">+</span> <span class="fu">I</span>(<span class="fu">sqrt</span>(k<span class="sc">*</span>PS)) <span class="sc">+</span> Treatment <span class="sc">+</span> Site, nlme.coef)</span>
-<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a><span class="fu">Anova</span>(fit.PS)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Anova Table (Type II tests)
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Wovon hängen Modelparameter ab?</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lmerTest)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'lmerTest'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:lme4':
 
-Response: PS
-                  Sum Sq Df F value    Pr(&gt;F)    
-soil_0_20_clay   0.00644  1  1.2395   0.26966    
-soil_0_20_pH_H2O 0.00077  1  0.1476   0.70207    
-soil_0_20_Corg   0.00565  1  1.0880   0.30077    
-soil_0_20_silt   0.02651  1  5.1044   0.02723 *  
-fert_P_tot       0.17551  1 33.7904 2.025e-07 ***
-Residuals        0.33762 65                      
+    lmer</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:stats':
+
+    step</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>fit.PS  <span class="ot">&lt;-</span> <span class="fu">lmer</span>(<span class="fu">log</span>(PS)     <span class="sc">~</span> soil_0_20_clay<span class="sc">+</span> soil_0_20_pH_H2O <span class="sc">+</span> soil_0_20_Corg <span class="sc">+</span> soil_0_20_silt <span class="sc">+</span> Treatment <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>year) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site)  <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>block) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>Treatment), D)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>boundary (singular) fit: see help('isSingular')</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>fit.k   <span class="ot">&lt;-</span> <span class="fu">lmer</span>(k           <span class="sc">~</span> soil_0_20_clay<span class="sc">+</span> soil_0_20_pH_H2O <span class="sc">+</span> soil_0_20_Corg <span class="sc">+</span> soil_0_20_silt <span class="sc">+</span> Treatment <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>year) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site)  <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>block) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>Treatment), D)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>boundary (singular) fit: see help('isSingular')</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>fit.kPS <span class="ot">&lt;-</span> <span class="fu">lmer</span>(<span class="fu">I</span>(<span class="fu">log</span>(k<span class="sc">*</span>PS))<span class="sc">~</span> soil_0_20_clay<span class="sc">+</span> soil_0_20_pH_H2O <span class="sc">+</span> soil_0_20_Corg <span class="sc">+</span> soil_0_20_silt <span class="sc">+</span> Treatment <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>year) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site)  <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>block) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>Treatment), D)</span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>fit.CO2 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(<span class="fu">log</span>(soil_0_20_P_CO2)<span class="sc">~</span> soil_0_20_clay<span class="sc">+</span> soil_0_20_pH_H2O <span class="sc">+</span> soil_0_20_Corg <span class="sc">+</span> soil_0_20_silt <span class="sc">+</span> Treatment <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>year) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site)  <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>block) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>Treatment), D)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>boundary (singular) fit: see help('isSingular')</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>fit.AAE10 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(<span class="fu">log</span>(soil_0_20_P_AAE10)<span class="sc">~</span> soil_0_20_clay<span class="sc">+</span> soil_0_20_pH_H2O <span class="sc">+</span> soil_0_20_Corg <span class="sc">+</span> soil_0_20_silt <span class="sc">+</span> Treatment <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>year) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site)  <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>block) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>Treatment), D)</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>fit.Yrel     <span class="ot">&lt;-</span> <span class="fu">lmer</span>(Ymain_rel         <span class="sc">~</span> k <span class="sc">*</span> <span class="fu">log</span>(PS) <span class="sc">+</span> Treatment <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>year) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site)  <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>block) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>Treatment), D)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>boundary (singular) fit: see help('isSingular')</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>fit.Puptake  <span class="ot">&lt;-</span> <span class="fu">lmer</span>(annual_P_uptake   <span class="sc">~</span> k <span class="sc">*</span> <span class="fu">log</span>(PS) <span class="sc">+</span> Treatment <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>year) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site)  <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>block) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>Treatment), D)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>boundary (singular) fit: see help('isSingular')</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit.PS)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Type III Analysis of Variance Table with Satterthwaite's method
+                 Sum Sq Mean Sq NumDF  DenDF F value    Pr(&gt;F)    
+soil_0_20_clay   0.0733  0.0733     1 71.083   2.414 0.1246933    
+soil_0_20_pH_H2O 0.0281  0.0281     1 88.990   0.925 0.3387645    
+soil_0_20_Corg   0.4583  0.4583     1 64.437  15.098 0.0002435 ***
+soil_0_20_silt   0.1133  0.1133     1 72.620   3.734 0.0572161 .  
+Treatment        9.8709  4.9355     2  6.049 162.603 5.518e-06 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co">#summary(glht(fit.PS))</span></span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Fazit: PS wird von treatment stark beeinfluss, k eher nicht (dafür von site)</span></span>
-<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="fu">Anova</span>(fit.k)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="co">#summary(glht(fit.PS))</span></span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Fazit: PS wird von treatment stark beeinfluss, k eher nicht (dafür von site)</span></span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit.k)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Anova Table (Type II tests)
-
-Response: k
-                  Sum Sq Df F value   Pr(&gt;F)   
-soil_0_20_clay   0.09689  1  6.4345 0.013603 * 
-soil_0_20_pH_H2O 0.08392  1  5.5730 0.021250 * 
-soil_0_20_Corg   0.04900  1  3.2539 0.075890 . 
-soil_0_20_silt   0.11540  1  7.6638 0.007333 **
-fert_P_tot       0.00457  1  0.3037 0.583448   
-Residuals        0.97879 65                    
+<pre><code>Type III Analysis of Variance Table with Satterthwaite's method
+                    Sum Sq   Mean Sq NumDF  DenDF F value   Pr(&gt;F)   
+soil_0_20_clay   0.0072526 0.0072526     1 69.076  6.5714 0.012543 * 
+soil_0_20_pH_H2O 0.0033814 0.0033814     1 69.607  3.0638 0.084459 . 
+soil_0_20_Corg   0.0000390 0.0000390     1 78.802  0.0353 0.851392   
+soil_0_20_silt   0.0118739 0.0118739     1 57.154 10.7588 0.001771 **
+Treatment        0.0050579 0.0025290     2  5.561  2.2915 0.187992   
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">glht</span>(fit.k))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">glht</span>(fit.k))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
      Simultaneous Tests for General Linear Hypotheses
 
-Fit: lm(formula = k ~ soil_0_20_clay + soil_0_20_pH_H2O + soil_0_20_Corg + 
-    soil_0_20_silt + fert_P_tot, data = nlme.coef)
+Fit: lmer(formula = k ~ soil_0_20_clay + soil_0_20_pH_H2O + soil_0_20_Corg + 
+    soil_0_20_silt + Treatment + (1 | year) + (1 | Site) + (1 | 
+    Site:block) + (1 | Site:Treatment), data = D)
 
 Linear Hypotheses:
-                        Estimate Std. Error t value Pr(&gt;|t|)  
-(Intercept) == 0      -0.5430471  0.3294215  -1.648   0.3802  
-soil_0_20_clay == 0   -0.0145069  0.0057190  -2.537   0.0643 .
-soil_0_20_pH_H2O == 0  0.0653963  0.0277019   2.361   0.0964 .
-soil_0_20_Corg == 0    0.1581359  0.0876661   1.804   0.2953  
-soil_0_20_silt == 0    0.0171654  0.0062006   2.768   0.0360 *
-fert_P_tot == 0       -0.0004669  0.0008472  -0.551   0.9754  
+                       Estimate Std. Error z value Pr(&gt;|z|)   
+(Intercept) == 0      -0.014335   0.129229  -0.111   1.0000   
+soil_0_20_clay == 0   -0.005030   0.001962  -2.563   0.0625 . 
+soil_0_20_pH_H2O == 0  0.017903   0.010228   1.750   0.3804   
+soil_0_20_Corg == 0   -0.005348   0.028452  -0.188   1.0000   
+soil_0_20_silt == 0    0.007694   0.002346   3.280    &lt;0.01 **
+TreatmentP100 == 0     0.001212   0.015473   0.078   1.0000   
+TreatmentP166 == 0    -0.028389   0.015664  -1.812   0.3412   
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Anova</span>(fit.kPS)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit.kPS)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Anova Table (Type II tests)
-
-Response: I(sqrt(k * PS))
-                   Sum Sq Df F value   Pr(&gt;F)    
-soil_0_20_clay   0.001592  1  0.3815  0.53896    
-soil_0_20_pH_H2O 0.003686  1  0.8829  0.35087    
-soil_0_20_Corg   0.018543  1  4.4423  0.03892 *  
-soil_0_20_silt   0.001267  1  0.3035  0.58359    
-fert_P_tot       0.124767  1 29.8901 7.79e-07 ***
-Residuals        0.271323 65                     
+<pre><code>Type III Analysis of Variance Table with Satterthwaite's method
+                 Sum Sq Mean Sq NumDF  DenDF F value    Pr(&gt;F)    
+soil_0_20_clay   0.0029 0.00289     1 58.281  0.0543 0.8166206    
+soil_0_20_pH_H2O 0.0737 0.07367     1 87.002  1.3844 0.2425597    
+soil_0_20_Corg   0.0465 0.04648     1 88.391  0.8736 0.3525121    
+soil_0_20_silt   0.0181 0.01814     1 52.468  0.3409 0.5618166    
+Treatment        4.3387 2.16933     2  5.838 40.7688 0.0003714 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">glht</span>(fit.kPS))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">glht</span>(fit.kPS))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
      Simultaneous Tests for General Linear Hypotheses
 
-Fit: lm(formula = I(sqrt(k * PS)) ~ soil_0_20_clay + soil_0_20_pH_H2O + 
-    soil_0_20_Corg + soil_0_20_silt + fert_P_tot, data = nlme.coef)
+Fit: lmer(formula = I(log(k * PS)) ~ soil_0_20_clay + soil_0_20_pH_H2O + 
+    soil_0_20_Corg + soil_0_20_silt + Treatment + (1 | year) + 
+    (1 | Site) + (1 | Site:block) + (1 | Site:Treatment), data = D)
 
 Linear Hypotheses:
-                       Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept) == 0      -0.036800   0.173441  -0.212    1.000    
-soil_0_20_clay == 0   -0.001860   0.003011  -0.618    0.962    
-soil_0_20_pH_H2O == 0  0.013705   0.014585   0.940    0.836    
-soil_0_20_Corg == 0    0.097282   0.046156   2.108    0.166    
-soil_0_20_silt == 0   -0.001798   0.003265  -0.551    0.976    
-fert_P_tot == 0        0.002439   0.000446   5.467    &lt;0.01 ***
+                       Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept) == 0      -6.298182   1.057421  -5.956   &lt;0.001 ***
+soil_0_20_clay == 0   -0.003629   0.015580  -0.233    1.000    
+soil_0_20_pH_H2O == 0  0.092659   0.078751   1.177    0.792    
+soil_0_20_Corg == 0    0.194969   0.208600   0.935    0.915    
+soil_0_20_silt == 0    0.011076   0.018970   0.584    0.991    
+TreatmentP100 == 0     1.053124   0.185019   5.692   &lt;0.001 ***
+TreatmentP166 == 0     1.658013   0.185905   8.919   &lt;0.001 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Anova</span>(fit.Yrel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit.Yrel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Anova Table (Type II tests)
-
-Response: Ymain_rel
-                 Sum Sq Df F value  Pr(&gt;F)  
-k                368.55  1  5.0369 0.03072 *
-PS                74.49  1  1.0181 0.31936  
-I(sqrt(k * PS))  145.48  1  1.9882 0.16666  
-Treatment        449.01  2  3.0683 0.05817 .
-Site             241.63  3  1.1008 0.36072  
-Residuals       2780.44 38                  
+<pre><code>Type III Analysis of Variance Table with Satterthwaite's method
+          Sum Sq Mean Sq NumDF   DenDF F value Pr(&gt;F)
+k         306.01  306.01     1  86.336  1.3218 0.2534
+log(PS)    33.66   33.66     1 138.415  0.1454 0.7036
+Treatment 415.65  207.82     2   7.379  0.8977 0.4478
+k:log(PS) 510.00  510.00     1 104.864  2.2030 0.1407</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit.Puptake)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Type III Analysis of Variance Table with Satterthwaite's method
+          Sum Sq Mean Sq NumDF  DenDF F value Pr(&gt;F)
+k          0.032   0.032     1 295.86  0.0002 0.9877
+log(PS)   20.205  20.205     1 295.76  0.1520 0.6969
+Treatment 77.719  38.859     2 258.80  0.2924 0.7467
+k:log(PS)  0.653   0.653     1 295.07  0.0049 0.9442</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit.CO2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Type III Analysis of Variance Table with Satterthwaite's method
+                 Sum Sq Mean Sq NumDF  DenDF F value    Pr(&gt;F)    
+soil_0_20_clay   0.0118 0.01181     1 48.798  0.1428 0.7071250    
+soil_0_20_pH_H2O 0.0686 0.06858     1 65.341  0.8297 0.3657041    
+soil_0_20_Corg   0.2993 0.29934     1 37.017  3.6216 0.0648334 .  
+soil_0_20_silt   0.0665 0.06645     1 22.514  0.8040 0.3793909    
+Treatment        4.8977 2.44886     2  5.827 29.6281 0.0008839 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Anova</span>(fit.Puptake)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit.AAE10)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Anova Table (Type II tests)
-
-Response: annual_P_uptake
-                 Sum Sq Df F value    Pr(&gt;F)    
-k                 37.11  1  1.6509    0.2036    
-PS                 2.46  1  0.1092    0.7421    
-I(sqrt(k * PS))   21.16  1  0.9414    0.3357    
-Treatment         41.55  2  0.9243    0.4022    
-Site            1078.53  3 15.9952 8.213e-08 ***
-Residuals       1393.53 62                      
+<pre><code>Type III Analysis of Variance Table with Satterthwaite's method
+                 Sum Sq Mean Sq NumDF  DenDF F value    Pr(&gt;F)    
+soil_0_20_clay   0.0491  0.0491     1 58.650  1.1361 0.2908517    
+soil_0_20_pH_H2O 0.2473  0.2473     1 75.287  5.7214 0.0192552 *  
+soil_0_20_Corg   0.2830  0.2830     1 45.764  6.5490 0.0138669 *  
+soil_0_20_silt   0.0572  0.0572     1 87.560  1.3231 0.2531704    
+Treatment        7.5352  3.7676     2  4.841 87.1720 0.0001598 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Verhalten der Modelparameter und Ertragsdaten auf P-CO2 und P-AAE10</span></span>
-<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>fit.PS       <span class="ot">&lt;-</span> <span class="fu">lm</span>(PS            <span class="sc">~</span> soil_0_20_P_CO2 <span class="sc">+</span> soil_0_20_P_AAE10 <span class="sc">+</span> fert_P_tot, nlme.coef)</span>
-<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>fit.k        <span class="ot">&lt;-</span> <span class="fu">lm</span>(k             <span class="sc">~</span> soil_0_20_P_CO2 <span class="sc">+</span> soil_0_20_P_AAE10 <span class="sc">+</span> fert_P_tot, nlme.coef)</span>
-<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a>fit.kPS      <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">I</span>(<span class="fu">sqrt</span>(k<span class="sc">*</span>PS)) <span class="sc">~</span> soil_0_20_P_CO2 <span class="sc">+</span> soil_0_20_P_AAE10 <span class="sc">+</span> fert_P_tot, nlme.coef)</span>
-<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a>fit.Yrel     <span class="ot">&lt;-</span> <span class="fu">lm</span>(Ymain_rel         <span class="sc">~</span> soil_0_20_P_CO2 <span class="sc">+</span> soil_0_20_P_AAE10 <span class="sc">+</span> fert_P_tot, nlme.coef)</span>
-<span id="cb54-7"><a href="#cb54-7" aria-hidden="true" tabindex="-1"></a>fit.Puptake  <span class="ot">&lt;-</span> <span class="fu">lm</span>(annual_P_uptake   <span class="sc">~</span> soil_0_20_P_CO2 <span class="sc">+</span> soil_0_20_P_AAE10 <span class="sc">+</span> fert_P_tot, nlme.coef)</span>
-<span id="cb54-8"><a href="#cb54-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-9"><a href="#cb54-9" aria-hidden="true" tabindex="-1"></a><span class="fu">Anova</span>(fit.PS)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Anova Table (Type II tests)
-
-Response: PS
-                    Sum Sq Df F value   Pr(&gt;F)    
-soil_0_20_P_CO2   0.001974  1  0.5735 0.451518    
-soil_0_20_P_AAE10 0.017149  1  4.9833 0.028940 *  
-fert_P_tot        0.050558  1 14.6913 0.000282 ***
-Residuals         0.230570 67                     
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Verhalten der Modelparameter und Ertragsdaten auf P-CO2 und P-AAE10</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div>
+<p>Since we now model two measurement methods, we do not expect correlations by Site/year/etc</p>
+<div class="cell-container"><div class="cell-decorator"><pre>In [4]:</pre></div><div class="cell">
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="co"># fit.PS       &lt;- lm(PS            ~ soil_0_20_P_CO2 + soil_0_20_P_AAE10, D)</span></span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a>fit.PS       <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">log</span>(PS)         <span class="sc">~</span> <span class="fu">log</span>(soil_0_20_P_CO2) <span class="sc">+</span> <span class="fu">log</span>(soil_0_20_P_AAE10), D)</span>
+<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a>fit.k        <span class="ot">&lt;-</span> <span class="fu">lm</span>(k               <span class="sc">~</span> <span class="fu">log</span>(soil_0_20_P_CO2) <span class="sc">+</span> <span class="fu">log</span>(soil_0_20_P_AAE10), D)</span>
+<span id="cb75-4"><a href="#cb75-4" aria-hidden="true" tabindex="-1"></a>fit.kPS      <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">I</span>(<span class="fu">log</span>(k<span class="sc">*</span>PS))    <span class="sc">~</span> <span class="fu">log</span>(soil_0_20_P_CO2) <span class="sc">+</span> <span class="fu">log</span>(soil_0_20_P_AAE10), D)</span>
+<span id="cb75-5"><a href="#cb75-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb75-6"><a href="#cb75-6" aria-hidden="true" tabindex="-1"></a>fit.Yrel     <span class="ot">&lt;-</span> <span class="fu">lmer</span>(Ymain_rel       <span class="sc">~</span> <span class="fu">log</span>(soil_0_20_P_CO2) <span class="sc">+</span> <span class="fu">log</span>(soil_0_20_P_AAE10) <span class="sc">+</span> Treatment <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>year) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site)  <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>block) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>Treatment), D)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>boundary (singular) fit: see help('isSingular')</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co">#summary(glht(fit.PS))</span></span>
-<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Fazit: PS wird von treatment stark beeinfluss, k eher nicht (dafür von site)</span></span>
-<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a><span class="fu">Anova</span>(fit.k)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="co"># this is hopeless, since cannot log becaus of 0's</span></span>
+<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a>fit.Puptake  <span class="ot">&lt;-</span> <span class="fu">lm</span>(annual_P_uptake <span class="sc">~</span> soil_0_20_P_CO2 <span class="sc">+</span> soil_0_20_P_AAE10 <span class="sc">+</span> Treatment, D)</span>
+<span id="cb77-3"><a href="#cb77-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb77-4"><a href="#cb77-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(D<span class="sc">$</span>annual_P_uptake)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Anova Table (Type II tests)
-
-Response: k
-                   Sum Sq Df F value Pr(&gt;F)
-soil_0_20_P_CO2   0.01069  1  0.5183 0.4741
-soil_0_20_P_AAE10 0.00924  1  0.4476 0.5058
-fert_P_tot        0.00017  1  0.0084 0.9275
-Residuals         1.38237 67               </code></pre>
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+   0.00    0.00   18.50   17.75   26.37   85.57 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">glht</span>(fit.k))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(D<span class="sc">$</span>Ymain_rel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="coefficient_analysis_files/figure-html/unnamed-chunk-3-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10"><img src="coefficient_analysis_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></a></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(D<span class="sc">$</span>annual_P_uptake)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="coefficient_analysis_files/figure-html/unnamed-chunk-3-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-11"><img src="coefficient_analysis_files/figure-html/unnamed-chunk-3-2.png" class="img-fluid figure-img" width="672"></a></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="co">#summary(glht(fit.PS))</span></span>
+<span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Fazit: PS wird von treatment stark beeinfluss, k eher nicht (dafür von site)</span></span>
+<span id="cb81-3"><a href="#cb81-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">glht</span>(fit.PS))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
      Simultaneous Tests for General Linear Hypotheses
 
-Fit: lm(formula = k ~ soil_0_20_P_CO2 + soil_0_20_P_AAE10 + fert_P_tot, 
-    data = nlme.coef)
+Fit: lm(formula = log(PS) ~ log(soil_0_20_P_CO2) + log(soil_0_20_P_AAE10), 
+    data = D)
 
 Linear Hypotheses:
-                         Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept) == 0        3.893e-01  3.699e-02  10.525   &lt;1e-04 ***
-soil_0_20_P_CO2 == 0   -4.957e-02  6.885e-02  -0.720    0.854    
-soil_0_20_P_AAE10 == 0  1.198e-03  1.791e-03   0.669    0.880    
-fert_P_tot == 0         9.096e-05  9.954e-04   0.091    1.000    
+                            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) == 0            -1.30117    0.31658  -4.110   &lt;0.001 ***
+log(soil_0_20_P_CO2) == 0    1.12550    0.08043  13.993   &lt;0.001 ***
+log(soil_0_20_P_AAE10) == 0 -0.11616    0.08195  -1.417    0.225    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Anova</span>(fit.kPS)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Anova Table (Type II tests)
-
-Response: I(sqrt(k * PS))
-                    Sum Sq Df F value    Pr(&gt;F)    
-soil_0_20_P_CO2   0.000099  1  0.0382 0.8456730    
-soil_0_20_P_AAE10 0.018657  1  7.1665 0.0093309 ** 
-fert_P_tot        0.043962  1 16.8868 0.0001104 ***
-Residuals         0.174422 67                      
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">glht</span>(fit.kPS))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">glht</span>(fit.k))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
      Simultaneous Tests for General Linear Hypotheses
 
-Fit: lm(formula = I(sqrt(k * PS)) ~ soil_0_20_P_CO2 + soil_0_20_P_AAE10 + 
-    fert_P_tot, data = nlme.coef)
+Fit: lm(formula = k ~ log(soil_0_20_P_CO2) + log(soil_0_20_P_AAE10), 
+    data = D)
 
 Linear Hypotheses:
-                        Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept) == 0       0.1046761  0.0131398   7.966   &lt;0.001 ***
-soil_0_20_P_CO2 == 0   0.0047786  0.0244555   0.195   0.9974    
-soil_0_20_P_AAE10 == 0 0.0017027  0.0006360   2.677   0.0297 *  
-fert_P_tot == 0        0.0014530  0.0003536   4.109   &lt;0.001 ***
+                             Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) == 0             0.062140   0.035072   1.772    0.116    
+log(soil_0_20_P_CO2) == 0   -0.038454   0.008911  -4.315   &lt;0.001 ***
+log(soil_0_20_P_AAE10) == 0  0.032612   0.009079   3.592   &lt;0.001 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Anova</span>(fit.Yrel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">glht</span>(fit.kPS))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Anova Table (Type II tests)
+<pre><code>
+     Simultaneous Tests for General Linear Hypotheses
 
-Response: Ymain_rel
-                  Sum Sq Df F value   Pr(&gt;F)   
-soil_0_20_P_CO2    112.9  1  1.0332 0.315103   
-soil_0_20_P_AAE10  158.9  1  1.4531 0.234616   
-fert_P_tot         891.2  1  8.1522 0.006595 **
-Residuals         4700.9 43                    
+Fit: lm(formula = I(log(k * PS)) ~ log(soil_0_20_P_CO2) + log(soil_0_20_P_AAE10), 
+    data = D)
+
+Linear Hypotheses:
+                            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) == 0            -3.59605    0.31916 -11.267   &lt;1e-04 ***
+log(soil_0_20_P_CO2) == 0    0.93746    0.08109  11.561   &lt;1e-04 ***
+log(soil_0_20_P_AAE10) == 0  0.03412    0.08262   0.413    0.836    
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+(Adjusted p values reported -- single-step method)</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Anova</span>(fit.Puptake)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit.Yrel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Anova Table (Type II tests)
+<pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: 
+Ymain_rel ~ log(soil_0_20_P_CO2) + log(soil_0_20_P_AAE10) + Treatment +  
+    (1 | year) + (1 | Site) + (1 | Site:block) + (1 | Site:Treatment)
+   Data: D
 
-Response: annual_P_uptake
-                   Sum Sq Df  F value Pr(&gt;F)    
-soil_0_20_P_CO2     14.46  1   0.9794 0.3259    
-soil_0_20_P_AAE10   99.91  1   6.7694 0.0114 *  
-fert_P_tot        1760.32  1 119.2684 &lt;2e-16 ***
-Residuals          988.87 67                    
+REML criterion at convergence: 1356.3
+
+Scaled residuals: 
+     Min       1Q   Median       3Q      Max 
+-2.89707 -0.51631 -0.01278  0.59920  2.76693 
+
+Random effects:
+ Groups         Name        Variance  Std.Dev. 
+ Site:block     (Intercept) 1.088e-06  0.001043
+ Site:Treatment (Intercept) 7.770e+00  2.787480
+ Site           (Intercept) 3.888e+01  6.235037
+ year           (Intercept) 2.299e+02 15.163045
+ Residual                   2.235e+02 14.950651
+Number of obs: 165, groups:  
+Site:block, 16; Site:Treatment, 12; Site, 4; year, 4
+
+Fixed effects:
+                       Estimate Std. Error     df t value Pr(&gt;|t|)    
+(Intercept)              78.918     20.173 58.997   3.912 0.000239 ***
+log(soil_0_20_P_CO2)      5.289      4.490 94.580   1.178 0.241796    
+log(soil_0_20_P_AAE10)    7.890      5.264 84.905   1.499 0.137617    
+TreatmentP100             1.778      4.646 13.336   0.383 0.707936    
+TreatmentP166            -2.900      6.211 29.808  -0.467 0.643972    
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) l(_0_20_P_C l(_0_20_P_A TrP100
+l(_0_20_P_C  0.710                               
+l(_0_20_P_A -0.876 -0.603                        
+TretmntP100  0.182 -0.166      -0.416            
+TretmntP166  0.163 -0.309      -0.425       0.755
+optimizer (nloptwrap) convergence code: 0 (OK)
+boundary (singular) fit: see help('isSingular')</code></pre>
 </div>
 </div></div>
 

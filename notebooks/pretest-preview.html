@@ -380,23 +380,30 @@ Attaching package: 'dplyr'</code></pre>
     intersect, setdiff, setequal, union</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">warn =</span> <span class="sc">-</span><span class="dv">1</span>)</span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Dataset preparation</span></span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file =</span> <span class="st">"~/Documents/Master Thesis/Master-Thesis-P-kinetics/data/release-Data.csv"</span>, <span class="at">na.strings =</span> <span class="fu">c</span>(<span class="st">""</span>, <span class="st">"n.a."</span>))</span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Treatment <span class="ot">&lt;-</span> d<span class="sc">$</span>Treatment <span class="sc">|&gt;</span> <span class="fu">factor</span>()</span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Pv.mg.L. <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(d<span class="sc">$</span>Pv.mg.L.)</span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Pv_labile.mg.L. <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(d<span class="sc">$</span>Pv_labile.mg.L.)</span>
-<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Pv_Olsen.mg.L. <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(d<span class="sc">$</span>Pv_Olsen.mg.L.)</span>
-<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>uid <span class="ot">&lt;-</span> <span class="fu">paste</span>(d<span class="sc">$</span>Site, d<span class="sc">$</span>Treatment, <span class="fu">as.character</span>(d<span class="sc">$</span>Repetition), <span class="at">sep=</span><span class="st">"_"</span>)</span>
-<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Repetition <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(d<span class="sc">$</span>Repetition)</span>
-<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>flos <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(d<span class="sc">$</span>Pv_Olsen.mg.L.)<span class="sc">-</span><span class="fu">as.numeric</span>(d<span class="sc">$</span>Pv_labile.mg.L.)</span>
-<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>flos[d<span class="sc">$</span>flos <span class="sc">&lt;=</span> <span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="fu">quantile</span>(d<span class="sc">$</span>flos[d<span class="sc">$</span>flos <span class="sc">&gt;</span> <span class="dv">0</span>], <span class="fl">0.025</span>, <span class="at">na.rm=</span><span class="cn">TRUE</span>)<span class="sc">/</span><span class="dv">2</span></span>
-<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Y1 <span class="ot">&lt;-</span> <span class="fu">log</span>(<span class="dv">1</span> <span class="sc">-</span> d<span class="sc">$</span>Pv.mg.L. <span class="sc">/</span> d<span class="sc">$</span>flos) <span class="co"># one timeseries removed, since flos too low</span></span>
-<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Y1[<span class="fu">is.nan</span>(d<span class="sc">$</span>Y1)] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
-<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(d)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">try</span>(<span class="fu">setwd</span>(<span class="st">"~/Documents/Master Thesis/Master-Thesis-P-kinetics/"</span>), <span class="at">silent=</span><span class="cn">TRUE</span>)</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">warn =</span> <span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Dataset preparation</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">tryCatch</span>(<span class="fu">read.csv</span>(<span class="at">file =</span> <span class="st">"./data/release-Data.csv"</span>, <span class="at">na.strings =</span> <span class="fu">c</span>(<span class="st">""</span>, <span class="st">"n.a."</span>)))</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">inherits</span>(d, <span class="st">"try-error"</span>)){</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>  d <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file =</span> <span class="st">"~/Documents/Master Thesis/Master-Thesis-P-kinetics/data/release-Data.csv"</span>, <span class="at">na.strings =</span> <span class="fu">c</span>(<span class="st">""</span>, <span class="st">"n.a."</span>))</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Treatment <span class="ot">&lt;-</span> d<span class="sc">$</span>Treatment <span class="sc">|&gt;</span> <span class="fu">factor</span>()</span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Pv.mg.L. <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(d<span class="sc">$</span>Pv.mg.L.)</span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Pv_labile.mg.L. <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(d<span class="sc">$</span>Pv_labile.mg.L.)</span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Pv_Olsen.mg.L. <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(d<span class="sc">$</span>Pv_Olsen.mg.L.)</span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>uid <span class="ot">&lt;-</span> <span class="fu">paste</span>(d<span class="sc">$</span>Site, d<span class="sc">$</span>Treatment, <span class="fu">as.character</span>(d<span class="sc">$</span>Repetition), <span class="at">sep=</span><span class="st">"_"</span>)</span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Repetition <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(d<span class="sc">$</span>Repetition)</span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>flos <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(d<span class="sc">$</span>Pv_Olsen.mg.L.)<span class="sc">-</span><span class="fu">as.numeric</span>(d<span class="sc">$</span>Pv_labile.mg.L.)</span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>flos[d<span class="sc">$</span>flos <span class="sc">&lt;=</span> <span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="fu">quantile</span>(d<span class="sc">$</span>flos[d<span class="sc">$</span>flos <span class="sc">&gt;</span> <span class="dv">0</span>], <span class="fl">0.025</span>, <span class="at">na.rm=</span><span class="cn">TRUE</span>)<span class="sc">/</span><span class="dv">2</span></span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Y1 <span class="ot">&lt;-</span> <span class="fu">log</span>(<span class="dv">1</span> <span class="sc">-</span> d<span class="sc">$</span>Pv.mg.L. <span class="sc">/</span> d<span class="sc">$</span>flos) <span class="co"># one timeseries removed, since flos too low</span></span>
+<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Y1[<span class="fu">is.nan</span>(d<span class="sc">$</span>Y1)] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>t.dt <span class="ot">&lt;-</span> d<span class="sc">$</span>t.min. <span class="sc">+</span> <span class="dv">3</span></span>
+<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-23"><a href="#cb30-23" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(d)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>'data.frame':   394 obs. of  20 variables:
+<pre><code>'data.frame':   394 obs. of  21 variables:
  $ Site              : chr  "Cadenazzo" "Cadenazzo" "Cadenazzo" "Cadenazzo" ...
  $ Treatment         : Factor w/ 3 levels "P0","P100","P166": 1 1 1 1 1 1 1 1 1 1 ...
  $ Repetition        : Factor w/ 4 levels "1","2","3","4": 2 2 2 2 2 2 1 1 1 1 ...
@@ -416,7 +423,8 @@ Attaching package: 'dplyr'</code></pre>
  $ V_H2O.L.          : num  0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 ...
  $ uid               : chr  "Cadenazzo_P0_2" "Cadenazzo_P0_2" "Cadenazzo_P0_2" "Cadenazzo_P0_2" ...
  $ flos              : num  0.3 0.3 0.3 0.3 0.3 0.3 0.36 0.36 0.36 0.36 ...
- $ Y1                : num  -0.105 -0.143 -0.143 -0.182 -0.182 ...</code></pre>
+ $ Y1                : num  -0.105 -0.143 -0.143 -0.182 -0.182 ...
+ $ t.dt              : num  8 13 23 33 48 63 8 13 23 33 ...</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; data.frame:  353 obs. of  21 variables:</span></span>
@@ -596,9 +604,10 @@ Residual standard error: 0.02119011 on 68 degrees of freedom</code></pre>
 </div>
 </div></div>
 <p>If the parameter for the plateau could be estimated directly by using a non-linear non-least-squares model, we could omit the Olsen-measurement in the future.</p>
+<p>LG: our nls is very sensitive to moderatly high Pv.mg.L at small time points. Since the … disolves already before we start measureing, we will add 3 min to our time-measurement.</p>
 <div class="cell-container"><div class="cell-decorator"><pre>In [3]:</pre></div><div class="cell">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>Res <span class="ot">&lt;-</span> <span class="fu">nlsList</span>(Pv.mg.L. <span class="sc">~</span> PS <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">exp</span>(<span class="sc">-</span>k <span class="sc">*</span> t.min.)) <span class="sc">|</span> uid, d[, <span class="fu">c</span>(<span class="st">"Pv.mg.L."</span>, <span class="st">"uid"</span>, <span class="st">"t.min."</span>)],  <span class="at">start=</span><span class="fu">list</span>(<span class="at">PS=</span><span class="fl">0.1</span>,<span class="at">k=</span><span class="fl">0.2</span>))</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>Res <span class="ot">&lt;-</span> <span class="fu">nlsList</span>(Pv.mg.L. <span class="sc">~</span> PS <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">exp</span>(<span class="sc">-</span>k <span class="sc">*</span> (t.dt))) <span class="sc">|</span> uid, d[, <span class="fu">c</span>(<span class="st">"Pv.mg.L."</span>, <span class="st">"uid"</span>, <span class="st">"t.dt"</span>)],  <span class="at">start=</span><span class="fu">list</span>(<span class="at">PS=</span><span class="fl">0.1</span>,<span class="at">k=</span><span class="fl">0.2</span>))</span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(Res)</span></span>
 <span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="co"># d$nls_pred &lt;- predict(Res)</span></span>
 <span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a></span>
@@ -610,19 +619,19 @@ Residual standard error: 0.02119011 on 68 degrees of freedom</code></pre>
 <span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a>d_plot <span class="ot">&lt;-</span> <span class="fu">merge</span>(d, nls_coefs, <span class="at">by =</span> <span class="st">"uid"</span>)</span>
 <span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Most straightforward approach - create curves manually</span></span>
-<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a>time_seq <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fu">min</span>(d<span class="sc">$</span>t.min., <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="fu">max</span>(d<span class="sc">$</span>t.min., <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">length.out =</span> <span class="dv">100</span>)</span>
+<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a>time_seq <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fu">min</span>(d<span class="sc">$</span>t.dt, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="fu">max</span>(d<span class="sc">$</span>t.dt, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">length.out =</span> <span class="dv">100</span>)</span>
 <span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Create prediction data</span></span>
 <span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a>pred_data <span class="ot">&lt;-</span> d_plot <span class="sc">%&gt;%</span></span>
 <span id="cb37-18"><a href="#cb37-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(uid, Site, Treatment, Repetition, PS, k) <span class="sc">%&gt;%</span></span>
 <span id="cb37-19"><a href="#cb37-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb37-20"><a href="#cb37-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">crossing</span>(<span class="at">t.min. =</span> time_seq) <span class="sc">%&gt;%</span></span>
-<span id="cb37-21"><a href="#cb37-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pred_Pv =</span> PS <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">exp</span>(<span class="sc">-</span>k <span class="sc">*</span> t.min.)))</span>
+<span id="cb37-20"><a href="#cb37-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">crossing</span>(<span class="at">t.dt =</span> time_seq) <span class="sc">%&gt;%</span></span>
+<span id="cb37-21"><a href="#cb37-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pred_Pv =</span> PS <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">exp</span>(<span class="sc">-</span>k <span class="sc">*</span> (t.dt))))</span>
 <span id="cb37-22"><a href="#cb37-22" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb37-23"><a href="#cb37-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Final plot</span></span>
 <span id="cb37-24"><a href="#cb37-24" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb37-25"><a href="#cb37-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> d_plot, <span class="fu">aes</span>(<span class="at">y =</span> Pv.mg.L., <span class="at">x =</span> t.min., <span class="at">col =</span> Repetition)) <span class="sc">+</span></span>
-<span id="cb37-26"><a href="#cb37-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> pred_data, <span class="fu">aes</span>(<span class="at">x =</span> t.min., <span class="at">y =</span> pred_Pv, <span class="at">col =</span> Repetition), <span class="at">size =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb37-25"><a href="#cb37-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> d_plot, <span class="fu">aes</span>(<span class="at">y =</span> Pv.mg.L., <span class="at">x =</span> t.dt, <span class="at">col =</span> Repetition)) <span class="sc">+</span></span>
+<span id="cb37-26"><a href="#cb37-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> pred_data, <span class="fu">aes</span>(<span class="at">x =</span> t.dt, <span class="at">y =</span> pred_Pv, <span class="at">col =</span> Repetition), <span class="at">size =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
 <span id="cb37-27"><a href="#cb37-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(Treatment <span class="sc">~</span> Site) <span class="sc">+</span></span>
 <span id="cb37-28"><a href="#cb37-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">TeX</span>(<span class="st">"$Time (min)$"</span>),</span>
 <span id="cb37-29"><a href="#cb37-29" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="fu">TeX</span>(<span class="st">"$P_{V}(</span><span class="sc">\\</span><span class="st">frac{mg}{L})$"</span>)); <span class="fu">suppressWarnings</span>(<span class="fu">print</span>(p1))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -641,29 +650,30 @@ Residual standard error: 0.02119011 on 68 degrees of freedom</code></pre>
 <span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (lvl <span class="cf">in</span> <span class="fu">levels</span>(d<span class="sc">$</span>ui)){</span>
 <span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>  d.tmp <span class="ot">&lt;-</span> <span class="fu">subset</span>(d, ui <span class="sc">==</span> lvl)</span>
 <span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># first get nlsList coefs for comparison only (unused)</span></span>
-<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>  temp_nls <span class="ot">&lt;-</span> <span class="fu">coef</span>(<span class="fu">nlsList</span>(Pv.mg.L. <span class="sc">~</span> PS <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">exp</span>(<span class="sc">-</span>k <span class="sc">*</span> t.min.)) <span class="sc">|</span> uid, </span>
-<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>                    d.tmp[, <span class="fu">c</span>(<span class="st">"Pv.mg.L."</span>, <span class="st">"uid"</span>, <span class="st">"t.min."</span>)], </span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>  temp_nls <span class="ot">&lt;-</span> <span class="fu">coef</span>(<span class="fu">nlsList</span>(Pv.mg.L. <span class="sc">~</span> PS <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">exp</span>(<span class="sc">-</span>k <span class="sc">*</span> t.dt)) <span class="sc">|</span> uid, </span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>                    d[, <span class="fu">c</span>(<span class="st">"Pv.mg.L."</span>, <span class="st">"uid"</span>, <span class="st">"t.dt"</span>)], </span>
 <span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>                    <span class="at">start =</span> <span class="fu">list</span>(<span class="at">PS =</span> <span class="fl">0.1</span>, <span class="at">k =</span> <span class="fl">0.2</span>)))</span>
 <span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>  nlsList_coefs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">apply</span>(temp_nls, <span class="dv">2</span>, \(x) <span class="fu">c</span>(<span class="at">mean=</span><span class="fu">mean</span>(x), <span class="at">sd=</span><span class="fu">sd</span>(x))))</span>
 <span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>(nlsList_coefs) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"PS.mean"</span>, <span class="st">"PS.sd"</span>, <span class="st">"k.mean"</span>, <span class="st">"k.sd"</span>)</span>
 <span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb38-15"><a href="#cb38-15" aria-hidden="true" tabindex="-1"></a>  <span class="co"># now do the real thing</span></span>
-<span id="cb38-16"><a href="#cb38-16" aria-hidden="true" tabindex="-1"></a>  model4 <span class="ot">&lt;-</span> <span class="fu">nlme</span>(Pv.mg.L. <span class="sc">~</span> PS <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">exp</span>(<span class="sc">-</span>k <span class="sc">*</span> t.min.)),</span>
+<span id="cb38-16"><a href="#cb38-16" aria-hidden="true" tabindex="-1"></a>  model4 <span class="ot">&lt;-</span> <span class="fu">nlme</span>(Pv.mg.L. <span class="sc">~</span> PS <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">exp</span>(<span class="sc">-</span>k <span class="sc">*</span> t.dt)),</span>
 <span id="cb38-17"><a href="#cb38-17" aria-hidden="true" tabindex="-1"></a>                <span class="at">fixed =</span> PS <span class="sc">+</span> k <span class="sc">~</span> <span class="dv">1</span>,</span>
 <span id="cb38-18"><a href="#cb38-18" aria-hidden="true" tabindex="-1"></a>                <span class="at">random =</span> PS <span class="sc">+</span> k <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> uid,</span>
-<span id="cb38-19"><a href="#cb38-19" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> d.tmp[, <span class="fu">c</span>(<span class="st">"Pv.mg.L."</span>, <span class="st">"uid"</span>, <span class="st">"t.min."</span>)],</span>
-<span id="cb38-20"><a href="#cb38-20" aria-hidden="true" tabindex="-1"></a>                <span class="at">start =</span> <span class="fu">c</span>(<span class="at">PS =</span> <span class="fl">0.1</span>, <span class="at">k =</span> <span class="fl">0.2</span>))</span>
-<span id="cb38-21"><a href="#cb38-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coef</span>(model4)</span>
-<span id="cb38-22"><a href="#cb38-22" aria-hidden="true" tabindex="-1"></a>  fixef <span class="ot">&lt;-</span> model4<span class="sc">$</span>coefficients<span class="sc">$</span>fixed</span>
-<span id="cb38-23"><a href="#cb38-23" aria-hidden="true" tabindex="-1"></a>  ranefs <span class="ot">&lt;-</span> <span class="fu">ranef</span>(model4)</span>
-<span id="cb38-24"><a href="#cb38-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colnames</span>(ranefs) <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"ranef_"</span>,<span class="fu">colnames</span>(ranefs))</span>
-<span id="cb38-25"><a href="#cb38-25" aria-hidden="true" tabindex="-1"></a>  nlme.coef[[lvl]]  <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">coef</span>(model4), ranefs, <span class="at">Rep=</span><span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(<span class="fu">ranef</span>(model4)), <span class="at">ui=</span>lvl, <span class="at">Site=</span>d.tmp[<span class="dv">1</span>, <span class="st">"Site"</span>], <span class="at">Treatment=</span>d.tmp[<span class="dv">1</span>, <span class="st">"Treatment"</span>], <span class="at">uid =</span> <span class="fu">rownames</span>(<span class="fu">coef</span>(model4)))</span>
-<span id="cb38-26"><a href="#cb38-26" aria-hidden="true" tabindex="-1"></a>  nlme.coef.avg[[lvl]] <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">PS=</span>fixef[<span class="st">"PS"</span>], <span class="at">k=</span>fixef[<span class="st">"k"</span>], <span class="at">ui=</span>lvl, <span class="at">Site=</span>d.tmp[<span class="dv">1</span>, <span class="st">"Site"</span>], <span class="at">Treatment=</span>d.tmp[<span class="dv">1</span>, <span class="st">"Treatment"</span>], <span class="at">uid =</span> d.tmp<span class="sc">$</span>uid)</span>
-<span id="cb38-27"><a href="#cb38-27" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb38-28"><a href="#cb38-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-29"><a href="#cb38-29" aria-hidden="true" tabindex="-1"></a>nlme.coef.avg <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, nlme.coef.avg)</span>
-<span id="cb38-30"><a href="#cb38-30" aria-hidden="true" tabindex="-1"></a><span class="co"># folgendes datenset wollen wir benutzen um ihn mit dem Boden zu kombinieren</span></span>
-<span id="cb38-31"><a href="#cb38-31" aria-hidden="true" tabindex="-1"></a>nlme.coef <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, nlme.coef)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb38-19"><a href="#cb38-19" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> d[, <span class="fu">c</span>(<span class="st">"Pv.mg.L."</span>, <span class="st">"uid"</span>, <span class="st">"t.dt"</span>)],</span>
+<span id="cb38-20"><a href="#cb38-20" aria-hidden="true" tabindex="-1"></a>                <span class="at">start =</span> <span class="fu">c</span>(<span class="at">PS =</span> <span class="fl">0.05</span>, <span class="at">k =</span> <span class="fl">0.15</span>),</span>
+<span id="cb38-21"><a href="#cb38-21" aria-hidden="true" tabindex="-1"></a>                <span class="at">control =</span> <span class="fu">nlmeControl</span>(<span class="at">maxIter =</span> <span class="dv">200</span>))</span>
+<span id="cb38-22"><a href="#cb38-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coef</span>(model4)</span>
+<span id="cb38-23"><a href="#cb38-23" aria-hidden="true" tabindex="-1"></a>  fixef <span class="ot">&lt;-</span> model4<span class="sc">$</span>coefficients<span class="sc">$</span>fixed</span>
+<span id="cb38-24"><a href="#cb38-24" aria-hidden="true" tabindex="-1"></a>  ranefs <span class="ot">&lt;-</span> <span class="fu">ranef</span>(model4)</span>
+<span id="cb38-25"><a href="#cb38-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colnames</span>(ranefs) <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"ranef_"</span>,<span class="fu">colnames</span>(ranefs))</span>
+<span id="cb38-26"><a href="#cb38-26" aria-hidden="true" tabindex="-1"></a>  nlme.coef[[lvl]]  <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">coef</span>(model4), ranefs, <span class="at">Rep=</span><span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(<span class="fu">ranef</span>(model4)), <span class="at">ui=</span>lvl, <span class="at">Site=</span>d.tmp[<span class="dv">1</span>, <span class="st">"Site"</span>], <span class="at">Treatment=</span>d.tmp[<span class="dv">1</span>, <span class="st">"Treatment"</span>], <span class="at">uid =</span> <span class="fu">rownames</span>(<span class="fu">coef</span>(model4)))</span>
+<span id="cb38-27"><a href="#cb38-27" aria-hidden="true" tabindex="-1"></a>  nlme.coef.avg[[lvl]] <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">PS=</span>fixef[<span class="st">"PS"</span>], <span class="at">k=</span>fixef[<span class="st">"k"</span>], <span class="at">ui=</span>lvl, <span class="at">Site=</span>d.tmp[<span class="dv">1</span>, <span class="st">"Site"</span>], <span class="at">Treatment=</span>d.tmp[<span class="dv">1</span>, <span class="st">"Treatment"</span>], <span class="at">uid =</span> d.tmp<span class="sc">$</span>uid)</span>
+<span id="cb38-28"><a href="#cb38-28" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb38-29"><a href="#cb38-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-30"><a href="#cb38-30" aria-hidden="true" tabindex="-1"></a>nlme.coef.avg <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, nlme.coef.avg)</span>
+<span id="cb38-31"><a href="#cb38-31" aria-hidden="true" tabindex="-1"></a><span class="co"># folgendes datenset wollen wir benutzen um ihn mit dem Boden zu kombinieren</span></span>
+<span id="cb38-32"><a href="#cb38-32" aria-hidden="true" tabindex="-1"></a>nlme.coef <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, nlme.coef)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div>
 <p>LG: hier machen wir folgendes:</p>
 <ol type="1">
@@ -675,7 +685,9 @@ Residual standard error: 0.02119011 on 68 degrees of freedom</code></pre>
 <li>Perform (post-hoc) TukeyHSD test (using multcomp package)</li>
 </ol>
 <div class="cell-container"><div class="cell-decorator"><pre>In [4]:</pre></div><div class="cell">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(nlme.coef, <span class="fu">aes</span>(<span class="at">y=</span>PS  , <span class="at">x=</span>Treatment, <span class="at">col=</span>Site)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>()<span class="co">#+ geom_line(aes(group=Site))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>points <span class="ot">&lt;-</span> <span class="fu">geom_point</span>(<span class="at">position=</span><span class="fu">position_dodge</span>(<span class="at">width=</span><span class="fl">0.5</span>), <span class="at">size =</span> <span class="dv">3</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>)</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(nlme.coef, <span class="fu">aes</span>(<span class="at">y=</span>PS  , <span class="at">x=</span>Treatment, <span class="at">col=</span>Site, <span class="at">pch=</span>Treatment)) <span class="sc">+</span> points <span class="sc">+</span> <span class="fu">scale_y_log10</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -683,7 +695,7 @@ Residual standard error: 0.02119011 on 68 degrees of freedom</code></pre>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(nlme.coef, <span class="fu">aes</span>(<span class="at">y=</span>k   , <span class="at">x=</span>Treatment, <span class="at">col=</span>Site)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>() <span class="co">#+ geom_line(aes(group=Site))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(nlme.coef, <span class="fu">aes</span>(<span class="at">y=</span>k   , <span class="at">x=</span>Treatment, <span class="at">col=</span>Site, <span class="at">pch=</span>Treatment)) <span class="sc">+</span> points</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -691,7 +703,7 @@ Residual standard error: 0.02119011 on 68 degrees of freedom</code></pre>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(nlme.coef, <span class="fu">aes</span>(<span class="at">y=</span>k<span class="sc">*</span>PS, <span class="at">x=</span>Treatment, <span class="at">col=</span>Site)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>() <span class="sc">+</span> <span class="fu">scale_y_sqrt</span>()<span class="co">#+ geom_line(aes(group=Site)) </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(nlme.coef, <span class="fu">aes</span>(<span class="at">y=</span>k<span class="sc">*</span>PS, <span class="at">x=</span>Treatment, <span class="at">col=</span>Site, <span class="at">pch=</span>Treatment)) <span class="sc">+</span> points <span class="sc">+</span> <span class="fu">scale_y_log10</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -699,7 +711,7 @@ Residual standard error: 0.02119011 on 68 degrees of freedom</code></pre>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(nlme.coef, <span class="fu">aes</span>(<span class="at">y=</span>PS  , <span class="at">x=</span>Site, <span class="at">col=</span>Treatment)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>() <span class="co">#+ geom_line(aes(group=Site))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(nlme.coef, <span class="fu">aes</span>(<span class="at">y=</span>PS  , <span class="at">x=</span>Site, <span class="at">col=</span>Treatment)) <span class="sc">+</span> points <span class="sc">+</span> <span class="fu">scale_y_log10</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -707,7 +719,7 @@ Residual standard error: 0.02119011 on 68 degrees of freedom</code></pre>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(nlme.coef, <span class="fu">aes</span>(<span class="at">y=</span>k   , <span class="at">x=</span>Site, <span class="at">col=</span>Treatment)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>() <span class="co">#+ geom_line(aes(group=Site))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(nlme.coef, <span class="fu">aes</span>(<span class="at">y=</span>k   , <span class="at">x=</span>Site, <span class="at">col=</span>Treatment)) <span class="sc">+</span> points</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -715,7 +727,7 @@ Residual standard error: 0.02119011 on 68 degrees of freedom</code></pre>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(nlme.coef, <span class="fu">aes</span>(<span class="at">y=</span>k<span class="sc">*</span>PS, <span class="at">x=</span>Site, <span class="at">col=</span>Treatment)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>() <span class="sc">+</span> <span class="fu">scale_y_sqrt</span>()<span class="co">#+ geom_line(aes(group=Site)) </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(nlme.coef, <span class="fu">aes</span>(<span class="at">y=</span>k<span class="sc">*</span>PS, <span class="at">x=</span>Site, <span class="at">col=</span>Treatment)) <span class="sc">+</span> points <span class="sc">+</span> <span class="fu">scale_y_log10</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -723,21 +735,24 @@ Residual standard error: 0.02119011 on 68 degrees of freedom</code></pre>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>fit.PS   <span class="ot">&lt;-</span> <span class="fu">lm</span>(PS            <span class="sc">~</span> Treatment <span class="sc">+</span> Site, nlme.coef)</span>
-<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>fit.k    <span class="ot">&lt;-</span> <span class="fu">lm</span>(k             <span class="sc">~</span> Treatment <span class="sc">+</span> Site, nlme.coef)</span>
-<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>fit.kPS  <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">I</span>(<span class="fu">sqrt</span>(k<span class="sc">*</span>PS)) <span class="sc">~</span> Treatment <span class="sc">+</span> Site, nlme.coef)</span>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co"># k PS macht von der interpretation her Sinn</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="co"># aber PS ist log-normal verteilt</span></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a><span class="fu">Anova</span>(fit.PS)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>fit.PS   <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">log</span>(PS)      <span class="sc">~</span> Treatment <span class="sc">+</span> Site, nlme.coef)</span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>fit.k    <span class="ot">&lt;-</span> <span class="fu">lm</span>(k            <span class="sc">~</span> Treatment <span class="sc">+</span> Site, nlme.coef)</span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>fit.kPS  <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">I</span>(<span class="fu">log</span>(k<span class="sc">*</span>PS)) <span class="sc">~</span> Treatment <span class="sc">+</span> Site, nlme.coef)</span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a><span class="fu">Anova</span>(fit.PS)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Anova Table (Type II tests)
 
-Response: PS
-            Sum Sq Df  F value    Pr(&gt;F)    
-Treatment 0.313297  2 105.7251 &lt; 2.2e-16 ***
-Site      0.035346  4   5.9639 0.0005002 ***
-Residuals 0.077046 52                       
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+Response: log(PS)
+          Sum Sq  Df F value Pr(&gt;F)
+Treatment   0.00   2       0      1
+Site        0.00   4       0      1
+Residuals 524.38 878               </code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">glht</span>(fit.PS, <span class="fu">mcp</span>(<span class="at">Treatment =</span> <span class="st">"Tukey"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -747,15 +762,13 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 Multiple Comparisons of Means: Tukey Contrasts
 
 
-Fit: lm(formula = PS ~ Treatment + Site, data = nlme.coef)
+Fit: lm(formula = log(PS) ~ Treatment + Site, data = nlme.coef)
 
 Linear Hypotheses:
-                 Estimate Std. Error t value Pr(&gt;|t|)    
-P100 - P0 == 0    0.06105    0.01217   5.016  2.2e-05 ***
-P166 - P0 == 0    0.17710    0.01234  14.348  &lt; 1e-05 ***
-P166 - P100 == 0  0.11604    0.01234   9.401  &lt; 1e-05 ***
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+                   Estimate Std. Error t value Pr(&gt;|t|)
+P100 - P0 == 0   -1.144e-16  6.363e-02       0        1
+P166 - P0 == 0   -1.177e-16  6.363e-02       0        1
+P166 - P100 == 0 -3.322e-18  6.363e-02       0        1
 (Adjusted p values reported -- single-step method)</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fazit: PS wird von treatment stark beeinfluss, k eher nicht (dafür von site)</span></span>
@@ -764,12 +777,10 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 <pre><code>Anova Table (Type II tests)
 
 Response: k
-           Sum Sq Df F value    Pr(&gt;F)    
-Treatment 0.14807  2  5.1204  0.009336 ** 
-Site      0.51961  4  8.9843 1.358e-05 ***
-Residuals 0.75187 52                      
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+          Sum Sq  Df F value Pr(&gt;F)
+Treatment 0.0000   2       0      1
+Site      0.0000   4       0      1
+Residuals 1.5731 878               </code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">glht</span>(fit.k, <span class="fu">mcp</span>(<span class="at">Treatment =</span> <span class="st">"Tukey"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -782,25 +793,21 @@ Multiple Comparisons of Means: Tukey Contrasts
 Fit: lm(formula = k ~ Treatment + Site, data = nlme.coef)
 
 Linear Hypotheses:
-                 Estimate Std. Error t value Pr(&gt;|t|)   
-P100 - P0 == 0    0.08838    0.03802   2.324  0.06124 . 
-P166 - P0 == 0   -0.02961    0.03856  -0.768  0.72423   
-P166 - P100 == 0 -0.11798    0.03856  -3.060  0.00959 **
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+                   Estimate Std. Error t value Pr(&gt;|t|)
+P100 - P0 == 0   -1.613e-18  3.485e-03       0        1
+P166 - P0 == 0   -8.728e-19  3.485e-03       0        1
+P166 - P100 == 0  7.405e-19  3.485e-03       0        1
 (Adjusted p values reported -- single-step method)</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Anova</span>(fit.kPS)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Anova Table (Type II tests)
 
-Response: I(sqrt(k * PS))
-            Sum Sq Df F value   Pr(&gt;F)    
-Treatment 0.186813  2 42.4144 1.19e-11 ***
-Site      0.047097  4  5.3465 0.001105 ** 
-Residuals 0.114516 52                     
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+Response: I(log(k * PS))
+          Sum Sq  Df F value Pr(&gt;F)
+Treatment   0.00   2       0      1
+Site        0.00   4       0      1
+Residuals 500.56 878               </code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">glht</span>(fit.kPS, <span class="fu">mcp</span>(<span class="at">Treatment =</span> <span class="st">"Tukey"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -810,15 +817,13 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 Multiple Comparisons of Means: Tukey Contrasts
 
 
-Fit: lm(formula = I(sqrt(k * PS)) ~ Treatment + Site, data = nlme.coef)
+Fit: lm(formula = I(log(k * PS)) ~ Treatment + Site, data = nlme.coef)
 
 Linear Hypotheses:
-                 Estimate Std. Error t value Pr(&gt;|t|)    
-P100 - P0 == 0    0.08750    0.01484   5.896  &lt; 0.001 ***
-P166 - P0 == 0    0.13638    0.01505   9.063  &lt; 0.001 ***
-P166 - P100 == 0  0.04888    0.01505   3.248  0.00574 ** 
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+                   Estimate Std. Error t value Pr(&gt;|t|)
+P100 - P0 == 0   -8.645e-17  6.217e-02       0        1
+P166 - P0 == 0   -1.048e-16  6.217e-02       0        1
+P166 - P100 == 0 -1.831e-17  6.217e-02       0        1
 (Adjusted p values reported -- single-step method)</code></pre>
 </div>
 </div></div>
@@ -829,17 +834,118 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 </ol>
 <div class="cell-container"><div class="cell-decorator"><pre>In [5]:</pre></div><div class="cell">
 <div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co"># new Data set, that gives info about Soil</span></span>
-<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>allP <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"~/Documents/Master Thesis/Master-Thesis-P-kinetics/data/all_P.rds"</span>)</span>
-<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>allP<span class="sc">$</span>rep <span class="ot">&lt;-</span> allP<span class="sc">$</span>rep <span class="sc">%&gt;%</span> <span class="fu">as.roman</span>() <span class="sc">%&gt;%</span> <span class="fu">as.integer</span>()</span>
-<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>allP<span class="sc">$</span>uid <span class="ot">&lt;-</span> <span class="fu">paste</span>(allP<span class="sc">$</span>location,allP<span class="sc">$</span>treatment_ID,<span class="fu">as.character</span>(allP<span class="sc">$</span>rep),<span class="at">sep =</span> <span class="st">"_"</span>)</span>
-<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. merge this with nlme.coef</span></span>
-<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a>nlme.coef <span class="ot">&lt;-</span> <span class="fu">merge</span>(nlme.coef,allP[allP<span class="sc">$</span>year<span class="sc">==</span><span class="dv">2018</span>,],<span class="at">by =</span> <span class="st">"uid"</span>)</span>
-<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a>RES<span class="sc">$</span>nlme.coef <span class="ot">&lt;-</span> nlme.coef</span>
-<span id="cb57-10"><a href="#cb57-10" aria-hidden="true" tabindex="-1"></a>RES<span class="sc">$</span>nlme.coef.avg <span class="ot">&lt;-</span> nlme.coef.avg</span>
-<span id="cb57-11"><a href="#cb57-11" aria-hidden="true" tabindex="-1"></a>RES<span class="sc">$</span>data <span class="ot">&lt;-</span> d</span>
-<span id="cb57-12"><a href="#cb57-12" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(RES, <span class="at">file =</span> <span class="st">"~/Documents/Master Thesis/Master-Thesis-P-kinetics/data/RES.rds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>allP <span class="ot">&lt;-</span> <span class="fu">tryCatch</span>(<span class="fu">readRDS</span>(<span class="st">"./data/all_P.rds"</span>))</span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">inherits</span>(d, <span class="st">"try-error"</span>)){</span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>  allP <span class="ot">&lt;-</span> <span class="fu">tryCatch</span>(<span class="fu">readRDS</span>(<span class="st">"~/Documents/Master Thesis/Master-Thesis-P-kinetics/data/all_P.rds"</span>))</span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>allP<span class="sc">$</span>rep <span class="ot">&lt;-</span> allP<span class="sc">$</span>rep <span class="sc">%&gt;%</span> <span class="fu">as.roman</span>() <span class="sc">%&gt;%</span> <span class="fu">as.integer</span>()</span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a>allP<span class="sc">$</span>uid <span class="ot">&lt;-</span> <span class="fu">paste</span>(allP<span class="sc">$</span>location,allP<span class="sc">$</span>treatment_ID,<span class="fu">as.character</span>(allP<span class="sc">$</span>rep),<span class="at">sep =</span> <span class="st">"_"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [6]:</pre></div><div class="cell">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. merge this with nlme.coef</span></span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>nlme.coef<span class="sc">$</span>kPS <span class="ot">&lt;-</span> nlme.coef<span class="sc">$</span>k <span class="sc">*</span> nlme.coef<span class="sc">$</span>PS</span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a>nlme.coef.mrg <span class="ot">&lt;-</span> <span class="fu">merge</span>(nlme.coef,allP[allP<span class="sc">$</span>year<span class="sc">&gt;=</span><span class="dv">2017</span>,],<span class="at">by =</span> <span class="st">"uid"</span>)</span>
+<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a><span class="co"># add log-transformed versions</span></span>
+<span id="cb58-7"><a href="#cb58-7" aria-hidden="true" tabindex="-1"></a>nlme.coef.mrg<span class="sc">$</span>kPS_log <span class="ot">&lt;-</span> <span class="fu">log</span>(nlme.coef.mrg<span class="sc">$</span>kPS)</span>
+<span id="cb58-8"><a href="#cb58-8" aria-hidden="true" tabindex="-1"></a>nlme.coef.mrg<span class="sc">$</span>PS_log <span class="ot">&lt;-</span> <span class="fu">log</span>(nlme.coef.mrg<span class="sc">$</span>PS)</span>
+<span id="cb58-9"><a href="#cb58-9" aria-hidden="true" tabindex="-1"></a>nlme.coef.mrg<span class="sc">$</span>soil_0_20_P_AAE10_log <span class="ot">&lt;-</span> <span class="fu">log</span>(nlme.coef.mrg<span class="sc">$</span>soil_0_20_P_AAE10)</span>
+<span id="cb58-10"><a href="#cb58-10" aria-hidden="true" tabindex="-1"></a>nlme.coef.mrg<span class="sc">$</span>soil_0_20_P_CO2_log <span class="ot">&lt;-</span> <span class="fu">log</span>(nlme.coef.mrg<span class="sc">$</span>soil_0_20_P_CO2)</span>
+<span id="cb58-11"><a href="#cb58-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-12"><a href="#cb58-12" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(nlme.coef.mrg)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4590</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(nlme.coef.mrg)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  [1] "uid"                               "PS"                               
+  [3] "k"                                 "ranef_PS"                         
+  [5] "ranef_k"                           "Rep"                              
+  [7] "ui"                                "Site"                             
+  [9] "Treatment"                         "kPS"                              
+ [11] "location"                          "LtE_name"                         
+ [13] "site"                              "WGS84_N"                          
+ [15] "WGS84_E"                           "year"                             
+ [17] "year_fac"                          "year_sampling"                    
+ [19] "cropclass"                         "crop"                             
+ [21] "crop_abr"                          "nested_trial"                     
+ [23] "rep"                               "block"                            
+ [25] "treatment_ID"                      "treatment_serie"                  
+ [27] "fieldplot"                         "plot_nr"                          
+ [29] "plot_nr_serie"                     "sow_date"                         
+ [31] "harv1_date"                        "harv2_date"                       
+ [33] "harv3_date"                        "harv4_date"                       
+ [35] "harv5_date"                        "fert_N_tot"                       
+ [37] "fert_P_tot"                        "fert_K_tot"                       
+ [39] "fert_Mg_tot"                       "fert_Ca_tot"                      
+ [41] "soil_0_20_Corg"                    "soil_0_20_clay"                   
+ [43] "soil_0_20_silt"                    "soil_0_20_pH_H2O"                 
+ [45] "soil_0_20_P_test"                  "soil_0_20_K_test"                 
+ [47] "soil_0_20_Mg_test"                 "soil_0_20_P_AAE10"                
+ [49] "soil_0_20_K_AAE10"                 "soil_0_20_Mg_AAE10"               
+ [51] "soil_0_20_Ca_AAE10"                "soil_0_20_P_H2O10"                
+ [53] "soil_0_20_K_H2O10"                 "soil_0_20_Mg_H2O10"               
+ [55] "soil_0_20_Ca_H2O10"                "soil_0_20_presample_lime"         
+ [57] "soil_0_20_humus"                   "rollMean_soil_0_20_Corg"          
+ [59] "rollMean_soil_0_20_clay"           "rollMean_soil_0_20_silt"          
+ [61] "rollMean_soil_0_20_pH_H2O"         "rollMean_soil_0_20_P_test"        
+ [63] "rollMean_soil_0_20_K_test"         "rollMean_soil_0_20_Mg_test"       
+ [65] "rollMean_soil_0_20_P_AAE10"        "rollMean_soil_0_20_K_AAE10"       
+ [67] "rollMean_soil_0_20_Mg_AAE10"       "rollMean_soil_0_20_Ca_AAE10"      
+ [69] "rollMean_soil_0_20_P_H2O10"        "rollMean_soil_0_20_K_H2O10"       
+ [71] "rollMean_soil_0_20_Mg_H2O10"       "rollMean_soil_0_20_Ca_H2O10"      
+ [73] "rollMean_soil_0_20_presample_lime" "rollMean_soil_0_20_humus"         
+ [75] "soil_0_20_K_CO2"                   "soil_0_20_P_CO2"                  
+ [77] "soil_0_20_Mg_CaCl2"                "annual_yield_mp_DM"               
+ [79] "annual_yield_bp_DM"                "annual_total_biomass_maincrop_DM" 
+ [81] "harv1_mp_Nuptake"                  "harv1_mp_Puptake"                 
+ [83] "harv1_mp_Kuptake"                  "harv1_mp_Cauptake"                
+ [85] "harv1_mp_Mguptake"                 "harv2_mp_Nuptake"                 
+ [87] "harv2_mp_Puptake"                  "harv2_mp_Kuptake"                 
+ [89] "harv2_mp_Cauptake"                 "harv2_mp_Mguptake"                
+ [91] "harv3_mp_Nuptake"                  "harv3_mp_Puptake"                 
+ [93] "harv3_mp_Kuptake"                  "harv3_mp_Cauptake"                
+ [95] "harv3_mp_Mguptake"                 "harv4_mp_Nuptake"                 
+ [97] "harv4_mp_Puptake"                  "harv4_mp_Kuptake"                 
+ [99] "harv4_mp_Cauptake"                 "harv4_mp_Mguptake"                
+[101] "harv5_mp_Nuptake"                  "harv5_mp_Puptake"                 
+[103] "harv5_mp_Kuptake"                  "harv5_mp_Cauptake"                
+[105] "harv5_mp_Mguptake"                 "harv6_mp_Nuptake"                 
+[107] "harv6_mp_Puptake"                  "harv6_mp_Kuptake"                 
+[109] "harv6_mp_Cauptake"                 "harv6_mp_Mguptake"                
+[111] "harv1_bp1_Nuptake"                 "harv1_bp1_Puptake"                
+[113] "harv1_bp1_Kuptake"                 "harv1_bp1_Cauptake"               
+[115] "harv1_bp1_Mguptake"                "harv1_bp2_Nuptake"                
+[117] "harv1_bp2_Puptake"                 "harv1_bp2_Kuptake"                
+[119] "harv1_bp2_Cauptake"                "harv1_bp2_Mguptake"               
+[121] "annual_N_uptake"                   "annual_P_uptake"                  
+[123] "annual_K_uptake"                   "annual_Ca_uptake"                 
+[125] "annual_Mg_uptake"                  "annual_N_balance"                 
+[127] "annual_P_balance"                  "annual_K_balance"                 
+[129] "annual_Ca_balance"                 "annual_Mg_balance"                
+[131] "ref_yield_dm"                      "Ymain_rel"                        
+[133] "stn"                               "anavg_temp"                       
+[135] "ansum_prec"                        "ansum_sun"                        
+[137] "juvdev_temp"                       "juvdev_prec"                      
+[139] "juvdev_sun"                        "kPS_log"                          
+[141] "PS_log"                            "soil_0_20_P_AAE10_log"            
+[143] "soil_0_20_P_CO2_log"              </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(allP[allP<span class="sc">$</span>year<span class="sc">==</span><span class="dv">2017</span>,])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 96</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(allP[allP<span class="sc">$</span>year<span class="sc">==</span><span class="dv">2018</span>,])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 144</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>RES<span class="sc">$</span>nlme.coef.mrg <span class="ot">&lt;-</span> nlme.coef.mrg</span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>RES<span class="sc">$</span>nlme.coef.avg <span class="ot">&lt;-</span> nlme.coef.avg</span>
+<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a>RES<span class="sc">$</span>data <span class="ot">&lt;-</span> d</span>
+<span id="cb66-4"><a href="#cb66-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb66-5"><a href="#cb66-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb66-6"><a href="#cb66-6" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(RES, <span class="at">file =</span> <span class="st">"./data/RES.rds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div>
 
 </section>

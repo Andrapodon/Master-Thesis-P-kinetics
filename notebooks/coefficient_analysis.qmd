@@ -14,7 +14,6 @@ date: 2025-05-22
 #| message: false
 #| warning: false
 
-RES <- list()
 
 library(multcomp)
 library(car)
@@ -31,70 +30,81 @@ library(dplyr)
 
 options(warn = -1)
 RES <- readRDS("data/RES.rds")
-nlme.coef <- RES$nlme.coef
+D <- RES$nlme.coef.mrg
 d <- RES$data
 ```
 
+Model Agroscope
+$$Y_{rel}\sim A*(1-e^{rate*P_{CO_2}+Env})$$
 
+Wir ersetzen nur rate mit unserer Schätzung k:
+$$Y_{rel}\sim A*(1-e^{k*P_{CO_2}+Env})$$
+
+Sind unsere Modelparameter gute Prediktoren??
+$$Y_{rel}\sim A*(1-e^{k*PS}+Env})$$
+
+Es gibt noch die Kovariaten Niederschlag pro Jahr, Jahresdurchschnittstemperatur und Temperatur in Jugendphase
 
 
 
 ```{r}
 #| echo: false
 
-p6 <- ggplot(nlme.coef,aes(y=soil_0_20_P_AAE10, x=soil_0_20_P_CO2, col=Site, size = Treatment)) +
-  geom_point(shape = 7) +
+
+
+
+
+library(GGally)
+
+ggpairs(D, 
+  aes(col=Site, size = Treatment), 
+  columns = c("soil_0_20_P_AAE10", "soil_0_20_P_CO2", "PS", "k", "kPS"),
+  shape = 2
+  )
+
+
+
+
+p6 <- ggplot(D,aes(y=soil_0_20_P_AAE10, x=soil_0_20_P_CO2, col=Site, size = Treatment)) +
+  geom_point(shape = 7) + 
+  scale_x_log10() + scale_y_log10() +
   labs(x=TeX("$P_{H_2O10}(mg/kg Soil)$"),
-         y=TeX("$P_{AAEDTA}(mg/kg Soil)$"))
+         y=TeX("$P_{AAEDTA}(mg/kg Soil)$")); p6
   
-
-p6
-  
-p7 <- ggplot(nlme.coef,aes(y=PS, x=soil_0_20_P_CO2, col=Site, size = Treatment)) +
+p7 <- ggplot(D,aes(y=PS, x=soil_0_20_P_CO2, col=Site, size = Treatment)) +
   geom_point(shape = 7) +
+  scale_x_log10() + scale_y_log10() +
   labs(x=TeX("$P_{CO_2}(mg/kg Soil)$"),
-         y=TeX("$PS(mg/kg Soil)$"))
+         y=TeX("$PS(mg/kg Soil)$")); p7
 
-
-p7
-
-p8 <- ggplot(nlme.coef,aes(y=k, x=soil_0_20_P_CO2, col=Site, size = Treatment)) +
+p8 <- ggplot(D,aes(y=k, x=soil_0_20_P_CO2, col=Site, size = Treatment)) +
   geom_point(shape = 7) +
+  scale_x_log10() +
   labs(x=TeX("$P_{CO_2}(mg/kg Soil)$"),
-         y=TeX("$k(1/s)$"))
+         y=TeX("$k(1/s)$")); p8
 
-p8
-
-p9 <- ggplot(nlme.coef,aes(y=k*PS, x=soil_0_20_P_CO2, col=Site, size = Treatment)) +
+p9 <- ggplot(D,aes(y=k*PS, x=soil_0_20_P_CO2, col=Site, size = Treatment)) +
   geom_point(shape = 7) +
+  scale_x_log10() + scale_y_log10() +
   labs(x=TeX("$P_{CO_2}(mg/kg Soil)$"),
-         y=TeX("$v=k*PS(mg/s*kg Soil)$"))
+         y=TeX("$v=k*PS(mg/s*kg Soil)$"));p9
 
-p9
 
-p10 <- ggplot(nlme.coef,aes(y=sqrt(k*PS), x=soil_0_20_P_CO2, col=Site, size = Treatment)) +
-  geom_point(shape = 7) +
-  labs(x=TeX("$P_{CO_2}(mg/kg Soil)$"),
-         y=TeX("$\\sqrt{v}=(k*PS)^{0.5}(mg/s*kg Soil)$"))
-
-p10
-
-p11 <- ggplot(nlme.coef,aes(y=PS, x=soil_0_20_P_AAE10, col=Site, size = Treatment)) +
+p11 <- ggplot(D,aes(y=PS, x=soil_0_20_P_AAE10, col=Site, size = Treatment)) +
+  scale_x_log10() + scale_y_log10() +
   geom_point(shape = 7) +
   labs(x=TeX("$P_{AAEDTA}(mg/kg Soil)$"),
-         y=TeX("$PS(mg/kg Soil)$"))
+         y=TeX("$PS(mg/kg Soil)$")); p11
 
-
-p11
-
-p12 <- ggplot(nlme.coef,aes(y=k, x=soil_0_20_P_AAE10, col=Site, size = Treatment)) +
+p12 <- ggplot(D,aes(y=k, x=soil_0_20_P_AAE10, col=Site, size = Treatment)) +
   geom_point(shape = 7) +
+   scale_x_log10() + scale_y_log10() +
   labs(x=TeX("$P_{AAEDTA}(mg/kg Soil)$"),
          y=TeX("$k(1/s)$"))
 
 p12
 
-p13 <- ggplot(nlme.coef,aes(y=k*PS, x=soil_0_20_P_AAE10, col=Site, size = Treatment)) +
+p13 <- ggplot(D,aes(y=k*PS, x=soil_0_20_P_AAE10, col=Site, size = Treatment)) +
   geom_point(shape = 7) +
   labs(x=TeX("$P_{AAEDTA}(mg/kg Soil)$"),
          y=TeX("$v=k*PS(mg/s*kg Soil)$"))
@@ -102,7 +112,7 @@ p13 <- ggplot(nlme.coef,aes(y=k*PS, x=soil_0_20_P_AAE10, col=Site, size = Treatm
 p13
 
 
-p14 <- ggplot(nlme.coef,aes(y=sqrt(k*PS), x=soil_0_20_P_AAE10, col=Site, size = Treatment)) +
+p14 <- ggplot(D,aes(y=sqrt(k*PS), x=soil_0_20_P_AAE10, col=Site, size = Treatment)) +
   geom_point(shape = 7) +
   labs(x=TeX("$P_{AAEDTA}(mg/kg Soil)$"),
          y=TeX("$\\sqrt{v}=(k*PS)^{0.5}(mg/s*kg Soil)$"))
@@ -115,42 +125,67 @@ p14
 
 Nun noch die Linearen Regressionen, die ausstehend sind:
 
+
+`(1|year) + (1|Site)  + (1|Site:block) + (Treatment|Site)`
+
+Random intercept per year and site, block nested in site. and Treatment nested in site (could also be modelled as a random slope to allow for correlations)
+
 ```{r}
 # Wovon hängen Modelparameter ab?
 
-fit.PS       <- lm(PS            ~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + fert_P_tot, nlme.coef)
-fit.k        <- lm(k             ~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + fert_P_tot, nlme.coef)
-fit.kPS      <- lm(I(sqrt(k*PS)) ~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + fert_P_tot, nlme.coef)
-fit.Yrel     <- lm(Ymain_rel         ~ k + PS + I(sqrt(k*PS)) + Treatment + Site, nlme.coef)
-fit.Puptake  <- lm(annual_P_uptake   ~ k + PS + I(sqrt(k*PS)) + Treatment + Site, nlme.coef)
+library(lmerTest)
 
-Anova(fit.PS)
+fit.PS  <- lmer(log(PS)     ~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Treatment + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.k   <- lmer(k           ~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Treatment + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.kPS <- lmer(I(log(k*PS))~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Treatment + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.CO2 <- lmer(log(soil_0_20_P_CO2)~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Treatment + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.AAE10 <- lmer(log(soil_0_20_P_AAE10)~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Treatment + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+
+
+fit.Yrel     <- lmer(Ymain_rel         ~ k * log(PS) + Treatment + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.Puptake  <- lmer(annual_P_uptake   ~ k * log(PS) + Treatment + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+
+
+anova(fit.PS)
 #summary(glht(fit.PS))
 # Fazit: PS wird von treatment stark beeinfluss, k eher nicht (dafür von site)
-Anova(fit.k)
+anova(fit.k)
 summary(glht(fit.k))
-Anova(fit.kPS)
+anova(fit.kPS)
 summary(glht(fit.kPS))
-Anova(fit.Yrel)
-Anova(fit.Puptake)
+anova(fit.Yrel)
+anova(fit.Puptake)
+anova(fit.CO2)
+anova(fit.AAE10)
 
 # Verhalten der Modelparameter und Ertragsdaten auf P-CO2 und P-AAE10
 
-fit.PS       <- lm(PS            ~ soil_0_20_P_CO2 + soil_0_20_P_AAE10 + fert_P_tot, nlme.coef)
-fit.k        <- lm(k             ~ soil_0_20_P_CO2 + soil_0_20_P_AAE10 + fert_P_tot, nlme.coef)
-fit.kPS      <- lm(I(sqrt(k*PS)) ~ soil_0_20_P_CO2 + soil_0_20_P_AAE10 + fert_P_tot, nlme.coef)
-fit.Yrel     <- lm(Ymain_rel         ~ soil_0_20_P_CO2 + soil_0_20_P_AAE10 + fert_P_tot, nlme.coef)
-fit.Puptake  <- lm(annual_P_uptake   ~ soil_0_20_P_CO2 + soil_0_20_P_AAE10 + fert_P_tot, nlme.coef)
+```
 
-Anova(fit.PS)
+Since we now model two measurement methods, we do not expect correlations by Site/year/etc
+```{r}
+# fit.PS       <- lm(PS            ~ soil_0_20_P_CO2 + soil_0_20_P_AAE10, D)
+fit.PS       <- lm(log(PS)         ~ log(soil_0_20_P_CO2) + log(soil_0_20_P_AAE10), D)
+fit.k        <- lm(k               ~ log(soil_0_20_P_CO2) + log(soil_0_20_P_AAE10), D)
+fit.kPS      <- lm(I(log(k*PS))    ~ log(soil_0_20_P_CO2) + log(soil_0_20_P_AAE10), D)
+
+fit.Yrel     <- lmer(Ymain_rel       ~ log(soil_0_20_P_CO2) + log(soil_0_20_P_AAE10) + Treatment + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+
+# this is hopeless, since cannot log becaus of 0's
+fit.Puptake  <- lm(annual_P_uptake ~ soil_0_20_P_CO2 + soil_0_20_P_AAE10 + Treatment, D)
+
+summary(D$annual_P_uptake)
+
+hist(D$Ymain_rel)
+hist(D$annual_P_uptake)
+
 #summary(glht(fit.PS))
 # Fazit: PS wird von treatment stark beeinfluss, k eher nicht (dafür von site)
-Anova(fit.k)
+summary(glht(fit.PS))
 summary(glht(fit.k))
-Anova(fit.kPS)
 summary(glht(fit.kPS))
-Anova(fit.Yrel)
-Anova(fit.Puptake)
+summary(fit.Yrel)
+
 
 
 
