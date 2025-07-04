@@ -341,7 +341,7 @@ Attaching package: 'dplyr'</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">warn =</span> <span class="sc">-</span><span class="dv">1</span>)</span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>RES <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"data/RES.rds"</span>)</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>RES <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"~/Documents/Master Thesis/Master-Thesis-P-kinetics/data/RES.rds"</span>)</span>
 <span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>D <span class="ot">&lt;-</span> RES<span class="sc">$</span>nlme.coef.mrg</span>
 <span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> RES<span class="sc">$</span>data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div>
@@ -359,10 +359,10 @@ Attaching package: 'dplyr'</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggpairs</span>(D, </span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">col=</span>Site, <span class="at">size =</span> Treatment), </span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">col=</span>Site, <span class="at">shape =</span> Treatment,<span class="at">alpha =</span> <span class="fl">0.6</span>), </span>
 <span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">columns =</span> <span class="fu">c</span>(<span class="st">"soil_0_20_P_AAE10"</span>, <span class="st">"soil_0_20_P_CO2"</span>, <span class="st">"PS"</span>, <span class="st">"k"</span>, <span class="st">"kPS"</span>),</span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">shape =</span> <span class="dv">2</span></span>
-<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">lower =</span> <span class="fu">list</span>(<span class="at">continuous =</span> <span class="fu">wrap</span>(<span class="st">"points"</span>, <span class="at">size =</span> <span class="fl">1.3</span>)),</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">upper =</span> <span class="fu">list</span>(<span class="at">continuous =</span> <span class="st">"blank"</span>, <span class="at">combo =</span> <span class="st">"blank"</span>, <span class="at">discrete =</span> <span class="st">"blank"</span>))  <span class="co"># Adjust size here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -509,49 +509,52 @@ Attaching package: 'lmerTest'</code></pre>
 <div class="cell-output cell-output-stderr">
 <pre><code>boundary (singular) fit: see help('isSingular')</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>fit.kPS <span class="ot">&lt;-</span> <span class="fu">lmer</span>(<span class="fu">I</span>(<span class="fu">log</span>(k<span class="sc">*</span>PS))<span class="sc">~</span> soil_0_20_clay<span class="sc">+</span> soil_0_20_pH_H2O <span class="sc">+</span> soil_0_20_Corg <span class="sc">+</span> soil_0_20_silt <span class="sc">+</span> Treatment <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>year) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site)  <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>block) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>Treatment), D)</span>
-<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>fit.CO2 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(<span class="fu">log</span>(soil_0_20_P_CO2)<span class="sc">~</span> soil_0_20_clay<span class="sc">+</span> soil_0_20_pH_H2O <span class="sc">+</span> soil_0_20_Corg <span class="sc">+</span> soil_0_20_silt <span class="sc">+</span> Treatment <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>year) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site)  <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>block) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>Treatment), D)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>fit.kPS <span class="ot">&lt;-</span> <span class="fu">lmer</span>(<span class="fu">I</span>(<span class="fu">log</span>(k<span class="sc">*</span>PS))<span class="sc">~</span> soil_0_20_clay<span class="sc">+</span> soil_0_20_pH_H2O <span class="sc">+</span> soil_0_20_Corg <span class="sc">+</span> soil_0_20_silt <span class="sc">+</span> Treatment <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>year) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site)  <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>block) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>Treatment), D)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>boundary (singular) fit: see help('isSingular')</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>fit.AAE10 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(<span class="fu">log</span>(soil_0_20_P_AAE10)<span class="sc">~</span> soil_0_20_clay<span class="sc">+</span> soil_0_20_pH_H2O <span class="sc">+</span> soil_0_20_Corg <span class="sc">+</span> soil_0_20_silt <span class="sc">+</span> Treatment <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>year) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site)  <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>block) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>Treatment), D)</span>
-<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>fit.Yrel     <span class="ot">&lt;-</span> <span class="fu">lmer</span>(Ymain_rel         <span class="sc">~</span> k <span class="sc">*</span> <span class="fu">log</span>(PS) <span class="sc">+</span> Treatment <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>year) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site)  <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>block) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>Treatment), D)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>fit.CO2 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(<span class="fu">log</span>(soil_0_20_P_CO2)<span class="sc">~</span> soil_0_20_clay<span class="sc">+</span> soil_0_20_pH_H2O <span class="sc">+</span> soil_0_20_Corg <span class="sc">+</span> soil_0_20_silt <span class="sc">+</span> Treatment <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>year) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site)  <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>block) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>Treatment), D)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>boundary (singular) fit: see help('isSingular')</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>fit.Puptake  <span class="ot">&lt;-</span> <span class="fu">lmer</span>(annual_P_uptake   <span class="sc">~</span> k <span class="sc">*</span> <span class="fu">log</span>(PS) <span class="sc">+</span> Treatment <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>year) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site)  <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>block) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>Treatment), D)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>fit.AAE10 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(<span class="fu">log</span>(soil_0_20_P_AAE10)<span class="sc">~</span> soil_0_20_clay<span class="sc">+</span> soil_0_20_pH_H2O <span class="sc">+</span> soil_0_20_Corg <span class="sc">+</span> soil_0_20_silt <span class="sc">+</span> Treatment <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>year) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site)  <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>block) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>Treatment), D)</span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>fit.Yrel     <span class="ot">&lt;-</span> <span class="fu">lmer</span>(Ymain_rel         <span class="sc">~</span> k <span class="sc">*</span> <span class="fu">log</span>(PS) <span class="sc">+</span> Treatment <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>year) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site)  <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>block) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>Treatment), D)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>boundary (singular) fit: see help('isSingular')</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit.PS)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>fit.Puptake  <span class="ot">&lt;-</span> <span class="fu">lmer</span>(annual_P_uptake   <span class="sc">~</span> k <span class="sc">*</span> <span class="fu">log</span>(PS) <span class="sc">+</span> Treatment <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>year) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site)  <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>block) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>Treatment), D)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>boundary (singular) fit: see help('isSingular')</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit.PS)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Type III Analysis of Variance Table with Satterthwaite's method
-                 Sum Sq Mean Sq NumDF  DenDF F value    Pr(&gt;F)    
-soil_0_20_clay   0.0733  0.0733     1 71.083   2.414 0.1246933    
-soil_0_20_pH_H2O 0.0281  0.0281     1 88.990   0.925 0.3387645    
-soil_0_20_Corg   0.4583  0.4583     1 64.437  15.098 0.0002435 ***
-soil_0_20_silt   0.1133  0.1133     1 72.620   3.734 0.0572161 .  
-Treatment        9.8709  4.9355     2  6.049 162.603 5.518e-06 ***
+                  Sum Sq Mean Sq NumDF  DenDF  F value    Pr(&gt;F)    
+soil_0_20_clay    0.0719  0.0719     1 70.835   2.3900 0.1265690    
+soil_0_20_pH_H2O  0.0152  0.0152     1 89.035   0.5061 0.4787086    
+soil_0_20_Corg    0.4704  0.4704     1 65.081  15.6423 0.0001915 ***
+soil_0_20_silt    0.1061  0.1061     1 70.745   3.5286 0.0644392 .  
+Treatment        10.0459  5.0230     2  6.055 167.0386 5.047e-06 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="co">#summary(glht(fit.PS))</span></span>
-<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Fazit: PS wird von treatment stark beeinfluss, k eher nicht (dafür von site)</span></span>
-<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit.k)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="co">#summary(glht(fit.PS))</span></span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Fazit: PS wird von treatment stark beeinfluss, k eher nicht (dafür von site)</span></span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit.k)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Type III Analysis of Variance Table with Satterthwaite's method
-                    Sum Sq   Mean Sq NumDF  DenDF F value   Pr(&gt;F)   
-soil_0_20_clay   0.0072526 0.0072526     1 69.076  6.5714 0.012543 * 
-soil_0_20_pH_H2O 0.0033814 0.0033814     1 69.607  3.0638 0.084459 . 
-soil_0_20_Corg   0.0000390 0.0000390     1 78.802  0.0353 0.851392   
-soil_0_20_silt   0.0118739 0.0118739     1 57.154 10.7588 0.001771 **
-Treatment        0.0050579 0.0025290     2  5.561  2.2915 0.187992   
+                    Sum Sq   Mean Sq NumDF   DenDF F value   Pr(&gt;F)   
+soil_0_20_clay   0.0098145 0.0098145     1  69.315 10.0430 0.002276 **
+soil_0_20_pH_H2O 0.0091421 0.0091421     1 102.384  9.3550 0.002838 **
+soil_0_20_Corg   0.0014112 0.0014112     1  98.359  1.4441 0.232367   
+soil_0_20_silt   0.0046704 0.0046704     1  75.912  4.7792 0.031889 * 
+Treatment        0.0059045 0.0029522     2   5.405  3.0210 0.131603   
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">glht</span>(fit.k))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">glht</span>(fit.k))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
      Simultaneous Tests for General Linear Hypotheses
@@ -561,31 +564,31 @@ Fit: lmer(formula = k ~ soil_0_20_clay + soil_0_20_pH_H2O + soil_0_20_Corg +
     Site:block) + (1 | Site:Treatment), data = D)
 
 Linear Hypotheses:
-                       Estimate Std. Error z value Pr(&gt;|z|)   
-(Intercept) == 0      -0.014335   0.129229  -0.111   1.0000   
-soil_0_20_clay == 0   -0.005030   0.001962  -2.563   0.0625 . 
-soil_0_20_pH_H2O == 0  0.017903   0.010228   1.750   0.3804   
-soil_0_20_Corg == 0   -0.005348   0.028452  -0.188   1.0000   
-soil_0_20_silt == 0    0.007694   0.002346   3.280    &lt;0.01 **
-TreatmentP100 == 0     0.001212   0.015473   0.078   1.0000   
-TreatmentP166 == 0    -0.028389   0.015664  -1.812   0.3412   
+                       Estimate Std. Error z value Pr(&gt;|z|)  
+(Intercept) == 0       0.074173   0.150771   0.492   0.9965  
+soil_0_20_clay == 0   -0.007001   0.002209  -3.169   0.0101 *
+soil_0_20_pH_H2O == 0  0.033719   0.011024   3.059   0.0151 *
+soil_0_20_Corg == 0   -0.034534   0.028737  -1.202   0.7770  
+soil_0_20_silt == 0    0.005864   0.002683   2.186   0.1651  
+TreatmentP100 == 0     0.003910   0.015506   0.252   0.9999  
+TreatmentP166 == 0    -0.031147   0.015685  -1.986   0.2527  
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit.kPS)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit.kPS)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Type III Analysis of Variance Table with Satterthwaite's method
-                 Sum Sq Mean Sq NumDF  DenDF F value    Pr(&gt;F)    
-soil_0_20_clay   0.0029 0.00289     1 58.281  0.0543 0.8166206    
-soil_0_20_pH_H2O 0.0737 0.07367     1 87.002  1.3844 0.2425597    
-soil_0_20_Corg   0.0465 0.04648     1 88.391  0.8736 0.3525121    
-soil_0_20_silt   0.0181 0.01814     1 52.468  0.3409 0.5618166    
-Treatment        4.3387 2.16933     2  5.838 40.7688 0.0003714 ***
+                 Sum Sq Mean Sq NumDF   DenDF F value    Pr(&gt;F)    
+soil_0_20_clay   0.0055 0.00551     1  77.626  0.1042 0.7476732    
+soil_0_20_pH_H2O 0.3773 0.37730     1 101.942  7.1334 0.0088083 ** 
+soil_0_20_Corg   0.0105 0.01052     1  93.639  0.1989 0.6566047    
+soil_0_20_silt   0.0036 0.00360     1  80.227  0.0681 0.7947202    
+Treatment        4.0335 2.01676     2   5.846 38.1292 0.0004424 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">glht</span>(fit.kPS))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">glht</span>(fit.kPS))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
      Simultaneous Tests for General Linear Hypotheses
@@ -596,36 +599,36 @@ Fit: lmer(formula = I(log(k * PS)) ~ soil_0_20_clay + soil_0_20_pH_H2O +
 
 Linear Hypotheses:
                        Estimate Std. Error z value Pr(&gt;|z|)    
-(Intercept) == 0      -6.298182   1.057421  -5.956   &lt;0.001 ***
-soil_0_20_clay == 0   -0.003629   0.015580  -0.233    1.000    
-soil_0_20_pH_H2O == 0  0.092659   0.078751   1.177    0.792    
-soil_0_20_Corg == 0    0.194969   0.208600   0.935    0.915    
-soil_0_20_silt == 0    0.011076   0.018970   0.584    0.991    
-TreatmentP100 == 0     1.053124   0.185019   5.692   &lt;0.001 ***
-TreatmentP166 == 0     1.658013   0.185905   8.919   &lt;0.001 ***
+(Intercept) == 0      -6.657571   1.107385  -6.012   &lt;0.001 ***
+soil_0_20_clay == 0   -0.005315   0.016463  -0.323   0.9997    
+soil_0_20_pH_H2O == 0  0.216350   0.081005   2.671   0.0478 *  
+soil_0_20_Corg == 0    0.094682   0.212278   0.446   0.9980    
+soil_0_20_silt == 0    0.005221   0.020000   0.261   0.9999    
+TreatmentP100 == 0     1.064947   0.189197   5.629   &lt;0.001 ***
+TreatmentP166 == 0     1.634290   0.190059   8.599   &lt;0.001 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit.Yrel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit.Yrel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Type III Analysis of Variance Table with Satterthwaite's method
           Sum Sq Mean Sq NumDF   DenDF F value Pr(&gt;F)
-k         306.01  306.01     1  86.336  1.3218 0.2534
-log(PS)    33.66   33.66     1 138.415  0.1454 0.7036
-Treatment 415.65  207.82     2   7.379  0.8977 0.4478
-k:log(PS) 510.00  510.00     1 104.864  2.2030 0.1407</code></pre>
+k         352.08  352.08     1 100.895  1.5215 0.2203
+log(PS)    35.78   35.78     1 141.012  0.1546 0.6948
+Treatment 417.84  208.92     2   7.638  0.9028 0.4447
+k:log(PS) 566.74  566.74     1 118.424  2.4491 0.1203</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit.Puptake)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit.Puptake)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Type III Analysis of Variance Table with Satterthwaite's method
           Sum Sq Mean Sq NumDF  DenDF F value Pr(&gt;F)
-k          0.032   0.032     1 295.86  0.0002 0.9877
-log(PS)   20.205  20.205     1 295.76  0.1520 0.6969
-Treatment 77.719  38.859     2 258.80  0.2924 0.7467
-k:log(PS)  0.653   0.653     1 295.07  0.0049 0.9442</code></pre>
+k          0.030   0.030     1 295.84  0.0002 0.9880
+log(PS)   19.355  19.355     1 295.59  0.1456 0.7030
+Treatment 77.444  38.722     2 257.88  0.2913 0.7475
+k:log(PS)  1.344   1.344     1 295.03  0.0101 0.9200</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit.CO2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit.CO2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Type III Analysis of Variance Table with Satterthwaite's method
                  Sum Sq Mean Sq NumDF  DenDF F value    Pr(&gt;F)    
@@ -637,7 +640,7 @@ Treatment        4.8977 2.44886     2  5.827 29.6281 0.0008839 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit.AAE10)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit.AAE10)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Type III Analysis of Variance Table with Satterthwaite's method
                  Sum Sq Mean Sq NumDF  DenDF F value    Pr(&gt;F)    
@@ -649,28 +652,28 @@ Treatment        7.5352  3.7676     2  4.841 87.1720 0.0001598 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Verhalten der Modelparameter und Ertragsdaten auf P-CO2 und P-AAE10</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Verhalten der Modelparameter und Ertragsdaten auf P-CO2 und P-AAE10</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div>
 <p>Since we now model two measurement methods, we do not expect correlations by Site/year/etc</p>
 <div class="cell-container"><div class="cell-decorator"><pre>In [4]:</pre></div><div class="cell">
-<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="co"># fit.PS       &lt;- lm(PS            ~ soil_0_20_P_CO2 + soil_0_20_P_AAE10, D)</span></span>
-<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a>fit.PS       <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">log</span>(PS)         <span class="sc">~</span> <span class="fu">log</span>(soil_0_20_P_CO2) <span class="sc">+</span> <span class="fu">log</span>(soil_0_20_P_AAE10), D)</span>
-<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a>fit.k        <span class="ot">&lt;-</span> <span class="fu">lm</span>(k               <span class="sc">~</span> <span class="fu">log</span>(soil_0_20_P_CO2) <span class="sc">+</span> <span class="fu">log</span>(soil_0_20_P_AAE10), D)</span>
-<span id="cb75-4"><a href="#cb75-4" aria-hidden="true" tabindex="-1"></a>fit.kPS      <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">I</span>(<span class="fu">log</span>(k<span class="sc">*</span>PS))    <span class="sc">~</span> <span class="fu">log</span>(soil_0_20_P_CO2) <span class="sc">+</span> <span class="fu">log</span>(soil_0_20_P_AAE10), D)</span>
-<span id="cb75-5"><a href="#cb75-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb75-6"><a href="#cb75-6" aria-hidden="true" tabindex="-1"></a>fit.Yrel     <span class="ot">&lt;-</span> <span class="fu">lmer</span>(Ymain_rel       <span class="sc">~</span> <span class="fu">log</span>(soil_0_20_P_CO2) <span class="sc">+</span> <span class="fu">log</span>(soil_0_20_P_AAE10) <span class="sc">+</span> Treatment <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>year) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site)  <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>block) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>Treatment), D)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="co"># fit.PS       &lt;- lm(PS            ~ soil_0_20_P_CO2 + soil_0_20_P_AAE10, D)</span></span>
+<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a>fit.PS       <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">log</span>(PS)         <span class="sc">~</span> <span class="fu">log</span>(soil_0_20_P_CO2) <span class="sc">+</span> <span class="fu">log</span>(soil_0_20_P_AAE10), D)</span>
+<span id="cb77-3"><a href="#cb77-3" aria-hidden="true" tabindex="-1"></a>fit.k        <span class="ot">&lt;-</span> <span class="fu">lm</span>(k               <span class="sc">~</span> <span class="fu">log</span>(soil_0_20_P_CO2) <span class="sc">+</span> <span class="fu">log</span>(soil_0_20_P_AAE10), D)</span>
+<span id="cb77-4"><a href="#cb77-4" aria-hidden="true" tabindex="-1"></a>fit.kPS      <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">I</span>(<span class="fu">log</span>(k<span class="sc">*</span>PS))    <span class="sc">~</span> <span class="fu">log</span>(soil_0_20_P_CO2) <span class="sc">+</span> <span class="fu">log</span>(soil_0_20_P_AAE10), D)</span>
+<span id="cb77-5"><a href="#cb77-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb77-6"><a href="#cb77-6" aria-hidden="true" tabindex="-1"></a>fit.Yrel     <span class="ot">&lt;-</span> <span class="fu">lmer</span>(Ymain_rel       <span class="sc">~</span> <span class="fu">log</span>(soil_0_20_P_CO2) <span class="sc">+</span> <span class="fu">log</span>(soil_0_20_P_AAE10) <span class="sc">+</span> Treatment <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>year) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site)  <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>block) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>Treatment), D)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>boundary (singular) fit: see help('isSingular')</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="co"># this is hopeless, since cannot log becaus of 0's</span></span>
-<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a>fit.Puptake  <span class="ot">&lt;-</span> <span class="fu">lm</span>(annual_P_uptake <span class="sc">~</span> soil_0_20_P_CO2 <span class="sc">+</span> soil_0_20_P_AAE10 <span class="sc">+</span> Treatment, D)</span>
-<span id="cb77-3"><a href="#cb77-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb77-4"><a href="#cb77-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(D<span class="sc">$</span>annual_P_uptake)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="co"># this is hopeless, since cannot log becaus of 0's</span></span>
+<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a>fit.Puptake  <span class="ot">&lt;-</span> <span class="fu">lm</span>(annual_P_uptake <span class="sc">~</span> soil_0_20_P_CO2 <span class="sc">+</span> soil_0_20_P_AAE10 <span class="sc">+</span> Treatment, D)</span>
+<span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-4"><a href="#cb79-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(D<span class="sc">$</span>annual_P_uptake)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
    0.00    0.00   18.50   17.75   26.37   85.57 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(D<span class="sc">$</span>Ymain_rel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(D<span class="sc">$</span>Ymain_rel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -678,7 +681,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(D<span class="sc">$</span>annual_P_uptake)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(D<span class="sc">$</span>annual_P_uptake)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -686,9 +689,9 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="co">#summary(glht(fit.PS))</span></span>
-<span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Fazit: PS wird von treatment stark beeinfluss, k eher nicht (dafür von site)</span></span>
-<span id="cb81-3"><a href="#cb81-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">glht</span>(fit.PS))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="co">#summary(glht(fit.PS))</span></span>
+<span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Fazit: PS wird von treatment stark beeinfluss, k eher nicht (dafür von site)</span></span>
+<span id="cb83-3"><a href="#cb83-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">glht</span>(fit.PS))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
      Simultaneous Tests for General Linear Hypotheses
@@ -698,14 +701,14 @@ Fit: lm(formula = log(PS) ~ log(soil_0_20_P_CO2) + log(soil_0_20_P_AAE10),
 
 Linear Hypotheses:
                             Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept) == 0            -1.30117    0.31658  -4.110   &lt;0.001 ***
-log(soil_0_20_P_CO2) == 0    1.12550    0.08043  13.993   &lt;0.001 ***
-log(soil_0_20_P_AAE10) == 0 -0.11616    0.08195  -1.417    0.225    
+(Intercept) == 0            -1.28442    0.31706  -4.051   &lt;0.001 ***
+log(soil_0_20_P_CO2) == 0    1.13024    0.08056  14.030   &lt;0.001 ***
+log(soil_0_20_P_AAE10) == 0 -0.12003    0.08208  -1.462    0.208    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">glht</span>(fit.k))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">glht</span>(fit.k))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
      Simultaneous Tests for General Linear Hypotheses
@@ -715,14 +718,14 @@ Fit: lm(formula = k ~ log(soil_0_20_P_CO2) + log(soil_0_20_P_AAE10),
 
 Linear Hypotheses:
                              Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept) == 0             0.062140   0.035072   1.772    0.116    
-log(soil_0_20_P_CO2) == 0   -0.038454   0.008911  -4.315   &lt;0.001 ***
-log(soil_0_20_P_AAE10) == 0  0.032612   0.009079   3.592   &lt;0.001 ***
+(Intercept) == 0             0.042082   0.035874   1.173    0.334    
+log(soil_0_20_P_CO2) == 0   -0.043350   0.009115  -4.756   &lt;0.001 ***
+log(soil_0_20_P_AAE10) == 0  0.037654   0.009287   4.055   &lt;0.001 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">glht</span>(fit.kPS))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">glht</span>(fit.kPS))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
      Simultaneous Tests for General Linear Hypotheses
@@ -732,14 +735,14 @@ Fit: lm(formula = I(log(k * PS)) ~ log(soil_0_20_P_CO2) + log(soil_0_20_P_AAE10)
 
 Linear Hypotheses:
                             Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept) == 0            -3.59605    0.31916 -11.267   &lt;1e-04 ***
-log(soil_0_20_P_CO2) == 0    0.93746    0.08109  11.561   &lt;1e-04 ***
-log(soil_0_20_P_AAE10) == 0  0.03412    0.08262   0.413    0.836    
+(Intercept) == 0            -3.71276    0.32286 -11.500   &lt;0.001 ***
+log(soil_0_20_P_CO2) == 0    0.90642    0.08203  11.050   &lt;0.001 ***
+log(soil_0_20_P_AAE10) == 0  0.06226    0.08358   0.745    0.596    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit.Yrel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb89"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit.Yrel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite's method [
 lmerModLmerTest]
