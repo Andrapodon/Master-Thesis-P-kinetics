@@ -1,6 +1,6 @@
 ---
-title: Prediction Analysis for WSL
-author: Lukas Graz
+title: Modeling of relative Yield, P-Uptake and P-Balance
+author: Marc PErez
 date: 2025-02-13
 ---
 
