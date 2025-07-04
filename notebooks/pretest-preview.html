@@ -651,7 +651,7 @@ Residual standard error: 0.02119011 on 68 degrees of freedom</code></pre>
 <span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>  d.tmp <span class="ot">&lt;-</span> <span class="fu">subset</span>(d, ui <span class="sc">==</span> lvl)</span>
 <span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># first get nlsList coefs for comparison only (unused)</span></span>
 <span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>  temp_nls <span class="ot">&lt;-</span> <span class="fu">coef</span>(<span class="fu">nlsList</span>(Pv.mg.L. <span class="sc">~</span> PS <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">exp</span>(<span class="sc">-</span>k <span class="sc">*</span> t.dt)) <span class="sc">|</span> uid, </span>
-<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>                    d[, <span class="fu">c</span>(<span class="st">"Pv.mg.L."</span>, <span class="st">"uid"</span>, <span class="st">"t.dt"</span>)], </span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>                    d.tmp[, <span class="fu">c</span>(<span class="st">"Pv.mg.L."</span>, <span class="st">"uid"</span>, <span class="st">"t.dt"</span>)], </span>
 <span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>                    <span class="at">start =</span> <span class="fu">list</span>(<span class="at">PS =</span> <span class="fl">0.1</span>, <span class="at">k =</span> <span class="fl">0.2</span>)))</span>
 <span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>  nlsList_coefs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">apply</span>(temp_nls, <span class="dv">2</span>, \(x) <span class="fu">c</span>(<span class="at">mean=</span><span class="fu">mean</span>(x), <span class="at">sd=</span><span class="fu">sd</span>(x))))</span>
 <span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>(nlsList_coefs) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"PS.mean"</span>, <span class="st">"PS.sd"</span>, <span class="st">"k.mean"</span>, <span class="st">"k.sd"</span>)</span>
@@ -659,9 +659,9 @@ Residual standard error: 0.02119011 on 68 degrees of freedom</code></pre>
 <span id="cb38-15"><a href="#cb38-15" aria-hidden="true" tabindex="-1"></a>  <span class="co"># now do the real thing</span></span>
 <span id="cb38-16"><a href="#cb38-16" aria-hidden="true" tabindex="-1"></a>  model4 <span class="ot">&lt;-</span> <span class="fu">nlme</span>(Pv.mg.L. <span class="sc">~</span> PS <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">exp</span>(<span class="sc">-</span>k <span class="sc">*</span> t.dt)),</span>
 <span id="cb38-17"><a href="#cb38-17" aria-hidden="true" tabindex="-1"></a>                <span class="at">fixed =</span> PS <span class="sc">+</span> k <span class="sc">~</span> <span class="dv">1</span>,</span>
-<span id="cb38-18"><a href="#cb38-18" aria-hidden="true" tabindex="-1"></a>                <span class="at">random =</span> PS <span class="sc">+</span> k <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> uid,</span>
-<span id="cb38-19"><a href="#cb38-19" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> d[, <span class="fu">c</span>(<span class="st">"Pv.mg.L."</span>, <span class="st">"uid"</span>, <span class="st">"t.dt"</span>)],</span>
-<span id="cb38-20"><a href="#cb38-20" aria-hidden="true" tabindex="-1"></a>                <span class="at">start =</span> <span class="fu">c</span>(<span class="at">PS =</span> <span class="fl">0.05</span>, <span class="at">k =</span> <span class="fl">0.15</span>),</span>
+<span id="cb38-18"><a href="#cb38-18" aria-hidden="true" tabindex="-1"></a>                <span class="at">random =</span> PS <span class="sc">+</span> k  <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> uid,</span>
+<span id="cb38-19"><a href="#cb38-19" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> d.tmp[, <span class="fu">c</span>(<span class="st">"Pv.mg.L."</span>, <span class="st">"uid"</span>, <span class="st">"t.dt"</span>)],</span>
+<span id="cb38-20"><a href="#cb38-20" aria-hidden="true" tabindex="-1"></a>                <span class="at">start =</span> <span class="fu">c</span>(<span class="at">PS =</span> <span class="fl">0.05</span>, <span class="at">k =</span> <span class="fl">0.12</span>),</span>
 <span id="cb38-21"><a href="#cb38-21" aria-hidden="true" tabindex="-1"></a>                <span class="at">control =</span> <span class="fu">nlmeControl</span>(<span class="at">maxIter =</span> <span class="dv">200</span>))</span>
 <span id="cb38-22"><a href="#cb38-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coef</span>(model4)</span>
 <span id="cb38-23"><a href="#cb38-23" aria-hidden="true" tabindex="-1"></a>  fixef <span class="ot">&lt;-</span> model4<span class="sc">$</span>coefficients<span class="sc">$</span>fixed</span>
@@ -749,10 +749,12 @@ Residual standard error: 0.02119011 on 68 degrees of freedom</code></pre>
 <pre><code>Anova Table (Type II tests)
 
 Response: log(PS)
-          Sum Sq  Df F value Pr(&gt;F)
-Treatment   0.00   2       0      1
-Site        0.00   4       0      1
-Residuals 524.38 878               </code></pre>
+           Sum Sq Df  F value    Pr(&gt;F)    
+Treatment 27.6260  2 154.7655 &lt; 2.2e-16 ***
+Site       3.0383  4   8.5104 2.324e-05 ***
+Residuals  4.6411 52                       
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">glht</span>(fit.PS, <span class="fu">mcp</span>(<span class="at">Treatment =</span> <span class="st">"Tukey"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -765,10 +767,12 @@ Multiple Comparisons of Means: Tukey Contrasts
 Fit: lm(formula = log(PS) ~ Treatment + Site, data = nlme.coef)
 
 Linear Hypotheses:
-                   Estimate Std. Error t value Pr(&gt;|t|)
-P100 - P0 == 0   -1.144e-16  6.363e-02       0        1
-P166 - P0 == 0   -1.177e-16  6.363e-02       0        1
-P166 - P100 == 0 -3.322e-18  6.363e-02       0        1
+                 Estimate Std. Error t value Pr(&gt;|t|)    
+P100 - P0 == 0    0.91948    0.09447   9.733   &lt;1e-10 ***
+P166 - P0 == 0    1.68127    0.09580  17.550   &lt;1e-10 ***
+P166 - P100 == 0  0.76179    0.09580   7.952   &lt;1e-10 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fazit: PS wird von treatment stark beeinfluss, k eher nicht (dafür von site)</span></span>
@@ -777,10 +781,12 @@ P166 - P100 == 0 -3.322e-18  6.363e-02       0        1
 <pre><code>Anova Table (Type II tests)
 
 Response: k
-          Sum Sq  Df F value Pr(&gt;F)
-Treatment 0.0000   2       0      1
-Site      0.0000   4       0      1
-Residuals 1.5731 878               </code></pre>
+            Sum Sq Df F value    Pr(&gt;F)    
+Treatment 0.007374  2  1.6124    0.2092    
+Site      0.108427  4 11.8547 6.442e-07 ***
+Residuals 0.118902 52                      
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">glht</span>(fit.k, <span class="fu">mcp</span>(<span class="at">Treatment =</span> <span class="st">"Tukey"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -793,10 +799,10 @@ Multiple Comparisons of Means: Tukey Contrasts
 Fit: lm(formula = k ~ Treatment + Site, data = nlme.coef)
 
 Linear Hypotheses:
-                   Estimate Std. Error t value Pr(&gt;|t|)
-P100 - P0 == 0   -1.613e-18  3.485e-03       0        1
-P166 - P0 == 0   -8.728e-19  3.485e-03       0        1
-P166 - P100 == 0  7.405e-19  3.485e-03       0        1
+                  Estimate Std. Error t value Pr(&gt;|t|)
+P100 - P0 == 0    0.003111   0.015121   0.206    0.977
+P166 - P0 == 0   -0.022243   0.015334  -1.451    0.323
+P166 - P100 == 0 -0.025354   0.015334  -1.653    0.233
 (Adjusted p values reported -- single-step method)</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Anova</span>(fit.kPS)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -804,10 +810,12 @@ P166 - P100 == 0  7.405e-19  3.485e-03       0        1
 <pre><code>Anova Table (Type II tests)
 
 Response: I(log(k * PS))
-          Sum Sq  Df F value Pr(&gt;F)
-Treatment   0.00   2       0      1
-Site        0.00   4       0      1
-Residuals 500.56 878               </code></pre>
+           Sum Sq Df F value    Pr(&gt;F)    
+Treatment 22.4177  2 68.5970 2.609e-15 ***
+Site       3.9298  4  6.0124 0.0004703 ***
+Residuals  8.4969 52                      
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">glht</span>(fit.kPS, <span class="fu">mcp</span>(<span class="at">Treatment =</span> <span class="st">"Tukey"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -820,10 +828,12 @@ Multiple Comparisons of Means: Tukey Contrasts
 Fit: lm(formula = I(log(k * PS)) ~ Treatment + Site, data = nlme.coef)
 
 Linear Hypotheses:
-                   Estimate Std. Error t value Pr(&gt;|t|)
-P100 - P0 == 0   -8.645e-17  6.217e-02       0        1
-P166 - P0 == 0   -1.048e-16  6.217e-02       0        1
-P166 - P100 == 0 -1.831e-17  6.217e-02       0        1
+                 Estimate Std. Error t value Pr(&gt;|t|)    
+P100 - P0 == 0     0.9127     0.1278   7.140   &lt;1e-04 ***
+P166 - P0 == 0     1.5035     0.1296  11.599   &lt;1e-04 ***
+P166 - P100 == 0   0.5908     0.1296   4.558   &lt;1e-04 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
 </div>
 </div></div>
@@ -855,7 +865,7 @@ P166 - P100 == 0 -1.831e-17  6.217e-02       0        1
 <span id="cb58-11"><a href="#cb58-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb58-12"><a href="#cb58-12" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(nlme.coef.mrg)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 4590</code></pre>
+<pre><code>[1] 306</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(nlme.coef.mrg)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
