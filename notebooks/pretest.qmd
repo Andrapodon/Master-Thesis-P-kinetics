@@ -1,5 +1,5 @@
 ---
-title: "Pretest"
+title: "Model Validation and coefficient calculation"
 format: 
   html:
     math: mathjax
@@ -81,11 +81,12 @@ d$Pv_labile.mg.L. <- as.numeric(d$Pv_labile.mg.L.)
 d$Pv_Olsen.mg.L. <- as.numeric(d$Pv_Olsen.mg.L.)
 d$uid <- paste(d$Site, d$Treatment, as.character(d$Repetition), sep="_")
 d$Repetition <- as.factor(d$Repetition)
+d$t.dt <- d$t.min. + 3
+d[d$Treatment=="P0"&d$Site=="Ellighausen"&d$Repetition==4,"Pv_Olsen.mg.L."] <- NA
 d$flos <- as.numeric(d$Pv_Olsen.mg.L.)-as.numeric(d$Pv_labile.mg.L.)
 d$flos[d$flos <= 0] <- quantile(d$flos[d$flos > 0], 0.025, na.rm=TRUE)/2
 d$Y1 <- log(1 - d$Pv.mg.L. / d$flos) # one timeseries removed, since flos too low
 d$Y1[is.nan(d$Y1)] <- NA
-d$t.dt <- d$t.min. + 3
 
 
 str(d)
@@ -120,7 +121,7 @@ Now we can see, whether our linearized model displays a linear relation.
 #| echo: false
 #| warning: false
 #| message: false
-res <- lmList(Y1 ~ t.min. | uid, d,na.action = na.pass)
+res <- lmList(Y1 ~ t.min. | uid, d[d$Repetition==1|d$Repetition==2,],na.action = na.pass)
 summary(res)
 ggplot(d, aes(y=Y1, x=t.min., col = Repetition)) +
   geom_point() +

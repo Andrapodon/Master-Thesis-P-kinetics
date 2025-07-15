@@ -8,6 +8,8 @@ date: 2025-02-13
 #| code-fold: false
 RES <- readRDS("data/RES.rds")
 Dmlr <- RES$nlme.coef.mrg
+Dmlr$soil_0_20_P_CO2_log[is.infinite(Dmlr$soil_0_20_P_CO2_log)] <- NA 
+Dmlr$soil_0_20_P_AAE10_log
 # d <- RES$data
 ```
 
