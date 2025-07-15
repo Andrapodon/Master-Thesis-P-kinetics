@@ -28,6 +28,7 @@ library(MuMIn)
 library(sjPlot) # table functions
 library(sjmisc) # sample data
 library(lme4) # fitting models
+library(report)
 
 
 load("~/Documents/Master Thesis/Master-Thesis-P-kinetics/data/results_coefficient_analysis")
@@ -53,7 +54,6 @@ GRUD
 
 -   Hypothesis I: The measurements of the equlibrium concentrations of Phosphorus in a solvent do not display significant effects on relative Yield and consequently P-Uptake, since it is strongly dependent on yield. $C_P$ relates strongly to the amount of Phosphorus applied, the P-balance might well be siginificantly correlated to $C_P$ but not explain a lot of variance.
 
-**relative Yield**
 
 ```{r}
 #|code-fold: true
@@ -110,6 +110,10 @@ Now we want to check the strength of the models in terms of $R^2$ and the signif
 #|code-fold: true
 #|tidy: true
 
-tab_model(fit.grud.Yrel,fit.grud.Puptake,fit.grud.Pbalance)
+#tab_model(fit.grud.Yrel,fit.grud.Puptake,fit.grud.Pbalance)
+report(fit.grud.Yrel)
+report(fit.grud.Puptake)
+report(fit.grud.Pbalance)
 ```
 
+### How do GRUD-measurements of $C_P$ relate to the soil properties $C_\text{org}$-content, clay-content, silt-content and pH?
