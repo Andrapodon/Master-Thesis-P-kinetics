@@ -8,6 +8,8 @@ date: 2025-02-13
 #| code-fold: false
 RES <- readRDS("data/RES.rds")
 Dmlr <- RES$nlme.coef.mrg
+Dmlr$soil_0_20_P_CO2_log[is.infinite(Dmlr$soil_0_20_P_CO2_log)] <- NA 
+Dmlr$soil_0_20_P_AAE10_log
 # d <- RES$data
 ```
 
@@ -124,7 +126,7 @@ Algorithm learns to predict location from weather since we do not do stratified 
 #| code-fold: true
 y <- "Ymain_rel"
 lapply(names(P_var_sets), \(nam) as_task_regr(
-    Dmlr[complete.cases(Dmlr$Ymain_rel),c(y, Weather_vars, P_var_sets[[nam]])],
+    Dmlr[complete.cases(Dmlr[,c("Ymain_rel",Weather_vars,P_var_sets$AAE10_CO2_kPS)]),c(y, Weather_vars, P_var_sets[[nam]])],
     target = y,
     id = nam)) |>
   get_benchi_table() |> knitr::kable()
@@ -147,7 +149,7 @@ lapply(names(P_var_sets), \(nam) as_task_regr(
 #| code-fold: true
 y <- "annual_P_uptake"
 lapply(names(P_var_sets), \(nam) as_task_regr(
-    Dmlr[complete.cases(Dmlr$annual_P_uptake),c(y, Weather_vars, P_var_sets[[nam]])],
+    Dmlr[complete.cases(Dmlr[,c("Ymain_rel",Weather_vars,P_var_sets$AAE10_CO2_kPS)]),c(y, Weather_vars, P_var_sets[[nam]])],
     target = y,
     id = nam)) |>
   get_benchi_table()  |> knitr::kable()
@@ -170,7 +172,7 @@ lapply(names(P_var_sets), \(nam) as_task_regr(
 #| code-fold: true
 y <- "annual_P_balance"
 lapply(names(P_var_sets), \(nam) as_task_regr(
-    Dmlr[complete.cases(Dmlr$annual_P_balance),c(y, Weather_vars, P_var_sets[[nam]])],
+    Dmlr[complete.cases(Dmlr[,c("Ymain_rel",Weather_vars,P_var_sets$AAE10_CO2_kPS)]),c(y, Weather_vars, P_var_sets[[nam]])],
     target = y,
     id = nam)) |>
   get_benchi_table()  |> knitr::kable()
@@ -202,7 +204,7 @@ xgboost & ranger are no good in this setting since only very few variables avail
 #| code-fold: true
 y <- "Ymain_rel"
 lapply(names(P_var_sets), \(nam) as_task_regr(
-    Dmlr[complete.cases(Dmlr$Ymain_rel),c(y, P_var_sets[[nam]])],
+    Dmlr[complete.cases(Dmlr[,c("Ymain_rel",Weather_vars,P_var_sets$AAE10_CO2_kPS)]),c(y, P_var_sets[[nam]])],
     target = y,
     id = nam)) |>
   get_benchi_table()  |> knitr::kable()
@@ -224,7 +226,7 @@ lapply(names(P_var_sets), \(nam) as_task_regr(
 #| code-fold: true
 y <- "annual_P_uptake"
 lapply(names(P_var_sets), \(nam) as_task_regr(
-    Dmlr[complete.cases(Dmlr$annual_P_uptake),c(y, P_var_sets[[nam]])],
+    Dmlr[complete.cases(Dmlr[,c("Ymain_rel",Weather_vars,P_var_sets$AAE10_CO2_kPS)]),c(y, P_var_sets[[nam]])],
     target = y,
     id = nam)) |>
   get_benchi_table()  |> knitr::kable()
@@ -246,7 +248,7 @@ lapply(names(P_var_sets), \(nam) as_task_regr(
 #| code-fold: true
 y <- "annual_P_balance"
 lapply(names(P_var_sets), \(nam) as_task_regr(
-    Dmlr[complete.cases(Dmlr$annual_P_balance),c(y, P_var_sets[[nam]])],
+    Dmlr[complete.cases(Dmlr[,c("Ymain_rel",Weather_vars,P_var_sets$AAE10_CO2_kPS)]),c(y, P_var_sets[[nam]])],
     target = y,
     id = nam)) |>
   get_benchi_table()  |> knitr::kable()

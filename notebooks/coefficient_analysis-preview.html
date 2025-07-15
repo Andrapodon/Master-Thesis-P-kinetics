@@ -347,7 +347,7 @@ Attaching package: 'dplyr'</code></pre>
 </div></div>
 <p>Model Agroscope <span class="math display">\[Y_{rel}\sim A*(1-e^{rate*P_{CO_2}+Env})\]</span></p>
 <p>Wir ersetzen nur rate mit unserer Schätzung k: <span class="math display">\[Y_{rel}\sim A*(1-e^{k*P_{CO_2}+Env})\]</span></p>
-<p>Sind unsere Modelparameter gute Prediktoren?? <span class="math display">\[Y_{rel}\sim A*(1-e^{k*PS}+Env})\]</span></p>
+<p>Sind unsere Modelparameter gute Prediktoren?? <span class="math display">\[Y_{rel}\sim A*(1-e^{k*PS+Env} )\]</span></p>
 <p>Es gibt noch die Kovariaten Niederschlag pro Jahr, Jahresdurchschnittstemperatur und Temperatur in Jugendphase</p>
 <div class="cell-container"><div class="cell-decorator"><pre>In [2]:</pre></div><div class="cell">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a></span>
@@ -546,11 +546,11 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>Type III Analysis of Variance Table with Satterthwaite's method
                     Sum Sq   Mean Sq NumDF   DenDF F value   Pr(&gt;F)   
-soil_0_20_clay   0.0098145 0.0098145     1  69.315 10.0430 0.002276 **
-soil_0_20_pH_H2O 0.0091421 0.0091421     1 102.384  9.3550 0.002838 **
-soil_0_20_Corg   0.0014112 0.0014112     1  98.359  1.4441 0.232367   
-soil_0_20_silt   0.0046704 0.0046704     1  75.912  4.7792 0.031889 * 
-Treatment        0.0059045 0.0029522     2   5.405  3.0210 0.131603   
+soil_0_20_clay   0.0098143 0.0098143     1  69.314 10.0428 0.002277 **
+soil_0_20_pH_H2O 0.0091422 0.0091422     1 102.384  9.3551 0.002838 **
+soil_0_20_Corg   0.0014112 0.0014112     1  98.359  1.4440 0.232372   
+soil_0_20_silt   0.0046704 0.0046704     1  75.910  4.7792 0.031888 * 
+Treatment        0.0059043 0.0029521     2   5.405  3.0209 0.131613   
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
@@ -564,14 +564,14 @@ Fit: lmer(formula = k ~ soil_0_20_clay + soil_0_20_pH_H2O + soil_0_20_Corg +
     Site:block) + (1 | Site:Treatment), data = D)
 
 Linear Hypotheses:
-                       Estimate Std. Error z value Pr(&gt;|z|)  
-(Intercept) == 0       0.074173   0.150771   0.492   0.9965  
-soil_0_20_clay == 0   -0.007001   0.002209  -3.169   0.0101 *
-soil_0_20_pH_H2O == 0  0.033719   0.011024   3.059   0.0151 *
-soil_0_20_Corg == 0   -0.034534   0.028737  -1.202   0.7770  
-soil_0_20_silt == 0    0.005864   0.002683   2.186   0.1651  
-TreatmentP100 == 0     0.003910   0.015506   0.252   0.9999  
-TreatmentP166 == 0    -0.031147   0.015685  -1.986   0.2527  
+                       Estimate Std. Error z value Pr(&gt;|z|)   
+(Intercept) == 0       0.074168   0.150771   0.492  0.99651   
+soil_0_20_clay == 0   -0.007001   0.002209  -3.169  0.00969 **
+soil_0_20_pH_H2O == 0  0.033720   0.011024   3.059  0.01464 * 
+soil_0_20_Corg == 0   -0.034533   0.028737  -1.202  0.77704   
+soil_0_20_silt == 0    0.005864   0.002683   2.186  0.16487   
+TreatmentP100 == 0     0.003910   0.015506   0.252  0.99993   
+TreatmentP166 == 0    -0.031147   0.015685  -1.986  0.25415   
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
@@ -579,12 +579,12 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 <div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit.kPS)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Type III Analysis of Variance Table with Satterthwaite's method
-                 Sum Sq Mean Sq NumDF   DenDF F value    Pr(&gt;F)    
-soil_0_20_clay   0.0055 0.00551     1  77.626  0.1042 0.7476732    
-soil_0_20_pH_H2O 0.3773 0.37730     1 101.942  7.1334 0.0088083 ** 
-soil_0_20_Corg   0.0105 0.01052     1  93.639  0.1989 0.6566047    
-soil_0_20_silt   0.0036 0.00360     1  80.227  0.0681 0.7947202    
-Treatment        4.0335 2.01676     2   5.846 38.1292 0.0004424 ***
+                 Sum Sq Mean Sq NumDF   DenDF F value   Pr(&gt;F)    
+soil_0_20_clay   0.0055 0.00551     1  77.626  0.1043 0.747639    
+soil_0_20_pH_H2O 0.3773 0.37731     1 101.942  7.1335 0.008807 ** 
+soil_0_20_Corg   0.0105 0.01052     1  93.639  0.1990 0.656575    
+soil_0_20_silt   0.0036 0.00360     1  80.228  0.0681 0.794743    
+Treatment        4.0339 2.01697     2   5.847 38.1329 0.000442 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
@@ -599,13 +599,13 @@ Fit: lmer(formula = I(log(k * PS)) ~ soil_0_20_clay + soil_0_20_pH_H2O +
 
 Linear Hypotheses:
                        Estimate Std. Error z value Pr(&gt;|z|)    
-(Intercept) == 0      -6.657571   1.107385  -6.012   &lt;0.001 ***
-soil_0_20_clay == 0   -0.005315   0.016463  -0.323   0.9997    
-soil_0_20_pH_H2O == 0  0.216350   0.081005   2.671   0.0478 *  
-soil_0_20_Corg == 0    0.094682   0.212278   0.446   0.9980    
+(Intercept) == 0      -6.657570   1.107392  -6.012   &lt;0.001 ***
+soil_0_20_clay == 0   -0.005316   0.016463  -0.323   0.9997    
+soil_0_20_pH_H2O == 0  0.216354   0.081005   2.671   0.0471 *  
+soil_0_20_Corg == 0    0.094691   0.212278   0.446   0.9980    
 soil_0_20_silt == 0    0.005221   0.020000   0.261   0.9999    
-TreatmentP100 == 0     1.064947   0.189197   5.629   &lt;0.001 ***
-TreatmentP166 == 0     1.634290   0.190059   8.599   &lt;0.001 ***
+TreatmentP100 == 0     1.064948   0.189188   5.629   &lt;0.001 ***
+TreatmentP166 == 0     1.634290   0.190050   8.599   &lt;0.001 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
@@ -614,19 +614,19 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 <div class="cell-output cell-output-stdout">
 <pre><code>Type III Analysis of Variance Table with Satterthwaite's method
           Sum Sq Mean Sq NumDF   DenDF F value Pr(&gt;F)
-k         352.08  352.08     1 100.895  1.5215 0.2203
-log(PS)    35.78   35.78     1 141.012  0.1546 0.6948
-Treatment 417.84  208.92     2   7.638  0.9028 0.4447
-k:log(PS) 566.74  566.74     1 118.424  2.4491 0.1203</code></pre>
+k         146.11  146.11     1 151.805  0.4824 0.4884
+log(PS)    44.91   44.91     1 226.958  0.1483 0.7005
+Treatment 740.92  370.46     2   4.838  1.2232 0.3716
+k:log(PS) 324.35  324.35     1 172.913  1.0710 0.3022</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit.Puptake)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Type III Analysis of Variance Table with Satterthwaite's method
-          Sum Sq Mean Sq NumDF  DenDF F value Pr(&gt;F)
-k          0.030   0.030     1 295.84  0.0002 0.9880
-log(PS)   19.355  19.355     1 295.59  0.1456 0.7030
-Treatment 77.444  38.722     2 257.88  0.2913 0.7475
-k:log(PS)  1.344   1.344     1 295.03  0.0101 0.9200</code></pre>
+           Sum Sq Mean Sq NumDF  DenDF F value Pr(&gt;F)
+k          41.986  41.986     1 456.19  0.3035 0.5819
+log(PS)     6.315   6.315     1 457.82  0.0457 0.8309
+Treatment 129.470  64.735     2 443.37  0.4680 0.6266
+k:log(PS)  39.416  39.416     1 457.86  0.2850 0.5937</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit.CO2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -661,19 +661,17 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <span id="cb77-3"><a href="#cb77-3" aria-hidden="true" tabindex="-1"></a>fit.k        <span class="ot">&lt;-</span> <span class="fu">lm</span>(k               <span class="sc">~</span> <span class="fu">log</span>(soil_0_20_P_CO2) <span class="sc">+</span> <span class="fu">log</span>(soil_0_20_P_AAE10), D)</span>
 <span id="cb77-4"><a href="#cb77-4" aria-hidden="true" tabindex="-1"></a>fit.kPS      <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">I</span>(<span class="fu">log</span>(k<span class="sc">*</span>PS))    <span class="sc">~</span> <span class="fu">log</span>(soil_0_20_P_CO2) <span class="sc">+</span> <span class="fu">log</span>(soil_0_20_P_AAE10), D)</span>
 <span id="cb77-5"><a href="#cb77-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb77-6"><a href="#cb77-6" aria-hidden="true" tabindex="-1"></a>fit.Yrel     <span class="ot">&lt;-</span> <span class="fu">lmer</span>(Ymain_rel       <span class="sc">~</span> <span class="fu">log</span>(soil_0_20_P_CO2) <span class="sc">+</span> <span class="fu">log</span>(soil_0_20_P_AAE10) <span class="sc">+</span> Treatment <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>year) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site)  <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>block) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>Treatment), D)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>boundary (singular) fit: see help('isSingular')</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="co"># this is hopeless, since cannot log becaus of 0's</span></span>
-<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a>fit.Puptake  <span class="ot">&lt;-</span> <span class="fu">lm</span>(annual_P_uptake <span class="sc">~</span> soil_0_20_P_CO2 <span class="sc">+</span> soil_0_20_P_AAE10 <span class="sc">+</span> Treatment, D)</span>
-<span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-4"><a href="#cb79-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(D<span class="sc">$</span>annual_P_uptake)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb77-6"><a href="#cb77-6" aria-hidden="true" tabindex="-1"></a>fit.Yrel     <span class="ot">&lt;-</span> <span class="fu">lmer</span>(Ymain_rel       <span class="sc">~</span> <span class="fu">log</span>(soil_0_20_P_CO2) <span class="sc">+</span> <span class="fu">log</span>(soil_0_20_P_AAE10) <span class="sc">+</span> Treatment <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>year) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site)  <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>block) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>Treatment), D)</span>
+<span id="cb77-7"><a href="#cb77-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb77-8"><a href="#cb77-8" aria-hidden="true" tabindex="-1"></a><span class="co"># this is hopeless, since cannot log becaus of 0's</span></span>
+<span id="cb77-9"><a href="#cb77-9" aria-hidden="true" tabindex="-1"></a>fit.Puptake  <span class="ot">&lt;-</span> <span class="fu">lm</span>(annual_P_uptake <span class="sc">~</span> soil_0_20_P_CO2 <span class="sc">+</span> soil_0_20_P_AAE10 <span class="sc">+</span> Treatment, D)</span>
+<span id="cb77-10"><a href="#cb77-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb77-11"><a href="#cb77-11" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(D<span class="sc">$</span>annual_P_uptake)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-   0.00    0.00   18.50   17.75   26.37   85.57 </code></pre>
+   0.00    0.00   18.79   18.89   27.62   89.02 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(D<span class="sc">$</span>Ymain_rel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(D<span class="sc">$</span>Ymain_rel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -681,7 +679,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(D<span class="sc">$</span>annual_P_uptake)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(D<span class="sc">$</span>annual_P_uptake)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -689,9 +687,9 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="co">#summary(glht(fit.PS))</span></span>
-<span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Fazit: PS wird von treatment stark beeinfluss, k eher nicht (dafür von site)</span></span>
-<span id="cb83-3"><a href="#cb83-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">glht</span>(fit.PS))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="co">#summary(glht(fit.PS))</span></span>
+<span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Fazit: PS wird von treatment stark beeinfluss, k eher nicht (dafür von site)</span></span>
+<span id="cb81-3"><a href="#cb81-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">glht</span>(fit.PS))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
      Simultaneous Tests for General Linear Hypotheses
@@ -701,14 +699,14 @@ Fit: lm(formula = log(PS) ~ log(soil_0_20_P_CO2) + log(soil_0_20_P_AAE10),
 
 Linear Hypotheses:
                             Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept) == 0            -1.28442    0.31706  -4.051   &lt;0.001 ***
-log(soil_0_20_P_CO2) == 0    1.13024    0.08056  14.030   &lt;0.001 ***
-log(soil_0_20_P_AAE10) == 0 -0.12003    0.08208  -1.462    0.208    
+(Intercept) == 0            -1.59063    0.23863  -6.666   &lt;1e-04 ***
+log(soil_0_20_P_CO2) == 0    1.02613    0.06084  16.866   &lt;1e-04 ***
+log(soil_0_20_P_AAE10) == 0 -0.02995    0.06127  -0.489    0.793    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">glht</span>(fit.k))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">glht</span>(fit.k))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
      Simultaneous Tests for General Linear Hypotheses
@@ -718,14 +716,14 @@ Fit: lm(formula = k ~ log(soil_0_20_P_CO2) + log(soil_0_20_P_AAE10),
 
 Linear Hypotheses:
                              Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept) == 0             0.042082   0.035874   1.173    0.334    
-log(soil_0_20_P_CO2) == 0   -0.043350   0.009115  -4.756   &lt;0.001 ***
-log(soil_0_20_P_AAE10) == 0  0.037654   0.009287   4.055   &lt;0.001 ***
+(Intercept) == 0             0.103889   0.028977   3.585  &lt; 0.001 ***
+log(soil_0_20_P_CO2) == 0   -0.026427   0.007388  -3.577  &lt; 0.001 ***
+log(soil_0_20_P_AAE10) == 0  0.021027   0.007440   2.826  0.00862 ** 
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">glht</span>(fit.kPS))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">glht</span>(fit.kPS))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
      Simultaneous Tests for General Linear Hypotheses
@@ -735,14 +733,14 @@ Fit: lm(formula = I(log(k * PS)) ~ log(soil_0_20_P_CO2) + log(soil_0_20_P_AAE10)
 
 Linear Hypotheses:
                             Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept) == 0            -3.71276    0.32286 -11.500   &lt;0.001 ***
-log(soil_0_20_P_CO2) == 0    0.90642    0.08203  11.050   &lt;0.001 ***
-log(soil_0_20_P_AAE10) == 0  0.06226    0.08358   0.745    0.596    
+(Intercept) == 0            -3.63331    0.24159 -15.039   &lt;0.001 ***
+log(soil_0_20_P_CO2) == 0    0.90485    0.06160  14.690   &lt;0.001 ***
+log(soil_0_20_P_AAE10) == 0  0.04814    0.06203   0.776    0.586    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb89"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit.Yrel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit.Yrel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite's method [
 lmerModLmerTest]
@@ -751,40 +749,38 @@ Ymain_rel ~ log(soil_0_20_P_CO2) + log(soil_0_20_P_AAE10) + Treatment +
     (1 | year) + (1 | Site) + (1 | Site:block) + (1 | Site:Treatment)
    Data: D
 
-REML criterion at convergence: 1356.3
+REML criterion at convergence: 1726.8
 
 Scaled residuals: 
      Min       1Q   Median       3Q      Max 
--2.89707 -0.51631 -0.01278  0.59920  2.76693 
+-2.98805 -0.62531 -0.03449  0.57660  3.15994 
 
 Random effects:
- Groups         Name        Variance  Std.Dev. 
- Site:block     (Intercept) 1.088e-06  0.001043
- Site:Treatment (Intercept) 7.770e+00  2.787480
- Site           (Intercept) 3.888e+01  6.235037
- year           (Intercept) 2.299e+02 15.163045
- Residual                   2.235e+02 14.950651
-Number of obs: 165, groups:  
-Site:block, 16; Site:Treatment, 12; Site, 4; year, 4
+ Groups         Name        Variance Std.Dev.
+ Site:block     (Intercept)   1.815   1.347  
+ Site:Treatment (Intercept)  26.585   5.156  
+ year           (Intercept) 175.180  13.236  
+ Site           (Intercept)  22.431   4.736  
+ Residual                   194.780  13.956  
+Number of obs: 212, groups:  
+Site:block, 16; Site:Treatment, 12; year, 5; Site, 4
 
 Fixed effects:
-                       Estimate Std. Error     df t value Pr(&gt;|t|)    
-(Intercept)              78.918     20.173 58.997   3.912 0.000239 ***
-log(soil_0_20_P_CO2)      5.289      4.490 94.580   1.178 0.241796    
-log(soil_0_20_P_AAE10)    7.890      5.264 84.905   1.499 0.137617    
-TreatmentP100             1.778      4.646 13.336   0.383 0.707936    
-TreatmentP166            -2.900      6.211 29.808  -0.467 0.643972    
+                       Estimate Std. Error      df t value Pr(&gt;|t|)    
+(Intercept)              70.659     16.451  69.722   4.295 5.54e-05 ***
+log(soil_0_20_P_CO2)      1.155      3.967 152.164   0.291   0.7713    
+log(soil_0_20_P_AAE10)    8.099      4.176  78.407   1.939   0.0561 .  
+TreatmentP100             4.062      5.052   9.299   0.804   0.4414    
+TreatmentP166             1.599      6.208  18.950   0.258   0.7996    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 Correlation of Fixed Effects:
             (Intr) l(_0_20_P_C l(_0_20_P_A TrP100
-l(_0_20_P_C  0.710                               
-l(_0_20_P_A -0.876 -0.603                        
-TretmntP100  0.182 -0.166      -0.416            
-TretmntP166  0.163 -0.309      -0.425       0.755
-optimizer (nloptwrap) convergence code: 0 (OK)
-boundary (singular) fit: see help('isSingular')</code></pre>
+l(_0_20_P_C  0.722                               
+l(_0_20_P_A -0.867 -0.602                        
+TretmntP100  0.019 -0.179      -0.278            
+TretmntP166  0.013 -0.329      -0.307       0.663</code></pre>
 </div>
 </div></div>
 

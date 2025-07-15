@@ -8,7 +8,7 @@
     <meta name="author" content="Marc Pérez">
     <meta name="dcterms.date" content="2025-05-22">
 
-    <title>Pretest</title>
+    <title>Model Validation and coefficient calculation</title>
     <style>
       code{white-space: pre-wrap;}
       span.smallcaps{font-variant: small-caps;}
@@ -173,7 +173,7 @@
     <div id="quarto-embed-header" class="headroom fixed-top bg-primary">
       
       <a onclick="window.quartoBackToArticle(); return false;" class="btn btn-primary quarto-back-link" href=""><i class="bi bi-caret-left"></i> Back to Article</a>
-      <h6><i class="bi bi-journal-code"></i> Pretest</h6>
+      <h6><i class="bi bi-journal-code"></i> Model Validation and coefficient calculation</h6>
 
             <a href="../notebooks/pretest.qmd" class="btn btn-primary quarto-download-embed" download="pretest.qmd">Download Source</a>
           </div>
@@ -181,7 +181,7 @@
      <header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Pretest</h1>
+      <h1 class="title">Model Validation and coefficient calculation</h1>
           </div>
 
     
@@ -394,14 +394,15 @@ Attaching package: 'dplyr'</code></pre>
 <span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Pv_Olsen.mg.L. <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(d<span class="sc">$</span>Pv_Olsen.mg.L.)</span>
 <span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>uid <span class="ot">&lt;-</span> <span class="fu">paste</span>(d<span class="sc">$</span>Site, d<span class="sc">$</span>Treatment, <span class="fu">as.character</span>(d<span class="sc">$</span>Repetition), <span class="at">sep=</span><span class="st">"_"</span>)</span>
 <span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Repetition <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(d<span class="sc">$</span>Repetition)</span>
-<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>flos <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(d<span class="sc">$</span>Pv_Olsen.mg.L.)<span class="sc">-</span><span class="fu">as.numeric</span>(d<span class="sc">$</span>Pv_labile.mg.L.)</span>
-<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>flos[d<span class="sc">$</span>flos <span class="sc">&lt;=</span> <span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="fu">quantile</span>(d<span class="sc">$</span>flos[d<span class="sc">$</span>flos <span class="sc">&gt;</span> <span class="dv">0</span>], <span class="fl">0.025</span>, <span class="at">na.rm=</span><span class="cn">TRUE</span>)<span class="sc">/</span><span class="dv">2</span></span>
-<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Y1 <span class="ot">&lt;-</span> <span class="fu">log</span>(<span class="dv">1</span> <span class="sc">-</span> d<span class="sc">$</span>Pv.mg.L. <span class="sc">/</span> d<span class="sc">$</span>flos) <span class="co"># one timeseries removed, since flos too low</span></span>
-<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Y1[<span class="fu">is.nan</span>(d<span class="sc">$</span>Y1)] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
-<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>t.dt <span class="ot">&lt;-</span> d<span class="sc">$</span>t.min. <span class="sc">+</span> <span class="dv">3</span></span>
-<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>t.dt <span class="ot">&lt;-</span> d<span class="sc">$</span>t.min. <span class="sc">+</span> <span class="dv">3</span></span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>d[d<span class="sc">$</span>Treatment<span class="sc">==</span><span class="st">"P0"</span><span class="sc">&amp;</span>d<span class="sc">$</span>Site<span class="sc">==</span><span class="st">"Ellighausen"</span><span class="sc">&amp;</span>d<span class="sc">$</span>Repetition<span class="sc">==</span><span class="dv">4</span>,<span class="st">"Pv_Olsen.mg.L."</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>flos <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(d<span class="sc">$</span>Pv_Olsen.mg.L.)<span class="sc">-</span><span class="fu">as.numeric</span>(d<span class="sc">$</span>Pv_labile.mg.L.)</span>
+<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>flos[d<span class="sc">$</span>flos <span class="sc">&lt;=</span> <span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="fu">quantile</span>(d<span class="sc">$</span>flos[d<span class="sc">$</span>flos <span class="sc">&gt;</span> <span class="dv">0</span>], <span class="fl">0.025</span>, <span class="at">na.rm=</span><span class="cn">TRUE</span>)<span class="sc">/</span><span class="dv">2</span></span>
+<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Y1 <span class="ot">&lt;-</span> <span class="fu">log</span>(<span class="dv">1</span> <span class="sc">-</span> d<span class="sc">$</span>Pv.mg.L. <span class="sc">/</span> d<span class="sc">$</span>flos) <span class="co"># one timeseries removed, since flos too low</span></span>
+<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Y1[<span class="fu">is.nan</span>(d<span class="sc">$</span>Y1)] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
 <span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-23"><a href="#cb30-23" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(d)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb30-23"><a href="#cb30-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-24"><a href="#cb30-24" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(d)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>'data.frame':   394 obs. of  21 variables:
  $ Site              : chr  "Cadenazzo" "Cadenazzo" "Cadenazzo" "Cadenazzo" ...
@@ -422,9 +423,9 @@ Attaching package: 'dplyr'</code></pre>
  $ Dilution.1.       : num  20 20 20 20 20 20 20 20 20 20 ...
  $ V_H2O.L.          : num  0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 ...
  $ uid               : chr  "Cadenazzo_P0_2" "Cadenazzo_P0_2" "Cadenazzo_P0_2" "Cadenazzo_P0_2" ...
+ $ t.dt              : num  8 13 23 33 48 63 8 13 23 33 ...
  $ flos              : num  0.3 0.3 0.3 0.3 0.3 0.3 0.36 0.36 0.36 0.36 ...
- $ Y1                : num  -0.105 -0.143 -0.143 -0.182 -0.182 ...
- $ t.dt              : num  8 13 23 33 48 63 8 13 23 33 ...</code></pre>
+ $ Y1                : num  -0.105 -0.143 -0.143 -0.182 -0.182 ...</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; data.frame:  353 obs. of  21 variables:</span></span>
@@ -453,136 +454,76 @@ Attaching package: 'dplyr'</code></pre>
 </div></div>
 <p>Now we can see, whether our linearized model displays a linear relation.</p>
 <div class="cell-container"><div class="cell-decorator"><pre>In [2]:</pre></div><div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">lmList</span>(Y1 <span class="sc">~</span> t.min. <span class="sc">|</span> uid, d,<span class="at">na.action =</span> na.pass)</span>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">lmList</span>(Y1 <span class="sc">~</span> t.min. <span class="sc">|</span> uid, d[d<span class="sc">$</span>Repetition<span class="sc">==</span><span class="dv">1</span><span class="sc">|</span>d<span class="sc">$</span>Repetition<span class="sc">==</span><span class="dv">2</span>,],<span class="at">na.action =</span> na.pass)</span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(res)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Call:
   Model: Y1 ~ t.min. | uid 
-   Data: d 
+   Data: d[d$Repetition == 1 | d$Repetition == 2, ] 
 
 Coefficients:
    (Intercept) 
                       Estimate Std. Error    t value     Pr(&gt;|t|)
 Cadenazzo_P0_1     -0.12891945 0.01537006  -8.387702 4.332766e-12
 Cadenazzo_P0_2     -0.12037045 0.01537006  -7.831491 4.433395e-11
-Cadenazzo_P0_3              NA         NA         NA           NA
-Cadenazzo_P0_4              NA         NA         NA           NA
 Cadenazzo_P100_1            NA         NA         NA           NA
 Cadenazzo_P100_2            NA         NA         NA           NA
-Cadenazzo_P100_3            NA         NA         NA           NA
-Cadenazzo_P100_4            NA         NA         NA           NA
 Cadenazzo_P166_1   -0.26932199 0.01537006 -17.522512 6.499702e-27
 Cadenazzo_P166_2   -0.19243796 0.01537006 -12.520316 2.550625e-19
-Cadenazzo_P166_3            NA         NA         NA           NA
-Cadenazzo_P166_4            NA         NA         NA           NA
 Ellighausen_P0_1   -0.10464296 0.01537006  -6.808236 3.136905e-09
 Ellighausen_P0_2   -0.11438112 0.01537006  -7.441815 2.257472e-10
-Ellighausen_P0_3            NA         NA         NA           NA
-Ellighausen_P0_4            NA         NA         NA           NA
 Ellighausen_P100_1          NA         NA         NA           NA
 Ellighausen_P100_2          NA         NA         NA           NA
-Ellighausen_P100_3          NA         NA         NA           NA
-Ellighausen_P100_4          NA         NA         NA           NA
 Ellighausen_P166_1          NA         NA         NA           NA
-Ellighausen_P166_3          NA         NA         NA           NA
-Ellighausen_P166_4          NA         NA         NA           NA
 Oensingen_P0_1     -0.03432646 0.01537006  -2.233333 2.882091e-02
 Oensingen_P0_2     -0.05745952 0.01537006  -3.738407 3.819350e-04
-Oensingen_P0_3              NA         NA         NA           NA
-Oensingen_P0_4              NA         NA         NA           NA
 Oensingen_P100_1            NA         NA         NA           NA
 Oensingen_P100_2            NA         NA         NA           NA
-Oensingen_P100_3            NA         NA         NA           NA
-Oensingen_P100_4            NA         NA         NA           NA
 Oensingen_P166_1   -0.13275856 0.01537006  -8.637481 1.527196e-12
 Oensingen_P166_2   -0.17051390 0.01537006 -11.093902 6.616653e-17
-Oensingen_P166_3            NA         NA         NA           NA
-Oensingen_P166_4            NA         NA         NA           NA
 Reckenholz_P0_1    -0.10545869 0.01537006  -6.861308 2.519112e-09
 Reckenholz_P0_2    -0.08557888 0.01537006  -5.567897 4.753375e-07
-Reckenholz_P0_3             NA         NA         NA           NA
-Reckenholz_P0_4             NA         NA         NA           NA
 Reckenholz_P100_1           NA         NA         NA           NA
 Reckenholz_P100_2           NA         NA         NA           NA
-Reckenholz_P100_3           NA         NA         NA           NA
-Reckenholz_P100_4           NA         NA         NA           NA
 Reckenholz_P166_1  -0.17172348 0.01537006 -11.172600 4.839473e-17
 Reckenholz_P166_2  -0.23296391 0.01537006 -15.156998 1.712692e-23
-Reckenholz_P166_3           NA         NA         NA           NA
-Reckenholz_P166_4           NA         NA         NA           NA
 Ruemlang_P0_1      -0.01851905 0.01537006  -1.204878 2.324269e-01
 Ruemlang_P0_2      -0.08675331 0.01537006  -5.644307 3.515958e-07
-Ruemlang_P0_3               NA         NA         NA           NA
-Ruemlang_P0_4               NA         NA         NA           NA
 Ruemlang_P100_1             NA         NA         NA           NA
 Ruemlang_P100_2             NA         NA         NA           NA
-Ruemlang_P100_3             NA         NA         NA           NA
-Ruemlang_P100_4             NA         NA         NA           NA
 Ruemlang_P166_1    -0.26153690 0.01537006 -17.016002 3.315417e-26
 Ruemlang_P166_2             NA         NA         NA           NA
-Ruemlang_P166_3             NA         NA         NA           NA
-Ruemlang_P166_4             NA         NA         NA           NA
    t.min. 
                         Estimate   Std. Error       t value     Pr(&gt;|t|)
 Cadenazzo_P0_1     -1.318800e-03 0.0004483906 -2.941186e+00 4.466020e-03
 Cadenazzo_P0_2     -1.272378e-03 0.0004483906 -2.837654e+00 5.984783e-03
-Cadenazzo_P0_3                NA           NA            NA           NA
-Cadenazzo_P0_4                NA           NA            NA           NA
 Cadenazzo_P100_1              NA           NA            NA           NA
 Cadenazzo_P100_2              NA           NA            NA           NA
-Cadenazzo_P100_3              NA           NA            NA           NA
-Cadenazzo_P100_4              NA           NA            NA           NA
 Cadenazzo_P166_1   -5.270369e-03 0.0004483906 -1.175397e+01 4.905164e-18
 Cadenazzo_P166_2   -3.394812e-03 0.0004483906 -7.571105e+00 1.316077e-10
-Cadenazzo_P166_3              NA           NA            NA           NA
-Cadenazzo_P166_4              NA           NA            NA           NA
 Ellighausen_P0_1    4.952586e-05 0.0004483906  1.104525e-01 9.123759e-01
 Ellighausen_P0_2   -1.260933e-04 0.0004483906 -2.812130e-01 7.794010e-01
-Ellighausen_P0_3              NA           NA            NA           NA
-Ellighausen_P0_4              NA           NA            NA           NA
 Ellighausen_P100_1            NA           NA            NA           NA
 Ellighausen_P100_2            NA           NA            NA           NA
-Ellighausen_P100_3            NA           NA            NA           NA
-Ellighausen_P100_4            NA           NA            NA           NA
 Ellighausen_P166_1            NA           NA            NA           NA
-Ellighausen_P166_3            NA           NA            NA           NA
-Ellighausen_P166_4            NA           NA            NA           NA
 Oensingen_P0_1      1.049070e-04 0.0004483906  2.339634e-01 8.157164e-01
 Oensingen_P0_2     -1.837559e-04 0.0004483906 -4.098121e-01 6.832320e-01
-Oensingen_P0_3                NA           NA            NA           NA
-Oensingen_P0_4                NA           NA            NA           NA
 Oensingen_P100_1              NA           NA            NA           NA
 Oensingen_P100_2              NA           NA            NA           NA
-Oensingen_P100_3              NA           NA            NA           NA
-Oensingen_P100_4              NA           NA            NA           NA
 Oensingen_P166_1   -2.320568e-04 0.0004483906 -5.175327e-01 6.064639e-01
 Oensingen_P166_2   -5.531502e-04 0.0004483906 -1.233635e+00 2.215861e-01
-Oensingen_P166_3              NA           NA            NA           NA
-Oensingen_P166_4              NA           NA            NA           NA
 Reckenholz_P0_1     2.780943e-04 0.0004483906  6.202053e-01 5.371956e-01
 Reckenholz_P0_2    -7.752286e-04 0.0004483906 -1.728914e+00 8.836252e-02
-Reckenholz_P0_3               NA           NA            NA           NA
-Reckenholz_P0_4               NA           NA            NA           NA
 Reckenholz_P100_1             NA           NA            NA           NA
 Reckenholz_P100_2             NA           NA            NA           NA
-Reckenholz_P100_3             NA           NA            NA           NA
-Reckenholz_P100_4             NA           NA            NA           NA
 Reckenholz_P166_1  -1.609218e-03 0.0004483906 -3.588876e+00 6.216266e-04
 Reckenholz_P166_2  -4.831330e-03 0.0004483906 -1.077482e+01 2.367928e-16
-Reckenholz_P166_3             NA           NA            NA           NA
-Reckenholz_P166_4             NA           NA            NA           NA
 Ruemlang_P0_1       8.878899e-20 0.0004483906  1.980171e-16 1.000000e+00
 Ruemlang_P0_2      -1.438957e-03 0.0004483906 -3.209160e+00 2.032261e-03
-Ruemlang_P0_3                 NA           NA            NA           NA
-Ruemlang_P0_4                 NA           NA            NA           NA
 Ruemlang_P100_1               NA           NA            NA           NA
 Ruemlang_P100_2               NA           NA            NA           NA
-Ruemlang_P100_3               NA           NA            NA           NA
-Ruemlang_P100_4               NA           NA            NA           NA
 Ruemlang_P166_1    -1.090605e-03 0.0004483906 -2.432266e+00 1.764226e-02
 Ruemlang_P166_2               NA           NA            NA           NA
-Ruemlang_P166_3               NA           NA            NA           NA
-Ruemlang_P166_4               NA           NA            NA           NA
 
 Residual standard error: 0.02119011 on 68 degrees of freedom</code></pre>
 </div>
@@ -768,9 +709,9 @@ Fit: lm(formula = log(PS) ~ Treatment + Site, data = nlme.coef)
 
 Linear Hypotheses:
                  Estimate Std. Error t value Pr(&gt;|t|)    
-P100 - P0 == 0    0.91948    0.09447   9.733   &lt;1e-10 ***
-P166 - P0 == 0    1.68127    0.09580  17.550   &lt;1e-10 ***
-P166 - P100 == 0  0.76179    0.09580   7.952   &lt;1e-10 ***
+P100 - P0 == 0    0.91948    0.09447   9.733  &lt; 1e-10 ***
+P166 - P0 == 0    1.68127    0.09580  17.550  &lt; 1e-10 ***
+P166 - P100 == 0  0.76179    0.09580   7.952 1.22e-10 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
@@ -865,7 +806,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 <span id="cb58-11"><a href="#cb58-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb58-12"><a href="#cb58-12" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(nlme.coef.mrg)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 306</code></pre>
+<pre><code>[1] 471</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(nlme.coef.mrg)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">

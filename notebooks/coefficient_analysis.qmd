@@ -41,7 +41,7 @@ Wir ersetzen nur rate mit unserer Schätzung k:
 $$Y_{rel}\sim A*(1-e^{k*P_{CO_2}+Env})$$
 
 Sind unsere Modelparameter gute Prediktoren??
-$$Y_{rel}\sim A*(1-e^{k*PS}+Env})$$
+$$Y_{rel}\sim A*(1-e^{k*PS+Env} )$$
 
 Es gibt noch die Kovariaten Niederschlag pro Jahr, Jahresdurchschnittstemperatur und Temperatur in Jugendphase
 
