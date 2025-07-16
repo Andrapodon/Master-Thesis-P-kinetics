@@ -182,14 +182,12 @@
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a>
+  <ul class="collapse">
   <li><a href="#complexity-of-phosphorous" id="toc-complexity-of-phosphorous" class="nav-link" data-scroll-target="#complexity-of-phosphorous">Complexity of Phosphorous</a></li>
+  </ul></li>
   <li><a href="#plants-as-phosphate-sinks" id="toc-plants-as-phosphate-sinks" class="nav-link" data-scroll-target="#plants-as-phosphate-sinks">Plants as Phosphate sinks</a>
   <ul class="collapse">
-  <li><a href="#struktur" id="toc-struktur" class="nav-link" data-scroll-target="#struktur">Struktur</a></li>
-  <li><a href="#warum-ist-die-arbeit-wichtig" id="toc-warum-ist-die-arbeit-wichtig" class="nav-link" data-scroll-target="#warum-ist-die-arbeit-wichtig">Warum ist die Arbeit wichtig</a></li>
-  <li><a href="#warum-bodentest" id="toc-warum-bodentest" class="nav-link" data-scroll-target="#warum-bodentest">Warum Bodentest</a></li>
-  <li><a href="#warum-kinetischer-bodentest" id="toc-warum-kinetischer-bodentest" class="nav-link" data-scroll-target="#warum-kinetischer-bodentest">Warum kinetischer Bodentest</a></li>
   <li><a href="#research-questions" id="toc-research-questions" class="nav-link" data-scroll-target="#research-questions">Research Questions:</a>
   <ul class="collapse">
   <li><a href="#how-well-can-current-grud-measurements-of-c_p-predict-the-relative-yield-p-uptake-and-p-balance" id="toc-how-well-can-current-grud-measurements-of-c_p-predict-the-relative-yield-p-uptake-and-p-balance" class="nav-link" data-scroll-target="#how-well-can-current-grud-measurements-of-c_p-predict-the-relative-yield-p-uptake-and-p-balance">How well can current GRUD measurements of <span class="math inline">\(C_P\)</span> predict the relative Yield, P-Uptake and P-Balance?</a></li>
@@ -203,10 +201,10 @@
 </div>
 <main class="content quarto-banner-title-block" id="quarto-document-content">      <section id="introduction" class="level1">
 <h1>Introduction</h1>
-</section>
-<section id="complexity-of-phosphorous" class="level1">
-<h1>Complexity of Phosphorous</h1>
+<section id="complexity-of-phosphorous" class="level2">
+<h2 class="anchored" data-anchor-id="complexity-of-phosphorous">Complexity of Phosphorous</h2>
 <p>Phosphorous displays a wide range of behaviours in soils, in places where organic, mineral and aqueous phases interface. In phases that contain oxygen Phosphorous is almost exclusively present as several derivates of Orthophosphate <span class="math inline">\(PO_4^{3-}\)</span> It can be found as organic molecules as anhydric- and ester-groups, being needed by all known species as a constituent of DNA and energy transfer-processes. It can be present as anorganic Phosphate either as mono-orthophosphate <span class="math inline">\(PO_4^{3-}\)</span> or poly-orthophosphate <span class="math inline">\(HO-(PO_2)_n-OH\)</span>, where it can strongly interact with water, forming, depending on pH <span class="math inline">\(HPO_4^{2-}\)</span> or <span class="math inline">\(H_2PO_4^{-}\)</span>. The dissolved species of phosphate are subject to adsorption to clay- and oxide-surfaces of the solid soil-phase, they also form fallout-products such as Apatite, Vivianite etc. With the present metal-cations in the solution. While the solubility constant of most phosphate-salts are comparably low (Wert eingeben), meaning that the fallout and formation of minerals happens at low chemical activities of phosphate, phosphate often is leached from soil-surface-layers, heavily reducing the efficacy of P-fertilization and presenting a disturbance to P-limited ecosystems. Those phenomena, many of them being physicochemically controlled, are influenced by parameters such as pH, ionic-strength, clay-content, specific-surface of the solid phase, amorphous <span class="math inline">\(Fe(OH)_3\)</span>-content amorphous <span class="math inline">\(Al(OH)_3\)</span>-content, in short the phenomena depend heavily on the composition, distribution and geometry of the soil. Those properties are considered to be stable respectively long-term properties of a soil, when looked at it with the interest of modelling the transport processes of Phosphate in soils. Factors such as water-content, temperature, vegetation and precipitation are factors that temporally can vary fast and to a certain degree unpredictably. Organic forms of phosphates, prominently DNA or oligonucleotides and phytate are also subject to physicochemical reactions, mainly decomposition, but are foremost controlled in their presence by enzymatic processes, where i.e.&nbsp;plants form phytates in seeds to provide the embryo a compact and specific reserve of phosphate, but many bacteria possess via Phytases the ability to hydrolyse phytate and use it for their own means. To assess and cover those phenomena, models, dynamically describing the motion of Phosphorous in soils, differentiate several pools of Phosphorous, most prominently the organic-P, dissolved-P, adsorbed-P, mineral-P, where the difference in temporal behaviour, such as the mean-reside-time can lead to a differentiation between labile-P, semi-labile-P and so on.</p>
+</section>
 </section>
 <section id="plants-as-phosphate-sinks" class="level1">
 <h1>Plants as Phosphate sinks</h1>
@@ -332,6 +330,9 @@ Attaching package: 'dplyr'</code></pre>
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sjPlot) <span class="co"># table functions</span></span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sjmisc) <span class="co"># sample data</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
+<pre><code>Install package "strengejacke" from GitHub (`devtools::install_github("strengejacke/strengejacke")`) to load all sj-packages at once!</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
 <pre><code>
 Attaching package: 'sjmisc'</code></pre>
 </div>
@@ -340,27 +341,19 @@ Attaching package: 'sjmisc'</code></pre>
 
     replace_na</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lme4) <span class="co"># fitting models</span></span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(report)</span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"~/Documents/Master Thesis/Master-Thesis-P-kinetics/data/results_coefficient_analysis"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lme4) <span class="co"># fitting models</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(report)</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(performance)</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"~/Documents/Master Thesis/Master-Thesis-P-kinetics/data/results_coefficient_analysis"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div>
-<section id="struktur" class="level2">
-<h2 class="anchored" data-anchor-id="struktur">Struktur</h2>
-</section>
-<section id="warum-ist-die-arbeit-wichtig" class="level2">
-<h2 class="anchored" data-anchor-id="warum-ist-die-arbeit-wichtig">Warum ist die Arbeit wichtig</h2>
-<p>P ist endlich, Umweltprobleme ## P ist sehr komplex</p>
-<p>Siehe oben ## Wie wird bisher P-Ernährung angegangen</p>
-<p>GRUD</p>
-</section>
-<section id="warum-bodentest" class="level2">
-<h2 class="anchored" data-anchor-id="warum-bodentest">Warum Bodentest</h2>
-</section>
-<section id="warum-kinetischer-bodentest" class="level2">
-<h2 class="anchored" data-anchor-id="warum-kinetischer-bodentest">Warum kinetischer Bodentest</h2>
-</section>
+<!-- ## Struktur -->
+<!-- ## Warum ist die Arbeit wichtig -->
+<!-- P ist endlich, Umweltprobleme \## P ist sehr komplex -->
+<!-- Siehe oben \## Wie wird bisher P-Ernährung angegangen -->
+<!-- GRUD -->
+<!-- ## Warum Bodentest -->
+<!-- ## Warum kinetischer Bodentest -->
 <section id="research-questions" class="level2">
 <h2 class="anchored" data-anchor-id="research-questions">Research Questions:</h2>
 <section id="how-well-can-current-grud-measurements-of-c_p-predict-the-relative-yield-p-uptake-and-p-balance" class="level3">
@@ -369,13 +362,13 @@ Attaching package: 'sjmisc'</code></pre>
 <li>Hypothesis I: The measurements of the equlibrium concentrations of Phosphorus in a solvent do not display significant effects on relative Yield and consequently P-Uptake, since it is strongly dependent on yield. <span class="math inline">\(C_P\)</span> relates strongly to the amount of Phosphorus applied, the P-balance might well be siginificantly correlated to <span class="math inline">\(C_P\)</span> but not explain a lot of variance.</li>
 </ul>
 <div class="cell-container"><div class="cell-decorator"><pre>In [2]:</pre></div><div class="cell">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(D[D<span class="sc">$</span>soil_0_20_P_CO2<span class="sc">!=</span><span class="dv">0</span>,],<span class="fu">aes</span>(<span class="at">y=</span>Ymain_rel, <span class="at">x=</span>soil_0_20_P_CO2, <span class="at">col=</span>Site, <span class="at">size =</span> Treatment)) <span class="sc">+</span></span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">7</span>) <span class="sc">+</span> </span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span> <span class="fu">scale_y_log10</span>() <span class="sc">+</span></span>
-<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="fu">TeX</span>(<span class="st">"$P_{CO_{2}}(mg/kg Soil)$"</span>),</span>
-<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">y=</span><span class="st">"relative Yield (%)"</span>) <span class="sc">+</span></span>
-<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>( <span class="sc">~</span> Site, <span class="at">nrow =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(D[D<span class="sc">$</span>soil_0_20_P_CO2<span class="sc">!=</span><span class="dv">0</span>,],<span class="fu">aes</span>(<span class="at">y=</span>Ymain_rel, <span class="at">x=</span>soil_0_20_P_CO2, <span class="at">col=</span>Site, <span class="at">size =</span> Treatment)) <span class="sc">+</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">7</span>) <span class="sc">+</span> </span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span> <span class="fu">scale_y_log10</span>() <span class="sc">+</span></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="fu">TeX</span>(<span class="st">"$P_{CO_{2}}(mg/kg Soil)$"</span>),</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">y=</span><span class="st">"relative Yield (%)"</span>) <span class="sc">+</span></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>( <span class="sc">~</span> Site, <span class="at">nrow =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: Using size for a discrete variable is not advised.</code></pre>
 </div>
@@ -390,12 +383,12 @@ Attaching package: 'sjmisc'</code></pre>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(D[D<span class="sc">$</span>soil_0_20_P_AAE10<span class="sc">!=</span><span class="dv">0</span>,],<span class="fu">aes</span>(<span class="at">y=</span>Ymain_rel, <span class="at">x=</span>soil_0_20_P_AAE10, <span class="at">col=</span>Site, <span class="at">size =</span> Treatment)) <span class="sc">+</span></span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">7</span>) <span class="sc">+</span> </span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span> <span class="fu">scale_y_log10</span>() <span class="sc">+</span></span>
-<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="fu">TeX</span>(<span class="st">"$P_{AAE10}(mg/kg Soil)$"</span>),</span>
-<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">y=</span><span class="st">"relative Yield (%)"</span>) <span class="sc">+</span></span>
-<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>( <span class="sc">~</span> Site, <span class="at">nrow =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(D[D<span class="sc">$</span>soil_0_20_P_AAE10<span class="sc">!=</span><span class="dv">0</span>,],<span class="fu">aes</span>(<span class="at">y=</span>Ymain_rel, <span class="at">x=</span>soil_0_20_P_AAE10, <span class="at">col=</span>Site, <span class="at">size =</span> Treatment)) <span class="sc">+</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">7</span>) <span class="sc">+</span> </span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span> <span class="fu">scale_y_log10</span>() <span class="sc">+</span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="fu">TeX</span>(<span class="st">"$P_{AAE10}(mg/kg Soil)$"</span>),</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">y=</span><span class="st">"relative Yield (%)"</span>) <span class="sc">+</span></span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>( <span class="sc">~</span> Site, <span class="at">nrow =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: Using size for a discrete variable is not advised.</code></pre>
 </div>
@@ -410,12 +403,12 @@ Attaching package: 'sjmisc'</code></pre>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(D[D<span class="sc">$</span>soil_0_20_P_CO2<span class="sc">!=</span><span class="dv">0</span><span class="sc">&amp;</span>D<span class="sc">$</span>annual_P_uptake<span class="sc">!=</span><span class="dv">0</span>,],<span class="fu">aes</span>(<span class="at">y=</span>annual_P_uptake, <span class="at">x=</span>soil_0_20_P_CO2, <span class="at">col=</span>Site, <span class="at">size =</span> Treatment)) <span class="sc">+</span></span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">7</span>) <span class="sc">+</span> </span>
-<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span> <span class="fu">scale_y_log10</span>() <span class="sc">+</span></span>
-<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="fu">TeX</span>(<span class="st">"$P_{CO_{2}}(mg/kg Soil)$"</span>),</span>
-<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">y=</span><span class="fu">TeX</span>(<span class="st">"Annual P-Uptake $kg~P/ha$"</span>)) <span class="sc">+</span></span>
-<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>( <span class="sc">~</span> Site, <span class="at">nrow =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(D[D<span class="sc">$</span>soil_0_20_P_CO2<span class="sc">!=</span><span class="dv">0</span><span class="sc">&amp;</span>D<span class="sc">$</span>annual_P_uptake<span class="sc">!=</span><span class="dv">0</span>,],<span class="fu">aes</span>(<span class="at">y=</span>annual_P_uptake, <span class="at">x=</span>soil_0_20_P_CO2, <span class="at">col=</span>Site, <span class="at">size =</span> Treatment)) <span class="sc">+</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">7</span>) <span class="sc">+</span> </span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span> <span class="fu">scale_y_log10</span>() <span class="sc">+</span></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="fu">TeX</span>(<span class="st">"$P_{CO_{2}}(mg/kg Soil)$"</span>),</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">y=</span><span class="fu">TeX</span>(<span class="st">"Annual P-Uptake $kg~P/ha$"</span>)) <span class="sc">+</span></span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>( <span class="sc">~</span> Site, <span class="at">nrow =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: Using size for a discrete variable is not advised.</code></pre>
 </div>
@@ -426,12 +419,12 @@ Attaching package: 'sjmisc'</code></pre>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(D[D<span class="sc">$</span>soil_0_20_P_AAE10<span class="sc">!=</span><span class="dv">0</span><span class="sc">&amp;</span>D<span class="sc">$</span>annual_P_uptake<span class="sc">!=</span><span class="dv">0</span>,],<span class="fu">aes</span>(<span class="at">y=</span>annual_P_uptake, <span class="at">x=</span>soil_0_20_P_AAE10, <span class="at">col=</span>Site, <span class="at">size =</span> Treatment)) <span class="sc">+</span></span>
-<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">7</span>) <span class="sc">+</span> </span>
-<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span> <span class="fu">scale_y_log10</span>() <span class="sc">+</span></span>
-<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="fu">TeX</span>(<span class="st">"$P_{AAE10}(mg/kg Soil)$"</span>),</span>
-<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">y=</span><span class="fu">TeX</span>(<span class="st">"Annual P-Uptake $kg~P/ha$"</span>)) <span class="sc">+</span></span>
-<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>( <span class="sc">~</span> Site, <span class="at">nrow =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(D[D<span class="sc">$</span>soil_0_20_P_AAE10<span class="sc">!=</span><span class="dv">0</span><span class="sc">&amp;</span>D<span class="sc">$</span>annual_P_uptake<span class="sc">!=</span><span class="dv">0</span>,],<span class="fu">aes</span>(<span class="at">y=</span>annual_P_uptake, <span class="at">x=</span>soil_0_20_P_AAE10, <span class="at">col=</span>Site, <span class="at">size =</span> Treatment)) <span class="sc">+</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">7</span>) <span class="sc">+</span> </span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span> <span class="fu">scale_y_log10</span>() <span class="sc">+</span></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="fu">TeX</span>(<span class="st">"$P_{AAE10}(mg/kg Soil)$"</span>),</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">y=</span><span class="fu">TeX</span>(<span class="st">"Annual P-Uptake $kg~P/ha$"</span>)) <span class="sc">+</span></span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>( <span class="sc">~</span> Site, <span class="at">nrow =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: Using size for a discrete variable is not advised.</code></pre>
 </div>
@@ -446,12 +439,12 @@ Attaching package: 'sjmisc'</code></pre>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(D[D<span class="sc">$</span>soil_0_20_P_CO2<span class="sc">!=</span><span class="dv">0</span><span class="sc">&amp;</span>D<span class="sc">$</span>annual_P_balance<span class="sc">!=</span><span class="dv">0</span>,],<span class="fu">aes</span>(<span class="at">y=</span>annual_P_balance, <span class="at">x=</span>soil_0_20_P_CO2, <span class="at">col=</span>Site, <span class="at">size =</span> Treatment)) <span class="sc">+</span></span>
-<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">7</span>) <span class="sc">+</span> </span>
-<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span> <span class="fu">scale_y_log10</span>() <span class="sc">+</span></span>
-<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="fu">TeX</span>(<span class="st">"$P_{CO_{2}}(mg/kg Soil)$"</span>),</span>
-<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">y=</span><span class="fu">TeX</span>(<span class="st">"Annual P-Balance $kg~P/ha$"</span>)) <span class="sc">+</span></span>
-<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>( <span class="sc">~</span> Site, <span class="at">nrow =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(D[D<span class="sc">$</span>soil_0_20_P_CO2<span class="sc">!=</span><span class="dv">0</span><span class="sc">&amp;</span>D<span class="sc">$</span>annual_P_balance<span class="sc">!=</span><span class="dv">0</span>,],<span class="fu">aes</span>(<span class="at">y=</span>annual_P_balance, <span class="at">x=</span>soil_0_20_P_CO2, <span class="at">col=</span>Site, <span class="at">size =</span> Treatment)) <span class="sc">+</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">7</span>) <span class="sc">+</span> </span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span> <span class="fu">scale_y_log10</span>() <span class="sc">+</span></span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="fu">TeX</span>(<span class="st">"$P_{CO_{2}}(mg/kg Soil)$"</span>),</span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">y=</span><span class="fu">TeX</span>(<span class="st">"Annual P-Balance $kg~P/ha$"</span>)) <span class="sc">+</span></span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>( <span class="sc">~</span> Site, <span class="at">nrow =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: Using size for a discrete variable is not advised.</code></pre>
 </div>
@@ -472,12 +465,12 @@ Attaching package: 'sjmisc'</code></pre>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(D[D<span class="sc">$</span>soil_0_20_P_AAE10<span class="sc">!=</span><span class="dv">0</span><span class="sc">&amp;</span>D<span class="sc">$</span>annual_P_balance<span class="sc">!=</span><span class="dv">0</span>,],<span class="fu">aes</span>(<span class="at">y=</span>annual_P_balance, <span class="at">x=</span>soil_0_20_P_AAE10, <span class="at">col=</span>Site, <span class="at">size =</span> Treatment)) <span class="sc">+</span></span>
-<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">7</span>) <span class="sc">+</span> </span>
-<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span> <span class="fu">scale_y_log10</span>() <span class="sc">+</span></span>
-<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="fu">TeX</span>(<span class="st">"$P_{AAE10}(mg/kg Soil)$"</span>),</span>
-<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">y=</span><span class="fu">TeX</span>(<span class="st">"Annual P-Balance $kg~P/ha$"</span>)) <span class="sc">+</span></span>
-<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>( <span class="sc">~</span> Site, <span class="at">nrow =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(D[D<span class="sc">$</span>soil_0_20_P_AAE10<span class="sc">!=</span><span class="dv">0</span><span class="sc">&amp;</span>D<span class="sc">$</span>annual_P_balance<span class="sc">!=</span><span class="dv">0</span>,],<span class="fu">aes</span>(<span class="at">y=</span>annual_P_balance, <span class="at">x=</span>soil_0_20_P_AAE10, <span class="at">col=</span>Site, <span class="at">size =</span> Treatment)) <span class="sc">+</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">7</span>) <span class="sc">+</span> </span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span> <span class="fu">scale_y_log10</span>() <span class="sc">+</span></span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="fu">TeX</span>(<span class="st">"$P_{AAE10}(mg/kg Soil)$"</span>),</span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">y=</span><span class="fu">TeX</span>(<span class="st">"Annual P-Balance $kg~P/ha$"</span>)) <span class="sc">+</span></span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>( <span class="sc">~</span> Site, <span class="at">nrow =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: Using size for a discrete variable is not advised.</code></pre>
 </div>
@@ -501,9 +494,9 @@ Attaching package: 'sjmisc'</code></pre>
 </div></div>
 <p>Now we want to check the strength of the models in terms of <span class="math inline">\(R^2\)</span> and the significance of the effects in terms of p-values:</p>
 <div class="cell-container"><div class="cell-decorator"><pre>In [3]:</pre></div><div class="cell">
-<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="co">#tab_model(fit.grud.Yrel,fit.grud.Puptake,fit.grud.Pbalance)</span></span>
-<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a><span class="fu">report</span>(fit.grud.Yrel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a><span class="co">#tab_model(fit.grud.Yrel,fit.grud.Puptake,fit.grud.Pbalance)</span></span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a><span class="fu">report</span>(fit.grud.Yrel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Loading required namespace: lmerTest</code></pre>
 </div>
@@ -550,7 +543,7 @@ Standardized parameters were obtained by fitting the model on a standardized
 version of the dataset. 95% Confidence Intervals (CIs) and p-values were
 computed using a Wald t-distribution approximation.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">report</span>(fit.grud.Puptake)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">report</span>(fit.grud.Puptake)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Formula contains log- or sqrt-terms.
   See help("standardize") for how such terms are standardized.
@@ -595,7 +588,7 @@ Standardized parameters were obtained by fitting the model on a standardized
 version of the dataset. 95% Confidence Intervals (CIs) and p-values were
 computed using a Wald t-distribution approximation.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="fu">report</span>(fit.grud.Pbalance)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="fu">report</span>(fit.grud.Pbalance)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Formula contains log- or sqrt-terms.
   See help("standardize") for how such terms are standardized.
@@ -641,6 +634,139 @@ version of the dataset. 95% Confidence Intervals (CIs) and p-values were
 computed using a Wald t-distribution approximation.</code></pre>
 </div>
 </div></div>
+<p><span class="citation" data-cites="Frank">@Frank</span>, here I also show the non linear mixed models, following the Mitscherlich saturation curve:</p>
+<div class="cell-container"><div class="cell-decorator"><pre>In [4]:</pre></div><div class="cell">
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
+<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb77-3"><a href="#cb77-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Make sure grouping variables are factors</span></span>
+<span id="cb77-4"><a href="#cb77-4" aria-hidden="true" tabindex="-1"></a>D<span class="sc">$</span>year  <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(D<span class="sc">$</span>year)</span>
+<span id="cb77-5"><a href="#cb77-5" aria-hidden="true" tabindex="-1"></a>D<span class="sc">$</span>Site  <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(D<span class="sc">$</span>Site)</span>
+<span id="cb77-6"><a href="#cb77-6" aria-hidden="true" tabindex="-1"></a>D<span class="sc">$</span>block <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(D<span class="sc">$</span>block)</span>
+<span id="cb77-7"><a href="#cb77-7" aria-hidden="true" tabindex="-1"></a>D<span class="sc">$</span>crop <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(D<span class="sc">$</span>crop)</span>
+<span id="cb77-8"><a href="#cb77-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit the model</span></span>
+<span id="cb77-9"><a href="#cb77-9" aria-hidden="true" tabindex="-1"></a>fit.mitscherlich.CO2.Yrel <span class="ot">&lt;-</span> <span class="fu">nlme</span>(</span>
+<span id="cb77-10"><a href="#cb77-10" aria-hidden="true" tabindex="-1"></a>  Ymain_rel <span class="sc">~</span> A <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">exp</span>(<span class="sc">-</span>k <span class="sc">*</span> soil_0_20_P_CO2 <span class="sc">+</span> E)),                </span>
+<span id="cb77-11"><a href="#cb77-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">fixed =</span> A <span class="sc">+</span> k <span class="sc">+</span> E <span class="sc">~</span> soil_0_20_clay <span class="sc">+</span> soil_0_20_pH_H2O <span class="sc">+</span> ansum_sun <span class="sc">+</span> ansum_prec,</span>
+<span id="cb77-12"><a href="#cb77-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">random =</span> A <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> year<span class="sc">/</span>Site<span class="sc">/</span>block,</span>
+<span id="cb77-13"><a href="#cb77-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> D,</span>
+<span id="cb77-14"><a href="#cb77-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">start =</span> <span class="fu">c</span>(</span>
+<span id="cb77-15"><a href="#cb77-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">A =</span> <span class="dv">220</span>, <span class="at">A1 =</span> <span class="dv">0</span>, <span class="at">A2 =</span> <span class="dv">0</span>, <span class="at">A3 =</span> <span class="dv">0</span>, <span class="at">A4 =</span> <span class="dv">0</span>,</span>
+<span id="cb77-16"><a href="#cb77-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">k =</span> <span class="fl">0.05</span>, <span class="at">k1 =</span> <span class="dv">0</span>, <span class="at">k2 =</span> <span class="dv">0</span>, <span class="at">k3 =</span> <span class="dv">0</span>, <span class="at">k4 =</span> <span class="dv">0</span>,</span>
+<span id="cb77-17"><a href="#cb77-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">E =</span> <span class="sc">-</span><span class="dv">3</span>, <span class="at">E1 =</span> <span class="dv">0</span>, <span class="at">E2 =</span> <span class="dv">0</span>, <span class="at">E3 =</span> <span class="dv">0</span>, <span class="at">E4 =</span> <span class="dv">0</span></span>
+<span id="cb77-18"><a href="#cb77-18" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb77-19"><a href="#cb77-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">nlmeControl</span>(<span class="at">maxIter =</span> <span class="dv">500</span>),</span>
+<span id="cb77-20"><a href="#cb77-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">na.action =</span> na.omit</span>
+<span id="cb77-21"><a href="#cb77-21" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb77-22"><a href="#cb77-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb77-23"><a href="#cb77-23" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit.mitscherlich.CO2.Yrel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Nonlinear mixed-effects model fit by maximum likelihood
+  Model: Ymain_rel ~ A * (1 - exp(-k * soil_0_20_P_CO2 + E)) 
+  Data: D 
+       AIC      BIC    logLik
+  744.5163 792.8389 -353.2581
+
+Random effects:
+ Formula: A ~ 1 | year
+        A.(Intercept)
+StdDev:   0.001170608
+
+ Formula: A ~ 1 | Site %in% year
+        A.(Intercept)
+StdDev:      1.560869
+
+ Formula: A ~ 1 | block %in% Site %in% year
+        A.(Intercept) Residual
+StdDev:  4.988193e-05 10.27543
+
+Fixed effects:  A + k + E ~ soil_0_20_clay + soil_0_20_pH_H2O + ansum_sun + ansum_prec 
+                       Value Std.Error DF    t-value p-value
+A.(Intercept)       193.7899   63.1614 48  3.0681695  0.0035
+A.soil_0_20_clay     -0.0020    0.3174 48 -0.0062559  0.9950
+A.soil_0_20_pH_H2O    2.1577    3.3046 48  0.6529475  0.5169
+A.ansum_sun          -0.0321    0.0178 48 -1.7992514  0.0783
+A.ansum_prec         -0.0582    0.0193 48 -3.0115355  0.0041
+k.(Intercept)      1052.4990  607.1499 48  1.7335077  0.0894
+k.soil_0_20_clay      0.1588    0.1220 48  1.3012499  0.1994
+k.soil_0_20_pH_H2O  -49.3388   28.7546 48 -1.7158575  0.0926
+k.ansum_sun          -0.2481    0.1432 48 -1.7328670  0.0895
+k.ansum_prec         -0.2283    0.1294 48 -1.7646583  0.0840
+E.(Intercept)       267.9738  165.2244 48  1.6218779  0.1114
+E.soil_0_20_clay      0.2363    0.1424 48  1.6594850  0.1035
+E.soil_0_20_pH_H2O   -8.7078    5.6370 48 -1.5447609  0.1290
+E.ansum_sun          -0.0690    0.0422 48 -1.6349736  0.1086
+E.ansum_prec         -0.0863    0.0509 48 -1.6957763  0.0964
+ Correlation: 
+                   A.(In) A.s_0_20_ A._0_20_H A.nsm_s A.nsm_p k.(In) k.s_0_20_
+A.soil_0_20_clay   -0.526                                                     
+A.soil_0_20_pH_H2O -0.768  0.646                                              
+A.ansum_sun        -0.911  0.297     0.539                                    
+A.ansum_prec       -0.566 -0.105     0.077     0.518                          
+k.(Intercept)       0.250 -0.143    -0.354    -0.165  -0.070                  
+k.soil_0_20_clay    0.178 -0.103    -0.273    -0.109  -0.039   0.641          
+k.soil_0_20_pH_H2O -0.250  0.146     0.356     0.163   0.068  -1.000 -0.645   
+k.ansum_sun        -0.249  0.141     0.351     0.165   0.071  -1.000 -0.629   
+k.ansum_prec       -0.252  0.142     0.356     0.165   0.073  -0.998 -0.671   
+E.(Intercept)       0.260 -0.151    -0.360    -0.173  -0.076   0.998  0.630   
+E.soil_0_20_clay    0.193 -0.061    -0.287    -0.126  -0.073   0.944  0.796   
+E.soil_0_20_pH_H2O -0.262  0.164     0.375     0.169   0.065  -0.996 -0.629   
+E.ansum_sun        -0.258  0.146     0.353     0.176   0.077  -0.997 -0.617   
+E.ansum_prec       -0.255  0.141     0.352     0.168   0.084  -0.996 -0.665   
+                   k._0_20_H k.nsm_s k.nsm_p E.(In) E.s_0_20_ E._0_20_H E.nsm_s
+A.soil_0_20_clay                                                               
+A.soil_0_20_pH_H2O                                                             
+A.ansum_sun                                                                    
+A.ansum_prec                                                                   
+k.(Intercept)                                                                  
+k.soil_0_20_clay                                                               
+k.soil_0_20_pH_H2O                                                             
+k.ansum_sun         0.999                                                      
+k.ansum_prec        0.998     0.996                                            
+E.(Intercept)      -0.997    -0.998  -0.997                                    
+E.soil_0_20_clay   -0.943    -0.941  -0.955   0.940                            
+E.soil_0_20_pH_H2O  0.996     0.995   0.993  -0.997 -0.930                     
+E.ansum_sun         0.996     0.998   0.994  -0.999 -0.937     0.995           
+E.ansum_prec        0.995     0.995   0.998  -0.997 -0.957     0.992     0.995 
+
+Standardized Within-Group Residuals:
+        Min          Q1         Med          Q3         Max 
+-3.52454696 -0.29064469  0.01534025  0.42451197  4.41233128 
+
+Number of Observations: 94
+Number of Groups: 
+                     year            Site %in% year block %in% Site %in% year 
+                        2                         8                        32 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit.mitscherlich.CO2.Yrel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                   numDF denDF  F-value p-value
+A.(Intercept)          1    48 5602.523  &lt;.0001
+A.soil_0_20_clay       1    48   24.781  &lt;.0001
+A.soil_0_20_pH_H2O     1    48   16.273  0.0002
+A.ansum_sun            1    48    3.585  0.0644
+A.ansum_prec           1    48    3.689  0.0607
+k.(Intercept)          1    48   41.991  &lt;.0001
+k.soil_0_20_clay       1    48    7.496  0.0086
+k.soil_0_20_pH_H2O     1    48    0.758  0.3883
+k.ansum_sun            1    48    0.424  0.5182
+k.ansum_prec           1    48   16.020  0.0002
+E.(Intercept)          1    48   25.335  &lt;.0001
+E.soil_0_20_clay       1    48    0.152  0.6987
+E.soil_0_20_pH_H2O     1    48    0.931  0.3396
+E.ansum_sun            1    48    0.253  0.6170
+E.ansum_prec           1    48    2.876  0.0964</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="fu">model_performance</span>(fit.mitscherlich.CO2.Yrel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># Indices of model performance
+
+AIC     |    AICc |     BIC |   RMSE |  Sigma
+---------------------------------------------
+796.042 | 806.312 | 844.365 | 10.189 | 10.275</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>r.square <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">-</span><span class="fu">sum</span>(<span class="fu">residuals</span>(fit.mitscherlich.CO2.Yrel)<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span><span class="fu">sum</span>((D<span class="sc">$</span>Ymain_rel<span class="sc">-</span><span class="fu">mean</span>(D<span class="sc">$</span>Ymain_rel,<span class="at">na.rm=</span><span class="cn">TRUE</span>))<span class="sc">^</span><span class="dv">2</span>,<span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div>
+<p>With the covariate and random effect used as by Juliane Hirte we obtain $R^2=$0.9749806, I don’t know how to interpret that, I fear that the model is overfitting data.</p>
 </section>
 <section id="how-do-grud-measurements-of-c_p-relate-to-the-soil-properties-c_textorg-content-clay-content-silt-content-and-ph" class="level3">
 <h3 class="anchored" data-anchor-id="how-do-grud-measurements-of-c_p-relate-to-the-soil-properties-c_textorg-content-clay-content-silt-content-and-ph">How do GRUD-measurements of <span class="math inline">\(C_P\)</span> relate to the soil properties <span class="math inline">\(C_\text{org}\)</span>-content, clay-content, silt-content and pH?</h3>
