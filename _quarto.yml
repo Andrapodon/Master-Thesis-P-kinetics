@@ -1,22 +1,28 @@
-project:
-  type: manuscript
+project:  
+  type: website
   execute-dir: project
 
-manuscript:
-  article: index.qmd
+website:
+  title: "My Project"
+  navbar:
+    left:
+      - text: "Article"
+        href: index.qmd
+      - text: "Slides"
+        href: presentation.qmd
 
 format:
   html:
     comments:
       hypothesis: true
     math: mathjax
-    
   docx: default
-  # jats: default
   pdf: default
 
 execute:
   freeze: auto
+
+
 
 
 
