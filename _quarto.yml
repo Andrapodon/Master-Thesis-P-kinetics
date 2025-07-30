@@ -8,13 +8,20 @@ website:
     left:
       - text: "Article"
         href: index.qmd
-      - text: "Slides"
-        href: presentation.qmd
+      - text: "Master Thesis Defense"
+        href: notebooks/presentation.qmd
+      - text: "Model Setup"
+        href: notebooks/pretest.qmd
+      - text: "Analysis of kinetic parameters and STP"
+        href: notebooks/coefficient_analysis.qmd
+      - text: "ML-approach to evaluate predictive power STP vs. kinetic parameters"
 
 format:
   html:
     comments:
-      hypothesis: true
+      hypothesis: false
+    embed-resources: true
+    code-fold: true
     math: mathjax
   docx: default
   pdf: default

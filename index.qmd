@@ -1,6 +1,8 @@
 ---
 # For Scolar Frontmatter doc: https://quarto.org/docs/authoring/front-matter.html
-title: My Test Manuscript
+title: Master Thesis
+execute: 
+  echo: false
 pdf-engine: lualatex
 # date: 2024-10-16
 authors:

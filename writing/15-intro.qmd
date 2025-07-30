@@ -117,7 +117,7 @@ report(fit.grud.Yrel)
 report(fit.grud.Puptake)
 report(fit.grud.Pbalance)
 ```
-@Frank, here I also show the non linear mixed models, following the Mitscherlich saturation curve:
+here I also show the non linear mixed models, following the Mitscherlich saturation curve:
 
 ```{r}
 #|code-fold: true
