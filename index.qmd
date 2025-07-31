@@ -3,7 +3,7 @@
 title: Master Thesis
 execute: 
   echo: false
-pdf-engine: lualatex
+# pdf-engine: lualatex
 # date: 2024-10-16
 authors:
   - name: Marc Pérez

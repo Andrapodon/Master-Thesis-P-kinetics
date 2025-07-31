@@ -1,33 +1,54 @@
 project:  
-  type: website
+  type: manuscript
   execute-dir: project
 
-website:
-  title: "My Project"
-  navbar:
-    left:
-      - text: "Article"
-        href: index.qmd
-      - text: "Master Thesis Defense"
-        href: notebooks/presentation.qmd
-      - text: "Model Setup"
-        href: notebooks/pretest.qmd
-      - text: "Analysis of kinetic parameters and STP"
-        href: notebooks/coefficient_analysis.qmd
-      - text: "ML-approach to evaluate predictive power STP vs. kinetic parameters"
+manuscript:
+  article: index.qmd
+  notebooks:
+    # - notebook: notebooks/cars-plot.qmd
+    #   title: CarsPlot
+    - notebook: notebooks/coefficient_analysis.qmd
+      title: coefficient_analysis
+    # - notebook: notebooks/mlr3.qmd
+    #   title: mlr3
+    - notebook: notebooks/presentation.qmd
+      title: presentation
+    - notebook: notebooks/pretest.qmd
+      title: pretest
+  # code-links:
+  #   - text: CarsPlot Code
+  #     icon: file-code
+  #     href: notebooks/cars-plot.qmd
+  # resources:
+  #   - data/cars.csv
+
+
+# website:
+#   title: "My Project"
+#   navbar:
+#     left:
+#       - text: "Article"
+#         href: index.qmd
+#       - text: "Master Thesis Defense"
+#         href: notebooks/presentation.qmd
+#       - text: "Model Setup"
+#         href: notebooks/pretest.qmd
+#       - text: "Analysis of kinetic parameters and STP"
+#         href: notebooks/coefficient_analysis.qmd
+#       - text: "ML-approach to evaluate predictive power STP vs. kinetic parameters"
 
 format:
   html:
     comments:
-      hypothesis: false
-    embed-resources: true
+      hypothesis: true
+    # embed-resources: true
     code-fold: true
-    math: mathjax
-  docx: default
-  pdf: default
+    # math: mathjax
+  # docx: default
+  # pdf: default
 
-execute:
-  freeze: auto
+# execute:
+#   freeze: auto
 
 
 

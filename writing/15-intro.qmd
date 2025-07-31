@@ -111,6 +111,7 @@ Now we want to check the strength of the models in terms of $R^2$ and the signif
 #|code-fold: true
 #|tidy: true
 #|echo: false
+#|output: asis
 
 #tab_model(fit.grud.Yrel,fit.grud.Puptake,fit.grud.Pbalance)
 report(fit.grud.Yrel)
