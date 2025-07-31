@@ -268,3 +268,109 @@ save.image(file = "~/Documents/Master Thesis/Master-Thesis-P-kinetics/data/resul
 
 ```
 
+
+
+```{r}
+create_coef_table <- function(lmer_models, sig_threshold = 0.001, covariate_order = NULL) {
+
+  # Extract coefficients and p-values from lmerTest::lmer objects
+  extract_coef_info <- function(model) {
+    coef_matrix <- summary(model)|> coef()
+    estimates <- coef_matrix[, 1]
+    p_values <- coef_matrix[, ncol(coef_matrix)]
+    # Format with significance stars
+    formatted_coef <- sapply(seq_along(estimates), function(i) {
+    est_str <- sprintf("%.3f", estimates[i])
+    stars <- if (p_values[i] < 0.001) "***" else
+    if (p_values[i] < 0.01) "** " else
+    if (p_values[i] < 0.05) "*  " else  ""
+    paste0(stars, est_str)
+    })
+    names(formatted_coef) <- rownames(coef_matrix)
+    return(formatted_coef)
+  }
+
+  # Extract R-squared values
+  extract_r_squared <- function(model) {
+  r2_values <- r.squaredGLMM(model)
+  return(c(
+    R2m = sprintf("%.3f", r2_values[1, "R2m"]),
+    R2c = sprintf("%.3f", r2_values[1, "R2c"])
+  ))
+  }
+
+  # Extract coefficients for all models
+  all_coefs <- lapply(lmer_models, extract_coef_info)
+
+  # Extract R-squared for all models
+  all_r_squared <- lapply(lmer_models, extract_r_squared)
+
+  # Get all unique coefficient names
+  all_covariate_names <- unique(unlist(lapply(all_coefs, names)))
+
+  # Apply covariate ordering
+  if (is.null(covariate_order)) {
+  # Default: Intercept first, then alphabetical
+  covariate_order <- c("(Intercept)", sort(all_covariate_names[all_covariate_names != "(Intercept)"]))
+  }
+
+  # Filter to only include covariates that exist
+  covariate_order <- covariate_order[covariate_order %in% all_covariate_names]
+
+  # Add R-squared rows to the ordering
+  final_order <- c(covariate_order, "R2m", "R2c")
+
+  # Create results matrix
+  results_matrix <- matrix("",
+  nrow = length(final_order),
+  ncol = length(lmer_models),
+  dimnames = list(final_order, names(lmer_models)))
+
+  # Fill in the coefficients
+  for (model_name in names(lmer_models)) {
+  model_coefs <- all_coefs[[model_name]]
+  for (covar in names(model_coefs)) {
+  if (covar %in% covariate_order) {
+  results_matrix[covar, model_name] <- model_coefs[covar]
+  }
+  }
+  }
+
+  # Fill in the R-squared values
+  for (model_name in names(lmer_models)) {
+  r2_values <- all_r_squared[[model_name]]
+  results_matrix["R2m", model_name] <- r2_values["R2m"]
+  results_matrix["R2c", model_name] <- r2_values["R2c"]
+  }
+
+  # Convert to data frame for kable
+  results_df <- data.frame(Covariate = rownames(results_matrix),
+  results_matrix,
+  stringsAsFactors = FALSE)
+
+  results_df
+}
+```
+
+
+```{r}
+lmer_models <- list(
+  PS = fit.soil.PS,
+  PS2 = fit.soil.PS2,
+  k = fit.soil.k,
+  kPS = fit.soil.kPS,
+  kPS2 = fit.soil.kPS2,
+  CO2 = fit.soil.CO2,
+  AAE10 = fit.soil.AAE10,
+  fail = fit.kin.Yrel
+)
+
+
+coef_table <- create_coef_table(lmer_models, sig_threshold = 0.001)
+kable(coef_table,
+row.names = FALSE,
+align = c("l", rep("r", ncol(coef_table) - 1)),
+caption = "Coefficient Table for Kinetic Models. 
+Significant codes:  0 '\\*\\*\\*' 0.001 '\\*\\*' 0.01 '\\*' 0.05")
+```
+

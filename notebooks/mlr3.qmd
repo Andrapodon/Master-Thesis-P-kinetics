@@ -95,15 +95,13 @@ P_var_sets <- list(
   onlyweather = NULL,
   k = "k",
   PS = "PS_log",
-  kPS_log = c("PS_log", "k", "kPS_log"),
-  k_logPS = c("PS_log", "k", "k_logPS"),
-  AAE10 = "soil_0_20_P_AAE10_log",
-  CO2 = "soil_0_20_P_CO2_log",
-  AAE10_CO2 = c("soil_0_20_P_AAE10_log", "soil_0_20_P_CO2_log", "soil_0_20_P_AAE10_CO2_log"),
-  AAE10_CO2_k_logPS = c("soil_0_20_P_AAE10_log", "soil_0_20_P_CO2_log", "PS_log", "k", "k_logPS"),
-  CO2_kPS = c("soil_0_20_P_CO2_log", "PS_log", "k", "kPS_log")
+  kPS = c("PS_log", "k", "kPS_log"),
+  AAE10 = "P_AAE10_log",
+  CO2 = "P_CO2_log",
+  AAE10_CO2 = c("P_AAE10_log", "P_CO2_log", "P_AAE10_CO2_loglog"),
+  AAE10_CO2_kPS = c("P_AAE10_log", "P_CO2_log", "PS_log", "k", "kPS_log"),
+  CO2_kPS = c("P_CO2_log", "PS_log", "k", "kPS_log")
 )
-
 Earth_vars <- c(
   "soil_0_20_clay", "soil_0_20_pH_H2O", "soil_0_20_Corg", "soil_0_20_silt"
 )
@@ -113,7 +111,7 @@ Earth_vars <- c(
 ```{r}
 Y_vars_yield <- c("Ymain_norm", "Ymain_rel", "annual_P_uptake", "annual_P_balance")
 
-Y_vars_earth <- c("PS_log", "k", "kPS_log", "k_logPS", "soil_0_20_P_AAE10_log", "soil_0_20_P_CO2_log")
+Y_vars_earth <- c("PS_log", "k", "kPS_log", "P_AAE10_log", "P_CO2_log")
 ```
 
 impute NA's for Earth variables. impute value with the mean of Site X block  
@@ -133,7 +131,7 @@ D$Site <- droplevels(D$Site)
 Now check NA's
 ```{r}
 sapply(D[, unique(c(Y_vars_yield, Y_vars_earth, Weather_vars, unlist(P_var_sets), Earth_vars))], 
-  \(x) sum(is.na(x)|is.nan(x)))
+  \(x) sum(is.na(x)|is.nan(x))) |> cbind()
 ```
 
 ## Predicting Yield variables (with/without Weather data) with Earth-dynamics
@@ -155,13 +153,9 @@ for(yvar in Y_vars_yield){
   mytsks <- list()
   for (nam in names(P_var_sets)) {
     mytsk <- as_task_regr(
-      D[ind,
-        c(yvar, Weather_vars, P_var_sets[[nam]]
-        ,"Site"
-        )],
+      D[ind, c(yvar, Weather_vars, P_var_sets[[nam]])],
       target = yvar,
       id = nam)
-    mytsk$set_col_roles("Site", "group")
     mytsks[[nam]] <- mytsk
   }
   Tables_yield_weather[[yvar]] <- get_benchi_table(mytsks)
@@ -170,6 +164,11 @@ for(yvar in Y_vars_yield){
 Tables_yield_weather
 ```
 
+```{r}
+tmp <- do.call(cbind, lapply(Tables_yield_weather, \(x) x$lm)); 
+rownames(tmp) <- rownames(Tables_yield_weather[[1]])
+(Tables_yield_weather_lm <- tmp)
+```
 
 ### Without Weather data
 
@@ -197,6 +196,12 @@ for(yvar in Y_vars_yield){
 }
 
 Tables_yield
+```
+
+```{r}
+tmp <- do.call(cbind, lapply(Tables_yield, \(x) x$lm));
+rownames(tmp) <- rownames(Tables_yield[[1]])
+(Tables_yield_lm <- tmp)
 ```
 
 xgboost & ranger are no good in this setting since only very few variables available
@@ -249,6 +254,29 @@ Tables_earth_notreatment <- get_benchi_table(mytsks_notreatment)
 #| code-fold: false
 Tables_earth_treatment
 Tables_earth_notreatment
+```
+
+```{r}
+tmp <- cbind(
+  with_treatment = Tables_earth_treatment[["lm"]],
+  without_treatment = Tables_earth_notreatment[["lm"]]
+)
+rownames(tmp) <- rownames(Tables_earth_treatment)
+(Tables_earth_lm <- tmp)
+```
+
+
+```{r}
+saveRDS(list(
+  Tables_yield = Tables_yield,
+  Tables_yield_weather = Tables_yield_weather,
+  Tables_earth_treatment = Tables_earth_treatment,
+  Tables_earth_notreatment = Tables_earth_notreatment,
+  table_yield_lm = Tables_yield_lm,
+  table_yield_weather_lm = Tables_yield_weather_lm,
+  table_earth_lm = Tables_earth_lm
+), "cache/benchmark-tables.rds")
+
 ```
 
 ---
@@ -325,12 +353,12 @@ annual_P_balance
 
 
 ```{r}
-# nlme.coef$kPS <- nlme.coef$k * nlme.coef$PS
+# nlme.coef$kPS_log <- nlme.coef$k * nlme.coef$PS
 # 
 # 
 # nlme.coef.mrg <- merge(nlme.coef,allP[allP$year>=2017,],by = "uid")
 # # add log-transformed versions
-# D$kPS_log <- log(D$kPS)
+# D$kPS_log <- log(D$kPS_log)
 # D$PS_log <- log(D$PS)
 # D$soil_0_20_P_AAE10_log <- log(D$soil_0_20_P_AAE10)
 # D$soil_0_20_P_CO2_log <- log(D$soil_0_20_P_CO2)
