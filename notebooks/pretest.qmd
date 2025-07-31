@@ -268,30 +268,59 @@ allP$uid <- paste(allP$location,allP$treatment_ID,as.character(allP$rep),sep = "
 ```{r}
 # 1. merge this with nlme.coef
 nlme.coef$kPS <- nlme.coef$k * nlme.coef$PS
+D <- merge(nlme.coef,allP[allP$year>=2017,],by = "uid")
 
+# rm FodderCrop
+D <- D[D$crop != "FodderCrop",]
 
-nlme.coef.mrg <- merge(nlme.coef,allP[allP$year>=2017,],by = "uid")
+# set wrong 0's to NA
+D[D$soil_0_20_P_CO2 %in% c(NA,0), "soil_0_20_P_CO2"] <- NA
+D[D$soil_0_20_P_AAE10 %in% c(NA,0), "soil_0_20_P_AAE10"] <- NA
+D[D$annual_yield_mp_DM %in% c(NA,0), "annual_yield_mp_DM"] <- NA
+D[D$Ymain_rel %in% c(NA,0), "Ymain_rel"] <- NA
+D[D$annual_P_uptake %in% c(NA,0), "annual_P_uptake"] <- NA
+D[D$annual_P_balance %in% c(NA,0), "annual_P_balance"] <- NA
+
 # add log-transformed versions
-nlme.coef.mrg$kPS_log <- log(nlme.coef.mrg$kPS)
-nlme.coef.mrg$PS_log <- log(nlme.coef.mrg$PS)
-nlme.coef.mrg$soil_0_20_P_AAE10_log <- log(nlme.coef.mrg$soil_0_20_P_AAE10)
-nlme.coef.mrg$soil_0_20_P_CO2_log <- log(nlme.coef.mrg$soil_0_20_P_CO2)
+D$k_logPS <- D$k * log(D$PS)
+D$kPS_log <- log(D$kPS)
+D$PS_log <- log(D$PS)
+D$soil_0_20_P_AAE10_log <- log(D$soil_0_20_P_AAE10)
+D$soil_0_20_P_CO2_log <- log(D$soil_0_20_P_CO2)
+D$soil_0_20_P_AAE10_CO2_log <- log(D$soil_0_20_P_AAE10 * D$soil_0_20_P_CO2)
 
-nrow(nlme.coef.mrg)
-names(nlme.coef.mrg)
 
 nrow(allP[allP$year==2017,])
 nrow(allP[allP$year==2018,])
 
-RES$nlme.coef.mrg <- nlme.coef.mrg
+
+D$Site <- as.factor(D$Site)
+
+
+## Compute Ymain_norm as the median yield of P166 treatment per site, year and crop
+# set 0 values of annual_yield_mp_DM, Ymain_rel, annual_P_uptake, annual_P_balance to NA
+dd <- aggregate(annual_yield_mp_DM ~ Site+Treatment+year+crop, data=D, median, na.rm = TRUE, na.action = na.pass)
+# only keep P166
+dd <- dd[dd$Treatment == "P166",]
+dd$Treatment <- NULL
+tmp <- merge(D, dd, by = c("Site", "year", "crop"), suffixes = c("", ".norm"), sort=FALSE)
+nrow(tmp)
+tmp$Ymain_norm <- tmp$annual_yield_mp_DM / tmp$annual_yield_mp_DM.norm
+# order tmp by uid s.t. it matches D
+tmp <- tmp[match(D$uid, tmp$uid),]
+# check: cbind(tmp$uid, D$uid)
+D$Ymain_norm <- tmp$Ymain_norm
+
+
+
+RES$D <- D
 RES$nlme.coef.avg <- nlme.coef.avg
 RES$data <- d
-
-
 saveRDS(RES, file = "./data/RES.rds")
-
 ```
 
 
+```{r}
 
+```
 

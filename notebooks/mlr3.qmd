@@ -7,9 +7,8 @@ date: 2025-02-13
 ```{r}
 #| code-fold: false
 RES <- readRDS("data/RES.rds")
-Dmlr <- RES$nlme.coef.mrg
-Dmlr$soil_0_20_P_CO2_log[is.infinite(Dmlr$soil_0_20_P_CO2_log)] <- NA 
-Dmlr$soil_0_20_P_AAE10_log
+D <- RES$D
+
 # d <- RES$data
 ```
 
@@ -75,7 +74,7 @@ Weather_vars <- c(
   "juvdev_prec", "juvdev_sun",
   "ansum_sun", "juvdev_temp"
 )
-stopifnot(all(Weather_vars %in% names(Dmlr)))
+stopifnot(all(Weather_vars %in% names(D)))
 Weather_vars
 ```
 
@@ -87,11 +86,12 @@ P_var_sets <- list(
   onlyweather = NULL,
   k = "k",
   PS = "PS_log",
-  kPS = c("PS_log", "k", "kPS_log"),
+  kPS_log = c("PS_log", "k", "kPS_log"),
+  k_logPS = c("PS_log", "k", "k_logPS"),
   AAE10 = "soil_0_20_P_AAE10_log",
   CO2 = "soil_0_20_P_CO2_log",
-  AAE10_CO2 = c("soil_0_20_P_AAE10_log", "soil_0_20_P_CO2_log"),
-  AAE10_CO2_kPS = c("soil_0_20_P_AAE10_log", "soil_0_20_P_CO2_log", "PS_log", "k", "kPS_log"),
+  AAE10_CO2 = c("soil_0_20_P_AAE10_log", "soil_0_20_P_CO2_log", "soil_0_20_P_AAE10_CO2_log"),
+  AAE10_CO2_k_logPS = c("soil_0_20_P_AAE10_log", "soil_0_20_P_CO2_log", "PS_log", "k", "k_logPS"),
   CO2_kPS = c("soil_0_20_P_CO2_log", "PS_log", "k", "kPS_log")
 )
 ```
@@ -100,8 +100,23 @@ P_var_sets <- list(
 **Response Variables**
 
 ```{r}
-Y_vars <- c("Ymain_rel", "annual_P_uptake", "annual_P_balance")
+Y_vars <- c("Ymain_norm", "Ymain_rel", "annual_P_uptake", "annual_P_balance")
+
 ```
+
+Now check NA's
+```{r}
+sapply(D[c(Weather_vars, unique(unlist(P_var_sets)), Y_vars)], 
+  \(x) sum(is.na(x)))
+
+which(D$soil)
+
+D$Ymain_norm
+
+# remove the 59 missing observations, the rest should be imputed with 
+```
+
+
 
 ## With Weather data
 
@@ -110,7 +125,7 @@ Y_vars <- c("Ymain_rel", "annual_P_uptake", "annual_P_balance")
 ```
 \(nam){
   mytsk <- as_task_regr(
-    Dmlr[complete.cases(Dmlr$Ymain_rel), c(y, Weather_vars, P_var_sets[[nam]], "Site")],
+    D[complete.cases(D$Ymain_rel), c(y, Weather_vars, P_var_sets[[nam]], "Site")],
     target = y,
     id = nam)
   mytsk$set_col_roles("Site", "group")
@@ -125,10 +140,26 @@ Algorithm learns to predict location from weather since we do not do stratified 
 ```{r}
 #| code-fold: true
 y <- "Ymain_rel"
-lapply(names(P_var_sets), \(nam) as_task_regr(
-    Dmlr[complete.cases(Dmlr[,c("Ymain_rel",Weather_vars,P_var_sets$AAE10_CO2_kPS)]),c(y, Weather_vars, P_var_sets[[nam]])],
+tmp <- list()
+for (nam in names(P_var_sets)) {
+  mytsk <- as_task_regr(
+    D[complete.cases(D[,c("Ymain_rel",Weather_vars,P_var_sets$AAE10_CO2_kPS)]),
+      c(y, Weather_vars, P_var_sets[[nam]], "Site")],
     target = y,
-    id = nam)) |>
+    id = nam)
+  mytsk$set_col_roles("Site", "group")
+  tmp[[nam]] <- mytsk
+}
+get_benchi_table(tmp) |> knitr::kable()
+
+lapply(names(P_var_sets), \(nam) 
+  mytsk <- as_task_regr(
+    D[complete.cases(D[,c("Ymain_rel",Weather_vars,P_var_sets$AAE10_CO2_kPS)]),c(y, Weather_vars, P_var_sets[[nam]])],
+    target = y,
+    id = nam)
+  mytsk$set_col_roles("Site", "group")
+  mytsk
+    ) |>
   get_benchi_table() |> knitr::kable()
 ```
 
@@ -149,7 +180,7 @@ lapply(names(P_var_sets), \(nam) as_task_regr(
 #| code-fold: true
 y <- "annual_P_uptake"
 lapply(names(P_var_sets), \(nam) as_task_regr(
-    Dmlr[complete.cases(Dmlr[,c("Ymain_rel",Weather_vars,P_var_sets$AAE10_CO2_kPS)]),c(y, Weather_vars, P_var_sets[[nam]])],
+    D[complete.cases(D[,c("Ymain_rel",Weather_vars,P_var_sets$AAE10_CO2_kPS)]),c(y, Weather_vars, P_var_sets[[nam]])],
     target = y,
     id = nam)) |>
   get_benchi_table()  |> knitr::kable()
@@ -172,7 +203,7 @@ lapply(names(P_var_sets), \(nam) as_task_regr(
 #| code-fold: true
 y <- "annual_P_balance"
 lapply(names(P_var_sets), \(nam) as_task_regr(
-    Dmlr[complete.cases(Dmlr[,c("Ymain_rel",Weather_vars,P_var_sets$AAE10_CO2_kPS)]),c(y, Weather_vars, P_var_sets[[nam]])],
+    D[complete.cases(D[,c("Ymain_rel",Weather_vars,P_var_sets$AAE10_CO2_kPS)]),c(y, Weather_vars, P_var_sets[[nam]])],
     target = y,
     id = nam)) |>
   get_benchi_table()  |> knitr::kable()
@@ -204,7 +235,7 @@ xgboost & ranger are no good in this setting since only very few variables avail
 #| code-fold: true
 y <- "Ymain_rel"
 lapply(names(P_var_sets), \(nam) as_task_regr(
-    Dmlr[complete.cases(Dmlr[,c("Ymain_rel",Weather_vars,P_var_sets$AAE10_CO2_kPS)]),c(y, P_var_sets[[nam]])],
+    D[complete.cases(D[,c("Ymain_rel",Weather_vars,P_var_sets$AAE10_CO2_kPS)]),c(y, P_var_sets[[nam]])],
     target = y,
     id = nam)) |>
   get_benchi_table()  |> knitr::kable()
@@ -226,7 +257,7 @@ lapply(names(P_var_sets), \(nam) as_task_regr(
 #| code-fold: true
 y <- "annual_P_uptake"
 lapply(names(P_var_sets), \(nam) as_task_regr(
-    Dmlr[complete.cases(Dmlr[,c("Ymain_rel",Weather_vars,P_var_sets$AAE10_CO2_kPS)]),c(y, P_var_sets[[nam]])],
+    D[complete.cases(D[,c("Ymain_rel",Weather_vars,P_var_sets$AAE10_CO2_kPS)]),c(y, P_var_sets[[nam]])],
     target = y,
     id = nam)) |>
   get_benchi_table()  |> knitr::kable()
@@ -248,7 +279,7 @@ lapply(names(P_var_sets), \(nam) as_task_regr(
 #| code-fold: true
 y <- "annual_P_balance"
 lapply(names(P_var_sets), \(nam) as_task_regr(
-    Dmlr[complete.cases(Dmlr[,c("Ymain_rel",Weather_vars,P_var_sets$AAE10_CO2_kPS)]),c(y, P_var_sets[[nam]])],
+    D[complete.cases(D[,c("Ymain_rel",Weather_vars,P_var_sets$AAE10_CO2_kPS)]),c(y, P_var_sets[[nam]])],
     target = y,
     id = nam)) |>
   get_benchi_table()  |> knitr::kable()
@@ -267,9 +298,9 @@ lapply(names(P_var_sets), \(nam) as_task_regr(
 
 
 ```{r}
-cor(Dmlr$annual_P_balance, Dmlr$PS) # 0.54389
-cor(Dmlr$fert_P_tot, Dmlr$PS) # 0.48236
-cor(Dmlr$annual_P_uptake, Dmlr$PS) # 0.070678
+cor(D$annual_P_balance, D$PS) # 0.54389
+cor(D$fert_P_tot, D$PS) # 0.48236
+cor(D$annual_P_uptake, D$PS) # 0.070678
 ```
 
 
@@ -288,7 +319,7 @@ Interestingly PS is best to predict this quantity
 
 # Get parameter estimates for XGBoost
 t <- as_task_regr(
-  subset(Dmlr[complete.cases(Dmlr$annual_P_balance),], 
+  subset(D[complete.cases(D$annual_P_balance),], 
     select = c("annual_P_balance", P_var_sets$AAE10_CO2_kPS#, Weather_vars
     )),
   target = "annual_P_balance"
@@ -343,16 +374,16 @@ annual_P_balance
 # 
 # nlme.coef.mrg <- merge(nlme.coef,allP[allP$year>=2017,],by = "uid")
 # # add log-transformed versions
-# Dmlr$kPS_log <- log(Dmlr$kPS)
-# Dmlr$PS_log <- log(Dmlr$PS)
-# Dmlr$soil_0_20_P_AAE10_log <- log(Dmlr$soil_0_20_P_AAE10)
-# Dmlr$soil_0_20_P_CO2_log <- log(Dmlr$soil_0_20_P_CO2)
+# D$kPS_log <- log(D$kPS)
+# D$PS_log <- log(D$PS)
+# D$soil_0_20_P_AAE10_log <- log(D$soil_0_20_P_AAE10)
+# D$soil_0_20_P_CO2_log <- log(D$soil_0_20_P_CO2)
 # 
-# Dmlr$k
+# D$k
 
 
 
-subset(Dmlr, select = c("Ymain_rel", P_var_sets$AAE10_CO2_kPS, Weather_vars))
+subset(D, select = c("Ymain_rel", P_var_sets$AAE10_CO2_kPS, Weather_vars))
 ```
 
 

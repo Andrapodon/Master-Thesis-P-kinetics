@@ -31,8 +31,9 @@ library(MuMIn)
 
 options(warn = -1)
 RES <- readRDS("~/Documents/Master Thesis/Master-Thesis-P-kinetics/data/RES.rds")
-D <- RES$nlme.coef.mrg
+D <- RES$D
 d <- RES$data
+
 ```
 
 Model Agroscope
@@ -79,7 +80,7 @@ p7 <- ggplot(D,aes(y=PS, x=soil_0_20_P_CO2, col=Site, size = Treatment)) +
   geom_point(shape = 7) +
   scale_x_log10() + scale_y_log10() +
   labs(x=TeX("$P_{CO_2}(mg/kg Soil)$"),
-         y=TeX("$PS(mg/kg Soil)$")); p7
+          y=TeX("$PS(mg/kg Soil)$")); p7
 
 p8 <- ggplot(D,aes(y=k, x=soil_0_20_P_CO2, col=Site, size = Treatment)) +
   geom_point(shape = 7) +
@@ -129,6 +130,12 @@ Nun noch die Linearen Regressionen, die ausstehend sind:
 
 Random intercept per year and site, block nested in site. and Treatment nested in site (could also be modelled as a random slope to allow for correlations)
 
+wir sind abe nicht an einem Treatment effekt interesseiert. drum verwerfen wir Treatment als Random UND Fixed effekt.
+
+1. Vergleiche PS, k und kPS mit 
+
+
+
 ```{r}
 #|code-fold: true
 #|tidy: true
@@ -139,16 +146,71 @@ Random intercept per year and site, block nested in site. and Treatment nested i
 library(lmerTest)
 
 fit.soil.PS  <- lmer(log(PS)     ~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Treatment + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.soil.PS2 <- lmer(log(PS)     ~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Treatment + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
 fit.soil.k   <- lmer(k           ~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Treatment + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
 fit.soil.kPS <- lmer(I(log(k*PS))~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Treatment + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.soil.kPS2<- lmer(I(k*log(PS))~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Treatment + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
 fit.soil.CO2 <- lmer(log(soil_0_20_P_CO2)~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Treatment + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
-fit.soil.AAE10 <- lmer(log(soil_0_20_P_AAE10)~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Treatment + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.soil.AAE10<-lmer(log(soil_0_20_P_AAE10)~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Treatment + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
 
 
-fit.kin.Yrel     <- lmer(Ymain_rel         ~ k * log(PS)  + Treatment + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
-fit.kin.Puptake  <- lmer(annual_P_uptake   ~ k * log(PS) + Treatment + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
-fit.kin.Pbalance  <- lmer(annual_P_balance ~ k * log(PS) + Treatment + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
 
+
+
+r.squaredGLMM(fit.soil.kPS)
+r.squaredGLMM(fit.soil.kPS2)
+
+fit.kin.Yrel     <- lmer(Ymain_rel         ~ k * log(PS)  + (1|year) + (1|Site)  + (1|Site:block), D)
+
+fit.kin.Ynorm    <- lmer(Ymain_norm       ~ k + log(PS)  + (1|year) + (1|Site)  + (1|Site:block), D, subset = Treatment != "P166")
+r.squaredGLMM(fit.kin.Ynorm)
+
+
+fit.kin.Ynorm    <- lmer(Ymain_norm       ~ k * log(PS)  + (1|year) + (1|Site)  + (1|Site:block), D, subset = Treatment != "P166")
+r.squaredGLMM(fit.kin.Ynorm)
+
+fit.kin.Ynorm    <- lmer(Ymain_norm       ~ k * log(PS)  + (1|year), D, subset = Treatment != "P166")
+r.squaredGLMM(fit.kin.Ynorm)
+
+
+fit.kin.Ynorm    <- lmer(Ymain_norm       ~ k * log(PS)  + (1|year) + (1|Site)  + (1|Site:block), D)
+r.squaredGLMM(fit.kin.Ynorm)
+
+fit.kin.Ynorm    <- lmer(Ymain_norm       ~ k * log(PS)  + (1|year) + (1|Site)  + (1|Site:block), D, subset = Treatment == "P0")
+r.squaredGLMM(fit.kin.Ynorm)
+summary(fit.kin.Ynorm, ddf="Kenward-Roger")
+
+fit.kin.Ynorm    <- lmer(Ymain_norm       ~ k * log(PS)  + (1|year) + (1|Site)  + (1|Site:block), D, subset = Treatment == "P100")
+r.squaredGLMM(fit.kin.Ynorm)
+
+fit.kin.Ynorm    <- lmer(Ymain_norm       ~ k * log(PS)  + (1|year) + (1|Site)  + (1|Site:block), D, subset = Treatment == "P166")
+r.squaredGLMM(fit.kin.Ynorm)
+
+
+
+fit.grud.CO2.Ynorm     <- lmer(Ymain_norm    ~ log(soil_0_20_P_CO2) + (1|year) + (1|Site)  + (1|Site:block), D, subset = Treatment != "P166")
+r.squaredGLMM(fit.grud.CO2.Ynorm)
+fit.grud.AAE10.Ynorm   <- lmer(Ymain_norm    ~ log(soil_0_20_P_AAE10) + (1|year) + (1|Site)  + (1|Site:block), D, subset = Treatment != "P166")
+r.squaredGLMM(fit.grud.AAE10.Ynorm)
+fit.grud.CO2.AAE10.Ynorm <- lmer(Ymain_norm  ~ log(soil_0_20_P_CO2) * log(soil_0_20_P_AAE10) + (1|year) + (1|Site)  + (1|Site:block), D, subset = Treatment != "P166")
+r.squaredGLMM(fit.grud.CO2.AAE10.Ynorm)
+# compare with k*log(PS)
+fit.kin.Ynorm   <- lmer(Ymain_norm       ~ k*log(PS) + (1|year) + (1|Site)  + (1|Site:block), D, subset = Treatment != "P166")
+r.squaredGLMM(fit.kin.Ynorm)
+
+fit.kin.Ynorm    <- lmer(Ymain_norm       ~ k * log(PS) + (1|year) + (1|Site)  + (1|Site:block), D, subset = Treatment != "P166")
+fit.kin.Puptake  <- lmer(annual_P_uptake  ~ k * log(PS) + (1|year) + (1|Site)  + (1|Site:block), D)
+fit.kin.Pbalance <- lmer(annual_P_balance ~ k * log(PS) + (1|year) + (1|Site)  + (1|Site:block), D)
+
+car::vif(lm(Ymain_norm       ~ (k) * log(PS)  + crop, D))
+car::vif(lm(Ymain_norm       ~ scale(k) * scale(log(PS))   + crop, D))
+car::vif(lm(Ymain_norm       ~ k + log(PS)   + crop, D))
+car::vif(lm(Ymain_norm       ~ I(k * (PS)) + k + log(PS)    + crop, D))
+
+with(D, hist(I(exp(k) * (PS))))
+with(D, hist(log(PS)))
+
+r.squaredGLMM(fit.kin.Ynorm)
 
 anova(fit.soil.PS)
 #summary(glht(fit.PS))
@@ -158,6 +220,7 @@ summary(glht(fit.soil.k))
 anova(fit.soil.kPS)
 summary(glht(fit.soil.kPS))
 anova(fit.kin.Yrel)
+anova(fit.kin.Ynorm)
 anova(fit.kin.Puptake)
 anova(fit.soil.CO2)
 anova(fit.soil.AAE10)
@@ -166,6 +229,7 @@ summary(fit.kin.Pbalance)
 fit.kin.Pbalance |> r.squaredGLMM()
 fit.kin.Puptake |> r.squaredGLMM()
 fit.kin.Yrel |> r.squaredGLMM()
+fit.kin.Ynorm |> r.squaredGLMM()
 # Verhalten der Modelparameter und Ertragsdaten auf P-CO2 und P-AAE10
 
 ```
