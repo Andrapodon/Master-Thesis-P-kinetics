@@ -264,11 +264,18 @@ allP$uid <- paste(allP$location,allP$treatment_ID,as.character(allP$rep),sep = "
 ```
 
 
+```{r}
+# debug
+allP$uid
+nlme.coef$uid
+aa <- nrow(allP[allP$year>=2017,])
+```
 
 ```{r}
 # 1. merge this with nlme.coef
 nlme.coef$kPS <- nlme.coef$k * nlme.coef$PS
-D <- merge(nlme.coef,allP[allP$year>=2017,],by = "uid")
+D <- merge(nlme.coef, allP[allP$year>=2017,],by = "uid")
+D$uuid <- interaction(D$Site, D$treatment_ID, D$rep, D$year, D$crop)
 
 # rm FodderCrop
 D <- D[D$crop != "FodderCrop",]
@@ -307,7 +314,7 @@ tmp <- merge(D, dd, by = c("Site", "year", "crop"), suffixes = c("", ".norm"), s
 nrow(tmp)
 tmp$Ymain_norm <- tmp$annual_yield_mp_DM / tmp$annual_yield_mp_DM.norm
 # order tmp by uid s.t. it matches D
-tmp <- tmp[match(D$uid, tmp$uid),]
+tmp <- tmp[match(D$uuid, tmp$uuid),]
 # check: cbind(tmp$uid, D$uid)
 D$Ymain_norm <- tmp$Ymain_norm
 

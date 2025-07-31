@@ -9,8 +9,8 @@ manuscript:
     #   title: CarsPlot
     - notebook: notebooks/coefficient_analysis.qmd
       title: coefficient_analysis
-    # - notebook: notebooks/mlr3.qmd
-    #   title: mlr3
+    - notebook: notebooks/mlr3.qmd
+      title: mlr3
     - notebook: notebooks/presentation.qmd
       title: presentation
     - notebook: notebooks/pretest.qmd
