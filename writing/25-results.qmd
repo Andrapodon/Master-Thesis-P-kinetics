@@ -11,9 +11,9 @@ Tables_yield <- benchmark_results$Tables_yield
 Tables_yield_weather <- benchmark_results$Tables_yield_weather
 Tables_earth_treatment <- benchmark_results$Tables_earth_treatment
 Tables_earth_notreatment <- benchmark_results$Tables_earth_notreatment
-Tables_yield_lm <- benchmark_results$table_yield_lm
-Tables_yield_weather_lm <- benchmark_results$table_yield_weather_lm
-Tables_earth_lm <- benchmark_results$table_earth_lm
+Tables_yield_lm <- benchmark_results$Tables_yield_lm
+Tables_yield_weather_lm <- benchmark_results$Tables_yield_weather_lm
+Tables_earth_lm <- benchmark_results$Tables_earth_lm
 ```
 
 ```{r}
