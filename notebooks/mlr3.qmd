@@ -257,11 +257,11 @@ Tables_earth_notreatment
 ```
 
 ```{r}
-tmp <- cbind(
-  with_treatment = Tables_earth_treatment[["lm"]],
-  without_treatment = Tables_earth_notreatment[["lm"]]
+tmp <- rbind(
+  "soil + treatment" = Tables_earth_treatment[["lm"]],
+  "only soil" = Tables_earth_notreatment[["lm"]]
 )
-rownames(tmp) <- rownames(Tables_earth_treatment)
+colnames(tmp) <- rownames(Tables_earth_treatment)
 (Tables_earth_lm <- tmp)
 ```
 
@@ -272,11 +272,10 @@ saveRDS(list(
   Tables_yield_weather = Tables_yield_weather,
   Tables_earth_treatment = Tables_earth_treatment,
   Tables_earth_notreatment = Tables_earth_notreatment,
-  table_yield_lm = Tables_yield_lm,
-  table_yield_weather_lm = Tables_yield_weather_lm,
-  table_earth_lm = Tables_earth_lm
+  Tables_yield_lm = Tables_yield_lm,
+  Tables_yield_weather_lm = Tables_yield_weather_lm,
+  Tables_earth_lm = Tables_earth_lm
 ), "cache/benchmark-tables.rds")
-
 ```
 
 ---
