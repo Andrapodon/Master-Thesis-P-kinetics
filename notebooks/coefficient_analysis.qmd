@@ -1,0 +1,376 @@
+---
+title: "Kinetic Model Coefficient Analysis"
+format: 
+  html:
+    math: mathjax
+  pdf: default
+  docx: default
+author: Marc Pérez
+date: 2025-05-22
+---
+
+```{r setup}
+#| include: false
+#| message: false
+#| warning: false
+
+
+library(multcomp)
+library(car)
+library(tidyr)
+library(lme4)
+library(ggplot2)
+library(ggtext)
+library(ggpmisc)
+library(nlme)
+library(latex2exp)
+library(kableExtra)
+library(broom)
+library(dplyr)
+library(MuMIn)
+
+options(warn = -1)
+RES <- readRDS("~/Documents/Master Thesis/Master-Thesis-P-kinetics/data/RES.rds")
+D <- RES$D
+d <- RES$data
+
+```
+
+Model Agroscope
+$$Y_{rel}\sim A*(1-e^{rate*P_{CO_2}+Env})$$
+
+Wir ersetzen nur rate mit unserer Schätzung k:
+$$Y_{rel}\sim A*(1-e^{k*P_{CO_2}+Env})$$
+
+Sind unsere Modelparameter gute Prediktoren??
+$$Y_{rel}\sim A*(1-e^{k*PS+Env} )$$
+
+Es gibt noch die Kovariaten Niederschlag pro Jahr, Jahresdurchschnittstemperatur und Temperatur in Jugendphase
+
+
+
+```{r}
+#|code-fold: true
+#|tidy: true
+
+
+
+
+
+
+library(GGally)
+
+ggpairs(D, 
+  aes(col=Site, shape = Treatment,alpha = 0.6), 
+  columns = c("soil_0_20_P_AAE10", "soil_0_20_P_CO2", "PS", "k", "kPS"),
+  lower = list(continuous = wrap("points", size = 1.3)),
+  upper = list(continuous = "blank", combo = "blank", discrete = "blank"))  # Adjust size here
+  
+
+
+
+
+p6 <- ggplot(D,aes(y=soil_0_20_P_AAE10, x=soil_0_20_P_CO2, col=Site, size = Treatment)) +
+  geom_point(shape = 7) + 
+  scale_x_log10() + scale_y_log10() +
+  labs(x=TeX("$P_{H_2O10}(mg/kg Soil)$"),
+         y=TeX("$P_{AAEDTA}(mg/kg Soil)$")); p6
+  
+p7 <- ggplot(D,aes(y=PS, x=soil_0_20_P_CO2, col=Site, size = Treatment)) +
+  geom_point(shape = 7) +
+  scale_x_log10() + scale_y_log10() +
+  labs(x=TeX("$P_{CO_2}(mg/kg Soil)$"),
+          y=TeX("$PS(mg/kg Soil)$")); p7
+
+p8 <- ggplot(D,aes(y=k, x=soil_0_20_P_CO2, col=Site, size = Treatment)) +
+  geom_point(shape = 7) +
+  scale_x_log10() +
+  labs(x=TeX("$P_{CO_2}(mg/kg Soil)$"),
+         y=TeX("$k(1/s)$")); p8
+
+p9 <- ggplot(D,aes(y=k*PS, x=soil_0_20_P_CO2, col=Site, size = Treatment)) +
+  geom_point(shape = 7) +
+  scale_x_log10() + scale_y_log10() +
+  labs(x=TeX("$P_{CO_2}(mg/kg Soil)$"),
+         y=TeX("$v=k*PS(mg/s*kg Soil)$"));p9
+
+
+p11 <- ggplot(D,aes(y=PS, x=soil_0_20_P_AAE10, col=Site, size = Treatment)) +
+  scale_x_log10() + scale_y_log10() +
+  geom_point(shape = 7) +
+  labs(x=TeX("$P_{AAEDTA}(mg/kg Soil)$"),
+         y=TeX("$PS(mg/kg Soil)$")); p11
+
+p12 <- ggplot(D,aes(y=k, x=soil_0_20_P_AAE10, col=Site, size = Treatment)) +
+  geom_point(shape = 7) +
+   scale_x_log10() + scale_y_log10() +
+  labs(x=TeX("$P_{AAEDTA}(mg/kg Soil)$"),
+         y=TeX("$k(1/s)$"))
+
+p12
+
+p13 <- ggplot(D,aes(y=k*PS, x=soil_0_20_P_AAE10, col=Site, size = Treatment)) +
+  scale_x_log10() + scale_y_log10() +
+  geom_point(shape = 7) +
+  labs(x=TeX("$P_{AAEDTA}(mg/kg Soil)$"),
+         y=TeX("$log(v)=log(k*PS)(mg/s*kg Soil)$"))
+
+p13
+
+
+
+
+```
+
+
+Nun noch die Linearen Regressionen, die ausstehend sind:
+
+
+`(1|year) + (1|Site)  + (1|Site:block) + (Treatment|Site)`
+
+Random intercept per year and site, block nested in site. and Treatment nested in site (could also be modelled as a random slope to allow for correlations)
+
+wir sind abe nicht an einem Treatment effekt interesseiert. drum verwerfen wir Treatment als Random UND Fixed effekt.
+
+1. Vergleiche PS, k und kPS mit 
+
+
+
+```{r}
+#|code-fold: true
+#|tidy: true
+
+
+# Wovon hängen Modelparameter ab?
+
+library(lmerTest)
+
+fit.soil.PS  <- lmer(log(PS)     ~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Treatment + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.soil.PS2 <- lmer(log(PS)     ~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Treatment + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.soil.k   <- lmer(k           ~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Treatment + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.soil.kPS <- lmer(I(log(k*PS))~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Treatment + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.soil.kPS2<- lmer(I(k*log(PS))~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Treatment + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.soil.CO2 <- lmer(log(soil_0_20_P_CO2)~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Treatment + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.soil.AAE10<-lmer(log(soil_0_20_P_AAE10)~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Treatment + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+
+
+
+
+
+r.squaredGLMM(fit.soil.kPS)
+r.squaredGLMM(fit.soil.kPS2)
+
+fit.kin.Yrel     <- lmer(Ymain_rel         ~ k * log(PS)  + (1|year) + (1|Site)  + (1|Site:block), D)
+
+fit.kin.Ynorm    <- lmer(Ymain_norm       ~ k + log(PS)  + (1|year) + (1|Site)  + (1|Site:block), D, subset = Treatment != "P166")
+r.squaredGLMM(fit.kin.Ynorm)
+
+
+fit.kin.Ynorm    <- lmer(Ymain_norm       ~ k * log(PS)  + (1|year) + (1|Site)  + (1|Site:block), D, subset = Treatment != "P166")
+r.squaredGLMM(fit.kin.Ynorm)
+
+fit.kin.Ynorm    <- lmer(Ymain_norm       ~ k * log(PS)  + (1|year), D, subset = Treatment != "P166")
+r.squaredGLMM(fit.kin.Ynorm)
+
+
+fit.kin.Ynorm    <- lmer(Ymain_norm       ~ k * log(PS)  + (1|year) + (1|Site)  + (1|Site:block), D)
+r.squaredGLMM(fit.kin.Ynorm)
+
+fit.kin.Ynorm    <- lmer(Ymain_norm       ~ k * log(PS)  + (1|year) + (1|Site)  + (1|Site:block), D, subset = Treatment == "P0")
+r.squaredGLMM(fit.kin.Ynorm)
+summary(fit.kin.Ynorm, ddf="Kenward-Roger")
+
+fit.kin.Ynorm    <- lmer(Ymain_norm       ~ k * log(PS)  + (1|year) + (1|Site)  + (1|Site:block), D, subset = Treatment == "P100")
+r.squaredGLMM(fit.kin.Ynorm)
+
+fit.kin.Ynorm    <- lmer(Ymain_norm       ~ k * log(PS)  + (1|year) + (1|Site)  + (1|Site:block), D, subset = Treatment == "P166")
+r.squaredGLMM(fit.kin.Ynorm)
+
+
+
+fit.grud.CO2.Ynorm     <- lmer(Ymain_norm    ~ log(soil_0_20_P_CO2) + (1|year) + (1|Site)  + (1|Site:block), D, subset = Treatment != "P166")
+r.squaredGLMM(fit.grud.CO2.Ynorm)
+fit.grud.AAE10.Ynorm   <- lmer(Ymain_norm    ~ log(soil_0_20_P_AAE10) + (1|year) + (1|Site)  + (1|Site:block), D, subset = Treatment != "P166")
+r.squaredGLMM(fit.grud.AAE10.Ynorm)
+fit.grud.CO2.AAE10.Ynorm <- lmer(Ymain_norm  ~ log(soil_0_20_P_CO2) * log(soil_0_20_P_AAE10) + (1|year) + (1|Site)  + (1|Site:block), D, subset = Treatment != "P166")
+r.squaredGLMM(fit.grud.CO2.AAE10.Ynorm)
+# compare with k*log(PS)
+fit.kin.Ynorm   <- lmer(Ymain_norm       ~ k*log(PS) + (1|year) + (1|Site)  + (1|Site:block), D, subset = Treatment != "P166")
+r.squaredGLMM(fit.kin.Ynorm)
+
+fit.kin.Ynorm    <- lmer(Ymain_norm       ~ k * log(PS) + (1|year) + (1|Site)  + (1|Site:block), D, subset = Treatment != "P166")
+fit.kin.Puptake  <- lmer(annual_P_uptake  ~ k * log(PS) + (1|year) + (1|Site)  + (1|Site:block), D)
+fit.kin.Pbalance <- lmer(annual_P_balance ~ k * log(PS) + (1|year) + (1|Site)  + (1|Site:block), D)
+
+car::vif(lm(Ymain_norm       ~ (k) * log(PS)  + crop, D))
+car::vif(lm(Ymain_norm       ~ scale(k) * scale(log(PS))   + crop, D))
+car::vif(lm(Ymain_norm       ~ k + log(PS)   + crop, D))
+car::vif(lm(Ymain_norm       ~ I(k * (PS)) + k + log(PS)    + crop, D))
+
+with(D, hist(I(exp(k) * (PS))))
+with(D, hist(log(PS)))
+
+r.squaredGLMM(fit.kin.Ynorm)
+
+anova(fit.soil.PS)
+#summary(glht(fit.PS))
+# Fazit: PS wird von treatment stark beeinfluss, k eher nicht (dafür von site)
+anova(fit.soil.k)
+summary(glht(fit.soil.k))
+anova(fit.soil.kPS)
+summary(glht(fit.soil.kPS))
+anova(fit.kin.Yrel)
+anova(fit.kin.Ynorm)
+anova(fit.kin.Puptake)
+anova(fit.soil.CO2)
+anova(fit.soil.AAE10)
+anova(fit.kin.Pbalance)
+summary(fit.kin.Pbalance)
+fit.kin.Pbalance |> r.squaredGLMM()
+fit.kin.Puptake |> r.squaredGLMM()
+fit.kin.Yrel |> r.squaredGLMM()
+fit.kin.Ynorm |> r.squaredGLMM()
+# Verhalten der Modelparameter und Ertragsdaten auf P-CO2 und P-AAE10
+
+```
+
+Since we now model two measurement methods, we do not expect correlations by Site/year/etc
+```{r}
+#|code-fold: true
+#|tidy: true
+# fit.PS       <- lm(PS            ~ soil_0_20_P_CO2 + soil_0_20_P_AAE10, D)
+fit.grud.PS       <- lm(log(PS)         ~ log(soil_0_20_P_CO2) + log(soil_0_20_P_AAE10), D)
+fit.grud.k        <- lm(k               ~ log(soil_0_20_P_CO2) + log(soil_0_20_P_AAE10), D)
+fit.grud.kPS      <- lm(I(log(k*PS))    ~ log(soil_0_20_P_CO2) + log(soil_0_20_P_AAE10), D)
+
+fit.grud.Yrel     <- lmer(Ymain_rel       ~ log(soil_0_20_P_CO2) + log(soil_0_20_P_AAE10) + Treatment + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+
+# this is hopeless, since cannot log becaus of 0's
+fit.grud.Puptake     <- lmer(annual_P_uptake     ~ log(soil_0_20_P_CO2) + log(soil_0_20_P_AAE10) + Treatment + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+
+
+fit.grud.Pbalance     <- lmer(annual_P_balance       ~ log(soil_0_20_P_CO2) + log(soil_0_20_P_AAE10) + Treatment + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+
+#summary(glht(fit.PS))
+# Fazit: PS wird von treatment stark beeinfluss, k eher nicht (dafür von site)
+summary(glht(fit.grud.PS))
+summary(glht(fit.grud.k))
+summary(glht(fit.grud.kPS))
+summary(fit.grud.Yrel)
+summary(fit.grud.Puptake)
+summary(fit.grud.Pbalance)
+fit.grud.Pbalance |> r.squaredGLMM()
+fit.grud.Puptake |> r.squaredGLMM()
+fit.grud.Yrel |> r.squaredGLMM()
+
+
+save.image(file = "~/Documents/Master Thesis/Master-Thesis-P-kinetics/data/results_coefficient_analysis")
+
+```
+
+
+
+```{r}
+create_coef_table <- function(lmer_models, sig_threshold = 0.001, covariate_order = NULL) {
+
+  # Extract coefficients and p-values from lmerTest::lmer objects
+  extract_coef_info <- function(model) {
+    coef_matrix <- summary(model)|> coef()
+    estimates <- coef_matrix[, 1]
+    p_values <- coef_matrix[, ncol(coef_matrix)]
+    # Format with significance stars
+    formatted_coef <- sapply(seq_along(estimates), function(i) {
+    est_str <- sprintf("%.3f", estimates[i])
+    stars <- if (p_values[i] < 0.001) "***" else
+    if (p_values[i] < 0.01) "** " else
+    if (p_values[i] < 0.05) "*  " else  ""
+    paste0(stars, est_str)
+    })
+    names(formatted_coef) <- rownames(coef_matrix)
+    return(formatted_coef)
+  }
+
+  # Extract R-squared values
+  extract_r_squared <- function(model) {
+  r2_values <- r.squaredGLMM(model)
+  return(c(
+    R2m = sprintf("%.3f", r2_values[1, "R2m"]),
+    R2c = sprintf("%.3f", r2_values[1, "R2c"])
+  ))
+  }
+
+  # Extract coefficients for all models
+  all_coefs <- lapply(lmer_models, extract_coef_info)
+
+  # Extract R-squared for all models
+  all_r_squared <- lapply(lmer_models, extract_r_squared)
+
+  # Get all unique coefficient names
+  all_covariate_names <- unique(unlist(lapply(all_coefs, names)))
+
+  # Apply covariate ordering
+  if (is.null(covariate_order)) {
+  # Default: Intercept first, then alphabetical
+  covariate_order <- c("(Intercept)", sort(all_covariate_names[all_covariate_names != "(Intercept)"]))
+  }
+
+  # Filter to only include covariates that exist
+  covariate_order <- covariate_order[covariate_order %in% all_covariate_names]
+
+  # Add R-squared rows to the ordering
+  final_order <- c(covariate_order, "R2m", "R2c")
+
+  # Create results matrix
+  results_matrix <- matrix("",
+  nrow = length(final_order),
+  ncol = length(lmer_models),
+  dimnames = list(final_order, names(lmer_models)))
+
+  # Fill in the coefficients
+  for (model_name in names(lmer_models)) {
+  model_coefs <- all_coefs[[model_name]]
+  for (covar in names(model_coefs)) {
+  if (covar %in% covariate_order) {
+  results_matrix[covar, model_name] <- model_coefs[covar]
+  }
+  }
+  }
+
+  # Fill in the R-squared values
+  for (model_name in names(lmer_models)) {
+  r2_values <- all_r_squared[[model_name]]
+  results_matrix["R2m", model_name] <- r2_values["R2m"]
+  results_matrix["R2c", model_name] <- r2_values["R2c"]
+  }
+
+  # Convert to data frame for kable
+  results_df <- data.frame(Covariate = rownames(results_matrix),
+  results_matrix,
+  stringsAsFactors = FALSE)
+
+  results_df
+}
+```
+
+
+```{r}
+lmer_models <- list(
+  PS = fit.soil.PS,
+  PS2 = fit.soil.PS2,
+  k = fit.soil.k,
+  kPS = fit.soil.kPS,
+  kPS2 = fit.soil.kPS2,
+  CO2 = fit.soil.CO2,
+  AAE10 = fit.soil.AAE10,
+  fail = fit.kin.Yrel
+)
+
+
+coef_table <- create_coef_table(lmer_models, sig_threshold = 0.001)
+kable(coef_table,
+row.names = FALSE,
+align = c("l", rep("r", ncol(coef_table) - 1)),
+caption = "Coefficient Table for Kinetic Models. 
+Significant codes:  0 '\\*\\*\\*' 0.001 '\\*\\*' 0.01 '\\*' 0.05")
+```
+

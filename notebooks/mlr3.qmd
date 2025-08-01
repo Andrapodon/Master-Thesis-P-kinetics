@@ -1,0 +1,381 @@
+---
+title: Modeling of relative Yield, P-Uptake and P-Balance
+author: Lukas Graz
+date: 2025-02-13
+# format:
+#   html:
+#     df-print: kable
+---
+
+```{r}
+#| code-fold: false
+RES <- readRDS("data/RES.rds")
+D <- RES$D
+lgr::get_logger("mlr3")$set_threshold("warn")
+# d <- RES$data
+```
+
+## Setup
+```{r}
+#| code-fold: true
+#| code-summary: "Benchmark helper function"
+library(mlr3verse, quietly = TRUE)
+
+mse <- msrs(c("regr.mse"))
+
+if (!interactive())
+  lgr::get_logger("mlr3")$set_threshold("warn")
+
+get_benchi_table <- function(tasks, nfolds = 5, resamplings = NULL) {
+  set.seed(123)
+  learners <- lrns(c("regr.featureless", "regr.lm", "regr.xgboost", "regr.ranger"))
+  learners$regr.xgboost$param_set$set_values(
+    eta = 0.04, 
+    nrounds = 300, 
+    max_depth = 2
+  )
+
+  benchi <- xfun::cache_rds({
+    benchmark(benchmark_grid(
+      tasks, 
+      learners, 
+      if(is.null(resamplings)) rsmp("cv", folds = nfolds) else resamplings
+    ))
+  }, 
+  file = "benchmark.rds", 
+  dir = "cache/",
+  hash = list(tasks, nfolds)
+  )
+  
+  res <- tidyr::pivot_wider(benchi$aggregate(mse), 
+    id_cols = task_id,
+    names_from = learner_id,
+    values_from = regr.mse
+  ) |> as.data.frame()
+  
+  rownames(res) <- res$task_id
+  res <- res[, -1]
+  colnames(res) <- gsub("regr.", "", colnames(res))
+  stopifnot(any(colnames(res) == "featureless"))
+  res <- 1 - res / res$featureless
+  res[, -1, drop = FALSE] |> round(3)
+}
+```
+
+Testing prediction quality using
+
+- Linear models 
+- Random forests (default parameters)
+- XGBoost (with parameter tuning)
+
+**Weather Variables:**
+
+```{r}
+#| echo: false
+Weather_vars <- c(
+  "anavg_temp", "ansum_prec",
+  "juvdev_prec", "juvdev_sun",
+  "ansum_sun", "juvdev_temp"
+)
+
+# set NA's to 0 but include a column to indicate that
+NA_weather <- is.na(D$juvdev_sun)
+D[NA_weather, Weather_vars] <- 0
+D$NA_weather <- NA_weather
+Weather_vars <- c(Weather_vars, "NA_weather")
+
+stopifnot(all(Weather_vars %in% names(D)))
+Weather_vars
+```
+
+
+```{r}
+#| echo: false
+P_var_sets <- list(
+  onlyweather = NULL,
+  k = "k",
+  PS = "PS_log",
+  kPS = c("PS_log", "k", "kPS_log"),
+  AAE10 = "P_AAE10_log",
+  CO2 = "P_CO2_log",
+  AAE10_CO2 = c("P_AAE10_log", "P_CO2_log", "P_AAE10_CO2_loglog"),
+  AAE10_CO2_kPS = c("P_AAE10_log", "P_CO2_log", "PS_log", "k", "kPS_log"),
+  CO2_kPS = c("P_CO2_log", "PS_log", "k", "kPS_log")
+)
+Earth_vars <- c(
+  "soil_0_20_clay", "soil_0_20_pH_H2O", "soil_0_20_Corg", "soil_0_20_silt"
+)
+```
+
+
+```{r}
+Y_vars_yield <- c("Ymain_norm", "Ymain_rel", "annual_P_uptake", "annual_P_balance")
+
+Y_vars_earth <- c("PS_log", "k", "kPS_log", "P_AAE10_log", "P_CO2_log")
+```
+
+impute NA's for Earth variables. impute value with the mean of Site X block  
+```{r}
+# xtabs(~is.na(D$soil_0_20_silt) + Site + block, D)
+for (var in Earth_vars) {
+  D[[var]] <- ave(D[[var]], D$Site, D$block, FUN = \(x) ifelse(is.na(x), mean(x, na.rm = TRUE), x))
+}
+```
+
+remove Cadenazzoo since too many crucial data missing
+```{r}
+D <- D[D$site != "CAD", ]
+D$Site <- droplevels(D$Site)
+```
+
+Now check NA's
+```{r}
+sapply(D[, unique(c(Y_vars_yield, Y_vars_earth, Weather_vars, unlist(P_var_sets), Earth_vars))], 
+  \(x) sum(is.na(x)|is.nan(x))) |> cbind()
+```
+
+## Predicting Yield variables (with/without Weather data) with Earth-dynamics
+
+### With Weather data
+
+```{r}
+P_var_sets
+```
+
+Algorithm learns to predict location from weather since we do not do stratified cross-validation (leaving out locations).
+
+```{r}
+#| code-fold: true
+Tables_yield_weather <- list()
+for(yvar in Y_vars_yield){
+  ind <- complete.cases(D[,unique(c(yvar ,Weather_vars, unlist(P_var_sets)))])
+
+  mytsks <- list()
+  for (nam in names(P_var_sets)) {
+    mytsk <- as_task_regr(
+      D[ind, c(yvar, Weather_vars, P_var_sets[[nam]])],
+      target = yvar,
+      id = nam)
+    mytsks[[nam]] <- mytsk
+  }
+  Tables_yield_weather[[yvar]] <- get_benchi_table(mytsks)
+}
+
+Tables_yield_weather
+```
+
+```{r}
+tmp <- do.call(cbind, lapply(Tables_yield_weather, \(x) x$lm)); 
+rownames(tmp) <- rownames(Tables_yield_weather[[1]])
+(Tables_yield_weather_lm <- tmp)
+```
+
+### Without Weather data
+
+```{r}
+#| code-fold: true
+P_var_sets_noweather <- P_var_sets[-1]
+
+Tables_yield <- list()
+for(yvar in Y_vars_yield){
+  ind <- complete.cases(D[,unique(c(yvar, unlist(P_var_sets_noweather)))])
+
+  mytsks <- list()
+  for (nam in names(P_var_sets_noweather)) {
+    mytsk <- as_task_regr(
+      D[ind,
+        c(yvar, P_var_sets_noweather[[nam]]
+        # ,"Site"
+        )],
+      target = yvar,
+      id = nam)
+    # mytsk$set_col_roles("Site", "group")
+    mytsks[[nam]] <- mytsk
+  }
+  Tables_yield[[yvar]] <- get_benchi_table(mytsks)
+}
+
+Tables_yield
+```
+
+```{r}
+tmp <- do.call(cbind, lapply(Tables_yield, \(x) x$lm));
+rownames(tmp) <- rownames(Tables_yield[[1]])
+(Tables_yield_lm <- tmp)
+```
+
+xgboost & ranger are no good in this setting since only very few variables available
+
+
+## Predicting Earth-dynamics via soil variables (with/without Treatment)
+
+```{r}
+#| echo: true
+Earth_vars
+Y_vars_earth
+```
+
+```{r}
+#| code-fold: true
+D$is.trt0 <- D$Treatment == "P0"
+D$is.trt1 <- D$Treatment == "P100"
+
+mytsks_treatment <- list()
+mytsks_notreatment <- list()
+for(yvar in Y_vars_earth){
+  ind <- complete.cases(D[,unique(c(yvar, unlist(P_var_sets_noweather)))])
+
+    mytsk <- as_task_regr(
+      D[ind, c(yvar, Earth_vars, "is.trt1", "is.trt0"
+        # ,"Site"
+        )],
+      target = yvar,
+      id = yvar)
+    # mytsk$set_col_roles("Site", "group")
+    mytsks_treatment[[yvar]] <- mytsk
+
+    mytsk <- as_task_regr(
+      D[ind, c(yvar, Earth_vars
+        # ,"Site"
+        )],
+      target = yvar,
+      id = yvar)
+    # mytsk$set_col_roles("Site", "group")
+    mytsks_notreatment[[yvar]] <- mytsk    
+}
+
+Tables_earth_treatment <- get_benchi_table(mytsks_treatment)
+Tables_earth_notreatment <- get_benchi_table(mytsks_notreatment)
+```
+
+
+```{r}
+#| echo: true
+#| code-fold: false
+Tables_earth_treatment
+Tables_earth_notreatment
+```
+
+```{r}
+tmp <- rbind(
+  "soil + treatment" = Tables_earth_treatment[["lm"]],
+  "only soil" = Tables_earth_notreatment[["lm"]]
+)
+colnames(tmp) <- rownames(Tables_earth_treatment)
+(Tables_earth_lm <- tmp)
+```
+
+
+```{r}
+saveRDS(list(
+  Tables_yield = Tables_yield,
+  Tables_yield_weather = Tables_yield_weather,
+  Tables_earth_treatment = Tables_earth_treatment,
+  Tables_earth_notreatment = Tables_earth_notreatment,
+  Tables_yield_lm = Tables_yield_lm,
+  Tables_yield_weather_lm = Tables_yield_weather_lm,
+  Tables_earth_lm = Tables_earth_lm
+), "cache/benchmark-tables.rds")
+```
+
+---
+
+```{r}
+cor(D$annual_P_balance, D$PS) # 0.54389
+cor(D$fert_P_tot, D$PS) # 0.48236
+cor(D$annual_P_uptake, D$PS) # 0.070678
+```
+
+
+
+
+We did manage to have high predictive power for weather. This could also be due to our regression models recovering location&year from it and hence still overfitting on the test set.
+
+Without Weather data we only managed for annual balance to get some predictive power (30%). Since we the balance is uptake - fert_P, this means that we mostly predicted fert_P.
+Interestingly PS is best to predict this quantity
+
+### Legacy Code
+```{r}
+#| code-summary: "XGBoost - Parameter Tuning"
+#| code-fold: true
+#| eval: false
+
+# Get parameter estimates for XGBoost
+t <- as_task_regr(
+  subset(D[complete.cases(D$annual_P_balance),], 
+    select = c("annual_P_balance", P_var_sets$AAE10_CO2_kPS#, Weather_vars
+    )),
+  target = "annual_P_balance"
+)
+
+l <- lrn("regr.xgboost",
+  nrounds = 500  # More iterations due to lower learning rate
+)
+
+# Create search space
+ps <- ps(
+  max_depth = p_int(2, 4),
+  eta = p_dbl(0.001, 0.3, tags = "logscale")
+)
+
+# Setup tuning
+instance <- ti(
+  task = t,
+  learner = l,
+  resampling = rsmp("cv", folds = 3),
+  measure = msr("regr.mse"),
+  terminator = trm("none"),
+  search_space = ps
+)
+
+# Grid search
+tuner <- mlr3tuning::tnr("grid_search")
+tuner$optimize(instance)
+instance$result
+```
+
+Ymain_rel
+ max_depth      eta learner_param_vals  x_domain regr.mse
+       <int>    <num>             <list>    <list>    <num>
+1:         2 0.067444          <list[5]> <list[2]>   177.18
+
+
+P uptake
+   max_depth      eta learner_param_vals  x_domain regr.mse
+       <int>    <num>             <list>    <list>    <num>
+1:         2 0.034222          <list[5]> <list[2]>   137.41
+
+annual_P_balance
+   max_depth      eta learner_param_vals  x_domain regr.mse
+       <int>    <num>             <list>    <list>    <num>
+1:         2 0.034222          <list[5]> <list[2]>   145.21
+
+
+```{r}
+# nlme.coef$kPS_log <- nlme.coef$k * nlme.coef$PS
+# 
+# 
+# nlme.coef.mrg <- merge(nlme.coef,allP[allP$year>=2017,],by = "uid")
+# # add log-transformed versions
+# D$kPS_log <- log(D$kPS_log)
+# D$PS_log <- log(D$PS)
+# D$soil_0_20_P_AAE10_log <- log(D$soil_0_20_P_AAE10)
+# D$soil_0_20_P_CO2_log <- log(D$soil_0_20_P_CO2)
+# 
+# D$k
+
+
+
+subset(D, select = c("Ymain_rel", P_var_sets$AAE10_CO2_kPS, Weather_vars))
+```
+
+
+
+# Methods
+
+we used machine learning methods to assess how much information different sets of variables (c.f. `P_var_sets`) have each on the dependent variable (Puptake, Y-rel, P-balance), how redundant this information is.
+The machine learning methods to quantify the predictive power of different variable sets are: i) ordinary least squares (OLS) as a baseline; ii) XGBoost (gradient boosting with tree-based models and hyperparameter tuning for learning rate and tree depth) (arxiv:1603.02754); iii) Random Forests (with default parameters) (doi:10.1023/A:1010933404324). Computations were performed using the mlr3 framework (doi:10.21105/joss.01903). Performance was measured as percentage of explained variance on hold-out data via 5-fold cross-validation, calculated as (1 - MSE/Variance(y)), where MSE represents mean squared error. 
+
+We tried adjusting for weather variables but it seems that the ML-methods rather reconstruct the site-specific patterns....
+
+

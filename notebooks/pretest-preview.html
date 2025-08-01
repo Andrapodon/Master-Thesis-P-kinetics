@@ -1,0 +1,1387 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="generator" content="quarto-1.6.42">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+    <meta name="author" content="Marc Pérez">
+    <meta name="dcterms.date" content="2025-05-22">
+
+    <title>Model Validation and coefficient calculation</title>
+    <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      div.columns{display: flex; gap: min(4vw, 1.5em);}
+      div.column{flex: auto; overflow-x: auto;}
+      div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+      ul.task-list{list-style: none;}
+      ul.task-list li input[type="checkbox"] {
+        width: 0.8em;
+        margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+        vertical-align: middle;
+      }
+      /* CSS for syntax highlighting */
+      pre > code.sourceCode { white-space: pre; position: relative; }
+      pre > code.sourceCode > span { line-height: 1.25; }
+      pre > code.sourceCode > span:empty { height: 1.2em; }
+      .sourceCode { overflow: visible; }
+      code.sourceCode > span { color: inherit; text-decoration: inherit; }
+      div.sourceCode { margin: 1em 0; }
+      pre.sourceCode { margin: 0; }
+      @media screen {
+      div.sourceCode { overflow: auto; }
+      }
+      @media print {
+      pre > code.sourceCode { white-space: pre-wrap; }
+      pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+      }
+      pre.numberSource code
+        { counter-reset: source-line 0; }
+      pre.numberSource code > span
+        { position: relative; left: -4em; counter-increment: source-line; }
+      pre.numberSource code > span > a:first-child::before
+        { content: counter(source-line);
+          position: relative; left: -1em; text-align: right; vertical-align: baseline;
+          border: none; display: inline-block;
+          -webkit-touch-callout: none; -webkit-user-select: none;
+          -khtml-user-select: none; -moz-user-select: none;
+          -ms-user-select: none; user-select: none;
+          padding: 0 4px; width: 4em;
+        }
+      pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+      div.sourceCode
+        {   }
+      @media screen {
+      pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+      }
+    </style>
+
+    <style>
+      body.hypothesis-enabled #quarto-embed-header {
+        padding-right: 36px;
+      }
+
+      #quarto-embed-header {
+        height: 3em;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: solid 1px;
+      }
+
+      #quarto-embed-header h6 {
+        font-size: 1.1em;
+        padding-top: 0.6em;
+        margin-left: 1em;
+        margin-right: 1em;
+        font-weight: 400;
+      }
+
+      #quarto-embed-header a.quarto-back-link,
+      #quarto-embed-header a.quarto-download-embed {
+        font-size: 0.8em;
+        margin-top: 1em;
+        margin-bottom: 1em;
+        margin-left: 1em;
+        margin-right: 1em;
+      }
+
+      .quarto-back-container {
+        padding-left: 0.5em;
+        display: flex;
+      }
+
+      .headroom {
+          will-change: transform;
+          transition: transform 200ms linear;
+      }
+
+      .headroom--pinned {
+          transform: translateY(0%);
+      }
+
+      .headroom--unpinned {
+          transform: translateY(-100%);
+      }      
+    </style>
+
+    <script>
+    window.document.addEventListener("DOMContentLoaded", function () {
+
+      var header = window.document.querySelector("#quarto-embed-header");
+      const titleBannerEl = window.document.querySelector("body > #title-block-header");
+      if (titleBannerEl) {
+        titleBannerEl.style.paddingTop = header.clientHeight + "px";
+      }
+      const contentEl = window.document.getElementById('quarto-content');
+      for (const child of contentEl.children) {
+        child.style.paddingTop = header.clientHeight + "px";
+        child.style.marginTop = "1em";
+      }
+
+      // Use the article root if the `back` call doesn't work. This isn't perfect
+      // but should typically work
+      window.quartoBackToArticle = () => {
+        var currentUrl = window.location.href;
+        window.history.back();
+        setTimeout(() => {
+            // if location was not changed in 100 ms, then there is no history back
+            if(currentUrl === window.location.href){              
+                // redirect to site root
+                window.location.href = "../index.html";
+            }
+        }, 100);
+      }
+
+      const headroom = new window.Headroom(header, {
+        tolerance: 5,
+        onPin: function () {
+        },
+        onUnpin: function () {
+        },
+      });
+      headroom.init();
+    });
+    </script>
+
+    
+<script src="../site_libs/manuscript-notebook/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-cbf367297292b8e2858f4d7b7fd861d6.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+     <script async="" src="https://hypothes.is/embed.js"></script>
+<script>
+  window.document.addEventListener("DOMContentLoaded", function (_event) {
+    document.body.classList.add('hypothesis-enabled');
+  });
+</script>  <style>
+.quarto-notebook .cell-container .cell-decorator {
+  display: none;
+}
+</style>   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script> 
+      </head>
+
+  <body class="quarto-notebook">
+    <div id="quarto-embed-header" class="headroom fixed-top bg-primary">
+      
+      <a onclick="window.quartoBackToArticle(); return false;" class="btn btn-primary quarto-back-link" href=""><i class="bi bi-caret-left"></i> Back to Article</a>
+      <h6><i class="bi bi-journal-code"></i> pretest</h6>
+
+            <a href="../notebooks/pretest.qmd" class="btn btn-primary quarto-download-embed" download="pretest.qmd">Download Source</a>
+          </div>
+
+     <header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Model Validation and coefficient calculation</h1>
+          </div>
+
+    
+    <div class="quarto-title-meta-container">
+      <div class="quarto-title-meta-column-start">
+        
+        <div class="quarto-title-meta">
+
+                <div>
+            <div class="quarto-title-meta-heading">Author</div>
+            <div class="quarto-title-meta-contents">
+                        <p>Marc Pérez </p>
+                      </div>
+          </div>
+                
+                <div>
+            <div class="quarto-title-meta-heading">Published</div>
+            <div class="quarto-title-meta-contents">
+              <p class="date">May 22, 2025</p>
+            </div>
+          </div>
+          
+                
+              </div>
+      </div>
+      <div class="quarto-title-meta-column-end quarto-other-formats-target">
+      </div>
+    </div>
+
+
+
+    <div class="quarto-other-links-text-target">
+    </div>  </div>
+</header><div id="quarto-content" class="page-columns page-rows-contents page-layout-article toc-left">
+<div id="quarto-sidebar-toc-left" class="sidebar toc-left">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#context" id="toc-context" class="nav-link active" data-scroll-target="#context">Context</a></li>
+  <li><a href="#model-of-p-release-after-flossman-richter" id="toc-model-of-p-release-after-flossman-richter" class="nav-link" data-scroll-target="#model-of-p-release-after-flossman-richter">Model of P-release after Flossman &amp; Richter</a></li>
+  <li><a href="#exact-solution" id="toc-exact-solution" class="nav-link" data-scroll-target="#exact-solution">Exact Solution</a></li>
+  <li><a href="#linearization" id="toc-linearization" class="nav-link" data-scroll-target="#linearization">Linearization</a></li>
+  <li><a href="#setup-and-preparation-of-dataset" id="toc-setup-and-preparation-of-dataset" class="nav-link" data-scroll-target="#setup-and-preparation-of-dataset">Setup and preparation of dataset</a></li>
+  </ul>
+</nav>
+</div>
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+</div>
+<main class="content quarto-banner-title-block" id="quarto-document-content">      
+
+       <section id="context" class="level2">
+<h2 class="anchored" data-anchor-id="context">Context</h2>
+<p>To explore, whether the proposed mechanisms and experiments to assess their dynamic, in a first step the Treatment levels <span class="math inline">\(0P\)</span> and <span class="math inline">\(166P\)</span> for all sites were analyzed. The experiments were conducted as displayed in the original paper of Flossmann &amp; Richter with adjustments according to developments in technique and available equipment of the soil laboratory. Instead of the CAL-method, the Olsen-method was used to measure and estimate the quantity of P.</p>
+</section>
+<section id="model-of-p-release-after-flossman-richter" class="level2">
+<h2 class="anchored" data-anchor-id="model-of-p-release-after-flossman-richter">Model of P-release after Flossman &amp; Richter</h2>
+<p><span class="math display">\[\frac{dP}{dt}=k\times(P^S-P)\]</span> The constant <span class="math inline">\(P^S\)</span> denotes the amount of semi-labile P and was originally estimated as <span class="math inline">\(P_\text{Olsen}-P_{H_2O}\)</span>. Subsequently the DE is solved exactly, since the soil is as <span class="math inline">\(t=0\)</span> mixed with deionized water, it was assumed that <span class="math inline">\(P(0)=0\)</span></p>
+</section>
+<section id="exact-solution" class="level2">
+<h2 class="anchored" data-anchor-id="exact-solution">Exact Solution</h2>
+<p><span class="math display">\[P(t)=P^{\text{S}}-C\times e^{-kt}\]</span></p>
+<p>for <span class="math inline">\(P(0)=P_0\)</span> we receive:</p>
+<p><span class="math display">\[P(t)=P^S-(P^S-P_0)\times e^{-kt}\]</span></p>
+<p>If we set <span class="math inline">\(P(0)=0\)</span> we receive:</p>
+<p><span class="math display">\[P(t)=P^S\times(1-e^{-kt})\]</span></p>
+</section>
+<section id="linearization" class="level2">
+<h2 class="anchored" data-anchor-id="linearization">Linearization</h2>
+<p>Now we linearize the DE, so that a linear model can be employed to test the relation and estimate the parameters of interest:</p>
+<p><span class="math display">\[P(t)=P^S-(P^S-P_0)\times e^{-kt}\]</span></p>
+<p><span class="math display">\[P(t)-P^S=-(P^S-P_0)\times e^{-kt}\]</span></p>
+<p><span class="math display">\[P^S-P(t)=(P^S-P_0)\times e^{-kt}\]</span></p>
+<p><span class="math display">\[1-\frac{P(t)}{P^S}=(1-\frac{P_0}{P^S})\times e^{-kt}\]</span></p>
+<p>Given <span class="math inline">\(P_0=0\)</span>,</p>
+<p><span class="math display">\[log(1-\frac{P(t)}{P^S})=-kt\]</span></p>
+</section>
+<section id="setup-and-preparation-of-dataset" class="level2">
+<h2 class="anchored" data-anchor-id="setup-and-preparation-of-dataset">Setup and preparation of dataset</h2>
+<div class="cell-container code-fold"><div class="cell-decorator"><pre>In [1]:</pre></div><div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>RES <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(multcomp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: mvtnorm</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: survival</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: TH.data</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: MASS</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'TH.data'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:MASS':
+
+    geyser</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: carData</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lme4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: Matrix</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'Matrix'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:tidyr':
+
+    expand, pack, unpack</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggtext)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggpmisc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: ggpp</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Registered S3 methods overwritten by 'ggpp':
+  method                  from   
+  heightDetails.titleGrob ggplot2
+  widthDetails.titleGrob  ggplot2</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'ggpp'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:ggplot2':
+
+    annotate</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nlme)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'nlme'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:lme4':
+
+    lmList</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(latex2exp)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra)</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'dplyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:kableExtra':
+
+    group_rows</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:nlme':
+
+    collapse</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:car':
+
+    recode</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:MASS':
+
+    select</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">try</span>(<span class="fu">setwd</span>(<span class="st">"~/Documents/Master Thesis/Master-Thesis-P-kinetics/"</span>), <span class="at">silent=</span><span class="cn">TRUE</span>)</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">warn =</span> <span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Dataset preparation</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">tryCatch</span>(<span class="fu">read.csv</span>(<span class="at">file =</span> <span class="st">"./data/release-Data.csv"</span>, <span class="at">na.strings =</span> <span class="fu">c</span>(<span class="st">""</span>, <span class="st">"n.a."</span>)))</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">inherits</span>(d, <span class="st">"try-error"</span>)){</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>  d <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file =</span> <span class="st">"~/Documents/Master Thesis/Master-Thesis-P-kinetics/data/release-Data.csv"</span>, <span class="at">na.strings =</span> <span class="fu">c</span>(<span class="st">""</span>, <span class="st">"n.a."</span>))</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Treatment <span class="ot">&lt;-</span> d<span class="sc">$</span>Treatment <span class="sc">|&gt;</span> <span class="fu">factor</span>()</span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Pv.mg.L. <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(d<span class="sc">$</span>Pv.mg.L.)</span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Pv_labile.mg.L. <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(d<span class="sc">$</span>Pv_labile.mg.L.)</span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Pv_Olsen.mg.L. <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(d<span class="sc">$</span>Pv_Olsen.mg.L.)</span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>uid <span class="ot">&lt;-</span> <span class="fu">paste</span>(d<span class="sc">$</span>Site, d<span class="sc">$</span>Treatment, <span class="fu">as.character</span>(d<span class="sc">$</span>Repetition), <span class="at">sep=</span><span class="st">"_"</span>)</span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Repetition <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(d<span class="sc">$</span>Repetition)</span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>t.dt <span class="ot">&lt;-</span> d<span class="sc">$</span>t.min. <span class="sc">+</span> <span class="dv">3</span></span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>d[d<span class="sc">$</span>Treatment<span class="sc">==</span><span class="st">"P0"</span><span class="sc">&amp;</span>d<span class="sc">$</span>Site<span class="sc">==</span><span class="st">"Ellighausen"</span><span class="sc">&amp;</span>d<span class="sc">$</span>Repetition<span class="sc">==</span><span class="dv">4</span>,<span class="st">"Pv_Olsen.mg.L."</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>flos <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(d<span class="sc">$</span>Pv_Olsen.mg.L.)<span class="sc">-</span><span class="fu">as.numeric</span>(d<span class="sc">$</span>Pv_labile.mg.L.)</span>
+<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>flos[d<span class="sc">$</span>flos <span class="sc">&lt;=</span> <span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="fu">quantile</span>(d<span class="sc">$</span>flos[d<span class="sc">$</span>flos <span class="sc">&gt;</span> <span class="dv">0</span>], <span class="fl">0.025</span>, <span class="at">na.rm=</span><span class="cn">TRUE</span>)<span class="sc">/</span><span class="dv">2</span></span>
+<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Y1 <span class="ot">&lt;-</span> <span class="fu">log</span>(<span class="dv">1</span> <span class="sc">-</span> d<span class="sc">$</span>Pv.mg.L. <span class="sc">/</span> d<span class="sc">$</span>flos) <span class="co"># one timeseries removed, since flos too low</span></span>
+<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Y1[<span class="fu">is.nan</span>(d<span class="sc">$</span>Y1)] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-23"><a href="#cb30-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-24"><a href="#cb30-24" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(d)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   394 obs. of  21 variables:
+ $ Site              : chr  "Cadenazzo" "Cadenazzo" "Cadenazzo" "Cadenazzo" ...
+ $ Treatment         : Factor w/ 3 levels "P0","P100","P166": 1 1 1 1 1 1 1 1 1 1 ...
+ $ Repetition        : Factor w/ 4 levels "1","2","3","4": 2 2 2 2 2 2 1 1 1 1 ...
+ $ Nummer            : num  1 1 1 1 1 1 2 2 2 2 ...
+ $ mSoil_Olsen.g.    : chr  "10.05" "10.05" "10.05" "10.05" ...
+ $ mSoil_H2O.g.      : num  10.3 10.3 10.3 10.3 10.3 ...
+ $ Abs_labile.1.     : chr  "0.26" "0.26" "0.26" "0.26" ...
+ $ Abs_Olsen.1.      : chr  "1.02" "1.02" "1.02" "1.02" ...
+ $ Abs_Olsen1_10.1.  : chr  "0.28" "0.28" "0.28" "0.28" ...
+ $ t.min.            : num  5 10 20 30 45 60 5 10 20 30 ...
+ $ Abs.1.            : num  0.21 0.22 0.23 0.24 0.26 0.25 0.22 0.24 0.25 0.27 ...
+ $ Pv_labile.mg.L.   : num  0.05 0.05 0.05 0.05 0.05 0.05 0.06 0.06 0.06 0.06 ...
+ $ Pv_Olsen.mg.L.    : num  0.35 0.35 0.35 0.35 0.35 0.35 0.42 0.42 0.42 0.42 ...
+ $ Pv_Olsen1_10.mg.L.: chr  "0.46" "0.46" "0.46" "0.46" ...
+ $ Pv.mg.L.          : num  0.03 0.04 0.04 0.05 0.05 0.05 0.04 0.05 0.05 0.06 ...
+ $ Dilution.1.       : num  20 20 20 20 20 20 20 20 20 20 ...
+ $ V_H2O.L.          : num  0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 ...
+ $ uid               : chr  "Cadenazzo_P0_2" "Cadenazzo_P0_2" "Cadenazzo_P0_2" "Cadenazzo_P0_2" ...
+ $ t.dt              : num  8 13 23 33 48 63 8 13 23 33 ...
+ $ flos              : num  0.3 0.3 0.3 0.3 0.3 0.3 0.36 0.36 0.36 0.36 ...
+ $ Y1                : num  -0.105 -0.143 -0.143 -0.182 -0.182 ...</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; data.frame:  353 obs. of  21 variables:</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ Site              : chr  "Cadenazzo" "Cadenazzo" "Cadenazzo" "Cadenazzo" ...</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ Treatment         : Factor w/ 3 levels "0P","100P","166P": 1 1 1 1 1 1 1 1 1 1 ...</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ Repetition        : Factor w/ 4 levels "1","2","3","4": 2 2 2 2 2 2 1 1 1 1 ...</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ Nummer            : num  1 1 1 1 1 1 2 2 2 2 ...</span></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ mSoil_Olsen.g.    : chr  "10.05" "10.05" "10.05" "10.05" ...</span></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ mSoil_H2O.g.      : num  10.3 10.3 10.3 10.3 10.3 ...</span></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ Abs_labile.1.     : chr  "0.26" "0.26" "0.26" "0.26" ...</span></span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ Abs_Olsen.1.      : chr  "1.02" "1.02" "1.02" "1.02" ...</span></span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ Abs_Olsen1_10.1.  : chr  "0.28" "0.28" "0.28" "0.28" ...</span></span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ t.min.            : num  5 10 20 30 45 60 5 10 20 30 ...</span></span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ Abs.1.            : num  0.21 0.22 0.23 0.24 0.26 0.25 0.22 0.24 0.25 0.27 ...</span></span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ Pv_labile.mg.L.   : num  0.05 0.05 0.05 0.05 0.05 0.05 0.06 0.06 0.06 0.06 ...</span></span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ Pv_Olsen.mg.L.    : num  0.35 0.35 0.35 0.35 0.35 0.35 0.42 0.42 0.42 0.42 ...</span></span>
+<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ Pv_Olsen1_10.mg.L.: chr  "0.46" "0.46" "0.46" "0.46" ...</span></span>
+<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ Pv.mg.L.          : num  0.03 0.04 0.04 0.05 0.05 0.05 0.04 0.05 0.05 0.06 ...</span></span>
+<span id="cb32-18"><a href="#cb32-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ Dilution.1.       : num  20 20 20 20 20 20 20 20 20 20 ...</span></span>
+<span id="cb32-19"><a href="#cb32-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ V_H2O.L.          : num  0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 ...</span></span>
+<span id="cb32-20"><a href="#cb32-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ uid               : chr  "Cadenazzo_0P_2" "Cadenazzo_0P_2" "Cadenazzo_0P_2" "Cadenazzo_0P_2" ...</span></span>
+<span id="cb32-21"><a href="#cb32-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ flos              : num  0.3 0.3 0.3 0.3 0.3 0.3 0.36 0.36 0.36 0.36 ...</span></span>
+<span id="cb32-22"><a href="#cb32-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ Y1                : num  -0.105 -0.143 -0.143 -0.182 -0.182 ...</span></span>
+<span id="cb32-23"><a href="#cb32-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ nls_pred          : num  0.0283 0.04 0.0468 0.048 0.0482 ...</span></span>
+<span id="cb32-24"><a href="#cb32-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   ..- attr(*, "label")= chr "Fitted values"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div></div>
+<p>Now we can see, whether our linearized model displays a linear relation.</p>
+<div class="cell-container code-fold"><div class="cell-decorator"><pre>In [2]:</pre></div><div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">lmList</span>(Y1 <span class="sc">~</span> t.min. <span class="sc">|</span> uid, d[d<span class="sc">$</span>Repetition<span class="sc">==</span><span class="dv">1</span><span class="sc">|</span>d<span class="sc">$</span>Repetition<span class="sc">==</span><span class="dv">2</span>,],<span class="at">na.action =</span> na.pass)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(res)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Call:
+  Model: Y1 ~ t.min. | uid 
+   Data: d[d$Repetition == 1 | d$Repetition == 2, ] 
+
+Coefficients:
+   (Intercept) 
+                      Estimate Std. Error    t value     Pr(&gt;|t|)
+Cadenazzo_P0_1     -0.12891945 0.01537006  -8.387702 4.332766e-12
+Cadenazzo_P0_2     -0.12037045 0.01537006  -7.831491 4.433395e-11
+Cadenazzo_P100_1            NA         NA         NA           NA
+Cadenazzo_P100_2            NA         NA         NA           NA
+Cadenazzo_P166_1   -0.26932199 0.01537006 -17.522512 6.499702e-27
+Cadenazzo_P166_2   -0.19243796 0.01537006 -12.520316 2.550625e-19
+Ellighausen_P0_1   -0.10464296 0.01537006  -6.808236 3.136905e-09
+Ellighausen_P0_2   -0.11438112 0.01537006  -7.441815 2.257472e-10
+Ellighausen_P100_1          NA         NA         NA           NA
+Ellighausen_P100_2          NA         NA         NA           NA
+Ellighausen_P166_1          NA         NA         NA           NA
+Oensingen_P0_1     -0.03432646 0.01537006  -2.233333 2.882091e-02
+Oensingen_P0_2     -0.05745952 0.01537006  -3.738407 3.819350e-04
+Oensingen_P100_1            NA         NA         NA           NA
+Oensingen_P100_2            NA         NA         NA           NA
+Oensingen_P166_1   -0.13275856 0.01537006  -8.637481 1.527196e-12
+Oensingen_P166_2   -0.17051390 0.01537006 -11.093902 6.616653e-17
+Reckenholz_P0_1    -0.10545869 0.01537006  -6.861308 2.519112e-09
+Reckenholz_P0_2    -0.08557888 0.01537006  -5.567897 4.753375e-07
+Reckenholz_P100_1           NA         NA         NA           NA
+Reckenholz_P100_2           NA         NA         NA           NA
+Reckenholz_P166_1  -0.17172348 0.01537006 -11.172600 4.839473e-17
+Reckenholz_P166_2  -0.23296391 0.01537006 -15.156998 1.712692e-23
+Ruemlang_P0_1      -0.01851905 0.01537006  -1.204878 2.324269e-01
+Ruemlang_P0_2      -0.08675331 0.01537006  -5.644307 3.515958e-07
+Ruemlang_P100_1             NA         NA         NA           NA
+Ruemlang_P100_2             NA         NA         NA           NA
+Ruemlang_P166_1    -0.26153690 0.01537006 -17.016002 3.315417e-26
+Ruemlang_P166_2             NA         NA         NA           NA
+   t.min. 
+                        Estimate   Std. Error       t value     Pr(&gt;|t|)
+Cadenazzo_P0_1     -1.318800e-03 0.0004483906 -2.941186e+00 4.466020e-03
+Cadenazzo_P0_2     -1.272378e-03 0.0004483906 -2.837654e+00 5.984783e-03
+Cadenazzo_P100_1              NA           NA            NA           NA
+Cadenazzo_P100_2              NA           NA            NA           NA
+Cadenazzo_P166_1   -5.270369e-03 0.0004483906 -1.175397e+01 4.905164e-18
+Cadenazzo_P166_2   -3.394812e-03 0.0004483906 -7.571105e+00 1.316077e-10
+Ellighausen_P0_1    4.952586e-05 0.0004483906  1.104525e-01 9.123759e-01
+Ellighausen_P0_2   -1.260933e-04 0.0004483906 -2.812130e-01 7.794010e-01
+Ellighausen_P100_1            NA           NA            NA           NA
+Ellighausen_P100_2            NA           NA            NA           NA
+Ellighausen_P166_1            NA           NA            NA           NA
+Oensingen_P0_1      1.049070e-04 0.0004483906  2.339634e-01 8.157164e-01
+Oensingen_P0_2     -1.837559e-04 0.0004483906 -4.098121e-01 6.832320e-01
+Oensingen_P100_1              NA           NA            NA           NA
+Oensingen_P100_2              NA           NA            NA           NA
+Oensingen_P166_1   -2.320568e-04 0.0004483906 -5.175327e-01 6.064639e-01
+Oensingen_P166_2   -5.531502e-04 0.0004483906 -1.233635e+00 2.215861e-01
+Reckenholz_P0_1     2.780943e-04 0.0004483906  6.202053e-01 5.371956e-01
+Reckenholz_P0_2    -7.752286e-04 0.0004483906 -1.728914e+00 8.836252e-02
+Reckenholz_P100_1             NA           NA            NA           NA
+Reckenholz_P100_2             NA           NA            NA           NA
+Reckenholz_P166_1  -1.609218e-03 0.0004483906 -3.588876e+00 6.216266e-04
+Reckenholz_P166_2  -4.831330e-03 0.0004483906 -1.077482e+01 2.367928e-16
+Ruemlang_P0_1       8.878899e-20 0.0004483906  1.980171e-16 1.000000e+00
+Ruemlang_P0_2      -1.438957e-03 0.0004483906 -3.209160e+00 2.032261e-03
+Ruemlang_P100_1               NA           NA            NA           NA
+Ruemlang_P100_2               NA           NA            NA           NA
+Ruemlang_P166_1    -1.090605e-03 0.0004483906 -2.432266e+00 1.764226e-02
+Ruemlang_P166_2               NA           NA            NA           NA
+
+Residual standard error: 0.02119011 on 68 degrees of freedom</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(d, <span class="fu">aes</span>(<span class="at">y=</span>Y1, <span class="at">x=</span>t.min., <span class="at">col =</span> Repetition)) <span class="sc">+</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(Site <span class="sc">~</span> Treatment) <span class="sc">+</span> </span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="fu">TeX</span>(<span class="st">"$Time (min)$"</span>),</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">y=</span><span class="fu">TeX</span>(<span class="st">"$ln(1-</span><span class="sc">\\</span><span class="st">frac{P}{P_S})$"</span>)) <span class="sc">+</span></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">"lm"</span>, <span class="at">alpha =</span> <span class="fl">0.3</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<div class="">
+<figure class="figure">
+<p class=""><a href="pretest_files/figure-html/unnamed-chunk-1-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="pretest_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></a></p>
+</figure>
+</div>
+</div>
+</div></div>
+<p>If the parameter for the plateau could be estimated directly by using a non-linear non-least-squares model, we could omit the Olsen-measurement in the future.</p>
+<p>LG: our nls is very sensitive to moderatly high Pv.mg.L at small time points. Since the … disolves already before we start measureing, we will add 3 min to our time-measurement.</p>
+<div class="cell-container code-fold"><div class="cell-decorator"><pre>In [3]:</pre></div><div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>Res <span class="ot">&lt;-</span> <span class="fu">nlsList</span>(Pv.mg.L. <span class="sc">~</span> PS <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">exp</span>(<span class="sc">-</span>k <span class="sc">*</span> (t.dt))) <span class="sc">|</span> uid, d[, <span class="fu">c</span>(<span class="st">"Pv.mg.L."</span>, <span class="st">"uid"</span>, <span class="st">"t.dt"</span>)],  <span class="at">start=</span><span class="fu">list</span>(<span class="at">PS=</span><span class="fl">0.1</span>,<span class="at">k=</span><span class="fl">0.2</span>))</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(Res)</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="co"># d$nls_pred &lt;- predict(Res)</span></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract coefficients from the nlsList results</span></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>nls_coefs <span class="ot">&lt;-</span> <span class="fu">coef</span>(Res)</span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>nls_coefs<span class="sc">$</span>uid <span class="ot">&lt;-</span> <span class="fu">rownames</span>(nls_coefs)</span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Merge coefficients back to the main dataset</span></span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a>d_plot <span class="ot">&lt;-</span> <span class="fu">merge</span>(d, nls_coefs, <span class="at">by =</span> <span class="st">"uid"</span>)</span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Most straightforward approach - create curves manually</span></span>
+<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a>time_seq <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fu">min</span>(d<span class="sc">$</span>t.dt, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="fu">max</span>(d<span class="sc">$</span>t.dt, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">length.out =</span> <span class="dv">100</span>)</span>
+<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Create prediction data</span></span>
+<span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a>pred_data <span class="ot">&lt;-</span> d_plot <span class="sc">%&gt;%</span></span>
+<span id="cb37-18"><a href="#cb37-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(uid, Site, Treatment, Repetition, PS, k) <span class="sc">%&gt;%</span></span>
+<span id="cb37-19"><a href="#cb37-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb37-20"><a href="#cb37-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">crossing</span>(<span class="at">t.dt =</span> time_seq) <span class="sc">%&gt;%</span></span>
+<span id="cb37-21"><a href="#cb37-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pred_Pv =</span> PS <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">exp</span>(<span class="sc">-</span>k <span class="sc">*</span> (t.dt))))</span>
+<span id="cb37-22"><a href="#cb37-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-23"><a href="#cb37-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Final plot</span></span>
+<span id="cb37-24"><a href="#cb37-24" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb37-25"><a href="#cb37-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> d_plot, <span class="fu">aes</span>(<span class="at">y =</span> Pv.mg.L., <span class="at">x =</span> t.dt, <span class="at">col =</span> Repetition)) <span class="sc">+</span></span>
+<span id="cb37-26"><a href="#cb37-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> pred_data, <span class="fu">aes</span>(<span class="at">x =</span> t.dt, <span class="at">y =</span> pred_Pv, <span class="at">col =</span> Repetition), <span class="at">size =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb37-27"><a href="#cb37-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(Treatment <span class="sc">~</span> Site) <span class="sc">+</span></span>
+<span id="cb37-28"><a href="#cb37-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">TeX</span>(<span class="st">"$Time (min)$"</span>),</span>
+<span id="cb37-29"><a href="#cb37-29" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="fu">TeX</span>(<span class="st">"$P_{V}(</span><span class="sc">\\</span><span class="st">frac{mg}{L})$"</span>)); <span class="fu">suppressWarnings</span>(<span class="fu">print</span>(p1))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="">
+<figure class="figure">
+<p class=""><a href="pretest_files/figure-html/unnamed-chunk-2-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="pretest_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></a></p>
+</figure>
+</div>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>ui <span class="ot">&lt;-</span> <span class="fu">interaction</span>(d<span class="sc">$</span>Site, d<span class="sc">$</span>Treatment)</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>nlme.coef.avg <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>nlme.coef <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (lvl <span class="cf">in</span> <span class="fu">levels</span>(d<span class="sc">$</span>ui)){</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>  d.tmp <span class="ot">&lt;-</span> <span class="fu">subset</span>(d, ui <span class="sc">==</span> lvl)</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># first get nlsList coefs for comparison only (unused)</span></span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>  temp_nls <span class="ot">&lt;-</span> <span class="fu">coef</span>(<span class="fu">nlsList</span>(Pv.mg.L. <span class="sc">~</span> PS <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">exp</span>(<span class="sc">-</span>k <span class="sc">*</span> t.dt)) <span class="sc">|</span> uid, </span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>                    d.tmp[, <span class="fu">c</span>(<span class="st">"Pv.mg.L."</span>, <span class="st">"uid"</span>, <span class="st">"t.dt"</span>)], </span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>                    <span class="at">start =</span> <span class="fu">list</span>(<span class="at">PS =</span> <span class="fl">0.1</span>, <span class="at">k =</span> <span class="fl">0.2</span>)))</span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>  nlsList_coefs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">apply</span>(temp_nls, <span class="dv">2</span>, \(x) <span class="fu">c</span>(<span class="at">mean=</span><span class="fu">mean</span>(x), <span class="at">sd=</span><span class="fu">sd</span>(x))))</span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>(nlsList_coefs) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"PS.mean"</span>, <span class="st">"PS.sd"</span>, <span class="st">"k.mean"</span>, <span class="st">"k.sd"</span>)</span>
+<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-15"><a href="#cb38-15" aria-hidden="true" tabindex="-1"></a>  <span class="co"># now do the real thing</span></span>
+<span id="cb38-16"><a href="#cb38-16" aria-hidden="true" tabindex="-1"></a>  model4 <span class="ot">&lt;-</span> <span class="fu">nlme</span>(Pv.mg.L. <span class="sc">~</span> PS <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">exp</span>(<span class="sc">-</span>k <span class="sc">*</span> t.dt)),</span>
+<span id="cb38-17"><a href="#cb38-17" aria-hidden="true" tabindex="-1"></a>                <span class="at">fixed =</span> PS <span class="sc">+</span> k <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb38-18"><a href="#cb38-18" aria-hidden="true" tabindex="-1"></a>                <span class="at">random =</span> PS <span class="sc">+</span> k  <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> uid,</span>
+<span id="cb38-19"><a href="#cb38-19" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> d.tmp[, <span class="fu">c</span>(<span class="st">"Pv.mg.L."</span>, <span class="st">"uid"</span>, <span class="st">"t.dt"</span>)],</span>
+<span id="cb38-20"><a href="#cb38-20" aria-hidden="true" tabindex="-1"></a>                <span class="at">start =</span> <span class="fu">c</span>(<span class="at">PS =</span> <span class="fl">0.05</span>, <span class="at">k =</span> <span class="fl">0.12</span>),</span>
+<span id="cb38-21"><a href="#cb38-21" aria-hidden="true" tabindex="-1"></a>                <span class="at">control =</span> <span class="fu">nlmeControl</span>(<span class="at">maxIter =</span> <span class="dv">200</span>))</span>
+<span id="cb38-22"><a href="#cb38-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coef</span>(model4)</span>
+<span id="cb38-23"><a href="#cb38-23" aria-hidden="true" tabindex="-1"></a>  fixef <span class="ot">&lt;-</span> model4<span class="sc">$</span>coefficients<span class="sc">$</span>fixed</span>
+<span id="cb38-24"><a href="#cb38-24" aria-hidden="true" tabindex="-1"></a>  ranefs <span class="ot">&lt;-</span> <span class="fu">ranef</span>(model4)</span>
+<span id="cb38-25"><a href="#cb38-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colnames</span>(ranefs) <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"ranef_"</span>,<span class="fu">colnames</span>(ranefs))</span>
+<span id="cb38-26"><a href="#cb38-26" aria-hidden="true" tabindex="-1"></a>  nlme.coef[[lvl]]  <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">coef</span>(model4), ranefs, <span class="at">Rep=</span><span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(<span class="fu">ranef</span>(model4)), <span class="at">ui=</span>lvl, <span class="at">Site=</span>d.tmp[<span class="dv">1</span>, <span class="st">"Site"</span>], <span class="at">Treatment=</span>d.tmp[<span class="dv">1</span>, <span class="st">"Treatment"</span>], <span class="at">uid =</span> <span class="fu">rownames</span>(<span class="fu">coef</span>(model4)))</span>
+<span id="cb38-27"><a href="#cb38-27" aria-hidden="true" tabindex="-1"></a>  nlme.coef.avg[[lvl]] <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">PS=</span>fixef[<span class="st">"PS"</span>], <span class="at">k=</span>fixef[<span class="st">"k"</span>], <span class="at">ui=</span>lvl, <span class="at">Site=</span>d.tmp[<span class="dv">1</span>, <span class="st">"Site"</span>], <span class="at">Treatment=</span>d.tmp[<span class="dv">1</span>, <span class="st">"Treatment"</span>], <span class="at">uid =</span> d.tmp<span class="sc">$</span>uid)</span>
+<span id="cb38-28"><a href="#cb38-28" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb38-29"><a href="#cb38-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-30"><a href="#cb38-30" aria-hidden="true" tabindex="-1"></a>nlme.coef.avg <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, nlme.coef.avg)</span>
+<span id="cb38-31"><a href="#cb38-31" aria-hidden="true" tabindex="-1"></a><span class="co"># folgendes datenset wollen wir benutzen um ihn mit dem Boden zu kombinieren</span></span>
+<span id="cb38-32"><a href="#cb38-32" aria-hidden="true" tabindex="-1"></a>nlme.coef <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, nlme.coef)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div></div>
+<p>LG: hier machen wir folgendes:</p>
+<ol type="1">
+<li>Visualisiere Daten</li>
+<li>for k*PS use sqrt-scale</li>
+<li>Erkenne, dass keine offenslichtichen verletzuungen für ein lineares modell vorhanden sind</li>
+<li>fitte ordinary linear squares model, with Treatment as the factor of interest and Site as covariate (analougous to paired t-test and equivalent to anova with Site as block factor)</li>
+<li>Perform a classical Type II anova (using the car::Anova function)</li>
+<li>Perform (post-hoc) TukeyHSD test (using multcomp package)</li>
+</ol>
+<div class="cell-container code-fold"><div class="cell-decorator"><pre>In [4]:</pre></div><div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>points <span class="ot">&lt;-</span> <span class="fu">geom_point</span>(<span class="at">position=</span><span class="fu">position_dodge</span>(<span class="at">width=</span><span class="fl">0.5</span>), <span class="at">size =</span> <span class="dv">3</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>)</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(nlme.coef, <span class="fu">aes</span>(<span class="at">y=</span>PS  , <span class="at">x=</span>Treatment, <span class="at">col=</span>Site, <span class="at">pch=</span>Treatment)) <span class="sc">+</span> points <span class="sc">+</span> <span class="fu">scale_y_log10</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="pretest_files/figure-html/unnamed-chunk-3-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="pretest_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></a></p>
+</figure>
+</div>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(nlme.coef, <span class="fu">aes</span>(<span class="at">y=</span>k   , <span class="at">x=</span>Treatment, <span class="at">col=</span>Site, <span class="at">pch=</span>Treatment)) <span class="sc">+</span> points</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="pretest_files/figure-html/unnamed-chunk-3-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="pretest_files/figure-html/unnamed-chunk-3-2.png" class="img-fluid figure-img" width="672"></a></p>
+</figure>
+</div>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(nlme.coef, <span class="fu">aes</span>(<span class="at">y=</span>k<span class="sc">*</span>PS, <span class="at">x=</span>Treatment, <span class="at">col=</span>Site, <span class="at">pch=</span>Treatment)) <span class="sc">+</span> points <span class="sc">+</span> <span class="fu">scale_y_log10</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="pretest_files/figure-html/unnamed-chunk-3-3.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="pretest_files/figure-html/unnamed-chunk-3-3.png" class="img-fluid figure-img" width="672"></a></p>
+</figure>
+</div>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(nlme.coef, <span class="fu">aes</span>(<span class="at">y=</span>PS  , <span class="at">x=</span>Site, <span class="at">col=</span>Treatment)) <span class="sc">+</span> points <span class="sc">+</span> <span class="fu">scale_y_log10</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="pretest_files/figure-html/unnamed-chunk-3-4.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="pretest_files/figure-html/unnamed-chunk-3-4.png" class="img-fluid figure-img" width="672"></a></p>
+</figure>
+</div>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(nlme.coef, <span class="fu">aes</span>(<span class="at">y=</span>k   , <span class="at">x=</span>Site, <span class="at">col=</span>Treatment)) <span class="sc">+</span> points</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="pretest_files/figure-html/unnamed-chunk-3-5.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7"><img src="pretest_files/figure-html/unnamed-chunk-3-5.png" class="img-fluid figure-img" width="672"></a></p>
+</figure>
+</div>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(nlme.coef, <span class="fu">aes</span>(<span class="at">y=</span>k<span class="sc">*</span>PS, <span class="at">x=</span>Site, <span class="at">col=</span>Treatment)) <span class="sc">+</span> points <span class="sc">+</span> <span class="fu">scale_y_log10</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="pretest_files/figure-html/unnamed-chunk-3-6.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8"><img src="pretest_files/figure-html/unnamed-chunk-3-6.png" class="img-fluid figure-img" width="672"></a></p>
+</figure>
+</div>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co"># k PS macht von der interpretation her Sinn</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="co"># aber PS ist log-normal verteilt</span></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>fit.PS   <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">log</span>(PS)      <span class="sc">~</span> Treatment <span class="sc">+</span> Site, nlme.coef)</span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>fit.k    <span class="ot">&lt;-</span> <span class="fu">lm</span>(k            <span class="sc">~</span> Treatment <span class="sc">+</span> Site, nlme.coef)</span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>fit.kPS  <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">I</span>(<span class="fu">log</span>(k<span class="sc">*</span>PS)) <span class="sc">~</span> Treatment <span class="sc">+</span> Site, nlme.coef)</span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a><span class="fu">Anova</span>(fit.PS)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Anova Table (Type II tests)
+
+Response: log(PS)
+           Sum Sq Df  F value    Pr(&gt;F)    
+Treatment 27.6260  2 154.7655 &lt; 2.2e-16 ***
+Site       3.0383  4   8.5104 2.324e-05 ***
+Residuals  4.6411 52                       
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">glht</span>(fit.PS, <span class="fu">mcp</span>(<span class="at">Treatment =</span> <span class="st">"Tukey"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+     Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: lm(formula = log(PS) ~ Treatment + Site, data = nlme.coef)
+
+Linear Hypotheses:
+                 Estimate Std. Error t value Pr(&gt;|t|)    
+P100 - P0 == 0    0.91948    0.09447   9.733   &lt;1e-09 ***
+P166 - P0 == 0    1.68127    0.09580  17.550   &lt;1e-09 ***
+P166 - P100 == 0  0.76179    0.09580   7.952   &lt;1e-09 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+(Adjusted p values reported -- single-step method)</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fazit: PS wird von treatment stark beeinfluss, k eher nicht (dafür von site)</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="fu">Anova</span>(fit.k)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Anova Table (Type II tests)
+
+Response: k
+            Sum Sq Df F value    Pr(&gt;F)    
+Treatment 0.007374  2  1.6124    0.2092    
+Site      0.108427  4 11.8547 6.442e-07 ***
+Residuals 0.118902 52                      
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">glht</span>(fit.k, <span class="fu">mcp</span>(<span class="at">Treatment =</span> <span class="st">"Tukey"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+     Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: lm(formula = k ~ Treatment + Site, data = nlme.coef)
+
+Linear Hypotheses:
+                  Estimate Std. Error t value Pr(&gt;|t|)
+P100 - P0 == 0    0.003111   0.015121   0.206    0.977
+P166 - P0 == 0   -0.022243   0.015334  -1.451    0.323
+P166 - P100 == 0 -0.025354   0.015334  -1.653    0.233
+(Adjusted p values reported -- single-step method)</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Anova</span>(fit.kPS)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Anova Table (Type II tests)
+
+Response: I(log(k * PS))
+           Sum Sq Df F value    Pr(&gt;F)    
+Treatment 22.4177  2 68.5970 2.609e-15 ***
+Site       3.9298  4  6.0124 0.0004703 ***
+Residuals  8.4969 52                      
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">glht</span>(fit.kPS, <span class="fu">mcp</span>(<span class="at">Treatment =</span> <span class="st">"Tukey"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+     Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: lm(formula = I(log(k * PS)) ~ Treatment + Site, data = nlme.coef)
+
+Linear Hypotheses:
+                 Estimate Std. Error t value Pr(&gt;|t|)    
+P100 - P0 == 0     0.9127     0.1278   7.140   &lt;1e-04 ***
+P166 - P0 == 0     1.5035     0.1296  11.599   &lt;1e-04 ***
+P166 - P100 == 0   0.5908     0.1296   4.558   &lt;1e-04 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+(Adjusted p values reported -- single-step method)</code></pre>
+</div>
+</div></div>
+<p>Results:</p>
+<ol type="1">
+<li>for PS Treatment explains a lot, and site not so much. c.f. plot for a monotonous relationship</li>
+<li>for k, the Treatment seems to be little relevant</li>
+</ol>
+<div class="cell-container code-fold"><div class="cell-decorator"><pre>In [5]:</pre></div><div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co"># new Data set, that gives info about Soil</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>allP <span class="ot">&lt;-</span> <span class="fu">tryCatch</span>(<span class="fu">readRDS</span>(<span class="st">"./data/all_P.rds"</span>))</span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">inherits</span>(d, <span class="st">"try-error"</span>)){</span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>  allP <span class="ot">&lt;-</span> <span class="fu">tryCatch</span>(<span class="fu">readRDS</span>(<span class="st">"~/Documents/Master Thesis/Master-Thesis-P-kinetics/data/all_P.rds"</span>))</span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>allP<span class="sc">$</span>rep <span class="ot">&lt;-</span> allP<span class="sc">$</span>rep <span class="sc">%&gt;%</span> <span class="fu">as.roman</span>() <span class="sc">%&gt;%</span> <span class="fu">as.integer</span>()</span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a>allP<span class="sc">$</span>uid <span class="ot">&lt;-</span> <span class="fu">paste</span>(allP<span class="sc">$</span>location,allP<span class="sc">$</span>treatment_ID,<span class="fu">as.character</span>(allP<span class="sc">$</span>rep),<span class="at">sep =</span> <span class="st">"_"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div></div>
+<div class="cell-container code-fold"><div class="cell-decorator"><pre>In [6]:</pre></div><div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. merge this with nlme.coef</span></span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>nlme.coef<span class="sc">$</span>kPS <span class="ot">&lt;-</span> nlme.coef<span class="sc">$</span>k <span class="sc">*</span> nlme.coef<span class="sc">$</span>PS</span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>D <span class="ot">&lt;-</span> <span class="fu">merge</span>(nlme.coef, allP[allP<span class="sc">$</span>year<span class="sc">&gt;=</span><span class="dv">2017</span>,],<span class="at">by =</span> <span class="st">"uid"</span>)</span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>D<span class="sc">$</span>uuid <span class="ot">&lt;-</span> <span class="fu">interaction</span>(D<span class="sc">$</span>Site, D<span class="sc">$</span>treatment_ID, D<span class="sc">$</span>rep, D<span class="sc">$</span>year, D<span class="sc">$</span>crop)</span>
+<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a><span class="co"># rm FodderCrop</span></span>
+<span id="cb58-7"><a href="#cb58-7" aria-hidden="true" tabindex="-1"></a>D <span class="ot">&lt;-</span> D[D<span class="sc">$</span>crop <span class="sc">!=</span> <span class="st">"FodderCrop"</span>,]</span>
+<span id="cb58-8"><a href="#cb58-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-9"><a href="#cb58-9" aria-hidden="true" tabindex="-1"></a><span class="co"># set wrong 0's to NA</span></span>
+<span id="cb58-10"><a href="#cb58-10" aria-hidden="true" tabindex="-1"></a>D[D<span class="sc">$</span>soil_0_20_P_CO2 <span class="sc">%in%</span> <span class="fu">c</span>(<span class="cn">NA</span>,<span class="dv">0</span>), <span class="st">"soil_0_20_P_CO2"</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb58-11"><a href="#cb58-11" aria-hidden="true" tabindex="-1"></a>D[D<span class="sc">$</span>soil_0_20_P_AAE10 <span class="sc">%in%</span> <span class="fu">c</span>(<span class="cn">NA</span>,<span class="dv">0</span>), <span class="st">"soil_0_20_P_AAE10"</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb58-12"><a href="#cb58-12" aria-hidden="true" tabindex="-1"></a>D[D<span class="sc">$</span>annual_yield_mp_DM <span class="sc">%in%</span> <span class="fu">c</span>(<span class="cn">NA</span>,<span class="dv">0</span>), <span class="st">"annual_yield_mp_DM"</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb58-13"><a href="#cb58-13" aria-hidden="true" tabindex="-1"></a>D[D<span class="sc">$</span>Ymain_rel <span class="sc">%in%</span> <span class="fu">c</span>(<span class="cn">NA</span>,<span class="dv">0</span>), <span class="st">"Ymain_rel"</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb58-14"><a href="#cb58-14" aria-hidden="true" tabindex="-1"></a>D[D<span class="sc">$</span>annual_P_uptake <span class="sc">%in%</span> <span class="fu">c</span>(<span class="cn">NA</span>,<span class="dv">0</span>), <span class="st">"annual_P_uptake"</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb58-15"><a href="#cb58-15" aria-hidden="true" tabindex="-1"></a>D[D<span class="sc">$</span>annual_P_balance <span class="sc">%in%</span> <span class="fu">c</span>(<span class="cn">NA</span>,<span class="dv">0</span>), <span class="st">"annual_P_balance"</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb58-16"><a href="#cb58-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-17"><a href="#cb58-17" aria-hidden="true" tabindex="-1"></a><span class="co"># add log-transformed versions</span></span>
+<span id="cb58-18"><a href="#cb58-18" aria-hidden="true" tabindex="-1"></a><span class="co"># D$k_logPS &lt;- D$k * log(D$PS)</span></span>
+<span id="cb58-19"><a href="#cb58-19" aria-hidden="true" tabindex="-1"></a>D<span class="sc">$</span>kPS_log <span class="ot">&lt;-</span> <span class="fu">log</span>(D<span class="sc">$</span>kPS)</span>
+<span id="cb58-20"><a href="#cb58-20" aria-hidden="true" tabindex="-1"></a>D<span class="sc">$</span>PS_log <span class="ot">&lt;-</span> <span class="fu">log</span>(D<span class="sc">$</span>PS)</span>
+<span id="cb58-21"><a href="#cb58-21" aria-hidden="true" tabindex="-1"></a>D<span class="sc">$</span>P_AAE10_log <span class="ot">&lt;-</span> <span class="fu">log</span>(D<span class="sc">$</span>soil_0_20_P_AAE10)</span>
+<span id="cb58-22"><a href="#cb58-22" aria-hidden="true" tabindex="-1"></a>D<span class="sc">$</span>P_CO2_log <span class="ot">&lt;-</span> <span class="fu">log</span>(D<span class="sc">$</span>soil_0_20_P_CO2)</span>
+<span id="cb58-23"><a href="#cb58-23" aria-hidden="true" tabindex="-1"></a>D<span class="sc">$</span>P_AAE10_CO2_loglog <span class="ot">&lt;-</span> <span class="fu">log</span>(D<span class="sc">$</span>soil_0_20_P_AAE10) <span class="sc">*</span> <span class="fu">log</span>(D<span class="sc">$</span>soil_0_20_P_CO2)</span>
+<span id="cb58-24"><a href="#cb58-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-25"><a href="#cb58-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-26"><a href="#cb58-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-27"><a href="#cb58-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-28"><a href="#cb58-28" aria-hidden="true" tabindex="-1"></a>D<span class="sc">$</span>Site <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(D<span class="sc">$</span>Site)</span>
+<span id="cb58-29"><a href="#cb58-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-30"><a href="#cb58-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-31"><a href="#cb58-31" aria-hidden="true" tabindex="-1"></a><span class="do">## Compute Ymain_norm as the median yield of P166 treatment per site, year and crop</span></span>
+<span id="cb58-32"><a href="#cb58-32" aria-hidden="true" tabindex="-1"></a><span class="co"># set 0 values of annual_yield_mp_DM, Ymain_rel, annual_P_uptake, annual_P_balance to NA</span></span>
+<span id="cb58-33"><a href="#cb58-33" aria-hidden="true" tabindex="-1"></a>dd <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(annual_yield_mp_DM <span class="sc">~</span> Site<span class="sc">+</span>Treatment<span class="sc">+</span>year<span class="sc">+</span>crop, <span class="at">data=</span>D, median, <span class="at">na.rm =</span> <span class="cn">TRUE</span>, <span class="at">na.action =</span> na.pass)</span>
+<span id="cb58-34"><a href="#cb58-34" aria-hidden="true" tabindex="-1"></a><span class="co"># only keep P166</span></span>
+<span id="cb58-35"><a href="#cb58-35" aria-hidden="true" tabindex="-1"></a>dd <span class="ot">&lt;-</span> dd[dd<span class="sc">$</span>Treatment <span class="sc">==</span> <span class="st">"P166"</span>,]</span>
+<span id="cb58-36"><a href="#cb58-36" aria-hidden="true" tabindex="-1"></a>dd<span class="sc">$</span>Treatment <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb58-37"><a href="#cb58-37" aria-hidden="true" tabindex="-1"></a>tmp <span class="ot">&lt;-</span> <span class="fu">merge</span>(D, dd, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"Site"</span>, <span class="st">"year"</span>, <span class="st">"crop"</span>), <span class="at">suffixes =</span> <span class="fu">c</span>(<span class="st">""</span>, <span class="st">".norm"</span>), <span class="at">sort=</span><span class="cn">FALSE</span>)</span>
+<span id="cb58-38"><a href="#cb58-38" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(tmp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 447</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>tmp<span class="sc">$</span>Ymain_norm <span class="ot">&lt;-</span> tmp<span class="sc">$</span>annual_yield_mp_DM <span class="sc">/</span> tmp<span class="sc">$</span>annual_yield_mp_DM.norm</span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a><span class="co"># order tmp by uid s.t. it matches D</span></span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>tmp <span class="ot">&lt;-</span> tmp[<span class="fu">match</span>(D<span class="sc">$</span>uuid, tmp<span class="sc">$</span>uuid),]</span>
+<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a><span class="co"># check: cbind(tmp$uid, D$uid)</span></span>
+<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a>D<span class="sc">$</span>Ymain_norm <span class="ot">&lt;-</span> tmp<span class="sc">$</span>Ymain_norm</span>
+<span id="cb60-6"><a href="#cb60-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-7"><a href="#cb60-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-8"><a href="#cb60-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-9"><a href="#cb60-9" aria-hidden="true" tabindex="-1"></a>RES<span class="sc">$</span>D <span class="ot">&lt;-</span> D</span>
+<span id="cb60-10"><a href="#cb60-10" aria-hidden="true" tabindex="-1"></a>RES<span class="sc">$</span>nlme.coef.avg <span class="ot">&lt;-</span> nlme.coef.avg</span>
+<span id="cb60-11"><a href="#cb60-11" aria-hidden="true" tabindex="-1"></a>RES<span class="sc">$</span>data <span class="ot">&lt;-</span> d</span>
+<span id="cb60-12"><a href="#cb60-12" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(RES, <span class="at">file =</span> <span class="st">"./data/RES.rds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div></div>
+
+</section>
+     </main>
+<!-- /main column -->  <script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>  </div> <!-- /content -->  <script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script> 
+  
+</body></html>
