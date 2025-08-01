@@ -3,3 +3,5 @@
 /_site/
 /_manuscript/
 /_freeze/
+.Rproj.user
+.Rhistory
