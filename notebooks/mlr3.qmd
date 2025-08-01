@@ -1,14 +1,17 @@
 ---
 title: Modeling of relative Yield, P-Uptake and P-Balance
-author: Marc PErez
+author: Lukas Graz
 date: 2025-02-13
+# format:
+#   html:
+#     df-print: kable
 ---
 
 ```{r}
 #| code-fold: false
 RES <- readRDS("data/RES.rds")
 D <- RES$D
-
+lgr::get_logger("mlr3")$set_threshold("warn")
 # d <- RES$data
 ```
 
@@ -23,7 +26,7 @@ mse <- msrs(c("regr.mse"))
 if (!interactive())
   lgr::get_logger("mlr3")$set_threshold("warn")
 
-get_benchi_table <- function(tasks, nfolds = 5) {
+get_benchi_table <- function(tasks, nfolds = 5, resamplings = NULL) {
   set.seed(123)
   learners <- lrns(c("regr.featureless", "regr.lm", "regr.xgboost", "regr.ranger"))
   learners$regr.xgboost$param_set$set_values(
@@ -36,7 +39,7 @@ get_benchi_table <- function(tasks, nfolds = 5) {
     benchmark(benchmark_grid(
       tasks, 
       learners, 
-      rsmp("cv", folds = nfolds)
+      if(is.null(resamplings)) rsmp("cv", folds = nfolds) else resamplings
     ))
   }, 
   file = "benchmark.rds", 
@@ -74,11 +77,17 @@ Weather_vars <- c(
   "juvdev_prec", "juvdev_sun",
   "ansum_sun", "juvdev_temp"
 )
+
+# set NA's to 0 but include a column to indicate that
+NA_weather <- is.na(D$juvdev_sun)
+D[NA_weather, Weather_vars] <- 0
+D$NA_weather <- NA_weather
+Weather_vars <- c(Weather_vars, "NA_weather")
+
 stopifnot(all(Weather_vars %in% names(D)))
 Weather_vars
 ```
 
-**Phosphor Variable sets:**
 
 ```{r}
 #| echo: false
@@ -86,216 +95,190 @@ P_var_sets <- list(
   onlyweather = NULL,
   k = "k",
   PS = "PS_log",
-  kPS_log = c("PS_log", "k", "kPS_log"),
-  k_logPS = c("PS_log", "k", "k_logPS"),
-  AAE10 = "soil_0_20_P_AAE10_log",
-  CO2 = "soil_0_20_P_CO2_log",
-  AAE10_CO2 = c("soil_0_20_P_AAE10_log", "soil_0_20_P_CO2_log", "soil_0_20_P_AAE10_CO2_log"),
-  AAE10_CO2_k_logPS = c("soil_0_20_P_AAE10_log", "soil_0_20_P_CO2_log", "PS_log", "k", "k_logPS"),
-  CO2_kPS = c("soil_0_20_P_CO2_log", "PS_log", "k", "kPS_log")
+  kPS = c("PS_log", "k", "kPS_log"),
+  AAE10 = "P_AAE10_log",
+  CO2 = "P_CO2_log",
+  AAE10_CO2 = c("P_AAE10_log", "P_CO2_log", "P_AAE10_CO2_loglog"),
+  AAE10_CO2_kPS = c("P_AAE10_log", "P_CO2_log", "PS_log", "k", "kPS_log"),
+  CO2_kPS = c("P_CO2_log", "PS_log", "k", "kPS_log")
+)
+Earth_vars <- c(
+  "soil_0_20_clay", "soil_0_20_pH_H2O", "soil_0_20_Corg", "soil_0_20_silt"
 )
 ```
 
 
-**Response Variables**
-
 ```{r}
-Y_vars <- c("Ymain_norm", "Ymain_rel", "annual_P_uptake", "annual_P_balance")
+Y_vars_yield <- c("Ymain_norm", "Ymain_rel", "annual_P_uptake", "annual_P_balance")
 
+Y_vars_earth <- c("PS_log", "k", "kPS_log", "P_AAE10_log", "P_CO2_log")
+```
+
+impute NA's for Earth variables. impute value with the mean of Site X block  
+```{r}
+# xtabs(~is.na(D$soil_0_20_silt) + Site + block, D)
+for (var in Earth_vars) {
+  D[[var]] <- ave(D[[var]], D$Site, D$block, FUN = \(x) ifelse(is.na(x), mean(x, na.rm = TRUE), x))
+}
+```
+
+remove Cadenazzoo since too many crucial data missing
+```{r}
+D <- D[D$site != "CAD", ]
+D$Site <- droplevels(D$Site)
 ```
 
 Now check NA's
 ```{r}
-sapply(D[c(Weather_vars, unique(unlist(P_var_sets)), Y_vars)], 
-  \(x) sum(is.na(x)))
-
-which(D$soil)
-
-D$Ymain_norm
-
-# remove the 59 missing observations, the rest should be imputed with 
+sapply(D[, unique(c(Y_vars_yield, Y_vars_earth, Weather_vars, unlist(P_var_sets), Earth_vars))], 
+  \(x) sum(is.na(x)|is.nan(x))) |> cbind()
 ```
 
+## Predicting Yield variables (with/without Weather data) with Earth-dynamics
 
+### With Weather data
 
-## With Weather data
-
-### TODO: Group - cross validation
-
+```{r}
+P_var_sets
 ```
-\(nam){
-  mytsk <- as_task_regr(
-    D[complete.cases(D$Ymain_rel), c(y, Weather_vars, P_var_sets[[nam]], "Site")],
-    target = y,
-    id = nam)
-  mytsk$set_col_roles("Site", "group")
-  mytsk
-}
-```
-
 
 Algorithm learns to predict location from weather since we do not do stratified cross-validation (leaving out locations).
 
-### Ymain_rel
 ```{r}
 #| code-fold: true
-y <- "Ymain_rel"
-tmp <- list()
-for (nam in names(P_var_sets)) {
-  mytsk <- as_task_regr(
-    D[complete.cases(D[,c("Ymain_rel",Weather_vars,P_var_sets$AAE10_CO2_kPS)]),
-      c(y, Weather_vars, P_var_sets[[nam]], "Site")],
-    target = y,
-    id = nam)
-  mytsk$set_col_roles("Site", "group")
-  tmp[[nam]] <- mytsk
+Tables_yield_weather <- list()
+for(yvar in Y_vars_yield){
+  ind <- complete.cases(D[,unique(c(yvar ,Weather_vars, unlist(P_var_sets)))])
+
+  mytsks <- list()
+  for (nam in names(P_var_sets)) {
+    mytsk <- as_task_regr(
+      D[ind, c(yvar, Weather_vars, P_var_sets[[nam]])],
+      target = yvar,
+      id = nam)
+    mytsks[[nam]] <- mytsk
+  }
+  Tables_yield_weather[[yvar]] <- get_benchi_table(mytsks)
 }
-get_benchi_table(tmp) |> knitr::kable()
 
-lapply(names(P_var_sets), \(nam) 
-  mytsk <- as_task_regr(
-    D[complete.cases(D[,c("Ymain_rel",Weather_vars,P_var_sets$AAE10_CO2_kPS)]),c(y, Weather_vars, P_var_sets[[nam]])],
-    target = y,
-    id = nam)
-  mytsk$set_col_roles("Site", "group")
-  mytsk
-    ) |>
-  get_benchi_table() |> knitr::kable()
+Tables_yield_weather
 ```
 
-|              |    lm| xgboost| ranger|
-|:-------------|-----:|-------:|------:|
-|onlyweather   | 0.201|   0.518|  0.520|
-|k             | 0.186|   0.476|  0.487|
-|PS            | 0.234|   0.603|  0.585|
-|kPS           | 0.265|   0.569|  0.555|
-|AAE10         | 0.294|   0.530|  0.582|
-|CO2           | 0.259|   0.569|  0.578|
-|AAE10_CO2     | 0.288|   0.515|  0.594|
-|AAE10_CO2_kPS | 0.347|   0.596|  0.607|
-|CO2_kPS       | 0.275|   0.530|  0.575|
+```{r}
+tmp <- do.call(cbind, lapply(Tables_yield_weather, \(x) x$lm)); 
+rownames(tmp) <- rownames(Tables_yield_weather[[1]])
+(Tables_yield_weather_lm <- tmp)
+```
 
-### annual_P_uptake
+### Without Weather data
+
 ```{r}
 #| code-fold: true
-y <- "annual_P_uptake"
-lapply(names(P_var_sets), \(nam) as_task_regr(
-    D[complete.cases(D[,c("Ymain_rel",Weather_vars,P_var_sets$AAE10_CO2_kPS)]),c(y, Weather_vars, P_var_sets[[nam]])],
-    target = y,
-    id = nam)) |>
-  get_benchi_table()  |> knitr::kable()
+P_var_sets_noweather <- P_var_sets[-1]
+
+Tables_yield <- list()
+for(yvar in Y_vars_yield){
+  ind <- complete.cases(D[,unique(c(yvar, unlist(P_var_sets_noweather)))])
+
+  mytsks <- list()
+  for (nam in names(P_var_sets_noweather)) {
+    mytsk <- as_task_regr(
+      D[ind,
+        c(yvar, P_var_sets_noweather[[nam]]
+        # ,"Site"
+        )],
+      target = yvar,
+      id = nam)
+    # mytsk$set_col_roles("Site", "group")
+    mytsks[[nam]] <- mytsk
+  }
+  Tables_yield[[yvar]] <- get_benchi_table(mytsks)
+}
+
+Tables_yield
 ```
 
-|              |    lm| xgboost| ranger|
-|:-------------|-----:|-------:|------:|
-|onlyweather   | 0.468|   0.649|  0.648|
-|k             | 0.456|   0.564|  0.609|
-|PS            | 0.477|   0.594|  0.617|
-|kPS           | 0.459|   0.560|  0.474|
-|AAE10         | 0.503|   0.619|  0.621|
-|CO2           | 0.481|   0.615|  0.642|
-|AAE10_CO2     | 0.484|   0.566|  0.580|
-|AAE10_CO2_kPS | 0.465|   0.528|  0.423|
-|CO2_kPS       | 0.487|   0.536|  0.428|
-
-### annual_P_balance
 ```{r}
-#| code-fold: true
-y <- "annual_P_balance"
-lapply(names(P_var_sets), \(nam) as_task_regr(
-    D[complete.cases(D[,c("Ymain_rel",Weather_vars,P_var_sets$AAE10_CO2_kPS)]),c(y, Weather_vars, P_var_sets[[nam]])],
-    target = y,
-    id = nam)) |>
-  get_benchi_table()  |> knitr::kable()
-```
-
-|              |     lm| xgboost| ranger|
-|:-------------|------:|-------:|------:|
-|onlyweather   |  0.011|   0.120|  0.121|
-|k             | -0.008|   0.313|  0.127|
-|PS            |  0.310|   0.647|  0.608|
-|kPS           |  0.282|   0.609|  0.617|
-|AAE10         |  0.225|   0.510|  0.524|
-|CO2           |  0.225|   0.532|  0.591|
-|AAE10_CO2     |  0.225|   0.546|  0.585|
-|AAE10_CO2_kPS |  0.335|   0.617|  0.596|
-|CO2_kPS       |  0.302|   0.626|  0.631|
-
-## Without Weather data
-
-```{r}
-if("onlyweather" %in% names(P_var_sets))
-  P_var_sets <- P_var_sets[-1]
+tmp <- do.call(cbind, lapply(Tables_yield, \(x) x$lm));
+rownames(tmp) <- rownames(Tables_yield[[1]])
+(Tables_yield_lm <- tmp)
 ```
 
 xgboost & ranger are no good in this setting since only very few variables available
 
-### Ymain_rel
+
+## Predicting Earth-dynamics via soil variables (with/without Treatment)
+
 ```{r}
-#| code-fold: true
-y <- "Ymain_rel"
-lapply(names(P_var_sets), \(nam) as_task_regr(
-    D[complete.cases(D[,c("Ymain_rel",Weather_vars,P_var_sets$AAE10_CO2_kPS)]),c(y, P_var_sets[[nam]])],
-    target = y,
-    id = nam)) |>
-  get_benchi_table()  |> knitr::kable()
+#| echo: true
+Earth_vars
+Y_vars_earth
 ```
 
-|              |     lm| xgboost| ranger|
-|:-------------|------:|-------:|------:|
-|k             | -0.005|  -0.200| -0.312|
-|PS            |  0.060|  -0.141| -0.221|
-|kPS           |  0.054|  -0.343| -0.353|
-|AAE10         |  0.099|   0.104| -0.009|
-|CO2           |  0.068|  -0.086| -0.226|
-|AAE10_CO2     |  0.073|   0.067|  0.064|
-|AAE10_CO2_kPS |  0.072|  -0.045| -0.059|
-|CO2_kPS       |  0.023|  -0.168| -0.196|
-
-### annual_P_uptake
 ```{r}
 #| code-fold: true
-y <- "annual_P_uptake"
-lapply(names(P_var_sets), \(nam) as_task_regr(
-    D[complete.cases(D[,c("Ymain_rel",Weather_vars,P_var_sets$AAE10_CO2_kPS)]),c(y, P_var_sets[[nam]])],
-    target = y,
-    id = nam)) |>
-  get_benchi_table()  |> knitr::kable()
+D$is.trt0 <- D$Treatment == "P0"
+D$is.trt1 <- D$Treatment == "P100"
+
+mytsks_treatment <- list()
+mytsks_notreatment <- list()
+for(yvar in Y_vars_earth){
+  ind <- complete.cases(D[,unique(c(yvar, unlist(P_var_sets_noweather)))])
+
+    mytsk <- as_task_regr(
+      D[ind, c(yvar, Earth_vars, "is.trt1", "is.trt0"
+        # ,"Site"
+        )],
+      target = yvar,
+      id = yvar)
+    # mytsk$set_col_roles("Site", "group")
+    mytsks_treatment[[yvar]] <- mytsk
+
+    mytsk <- as_task_regr(
+      D[ind, c(yvar, Earth_vars
+        # ,"Site"
+        )],
+      target = yvar,
+      id = yvar)
+    # mytsk$set_col_roles("Site", "group")
+    mytsks_notreatment[[yvar]] <- mytsk    
+}
+
+Tables_earth_treatment <- get_benchi_table(mytsks_treatment)
+Tables_earth_notreatment <- get_benchi_table(mytsks_notreatment)
 ```
 
-|              |     lm| xgboost| ranger|
-|:-------------|------:|-------:|------:|
-|k             | -0.006|  -0.265| -0.434|
-|PS            | -0.006|  -0.278| -0.485|
-|kPS           | -0.006|  -0.225| -0.317|
-|AAE10         |  0.021|  -0.139| -0.398|
-|CO2           |  0.005|  -0.126| -0.276|
-|AAE10_CO2     |  0.017|  -0.194| -0.310|
-|AAE10_CO2_kPS |  0.020|  -0.229| -0.363|
-|CO2_kPS       | -0.054|  -0.206| -0.295|
 
-### annual_P_balance
 ```{r}
-#| code-fold: true
-y <- "annual_P_balance"
-lapply(names(P_var_sets), \(nam) as_task_regr(
-    D[complete.cases(D[,c("Ymain_rel",Weather_vars,P_var_sets$AAE10_CO2_kPS)]),c(y, P_var_sets[[nam]])],
-    target = y,
-    id = nam)) |>
-  get_benchi_table()  |> knitr::kable()
+#| echo: true
+#| code-fold: false
+Tables_earth_treatment
+Tables_earth_notreatment
 ```
 
-|              |    lm| xgboost| ranger|
-|:-------------|-----:|-------:|------:|
-|k             | 0.011|   0.175|  0.160|
-|PS            | 0.309|   0.274|  0.178|
-|kPS           | 0.305|   0.279|  0.244|
-|AAE10         | 0.147|   0.062| -0.102|
-|CO2           | 0.189|   0.170|  0.085|
-|AAE10_CO2     | 0.192|   0.062|  0.015|
-|AAE10_CO2_kPS | 0.313|   0.235|  0.201|
-|CO2_kPS       | 0.313|   0.274|  0.243|
+```{r}
+tmp <- rbind(
+  "soil + treatment" = Tables_earth_treatment[["lm"]],
+  "only soil" = Tables_earth_notreatment[["lm"]]
+)
+colnames(tmp) <- rownames(Tables_earth_treatment)
+(Tables_earth_lm <- tmp)
+```
 
+
+```{r}
+saveRDS(list(
+  Tables_yield = Tables_yield,
+  Tables_yield_weather = Tables_yield_weather,
+  Tables_earth_treatment = Tables_earth_treatment,
+  Tables_earth_notreatment = Tables_earth_notreatment,
+  Tables_yield_lm = Tables_yield_lm,
+  Tables_yield_weather_lm = Tables_yield_weather_lm,
+  Tables_earth_lm = Tables_earth_lm
+), "cache/benchmark-tables.rds")
+```
+
+---
 
 ```{r}
 cor(D$annual_P_balance, D$PS) # 0.54389
@@ -369,12 +352,12 @@ annual_P_balance
 
 
 ```{r}
-# nlme.coef$kPS <- nlme.coef$k * nlme.coef$PS
+# nlme.coef$kPS_log <- nlme.coef$k * nlme.coef$PS
 # 
 # 
 # nlme.coef.mrg <- merge(nlme.coef,allP[allP$year>=2017,],by = "uid")
 # # add log-transformed versions
-# D$kPS_log <- log(D$kPS)
+# D$kPS_log <- log(D$kPS_log)
 # D$PS_log <- log(D$PS)
 # D$soil_0_20_P_AAE10_log <- log(D$soil_0_20_P_AAE10)
 # D$soil_0_20_P_CO2_log <- log(D$soil_0_20_P_CO2)

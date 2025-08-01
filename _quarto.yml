@@ -7,14 +7,14 @@ manuscript:
   notebooks:
     # - notebook: notebooks/cars-plot.qmd
     #   title: CarsPlot
-    - notebook: notebooks/coefficient_analysis.qmd
-      title: coefficient_analysis
-    # - notebook: notebooks/mlr3.qmd
-    #   title: mlr3
-    - notebook: notebooks/presentation.qmd
-      title: presentation
     - notebook: notebooks/pretest.qmd
       title: pretest
+    - notebook: notebooks/coefficient_analysis.qmd
+      title: coefficient_analysis
+    - notebook: notebooks/mlr3.qmd
+      title: mlr3
+    - notebook: notebooks/presentation.qmd
+      title: presentation
   # code-links:
   #   - text: CarsPlot Code
   #     icon: file-code
@@ -39,6 +39,13 @@ manuscript:
 
 format:
   html:
+    include-in-header:
+      - text: |
+          <style>
+          .quarto-notebook .cell-container .cell-decorator {
+            display: none;
+          }
+          </style>
     comments:
       hypothesis: true
     # embed-resources: true
@@ -47,8 +54,8 @@ format:
   # docx: default
   # pdf: default
 
-# execute:
-#   freeze: auto
+execute:
+  freeze: auto
 
 
 
