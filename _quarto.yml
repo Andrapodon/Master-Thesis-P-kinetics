@@ -13,14 +13,15 @@ manuscript:
       title: coefficient_analysis
     - notebook: notebooks/mlr3.qmd
       title: mlr3
-    - notebook: notebooks/presentation.qmd
-      title: presentation
+    # - notebook: notebooks/presentation.qmd
+    #   title: presentation
   # code-links:
   #   - text: CarsPlot Code
   #     icon: file-code
   #     href: notebooks/cars-plot.qmd
-  # resources:
-  #   - data/cars.csv
+  resources:
+    # - data/cars.csv
+    - presentation/index.html
 
 
 # website:
@@ -49,6 +50,9 @@ format:
     comments:
       hypothesis: true
     # embed-resources: true
+    other-links:
+    - text: Presentation
+      href: presentation/index.html
     code-fold: true
     # math: mathjax
   # docx: default
