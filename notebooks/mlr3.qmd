@@ -27,13 +27,16 @@ if (!interactive())
   lgr::get_logger("mlr3")$set_threshold("warn")
 
 get_benchi_table <- function(tasks, nfolds = 5, resamplings = NULL) {
+  # TODO activate xgboost and ranger for == uncomment things below
   set.seed(123)
-  learners <- lrns(c("regr.featureless", "regr.lm", "regr.xgboost", "regr.ranger"))
-  learners$regr.xgboost$param_set$set_values(
-    eta = 0.04, 
-    nrounds = 300, 
-    max_depth = 2
-  )
+  learners <- lrns(c("regr.featureless", "regr.lm"
+    # , "regr.xgboost", "regr.ranger"
+    ))
+  # learners$regr.xgboost$param_set$set_values(
+  #   eta = 0.04, 
+  #   nrounds = 300, 
+  #   max_depth = 2
+  # )
 
   benchi <- xfun::cache_rds({
     benchmark(benchmark_grid(

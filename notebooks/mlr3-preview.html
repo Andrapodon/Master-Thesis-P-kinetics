@@ -215,7 +215,7 @@
 
 
     <div class="quarto-other-links-text-target">
-    </div>  </div>
+    <div class="quarto-other-links"><div class="quarto-title-meta-heading">Other Links</div><div class="quarto-title-meta-contents"><span><a href="../presentation/index.html"><i class="bi bi-link-45deg"></i>Presentation</a></span></div></div></div>  </div>
 </header><div id="quarto-content" class="page-columns page-rows-contents page-layout-article toc-left">
 <div id="quarto-sidebar-toc-left" class="sidebar toc-left">
   <nav id="TOC" role="doc-toc" class="toc-active">
@@ -259,39 +259,42 @@
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  lgr<span class="sc">::</span><span class="fu">get_logger</span>(<span class="st">"mlr3"</span>)<span class="sc">$</span><span class="fu">set_threshold</span>(<span class="st">"warn"</span>)</span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>get_benchi_table <span class="ot">&lt;-</span> <span class="cf">function</span>(tasks, <span class="at">nfolds =</span> <span class="dv">5</span>, <span class="at">resamplings =</span> <span class="cn">NULL</span>) {</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  learners <span class="ot">&lt;-</span> <span class="fu">lrns</span>(<span class="fu">c</span>(<span class="st">"regr.featureless"</span>, <span class="st">"regr.lm"</span>, <span class="st">"regr.xgboost"</span>, <span class="st">"regr.ranger"</span>))</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  learners<span class="sc">$</span>regr.xgboost<span class="sc">$</span>param_set<span class="sc">$</span><span class="fu">set_values</span>(</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">eta =</span> <span class="fl">0.04</span>, </span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">nrounds =</span> <span class="dv">300</span>, </span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">max_depth =</span> <span class="dv">2</span></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  benchi <span class="ot">&lt;-</span> xfun<span class="sc">::</span><span class="fu">cache_rds</span>({</span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">benchmark</span>(<span class="fu">benchmark_grid</span>(</span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>      tasks, </span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>      learners, </span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span>(<span class="fu">is.null</span>(resamplings)) <span class="fu">rsmp</span>(<span class="st">"cv"</span>, <span class="at">folds =</span> nfolds) <span class="cf">else</span> resamplings</span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>    ))</span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>  }, </span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">file =</span> <span class="st">"benchmark.rds"</span>, </span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">dir =</span> <span class="st">"cache/"</span>,</span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">hash =</span> <span class="fu">list</span>(tasks, nfolds)</span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>  res <span class="ot">&lt;-</span> tidyr<span class="sc">::</span><span class="fu">pivot_wider</span>(benchi<span class="sc">$</span><span class="fu">aggregate</span>(mse), </span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">id_cols =</span> task_id,</span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_from =</span> learner_id,</span>
-<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_from =</span> regr.mse</span>
-<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> <span class="fu">as.data.frame</span>()</span>
-<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rownames</span>(res) <span class="ot">&lt;-</span> res<span class="sc">$</span>task_id</span>
-<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>  res <span class="ot">&lt;-</span> res[, <span class="sc">-</span><span class="dv">1</span>]</span>
-<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colnames</span>(res) <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">"regr."</span>, <span class="st">""</span>, <span class="fu">colnames</span>(res))</span>
-<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stopifnot</span>(<span class="fu">any</span>(<span class="fu">colnames</span>(res) <span class="sc">==</span> <span class="st">"featureless"</span>))</span>
-<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>  res <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> res <span class="sc">/</span> res<span class="sc">$</span>featureless</span>
-<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>  res[, <span class="sc">-</span><span class="dv">1</span>, drop <span class="ot">=</span> <span class="cn">FALSE</span>] <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">3</span>)</span>
-<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># </span><span class="al">TODO</span><span class="co"> activate xgboost and ranger for == uncomment things below</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  learners <span class="ot">&lt;-</span> <span class="fu">lrns</span>(<span class="fu">c</span>(<span class="st">"regr.featureless"</span>, <span class="st">"regr.lm"</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># , "regr.xgboost", "regr.ranger"</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    ))</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="co"># learners$regr.xgboost$param_set$set_values(</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  <span class="co">#   eta = 0.04, </span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="co">#   nrounds = 300, </span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  <span class="co">#   max_depth = 2</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  <span class="co"># )</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>  benchi <span class="ot">&lt;-</span> xfun<span class="sc">::</span><span class="fu">cache_rds</span>({</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">benchmark</span>(<span class="fu">benchmark_grid</span>(</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>      tasks, </span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>      learners, </span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span>(<span class="fu">is.null</span>(resamplings)) <span class="fu">rsmp</span>(<span class="st">"cv"</span>, <span class="at">folds =</span> nfolds) <span class="cf">else</span> resamplings</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    ))</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>  }, </span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>  <span class="at">file =</span> <span class="st">"benchmark.rds"</span>, </span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>  <span class="at">dir =</span> <span class="st">"cache/"</span>,</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>  <span class="at">hash =</span> <span class="fu">list</span>(tasks, nfolds)</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>  res <span class="ot">&lt;-</span> tidyr<span class="sc">::</span><span class="fu">pivot_wider</span>(benchi<span class="sc">$</span><span class="fu">aggregate</span>(mse), </span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>    <span class="at">id_cols =</span> task_id,</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_from =</span> learner_id,</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_from =</span> regr.mse</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> <span class="fu">as.data.frame</span>()</span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rownames</span>(res) <span class="ot">&lt;-</span> res<span class="sc">$</span>task_id</span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>  res <span class="ot">&lt;-</span> res[, <span class="sc">-</span><span class="dv">1</span>]</span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colnames</span>(res) <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">"regr."</span>, <span class="st">""</span>, <span class="fu">colnames</span>(res))</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stopifnot</span>(<span class="fu">any</span>(<span class="fu">colnames</span>(res) <span class="sc">==</span> <span class="st">"featureless"</span>))</span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>  res <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> res <span class="sc">/</span> res<span class="sc">$</span>featureless</span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>  res[, <span class="sc">-</span><span class="dv">1</span>, drop <span class="ot">=</span> <span class="cn">FALSE</span>] <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">3</span>)</span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div></div>
 <p>Testing prediction quality using</p>
@@ -463,52 +466,52 @@ $CO2_kPS
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>$Ymain_norm
-                  lm xgboost ranger
-onlyweather   -0.009  -0.040 -0.043
-k              0.004   0.108  0.027
-PS             0.208   0.261  0.261
-kPS            0.229   0.303  0.286
-AAE10          0.154   0.060  0.134
-CO2            0.221   0.276  0.276
-AAE10_CO2      0.225   0.295  0.315
-AAE10_CO2_kPS  0.224   0.266  0.269
-CO2_kPS        0.259   0.238  0.238
+                  lm
+onlyweather   -0.009
+k              0.004
+PS             0.208
+kPS            0.229
+AAE10          0.154
+CO2            0.221
+AAE10_CO2      0.225
+AAE10_CO2_kPS  0.224
+CO2_kPS        0.259
 
 $Ymain_rel
-                 lm xgboost ranger
-onlyweather   0.138   0.544  0.542
-k             0.107   0.553  0.512
-PS            0.195   0.572  0.599
-kPS           0.141   0.570  0.624
-AAE10         0.255   0.605  0.605
-CO2           0.200   0.647  0.634
-AAE10_CO2     0.208   0.647  0.655
-AAE10_CO2_kPS 0.197   0.661  0.628
-CO2_kPS       0.183   0.666  0.624
+                 lm
+onlyweather   0.138
+k             0.107
+PS            0.195
+kPS           0.141
+AAE10         0.255
+CO2           0.200
+AAE10_CO2     0.208
+AAE10_CO2_kPS 0.197
+CO2_kPS       0.183
 
 $annual_P_uptake
-                 lm xgboost ranger
-onlyweather   0.382   0.770  0.768
-k             0.375   0.793  0.773
-PS            0.440   0.819  0.839
-kPS           0.395   0.796  0.829
-AAE10         0.497   0.841  0.836
-CO2           0.473   0.846  0.848
-AAE10_CO2     0.492   0.804  0.834
-AAE10_CO2_kPS 0.482   0.762  0.836
-CO2_kPS       0.426   0.803  0.831
+                 lm
+onlyweather   0.382
+k             0.375
+PS            0.440
+kPS           0.395
+AAE10         0.497
+CO2           0.473
+AAE10_CO2     0.492
+AAE10_CO2_kPS 0.482
+CO2_kPS       0.426
 
 $annual_P_balance
-                 lm xgboost ranger
-onlyweather   0.129   0.213  0.211
-k             0.127   0.610  0.289
-PS            0.626   0.881  0.761
-kPS           0.623   0.892  0.865
-AAE10         0.444   0.634  0.600
-CO2           0.519   0.737  0.723
-AAE10_CO2     0.509   0.748  0.739
-AAE10_CO2_kPS 0.623   0.874  0.842
-CO2_kPS       0.615   0.893  0.852</code></pre>
+                 lm
+onlyweather   0.129
+k             0.127
+PS            0.626
+kPS           0.623
+AAE10         0.444
+CO2           0.519
+AAE10_CO2     0.509
+AAE10_CO2_kPS 0.623
+CO2_kPS       0.615</code></pre>
 </div>
 </div></div>
 <div class="cell-container code-fold"><div class="cell-decorator"><pre>In [11]:</pre></div><div class="cell">
@@ -562,48 +565,48 @@ CO2_kPS            0.259     0.183           0.426            0.615</code></pre>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>$Ymain_norm
-                 lm xgboost ranger
-k             0.014   0.168  0.146
-PS            0.220   0.206  0.138
-kPS           0.228   0.213  0.153
-AAE10         0.150   0.072 -0.017
-CO2           0.206   0.193  0.150
-AAE10_CO2     0.196   0.134  0.158
-AAE10_CO2_kPS 0.228   0.251  0.207
-CO2_kPS       0.224   0.211  0.169
+                 lm
+k             0.014
+PS            0.220
+kPS           0.228
+AAE10         0.150
+CO2           0.206
+AAE10_CO2     0.196
+AAE10_CO2_kPS 0.228
+CO2_kPS       0.224
 
 $Ymain_rel
-                  lm xgboost ranger
-k             -0.010   0.058 -0.008
-PS             0.035  -0.018 -0.124
-kPS            0.024   0.001 -0.060
-AAE10          0.124   0.064 -0.107
-CO2            0.092  -0.009 -0.137
-AAE10_CO2      0.130   0.025  0.100
-AAE10_CO2_kPS  0.117   0.109  0.079
-CO2_kPS        0.051  -0.031 -0.042
+                  lm
+k             -0.010
+PS             0.035
+kPS            0.024
+AAE10          0.124
+CO2            0.092
+AAE10_CO2      0.130
+AAE10_CO2_kPS  0.117
+CO2_kPS        0.051
 
 $annual_P_uptake
-                  lm xgboost ranger
-k             -0.013  -0.081 -0.160
-PS             0.035  -0.080 -0.181
-kPS            0.029  -0.106 -0.166
-AAE10          0.077  -0.071 -0.170
-CO2            0.057  -0.066 -0.181
-AAE10_CO2      0.083   0.049  0.006
-AAE10_CO2_kPS  0.029  -0.189 -0.141
-CO2_kPS        0.057  -0.048 -0.096
+                  lm
+k             -0.013
+PS             0.035
+kPS            0.029
+AAE10          0.077
+CO2            0.057
+AAE10_CO2      0.083
+AAE10_CO2_kPS  0.029
+CO2_kPS        0.057
 
 $annual_P_balance
-                 lm xgboost ranger
-k             0.017   0.448  0.572
-PS            0.553   0.603  0.566
-kPS           0.536   0.614  0.588
-AAE10         0.324   0.292  0.208
-CO2           0.438   0.432  0.347
-AAE10_CO2     0.442   0.449  0.461
-AAE10_CO2_kPS 0.550   0.605  0.609
-CO2_kPS       0.544   0.586  0.570</code></pre>
+                 lm
+k             0.017
+PS            0.553
+kPS           0.536
+AAE10         0.324
+CO2           0.438
+AAE10_CO2     0.442
+AAE10_CO2_kPS 0.550
+CO2_kPS       0.544</code></pre>
 </div>
 </div></div>
 <div class="cell-container code-fold"><div class="cell-decorator"><pre>In [13]:</pre></div><div class="cell">
@@ -683,21 +686,21 @@ CO2_kPS            0.224     0.051           0.057            0.544</code></pre>
 <div class="cell-container"><div class="cell-decorator"><pre>In [16]:</pre></div><div class="cell">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>Tables_earth_treatment</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>               lm xgboost ranger
-PS_log      0.888   0.959  0.967
-k           0.351   0.695  0.811
-kPS_log     0.750   0.919  0.938
-P_AAE10_log 0.809   0.836  0.873
-P_CO2_log   0.738   0.790  0.804</code></pre>
+<pre><code>               lm
+PS_log      0.888
+k           0.351
+kPS_log     0.750
+P_AAE10_log 0.809
+P_CO2_log   0.738</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>Tables_earth_notreatment</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>               lm xgboost ranger
-PS_log      0.048   0.075  0.209
-k           0.283   0.521  0.591
-kPS_log     0.004   0.037  0.191
-P_AAE10_log 0.278   0.333  0.410
-P_CO2_log   0.084   0.129  0.216</code></pre>
+<pre><code>               lm
+PS_log      0.048
+k           0.283
+kPS_log     0.004
+P_AAE10_log 0.278
+P_CO2_log   0.084</code></pre>
 </div>
 </div></div>
 <div class="cell-container code-fold"><div class="cell-decorator"><pre>In [17]:</pre></div><div class="cell">
@@ -744,7 +747,7 @@ only soil         0.048 0.283   0.004       0.278     0.084</code></pre>
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(D<span class="sc">$</span>fert_P_tot, D<span class="sc">$</span>PS) <span class="co"># 0.48236</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.584526</code></pre>
+<pre><code>[1] 0.5845259</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -820,177 +823,177 @@ only soil         0.048 0.283   0.004       0.278     0.084</code></pre>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>    Ymain_rel P_AAE10_log    P_CO2_log     PS_log          k   kPS_log
-25      65.60   1.8870696 -1.469675970 -2.9145147 0.20191085 -4.514444
-26      72.33   2.1162555 -1.237874356 -2.9145147 0.20191085 -4.514444
-27      84.81   2.3321439 -1.272965676 -2.9145147 0.20191085 -4.514444
-28         NA   2.2300144 -1.469675970 -2.9145147 0.20191085 -4.514444
-29         NA   2.4069451 -1.171182982 -2.9145147 0.20191085 -4.514444
-30         NA   2.3321439 -1.272965676 -2.9145147 0.20191085 -4.514444
-31      92.91   2.3887628 -1.237874356 -2.9145147 0.20191085 -4.514444
-32     189.25          NA           NA -2.9145147 0.20191085 -4.514444
-33         NA   2.1972246 -1.078809661 -2.9145147 0.20191085 -4.514444
-34      69.17   1.8245493 -1.347073648 -2.6264148 0.23310593 -4.082677
-35     167.07          NA           NA -2.6264148 0.23310593 -4.082677
-36         NA   2.3795461 -1.108662625 -2.6264148 0.23310593 -4.082677
-37     106.32   2.4849066 -1.171182982 -2.6264148 0.23310593 -4.082677
-38      82.00   2.3223877 -1.021651248 -2.6264148 0.23310593 -4.082677
-39         NA   2.3418058 -1.108662625 -2.6264148 0.23310593 -4.082677
-40      84.97   2.3418058 -1.108662625 -2.6264148 0.23310593 -4.082677
-41         NA   2.1400662 -1.386294361 -2.6264148 0.23310593 -4.082677
-42         NA   2.2925348 -0.941608540 -2.6264148 0.23310593 -4.082677
-43      74.25   0.8329091 -1.832581464 -3.3408312 0.15014993 -5.236952
-44      89.08   1.9878743 -1.514127733 -3.3408312 0.15014993 -5.236952
-45         NA   1.7047481 -1.660731207 -3.3408312 0.15014993 -5.236952
-46         NA   2.9069011 -1.237874356 -3.3408312 0.15014993 -5.236952
-47      81.01   1.7047481 -1.660731207 -3.3408312 0.15014993 -5.236952
-48         NA   1.1939225 -2.207274913 -3.3408312 0.15014993 -5.236952
-49         NA   1.7917595 -1.609437912 -3.3408312 0.15014993 -5.236952
-50     194.54          NA           NA -3.3408312 0.15014993 -5.236952
-51      66.00   1.6292405 -1.272965676 -3.3408312 0.15014993 -5.236952
-52         NA   1.7749524 -1.469675970 -3.8896385 0.13492618 -5.892666
-53      79.31   2.6461748 -1.237874356 -3.8896385 0.13492618 -5.892666
-54         NA   1.4586150 -2.207274913 -3.8896385 0.13492618 -5.892666
-55     149.91          NA           NA -3.8896385 0.13492618 -5.892666
-56      92.33   1.9878743 -1.237874356 -3.8896385 0.13492618 -5.892666
-57         NA   2.1282317 -1.469675970 -3.8896385 0.13492618 -5.892666
-58         NA   2.1162555 -1.386294361 -3.8896385 0.13492618 -5.892666
-59      74.44   1.8870696 -1.347073648 -3.8896385 0.13492618 -5.892666
-60      80.85   2.1162555 -1.386294361 -3.8896385 0.13492618 -5.892666
-61      91.33   3.1441523 -0.248461359 -1.4927360 0.11739091 -3.634982
-62         NA   3.4111477 -0.198450939 -1.4927360 0.11739091 -3.634982
-63         NA   3.2425924 -0.314710745 -1.4927360 0.11739091 -3.634982
-64     203.81          NA           NA -1.4927360 0.11739091 -3.634982
-65      91.61   3.1863526 -0.198450939 -1.4927360 0.11739091 -3.634982
-66     109.20   3.4045252 -0.314710745 -1.4927360 0.11739091 -3.634982
-67         NA   3.1945831 -0.198450939 -1.4927360 0.11739091 -3.634982
-68         NA   3.1863526 -0.198450939 -1.4927360 0.11739091 -3.634982
-69      63.16   3.1045867 -0.385662481 -1.4927360 0.11739091 -3.634982
-70     198.18          NA           NA -2.1350669 0.17309044 -3.889008
-71         NA   2.7850112 -0.673344553 -2.1350669 0.17309044 -3.889008
-72         NA   2.7972813 -0.843970070 -2.1350669 0.17309044 -3.889008
-73         NA   2.9014216 -0.356674944 -2.1350669 0.17309044 -3.889008
-74      68.61   2.8449094 -0.634878272 -2.1350669 0.17309044 -3.889008
-75      73.44   2.8094027 -0.733969175 -2.1350669 0.17309044 -3.889008
-76      78.32   2.7850112 -0.673344553 -2.1350669 0.17309044 -3.889008
-77     101.92   3.2580965 -0.510825624 -2.1350669 0.17309044 -3.889008
-78         NA   3.0007198 -0.562118918 -2.1350669 0.17309044 -3.889008
-79      80.26   2.4069451 -1.171182982 -2.2181329 0.17801699 -3.944009
-80      95.57   2.6026897 -0.941608540 -2.2181329 0.17801699 -3.944009
-81         NA   2.8033604 -0.843970070 -2.2181329 0.17801699 -3.944009
-82         NA   2.6026897 -0.941608540 -2.2181329 0.17801699 -3.944009
-83         NA   2.5726122 -1.237874356 -2.2181329 0.17801699 -3.944009
-84      72.56   2.7663191 -2.525728644 -2.2181329 0.17801699 -3.944009
-85         NA   2.7343675 -0.673344553 -2.2181329 0.17801699 -3.944009
-86     190.38          NA           NA -2.2181329 0.17801699 -3.944009
-87     107.85   2.9069011 -0.867500568 -2.2181329 0.17801699 -3.944009
-88         NA   2.8903718 -0.867500568 -2.2067423 0.17736688 -3.936277
-89     204.59          NA           NA -2.2067423 0.17736688 -3.936277
-90      52.11   3.0587071 -0.579818495 -2.2067423 0.17736688 -3.936277
-91         NA   2.9069011 -0.733969175 -2.2067423 0.17736688 -3.936277
-92      93.51   2.9069011 -0.733969175 -2.2067423 0.17736688 -3.936277
-93      72.61   3.1045867 -0.916290732 -2.2067423 0.17736688 -3.936277
-94         NA   2.8390785 -0.941608540 -2.2067423 0.17736688 -3.936277
-95      69.74   2.6741486 -0.941608540 -2.2067423 0.17736688 -3.936277
-96         NA   3.3809947 -0.385662481 -2.2067423 0.17736688 -3.936277
-97      62.97   4.2017031  0.765467842 -0.9083699 0.23219455 -2.368550
-98      90.42   4.3907386  0.636576829 -0.9083699 0.23219455 -2.368550
-99         NA   4.3000028  0.652325186 -0.9083699 0.23219455 -2.368550
-100     90.11   4.0412953  0.239016900 -0.9083699 0.23219455 -2.368550
-101    222.79          NA           NA -0.9083699 0.23219455 -2.368550
-102        NA   4.1697612  0.604315967 -0.9083699 0.23219455 -2.368550
-103     94.15   4.0656021  0.494696242 -0.9083699 0.23219455 -2.368550
-104        NA   4.2640873  0.559615788 -0.9083699 0.23219455 -2.368550
-105        NA   4.0656021  0.494696242 -0.9083699 0.23219455 -2.368550
-106        NA   3.1822118 -0.198450939 -1.6359640 0.15615814 -3.492850
-107     97.94   2.6461748 -0.733969175 -1.6359640 0.15615814 -3.492850
-108    104.41   3.3809947 -0.342490309 -1.6359640 0.15615814 -3.492850
-109     81.58   3.0540012 -0.510825624 -1.6359640 0.15615814 -3.492850
-110    204.59          NA           NA -1.6359640 0.15615814 -3.492850
-111        NA   3.0726933 -0.634878272 -1.6359640 0.15615814 -3.492850
-112     85.44   3.0955776 -1.171182982 -1.6359640 0.15615814 -3.492850
-113        NA   2.6461748 -0.733969175 -1.6359640 0.15615814 -3.492850
-114        NA   3.0056826 -0.478035801 -1.6359640 0.15615814 -3.492850
-115    195.84          NA           NA -1.3788326 0.17699689 -3.110456
-116     76.88   3.4873751 -0.105360516 -1.3788326 0.17699689 -3.110456
-117        NA   3.5945688  0.231111721 -1.3788326 0.17699689 -3.110456
-118     83.33   3.7424202 -0.105360516 -1.3788326 0.17699689 -3.110456
-119        NA   3.8044378  0.165514438 -1.3788326 0.17699689 -3.110456
-120     87.03   3.5945688  0.231111721 -1.3788326 0.17699689 -3.110456
-121     47.89   3.4531571 -0.051293294 -1.3788326 0.17699689 -3.110456
-122        NA   4.0412953  0.425267735 -1.3788326 0.17699689 -3.110456
-123        NA   3.6480575  0.048790164 -1.3788326 0.17699689 -3.110456
-124    125.95   2.7013612 -1.272965676 -3.3238864 0.22062441 -4.835180
-125     66.48   2.7472709 -1.514127733 -3.3238864 0.22062441 -4.835180
-126     83.27   2.8507065 -0.994252273 -3.3238864 0.22062441 -4.835180
-127        NA   2.7472709 -1.272965676 -3.3238864 0.22062441 -4.835180
-128    139.69          NA           NA -3.3238864 0.22062441 -4.835180
-129        NA   2.6100698 -1.771956842 -3.3238864 0.22062441 -4.835180
-130        NA   2.4069451 -1.609437912 -3.3238864 0.22062441 -4.835180
-131    132.89   2.6390573 -1.171182982 -3.3238864 0.22062441 -4.835180
-132        NA   2.7013612 -1.272965676 -3.3238864 0.22062441 -4.835180
-133        NA   3.1223649 -1.108662625 -3.2178905 0.18943117 -4.881620
-134     75.56   2.8622009 -1.237874356 -3.2178905 0.18943117 -4.881620
-135    140.99          NA           NA -3.2178905 0.18943117 -4.881620
-136        NA   2.9123507 -1.966112856 -3.2178905 0.18943117 -4.881620
-137    117.88   3.1223649 -1.108662625 -3.2178905 0.18943117 -4.881620
-138        NA   2.8507065 -1.347073648 -3.2178905 0.18943117 -4.881620
-139     65.52   3.0106209 -1.386294361 -3.2178905 0.18943117 -4.881620
-140     91.54   3.0492730 -1.078809661 -3.2178905 0.18943117 -4.881620
-141        NA   2.1860513 -1.386294361 -3.2178905 0.18943117 -4.881620
-142        NA   2.9391619 -1.237874356 -3.6548744 0.28439752 -4.912257
-143     65.33   2.9014216 -1.609437912 -3.6548744 0.28439752 -4.912257
-144        NA   2.9652731 -1.469675970 -3.6548744 0.28439752 -4.912257
-145    133.86   2.9391619 -1.237874356 -3.6548744 0.28439752 -4.912257
-146        NA   2.8903718 -2.120263536 -3.6548744 0.28439752 -4.912257
-147     77.26   3.1570004 -1.108662625 -3.6548744 0.28439752 -4.912257
-148    132.58          NA           NA -3.6548744 0.28439752 -4.912257
-149        NA   3.1045867 -1.347073648 -3.6548744 0.28439752 -4.912257
-150     93.11   3.1570004 -0.941608540 -3.6548744 0.28439752 -4.912257
-151     89.10   2.7972813 -1.272965676 -3.3755708 0.21679430 -4.904377
-152        NA   2.4336134 -2.407945609 -3.3755708 0.21679430 -4.904377
-153     86.78   2.8033604 -1.609437912 -3.3755708 0.21679430 -4.904377
-154        NA   2.7146947 -1.386294361 -3.3755708 0.21679430 -4.904377
-155        NA   2.3608540 -1.514127733 -3.3755708 0.21679430 -4.904377
-156     54.11   2.2407097 -1.237874356 -3.3755708 0.21679430 -4.904377
-157    126.90   2.7146947 -1.386294361 -3.3755708 0.21679430 -4.904377
-158        NA   2.3702437 -1.237874356 -3.3755708 0.21679430 -4.904377
-159    117.94          NA           NA -3.3755708 0.21679430 -4.904377
-160        NA   3.4468079 -0.916290732 -2.3555262 0.34791259 -3.411330
-161        NA   3.2580965 -0.994252273 -2.3555262 0.34791259 -3.411330
-162    135.70          NA           NA -2.3555262 0.34791259 -3.411330
-163    109.78   3.4011974 -0.693147181 -2.3555262 0.34791259 -3.411330
-164     87.36   3.3534067 -1.078809661 -2.3555262 0.34791259 -3.411330
-165        NA   3.3141860 -0.733969175 -2.3555262 0.34791259 -3.411330
-166        NA   3.0056826 -0.916290732 -2.3555262 0.34791259 -3.411330
-167     90.60   3.5055574 -0.693147181 -2.3555262 0.34791259 -3.411330
-168    145.89   3.2580965 -0.994252273 -2.3555262 0.34791259 -3.411330
-169        NA   3.1986731 -0.867500568 -2.4402754 0.30702495 -3.621102
-170     92.78   3.5025499 -0.673344553 -2.4402754 0.30702495 -3.621102
-171    139.72   3.3741687 -0.798507696 -2.4402754 0.30702495 -3.621102
-172        NA   3.4812401 -1.108662625 -2.4402754 0.30702495 -3.621102
-173    151.13          NA           NA -2.4402754 0.30702495 -3.621102
-174     79.12   3.3741687 -1.108662625 -2.4402754 0.30702495 -3.621102
-175        NA   3.3741687 -0.798507696 -2.4402754 0.30702495 -3.621102
-176     94.92   3.4750672 -0.579818495 -2.4402754 0.30702495 -3.621102
-177        NA   3.3393220 -0.941608540 -2.4402754 0.30702495 -3.621102
-178    153.12          NA           NA -2.5704141 0.25060055 -3.954309
-179     87.56   3.6163088 -0.693147181 -2.5704141 0.25060055 -3.954309
-180        NA   3.4719665 -0.798507696 -2.5704141 0.25060055 -3.954309
-181     92.11   3.6988298 -0.634878272 -2.5704141 0.25060055 -3.954309
-182        NA   3.6788291 -1.108662625 -2.5704141 0.25060055 -3.954309
-183        NA   3.4242627 -0.867500568 -2.5704141 0.25060055 -3.954309
-184    138.29   3.5496174 -0.733969175 -2.5704141 0.25060055 -3.954309
-185        NA   3.5496174 -0.733969175 -2.5704141 0.25060055 -3.954309
-186     77.97   3.2542430 -1.272965676 -2.5704141 0.25060055 -3.954309
-187    125.74          NA           NA -2.8188200 0.16133292 -4.643105
-188        NA   2.7343675 -0.941608540 -2.8188200 0.16133292 -4.643105
-189     96.55   3.1223649 -1.171182982 -2.8188200 0.16133292 -4.643105
-190    137.97   2.8390785 -1.108662625 -2.8188200 0.16133292 -4.643105
-191     90.00   2.8033604 -0.843970070 -2.8188200 0.16133292 -4.643105
-192        NA   2.7343675 -1.078809661 -2.8188200 0.16133292 -4.643105
-193        NA   2.8390785 -1.108662625 -2.8188200 0.16133292 -4.643105
-194     96.80   3.1267605 -0.798507696 -2.8188200 0.16133292 -4.643105
-195        NA   2.7972813 -1.771956842 -2.8188200 0.16133292 -4.643105
+25      65.60   1.8870696 -1.469675970 -2.9145147 0.20191087 -4.514444
+26      72.33   2.1162555 -1.237874356 -2.9145147 0.20191087 -4.514444
+27      84.81   2.3321439 -1.272965676 -2.9145147 0.20191087 -4.514444
+28         NA   2.2300144 -1.469675970 -2.9145147 0.20191087 -4.514444
+29         NA   2.4069451 -1.171182982 -2.9145147 0.20191087 -4.514444
+30         NA   2.3321439 -1.272965676 -2.9145147 0.20191087 -4.514444
+31      92.91   2.3887628 -1.237874356 -2.9145147 0.20191087 -4.514444
+32     189.25          NA           NA -2.9145147 0.20191087 -4.514444
+33         NA   2.1972246 -1.078809661 -2.9145147 0.20191087 -4.514444
+34      69.17   1.8245493 -1.347073648 -2.6264148 0.23310588 -4.082677
+35     167.07          NA           NA -2.6264148 0.23310588 -4.082677
+36         NA   2.3795461 -1.108662625 -2.6264148 0.23310588 -4.082677
+37     106.32   2.4849066 -1.171182982 -2.6264148 0.23310588 -4.082677
+38      82.00   2.3223877 -1.021651248 -2.6264148 0.23310588 -4.082677
+39         NA   2.3418058 -1.108662625 -2.6264148 0.23310588 -4.082677
+40      84.97   2.3418058 -1.108662625 -2.6264148 0.23310588 -4.082677
+41         NA   2.1400662 -1.386294361 -2.6264148 0.23310588 -4.082677
+42         NA   2.2925348 -0.941608540 -2.6264148 0.23310588 -4.082677
+43      74.25   0.8329091 -1.832581464 -3.3408310 0.15014978 -5.236953
+44      89.08   1.9878743 -1.514127733 -3.3408310 0.15014978 -5.236953
+45         NA   1.7047481 -1.660731207 -3.3408310 0.15014978 -5.236953
+46         NA   2.9069011 -1.237874356 -3.3408310 0.15014978 -5.236953
+47      81.01   1.7047481 -1.660731207 -3.3408310 0.15014978 -5.236953
+48         NA   1.1939225 -2.207274913 -3.3408310 0.15014978 -5.236953
+49         NA   1.7917595 -1.609437912 -3.3408310 0.15014978 -5.236953
+50     194.54          NA           NA -3.3408310 0.15014978 -5.236953
+51      66.00   1.6292405 -1.272965676 -3.3408310 0.15014978 -5.236953
+52         NA   1.7749524 -1.469675970 -3.8896386 0.13492624 -5.892666
+53      79.31   2.6461748 -1.237874356 -3.8896386 0.13492624 -5.892666
+54         NA   1.4586150 -2.207274913 -3.8896386 0.13492624 -5.892666
+55     149.91          NA           NA -3.8896386 0.13492624 -5.892666
+56      92.33   1.9878743 -1.237874356 -3.8896386 0.13492624 -5.892666
+57         NA   2.1282317 -1.469675970 -3.8896386 0.13492624 -5.892666
+58         NA   2.1162555 -1.386294361 -3.8896386 0.13492624 -5.892666
+59      74.44   1.8870696 -1.347073648 -3.8896386 0.13492624 -5.892666
+60      80.85   2.1162555 -1.386294361 -3.8896386 0.13492624 -5.892666
+61      91.33   3.1441523 -0.248461359 -1.4927364 0.11739131 -3.634979
+62         NA   3.4111477 -0.198450939 -1.4927364 0.11739131 -3.634979
+63         NA   3.2425924 -0.314710745 -1.4927364 0.11739131 -3.634979
+64     203.81          NA           NA -1.4927364 0.11739131 -3.634979
+65      91.61   3.1863526 -0.198450939 -1.4927364 0.11739131 -3.634979
+66     109.20   3.4045252 -0.314710745 -1.4927364 0.11739131 -3.634979
+67         NA   3.1945831 -0.198450939 -1.4927364 0.11739131 -3.634979
+68         NA   3.1863526 -0.198450939 -1.4927364 0.11739131 -3.634979
+69      63.16   3.1045867 -0.385662481 -1.4927364 0.11739131 -3.634979
+70     198.18          NA           NA -2.1350667 0.17309001 -3.889010
+71         NA   2.7850112 -0.673344553 -2.1350667 0.17309001 -3.889010
+72         NA   2.7972813 -0.843970070 -2.1350667 0.17309001 -3.889010
+73         NA   2.9014216 -0.356674944 -2.1350667 0.17309001 -3.889010
+74      68.61   2.8449094 -0.634878272 -2.1350667 0.17309001 -3.889010
+75      73.44   2.8094027 -0.733969175 -2.1350667 0.17309001 -3.889010
+76      78.32   2.7850112 -0.673344553 -2.1350667 0.17309001 -3.889010
+77     101.92   3.2580965 -0.510825624 -2.1350667 0.17309001 -3.889010
+78         NA   3.0007198 -0.562118918 -2.1350667 0.17309001 -3.889010
+79      80.26   2.4069451 -1.171182982 -2.2181328 0.17801696 -3.944009
+80      95.57   2.6026897 -0.941608540 -2.2181328 0.17801696 -3.944009
+81         NA   2.8033604 -0.843970070 -2.2181328 0.17801696 -3.944009
+82         NA   2.6026897 -0.941608540 -2.2181328 0.17801696 -3.944009
+83         NA   2.5726122 -1.237874356 -2.2181328 0.17801696 -3.944009
+84      72.56   2.7663191 -2.525728644 -2.2181328 0.17801696 -3.944009
+85         NA   2.7343675 -0.673344553 -2.2181328 0.17801696 -3.944009
+86     190.38          NA           NA -2.2181328 0.17801696 -3.944009
+87     107.85   2.9069011 -0.867500568 -2.2181328 0.17801696 -3.944009
+88         NA   2.8903718 -0.867500568 -2.2067421 0.17736636 -3.936280
+89     204.59          NA           NA -2.2067421 0.17736636 -3.936280
+90      52.11   3.0587071 -0.579818495 -2.2067421 0.17736636 -3.936280
+91         NA   2.9069011 -0.733969175 -2.2067421 0.17736636 -3.936280
+92      93.51   2.9069011 -0.733969175 -2.2067421 0.17736636 -3.936280
+93      72.61   3.1045867 -0.916290732 -2.2067421 0.17736636 -3.936280
+94         NA   2.8390785 -0.941608540 -2.2067421 0.17736636 -3.936280
+95      69.74   2.6741486 -0.941608540 -2.2067421 0.17736636 -3.936280
+96         NA   3.3809947 -0.385662481 -2.2067421 0.17736636 -3.936280
+97      62.97   4.2017031  0.765467842 -0.9083695 0.23219748 -2.368537
+98      90.42   4.3907386  0.636576829 -0.9083695 0.23219748 -2.368537
+99         NA   4.3000028  0.652325186 -0.9083695 0.23219748 -2.368537
+100     90.11   4.0412953  0.239016900 -0.9083695 0.23219748 -2.368537
+101    222.79          NA           NA -0.9083695 0.23219748 -2.368537
+102        NA   4.1697612  0.604315967 -0.9083695 0.23219748 -2.368537
+103     94.15   4.0656021  0.494696242 -0.9083695 0.23219748 -2.368537
+104        NA   4.2640873  0.559615788 -0.9083695 0.23219748 -2.368537
+105        NA   4.0656021  0.494696242 -0.9083695 0.23219748 -2.368537
+106        NA   3.1822118 -0.198450939 -1.6359700 0.15616174 -3.492833
+107     97.94   2.6461748 -0.733969175 -1.6359700 0.15616174 -3.492833
+108    104.41   3.3809947 -0.342490309 -1.6359700 0.15616174 -3.492833
+109     81.58   3.0540012 -0.510825624 -1.6359700 0.15616174 -3.492833
+110    204.59          NA           NA -1.6359700 0.15616174 -3.492833
+111        NA   3.0726933 -0.634878272 -1.6359700 0.15616174 -3.492833
+112     85.44   3.0955776 -1.171182982 -1.6359700 0.15616174 -3.492833
+113        NA   2.6461748 -0.733969175 -1.6359700 0.15616174 -3.492833
+114        NA   3.0056826 -0.478035801 -1.6359700 0.15616174 -3.492833
+115    195.84          NA           NA -1.3788354 0.17699976 -3.110442
+116     76.88   3.4873751 -0.105360516 -1.3788354 0.17699976 -3.110442
+117        NA   3.5945688  0.231111721 -1.3788354 0.17699976 -3.110442
+118     83.33   3.7424202 -0.105360516 -1.3788354 0.17699976 -3.110442
+119        NA   3.8044378  0.165514438 -1.3788354 0.17699976 -3.110442
+120     87.03   3.5945688  0.231111721 -1.3788354 0.17699976 -3.110442
+121     47.89   3.4531571 -0.051293294 -1.3788354 0.17699976 -3.110442
+122        NA   4.0412953  0.425267735 -1.3788354 0.17699976 -3.110442
+123        NA   3.6480575  0.048790164 -1.3788354 0.17699976 -3.110442
+124    125.95   2.7013612 -1.272965676 -3.3238862 0.22062420 -4.835181
+125     66.48   2.7472709 -1.514127733 -3.3238862 0.22062420 -4.835181
+126     83.27   2.8507065 -0.994252273 -3.3238862 0.22062420 -4.835181
+127        NA   2.7472709 -1.272965676 -3.3238862 0.22062420 -4.835181
+128    139.69          NA           NA -3.3238862 0.22062420 -4.835181
+129        NA   2.6100698 -1.771956842 -3.3238862 0.22062420 -4.835181
+130        NA   2.4069451 -1.609437912 -3.3238862 0.22062420 -4.835181
+131    132.89   2.6390573 -1.171182982 -3.3238862 0.22062420 -4.835181
+132        NA   2.7013612 -1.272965676 -3.3238862 0.22062420 -4.835181
+133        NA   3.1223649 -1.108662625 -3.2178904 0.18943116 -4.881620
+134     75.56   2.8622009 -1.237874356 -3.2178904 0.18943116 -4.881620
+135    140.99          NA           NA -3.2178904 0.18943116 -4.881620
+136        NA   2.9123507 -1.966112856 -3.2178904 0.18943116 -4.881620
+137    117.88   3.1223649 -1.108662625 -3.2178904 0.18943116 -4.881620
+138        NA   2.8507065 -1.347073648 -3.2178904 0.18943116 -4.881620
+139     65.52   3.0106209 -1.386294361 -3.2178904 0.18943116 -4.881620
+140     91.54   3.0492730 -1.078809661 -3.2178904 0.18943116 -4.881620
+141        NA   2.1860513 -1.386294361 -3.2178904 0.18943116 -4.881620
+142        NA   2.9391619 -1.237874356 -3.6548742 0.28439696 -4.912258
+143     65.33   2.9014216 -1.609437912 -3.6548742 0.28439696 -4.912258
+144        NA   2.9652731 -1.469675970 -3.6548742 0.28439696 -4.912258
+145    133.86   2.9391619 -1.237874356 -3.6548742 0.28439696 -4.912258
+146        NA   2.8903718 -2.120263536 -3.6548742 0.28439696 -4.912258
+147     77.26   3.1570004 -1.108662625 -3.6548742 0.28439696 -4.912258
+148    132.58          NA           NA -3.6548742 0.28439696 -4.912258
+149        NA   3.1045867 -1.347073648 -3.6548742 0.28439696 -4.912258
+150     93.11   3.1570004 -0.941608540 -3.6548742 0.28439696 -4.912258
+151     89.10   2.7972813 -1.272965676 -3.3755707 0.21679401 -4.904378
+152        NA   2.4336134 -2.407945609 -3.3755707 0.21679401 -4.904378
+153     86.78   2.8033604 -1.609437912 -3.3755707 0.21679401 -4.904378
+154        NA   2.7146947 -1.386294361 -3.3755707 0.21679401 -4.904378
+155        NA   2.3608540 -1.514127733 -3.3755707 0.21679401 -4.904378
+156     54.11   2.2407097 -1.237874356 -3.3755707 0.21679401 -4.904378
+157    126.90   2.7146947 -1.386294361 -3.3755707 0.21679401 -4.904378
+158        NA   2.3702437 -1.237874356 -3.3755707 0.21679401 -4.904378
+159    117.94          NA           NA -3.3755707 0.21679401 -4.904378
+160        NA   3.4468079 -0.916290732 -2.3555261 0.34791238 -3.411331
+161        NA   3.2580965 -0.994252273 -2.3555261 0.34791238 -3.411331
+162    135.70          NA           NA -2.3555261 0.34791238 -3.411331
+163    109.78   3.4011974 -0.693147181 -2.3555261 0.34791238 -3.411331
+164     87.36   3.3534067 -1.078809661 -2.3555261 0.34791238 -3.411331
+165        NA   3.3141860 -0.733969175 -2.3555261 0.34791238 -3.411331
+166        NA   3.0056826 -0.916290732 -2.3555261 0.34791238 -3.411331
+167     90.60   3.5055574 -0.693147181 -2.3555261 0.34791238 -3.411331
+168    145.89   3.2580965 -0.994252273 -2.3555261 0.34791238 -3.411331
+169        NA   3.1986731 -0.867500568 -2.4402753 0.30702472 -3.621102
+170     92.78   3.5025499 -0.673344553 -2.4402753 0.30702472 -3.621102
+171    139.72   3.3741687 -0.798507696 -2.4402753 0.30702472 -3.621102
+172        NA   3.4812401 -1.108662625 -2.4402753 0.30702472 -3.621102
+173    151.13          NA           NA -2.4402753 0.30702472 -3.621102
+174     79.12   3.3741687 -1.108662625 -2.4402753 0.30702472 -3.621102
+175        NA   3.3741687 -0.798507696 -2.4402753 0.30702472 -3.621102
+176     94.92   3.4750672 -0.579818495 -2.4402753 0.30702472 -3.621102
+177        NA   3.3393220 -0.941608540 -2.4402753 0.30702472 -3.621102
+178    153.12          NA           NA -2.5704144 0.25060123 -3.954307
+179     87.56   3.6163088 -0.693147181 -2.5704144 0.25060123 -3.954307
+180        NA   3.4719665 -0.798507696 -2.5704144 0.25060123 -3.954307
+181     92.11   3.6988298 -0.634878272 -2.5704144 0.25060123 -3.954307
+182        NA   3.6788291 -1.108662625 -2.5704144 0.25060123 -3.954307
+183        NA   3.4242627 -0.867500568 -2.5704144 0.25060123 -3.954307
+184    138.29   3.5496174 -0.733969175 -2.5704144 0.25060123 -3.954307
+185        NA   3.5496174 -0.733969175 -2.5704144 0.25060123 -3.954307
+186     77.97   3.2542430 -1.272965676 -2.5704144 0.25060123 -3.954307
+187    125.74          NA           NA -2.8188198 0.16133276 -4.643106
+188        NA   2.7343675 -0.941608540 -2.8188198 0.16133276 -4.643106
+189     96.55   3.1223649 -1.171182982 -2.8188198 0.16133276 -4.643106
+190    137.97   2.8390785 -1.108662625 -2.8188198 0.16133276 -4.643106
+191     90.00   2.8033604 -0.843970070 -2.8188198 0.16133276 -4.643106
+192        NA   2.7343675 -1.078809661 -2.8188198 0.16133276 -4.643106
+193        NA   2.8390785 -1.108662625 -2.8188198 0.16133276 -4.643106
+194     96.80   3.1267605 -0.798507696 -2.8188198 0.16133276 -4.643106
+195        NA   2.7972813 -1.771956842 -2.8188198 0.16133276 -4.643106
 196        NA   3.2771447 -0.510825624 -2.0165660 0.29038401 -3.253117
 197        NA   3.5973123 -0.385662481 -2.0165660 0.29038401 -3.253117
 198    148.44          NA           NA -2.0165660 0.29038401 -3.253117
@@ -1027,78 +1030,78 @@ only soil         0.048 0.283   0.004       0.278     0.084</code></pre>
 229        NA   3.4307562 -0.693147181 -1.7109028 0.06500092 -4.444257
 230        NA   3.7954892 -0.673344553 -1.7109028 0.06500092 -4.444257
 231    132.91   3.6838669 -0.579818495 -1.7109028 0.06500092 -4.444257
-233     98.67   2.4765384 -1.272965676 -3.0602039 0.22808615 -4.538236
-234     98.64   2.7911651 -1.021651248 -3.0602039 0.22808615 -4.538236
-235        NA   2.7725887 -0.941608540 -3.0602039 0.22808615 -4.538236
-236    108.37   2.6741486 -1.108662625 -3.0602039 0.22808615 -4.538236
-237     90.23   2.9338569 -0.941608540 -3.0602039 0.22808615 -4.538236
-238        NA   2.7725887 -1.108662625 -3.0602039 0.22808615 -4.538236
-239     94.74   2.5649494 -1.469675970 -3.0602039 0.22808615 -4.538236
-240    123.40          NA           NA -3.0602039 0.22808615 -4.538236
-241        NA   2.6741486 -1.108662625 -3.0602039 0.22808615 -4.538236
-242        NA   2.6672282 -1.021651248 -2.9064446 0.20616803 -4.485508
-243     81.61   2.9123507 -1.078809661 -2.9064446 0.20616803 -4.485508
-244    115.94   2.6878475 -1.108662625 -2.9064446 0.20616803 -4.485508
-245        NA   2.7013612 -1.237874356 -2.9064446 0.20616803 -4.485508
-246     83.91   2.9704145 -1.078809661 -2.9064446 0.20616803 -4.485508
-247    156.85          NA           NA -2.9064446 0.20616803 -4.485508
-248        NA   2.6878475 -1.108662625 -2.9064446 0.20616803 -4.485508
-249     89.10   2.6390573 -1.469675970 -2.9064446 0.20616803 -4.485508
-251     82.03   2.7600099 -1.237874356 -2.9064446 0.20616803 -4.485508
-252    104.22   2.8213789 -1.078809661 -2.6081966 0.15273297 -4.487261
-253        NA   3.0540012 -0.673344553 -2.6081966 0.15273297 -4.487261
-254        NA   2.8903718 -1.108662625 -2.6081966 0.15273297 -4.487261
-256     83.28   3.0252911 -0.916290732 -2.6081966 0.15273297 -4.487261
-257    152.86          NA           NA -2.6081966 0.15273297 -4.487261
-258     93.87   3.2228678 -0.941608540 -2.6081966 0.15273297 -4.487261
-259     92.86   3.2695689 -1.347073648 -2.6081966 0.15273297 -4.487261
-260        NA   3.0106209 -1.078809661 -2.6081966 0.15273297 -4.487261
-261    113.04   3.0106209 -1.078809661 -2.6081966 0.15273297 -4.487261
-263    164.73          NA           NA -2.5903371 0.14899842 -4.494157
-264        NA   2.4510051 -1.171182982 -2.5903371 0.14899842 -4.494157
-265        NA   2.4423470 -0.127833372 -2.5903371 0.14899842 -4.494157
-266     96.24   2.2823824 -1.514127733 -2.5903371 0.14899842 -4.494157
-267    104.70   2.5416020 -1.237874356 -2.5903371 0.14899842 -4.494157
-268     97.49   2.6461748 -1.021651248 -2.5903371 0.14899842 -4.494157
-269        NA   2.2823824 -1.078809661 -2.5903371 0.14899842 -4.494157
-270     91.95   2.7911651 -1.237874356 -2.5903371 0.14899842 -4.494157
-271    110.14   2.4510051 -1.171182982 -2.5903371 0.14899842 -4.494157
-272    100.00   3.5174978 -0.527632742 -2.0944336 0.19984180 -3.704663
-273     98.85   3.6609943 -0.400477567 -2.0944336 0.19984180 -3.704663
-274     92.15   3.9019727 -0.174353387 -2.0944336 0.19984180 -3.704663
-275     86.47   3.4843123 -0.562118918 -2.0944336 0.19984180 -3.704663
-276    133.02          NA           NA -2.0944336 0.19984180 -3.704663
-277        NA   3.4078419 -0.446287103 -2.0944336 0.19984180 -3.704663
-278        NA   3.4372078 -0.342490309 -2.0944336 0.19984180 -3.704663
-280        NA   3.6323091 -0.162518929 -2.0944336 0.19984180 -3.704663
-281    107.57   3.4078419 -0.446287103 -2.0944336 0.19984180 -3.704663
-282        NA   3.4499875 -0.385662481 -1.6439616 0.10705720 -3.878354
-284        NA   3.3741687 -0.248461359 -1.6439616 0.10705720 -3.878354
-285     96.38   3.2733640 -0.400477567 -1.6439616 0.10705720 -3.878354
-286     94.92   3.3286267 -0.400477567 -1.6439616 0.10705720 -3.878354
-287    134.75          NA           NA -1.6439616 0.10705720 -3.878354
-288        NA   3.3877744 -0.105360516 -1.6439616 0.10705720 -3.878354
-289     92.53   3.6813512 -0.301105093 -1.6439616 0.10705720 -3.878354
-290    140.42   3.3741687 -0.248461359 -1.6439616 0.10705720 -3.878354
-291    100.00   3.4307562 -0.198450939 -1.6439616 0.10705720 -3.878354
-293        NA   3.5263605 -0.385662481 -2.1715576 0.21193823 -3.723018
-294    113.27   3.5467397 -0.430782916 -2.1715576 0.21193823 -3.723018
-295    160.75          NA           NA -2.1715576 0.21193823 -3.723018
-296     95.02   4.1541846 -0.127833372 -2.1715576 0.21193823 -3.723018
-297        NA   3.8649314 -0.020202707 -2.1715576 0.21193823 -3.723018
-298     97.18   3.4339872 -0.673344553 -2.1715576 0.21193823 -3.723018
-299        NA   3.6296601 -0.430782916 -2.1715576 0.21193823 -3.723018
-300    126.25   3.5263605 -0.385662481 -2.1715576 0.21193823 -3.723018
-301     96.34   3.8372995 -0.139262067 -2.1715576 0.21193823 -3.723018
-302     99.28   3.0955776 -0.733969175 -2.0030331 0.18423357 -3.694584
-303        NA   3.2386785 -0.634878272 -2.0030331 0.18423357 -3.694584
-304    104.28   3.4594663 -0.430782916 -2.0030331 0.18423357 -3.694584
-305    119.16   3.2386785 -0.634878272 -2.0030331 0.18423357 -3.694584
-306        NA   3.3178158 -0.673344553 -2.0030331 0.18423357 -3.694584
-307        NA   3.4339872 -0.094310679 -2.0030331 0.18423357 -3.694584
-308    102.07   3.1484534 -0.673344553 -2.0030331 0.18423357 -3.694584
-310     94.25   3.6712245 -0.478035801 -2.0030331 0.18423357 -3.694584
-311    158.67          NA           NA -2.0030331 0.18423357 -3.694584
+233     98.67   2.4765384 -1.272965676 -3.0602028 0.22808411 -4.538244
+234     98.64   2.7911651 -1.021651248 -3.0602028 0.22808411 -4.538244
+235        NA   2.7725887 -0.941608540 -3.0602028 0.22808411 -4.538244
+236    108.37   2.6741486 -1.108662625 -3.0602028 0.22808411 -4.538244
+237     90.23   2.9338569 -0.941608540 -3.0602028 0.22808411 -4.538244
+238        NA   2.7725887 -1.108662625 -3.0602028 0.22808411 -4.538244
+239     94.74   2.5649494 -1.469675970 -3.0602028 0.22808411 -4.538244
+240    123.40          NA           NA -3.0602028 0.22808411 -4.538244
+241        NA   2.6741486 -1.108662625 -3.0602028 0.22808411 -4.538244
+242        NA   2.6672282 -1.021651248 -2.9064443 0.20616567 -4.485519
+243     81.61   2.9123507 -1.078809661 -2.9064443 0.20616567 -4.485519
+244    115.94   2.6878475 -1.108662625 -2.9064443 0.20616567 -4.485519
+245        NA   2.7013612 -1.237874356 -2.9064443 0.20616567 -4.485519
+246     83.91   2.9704145 -1.078809661 -2.9064443 0.20616567 -4.485519
+247    156.85          NA           NA -2.9064443 0.20616567 -4.485519
+248        NA   2.6878475 -1.108662625 -2.9064443 0.20616567 -4.485519
+249     89.10   2.6390573 -1.469675970 -2.9064443 0.20616567 -4.485519
+251     82.03   2.7600099 -1.237874356 -2.9064443 0.20616567 -4.485519
+252    104.22   2.8213789 -1.078809661 -2.6081965 0.15273292 -4.487261
+253        NA   3.0540012 -0.673344553 -2.6081965 0.15273292 -4.487261
+254        NA   2.8903718 -1.108662625 -2.6081965 0.15273292 -4.487261
+256     83.28   3.0252911 -0.916290732 -2.6081965 0.15273292 -4.487261
+257    152.86          NA           NA -2.6081965 0.15273292 -4.487261
+258     93.87   3.2228678 -0.941608540 -2.6081965 0.15273292 -4.487261
+259     92.86   3.2695689 -1.347073648 -2.6081965 0.15273292 -4.487261
+260        NA   3.0106209 -1.078809661 -2.6081965 0.15273292 -4.487261
+261    113.04   3.0106209 -1.078809661 -2.6081965 0.15273292 -4.487261
+263    164.73          NA           NA -2.5903367 0.14899805 -4.494159
+264        NA   2.4510051 -1.171182982 -2.5903367 0.14899805 -4.494159
+265        NA   2.4423470 -0.127833372 -2.5903367 0.14899805 -4.494159
+266     96.24   2.2823824 -1.514127733 -2.5903367 0.14899805 -4.494159
+267    104.70   2.5416020 -1.237874356 -2.5903367 0.14899805 -4.494159
+268     97.49   2.6461748 -1.021651248 -2.5903367 0.14899805 -4.494159
+269        NA   2.2823824 -1.078809661 -2.5903367 0.14899805 -4.494159
+270     91.95   2.7911651 -1.237874356 -2.5903367 0.14899805 -4.494159
+271    110.14   2.4510051 -1.171182982 -2.5903367 0.14899805 -4.494159
+272    100.00   3.5174978 -0.527632742 -2.0944336 0.19984221 -3.704661
+273     98.85   3.6609943 -0.400477567 -2.0944336 0.19984221 -3.704661
+274     92.15   3.9019727 -0.174353387 -2.0944336 0.19984221 -3.704661
+275     86.47   3.4843123 -0.562118918 -2.0944336 0.19984221 -3.704661
+276    133.02          NA           NA -2.0944336 0.19984221 -3.704661
+277        NA   3.4078419 -0.446287103 -2.0944336 0.19984221 -3.704661
+278        NA   3.4372078 -0.342490309 -2.0944336 0.19984221 -3.704661
+280        NA   3.6323091 -0.162518929 -2.0944336 0.19984221 -3.704661
+281    107.57   3.4078419 -0.446287103 -2.0944336 0.19984221 -3.704661
+282        NA   3.4499875 -0.385662481 -1.6439626 0.10705770 -3.878350
+284        NA   3.3741687 -0.248461359 -1.6439626 0.10705770 -3.878350
+285     96.38   3.2733640 -0.400477567 -1.6439626 0.10705770 -3.878350
+286     94.92   3.3286267 -0.400477567 -1.6439626 0.10705770 -3.878350
+287    134.75          NA           NA -1.6439626 0.10705770 -3.878350
+288        NA   3.3877744 -0.105360516 -1.6439626 0.10705770 -3.878350
+289     92.53   3.6813512 -0.301105093 -1.6439626 0.10705770 -3.878350
+290    140.42   3.3741687 -0.248461359 -1.6439626 0.10705770 -3.878350
+291    100.00   3.4307562 -0.198450939 -1.6439626 0.10705770 -3.878350
+293        NA   3.5263605 -0.385662481 -2.1715575 0.21193808 -3.723019
+294    113.27   3.5467397 -0.430782916 -2.1715575 0.21193808 -3.723019
+295    160.75          NA           NA -2.1715575 0.21193808 -3.723019
+296     95.02   4.1541846 -0.127833372 -2.1715575 0.21193808 -3.723019
+297        NA   3.8649314 -0.020202707 -2.1715575 0.21193808 -3.723019
+298     97.18   3.4339872 -0.673344553 -2.1715575 0.21193808 -3.723019
+299        NA   3.6296601 -0.430782916 -2.1715575 0.21193808 -3.723019
+300    126.25   3.5263605 -0.385662481 -2.1715575 0.21193808 -3.723019
+301     96.34   3.8372995 -0.139262067 -2.1715575 0.21193808 -3.723019
+302     99.28   3.0955776 -0.733969175 -2.0030332 0.18423369 -3.694583
+303        NA   3.2386785 -0.634878272 -2.0030332 0.18423369 -3.694583
+304    104.28   3.4594663 -0.430782916 -2.0030332 0.18423369 -3.694583
+305    119.16   3.2386785 -0.634878272 -2.0030332 0.18423369 -3.694583
+306        NA   3.3178158 -0.673344553 -2.0030332 0.18423369 -3.694583
+307        NA   3.4339872 -0.094310679 -2.0030332 0.18423369 -3.694583
+308    102.07   3.1484534 -0.673344553 -2.0030332 0.18423369 -3.694583
+310     94.25   3.6712245 -0.478035801 -2.0030332 0.18423369 -3.694583
+311    158.67          NA           NA -2.0030332 0.18423369 -3.694583
 312        NA   3.7062281 -0.210721031 -1.5511331 0.13120470 -3.582130
 313        NA   3.6349511  0.019802627 -1.5511331 0.13120470 -3.582130
 314    100.75   3.6428355 -0.162518929 -1.5511331 0.13120470 -3.582130
@@ -1135,33 +1138,33 @@ only soil         0.048 0.283   0.004       0.278     0.084</code></pre>
 349     94.25   4.1447208 -0.198450939 -1.2757306 0.21076772 -2.832729
 350        NA   4.2556127  0.300104592 -1.2757306 0.21076772 -2.832729
 351     96.86   4.0360090  0.076961041 -1.2757306 0.21076772 -2.832729
-352     91.63   2.9856819 -1.272965676 -3.8181685 0.18211399 -5.521291
-353     86.01   2.5095993 -1.660731207 -3.8181685 0.18211399 -5.521291
-354     69.73   3.0301337 -1.272965676 -3.8181685 0.18211399 -5.521291
-355    164.56          NA           NA -3.8181685 0.18211399 -5.521291
-357        NA   2.7013612 -1.660731207 -3.8181685 0.18211399 -5.521291
-358    104.08   2.7212954 -1.237874356 -3.8181685 0.18211399 -5.521291
-359        NA   2.8094027 -1.272965676 -3.8181685 0.18211399 -5.521291
-360     80.08   2.6810215 -1.771956842 -3.8181685 0.18211399 -5.521291
-361        NA   2.9856819 -1.272965676 -3.8181685 0.18211399 -5.521291
-362     67.05   2.9177707 -1.609437912 -3.7414147 0.22288952 -5.242494
-363        NA   2.7408400 -1.609437912 -3.7414147 0.22288952 -5.242494
-364    153.73          NA           NA -3.7414147 0.22288952 -5.242494
-365     81.18   2.8213789 -1.832581464 -3.7414147 0.22288952 -5.242494
-367     61.28   3.0155349 -1.771956842 -3.7414147 0.22288952 -5.242494
-368        NA   2.9549103 -1.609437912 -3.7414147 0.22288952 -5.242494
-369        NA   2.5572273 -1.832581464 -3.7414147 0.22288952 -5.242494
-370     66.34   2.9549103 -1.609437912 -3.7414147 0.22288952 -5.242494
-371     94.25   2.9014216 -1.469675970 -3.7414147 0.22288952 -5.242494
-372     75.10   3.5263605 -1.108662625 -3.8931747 0.14517478 -5.822992
-373    166.64          NA           NA -3.8931747 0.14517478 -5.822992
-374        NA   3.6136170 -0.693147181 -3.8931747 0.14517478 -5.822992
-375        NA   3.4563167 -1.108662625 -3.8931747 0.14517478 -5.822992
-376        NA   3.2958369 -1.660731207 -3.8931747 0.14517478 -5.822992
-377    129.31   3.4563167 -1.108662625 -3.8931747 0.14517478 -5.822992
-378    110.97   3.6216707 -0.867500568 -3.8931747 0.14517478 -5.822992
-379     94.92   3.5234150 -1.347073648 -3.8931747 0.14517478 -5.822992
-381     98.91   3.3286267 -1.469675970 -3.8931747 0.14517478 -5.822992
+352     91.63   2.9856819 -1.272965676 -3.8181684 0.18211389 -5.521291
+353     86.01   2.5095993 -1.660731207 -3.8181684 0.18211389 -5.521291
+354     69.73   3.0301337 -1.272965676 -3.8181684 0.18211389 -5.521291
+355    164.56          NA           NA -3.8181684 0.18211389 -5.521291
+357        NA   2.7013612 -1.660731207 -3.8181684 0.18211389 -5.521291
+358    104.08   2.7212954 -1.237874356 -3.8181684 0.18211389 -5.521291
+359        NA   2.8094027 -1.272965676 -3.8181684 0.18211389 -5.521291
+360     80.08   2.6810215 -1.771956842 -3.8181684 0.18211389 -5.521291
+361        NA   2.9856819 -1.272965676 -3.8181684 0.18211389 -5.521291
+362     67.05   2.9177707 -1.609437912 -3.7414148 0.22288960 -5.242493
+363        NA   2.7408400 -1.609437912 -3.7414148 0.22288960 -5.242493
+364    153.73          NA           NA -3.7414148 0.22288960 -5.242493
+365     81.18   2.8213789 -1.832581464 -3.7414148 0.22288960 -5.242493
+367     61.28   3.0155349 -1.771956842 -3.7414148 0.22288960 -5.242493
+368        NA   2.9549103 -1.609437912 -3.7414148 0.22288960 -5.242493
+369        NA   2.5572273 -1.832581464 -3.7414148 0.22288960 -5.242493
+370     66.34   2.9549103 -1.609437912 -3.7414148 0.22288960 -5.242493
+371     94.25   2.9014216 -1.469675970 -3.7414148 0.22288960 -5.242493
+372     75.10   3.5263605 -1.108662625 -3.8931748 0.14517485 -5.822991
+373    166.64          NA           NA -3.8931748 0.14517485 -5.822991
+374        NA   3.6136170 -0.693147181 -3.8931748 0.14517485 -5.822991
+375        NA   3.4563167 -1.108662625 -3.8931748 0.14517485 -5.822991
+376        NA   3.2958369 -1.660731207 -3.8931748 0.14517485 -5.822991
+377    129.31   3.4563167 -1.108662625 -3.8931748 0.14517485 -5.822991
+378    110.97   3.6216707 -0.867500568 -3.8931748 0.14517485 -5.822991
+379     94.92   3.5234150 -1.347073648 -3.8931748 0.14517485 -5.822991
+381     98.91   3.3286267 -1.469675970 -3.8931748 0.14517485 -5.822991
 382     88.90   2.9014216 -1.469675970 -3.6735278 0.26166020 -5.014236
 384        NA   2.7663191 -1.469675970 -3.6735278 0.26166020 -5.014236
 385     65.52   2.9391619 -1.386294361 -3.6735278 0.26166020 -5.014236
@@ -1171,78 +1174,78 @@ only soil         0.048 0.283   0.004       0.278     0.084</code></pre>
 389     75.85   2.7663191 -1.469675970 -3.6735278 0.26166020 -5.014236
 390    165.68          NA           NA -3.6735278 0.26166020 -5.014236
 391     71.26   3.1696856 -1.272965676 -3.6735278 0.26166020 -5.014236
-392     86.78   4.1383614  0.067658648 -2.0697768 0.21782370 -3.593846
-393    153.64          NA           NA -2.0697768 0.21782370 -3.593846
-394    106.63   3.8501476 -0.478035801 -2.0697768 0.21782370 -3.593846
-395        NA   4.1141472  0.009950331 -2.0697768 0.21782370 -3.593846
-396        NA   4.0342406  0.190620360 -2.0697768 0.21782370 -3.593846
-397    135.27   4.1141472  0.009950331 -2.0697768 0.21782370 -3.593846
-399        NA   3.9759363 -0.446287103 -2.0697768 0.21782370 -3.593846
-400    100.10   3.9239516 -0.072570693 -2.0697768 0.21782370 -3.593846
-401    114.85   4.2253728 -0.235722334 -2.0697768 0.21782370 -3.593846
-402    105.43   3.9180051 -0.478035801 -2.3967665 0.21384349 -3.939277
-403    162.91          NA           NA -2.3967665 0.21384349 -3.939277
-404        NA   3.8351420 -0.693147181 -2.3967665 0.21384349 -3.939277
-405     97.89   4.2061840  0.173953307 -2.3967665 0.21384349 -3.939277
-406     99.69   3.9796817 -0.235722334 -2.3967665 0.21384349 -3.939277
-407    109.77   3.9376908 -0.579818495 -2.3967665 0.21384349 -3.939277
-408        NA   3.8774316 -0.072570693 -2.3967665 0.21384349 -3.939277
-410    145.25   3.9852735 -0.301105093 -2.3967665 0.21384349 -3.939277
-411        NA   3.9852735 -0.301105093 -2.3967665 0.21384349 -3.939277
-412     88.12   3.6686767 -0.634878272 -2.6575735 0.21147919 -4.211202
-413    129.95   3.5723456 -0.798507696 -2.6575735 0.21147919 -4.211202
-415     97.83   3.2228678 -1.272965676 -2.6575735 0.21147919 -4.211202
-416        NA   3.5695327 -1.171182982 -2.6575735 0.21147919 -4.211202
-417    108.05   3.3568971 -0.733969175 -2.6575735 0.21147919 -4.211202
-418        NA   3.2347492 -0.994252273 -2.6575735 0.21147919 -4.211202
-419    168.54          NA           NA -2.6575735 0.21147919 -4.211202
-420    108.65   3.5582011 -0.994252273 -2.6575735 0.21147919 -4.211202
-421        NA   3.5723456 -0.798507696 -2.6575735 0.21147919 -4.211202
-422        NA   3.7037681 -0.385662481 -2.6521244 0.21152273 -4.205547
-424        NA   3.6054978 -0.634878272 -2.6521244 0.21152273 -4.205547
-425    117.23   3.8066625 -0.356674944 -2.6521244 0.21152273 -4.205547
-426    110.24   3.8416005 -0.356674944 -2.6521244 0.21152273 -4.205547
-427    102.63   3.7013020 -0.634878272 -2.6521244 0.21152273 -4.205547
-428        NA   3.8066625 -0.356674944 -2.6521244 0.21152273 -4.205547
-429     81.61   4.2106450  0.418710335 -2.6521244 0.21152273 -4.205547
-430    168.54          NA           NA -2.6521244 0.21152273 -4.205547
-431    109.17   3.5582011 -0.579818495 -2.6521244 0.21152273 -4.205547
-432        NA   4.3832759  0.190620360 -1.4624073 0.18550740 -3.147068
-433     89.46   4.6288867  0.703097511 -1.4624073 0.18550740 -3.147068
-434        NA   4.3502779 -0.094310679 -1.4624073 0.18550740 -3.147068
-435    113.99   4.2499228 -0.174353387 -1.4624073 0.18550740 -3.147068
-436     98.22   4.3956830  0.438254931 -1.4624073 0.18550740 -3.147068
-437    131.88   4.3832759  0.190620360 -1.4624073 0.18550740 -3.147068
-438        NA   4.3254563  0.262364264 -1.4624073 0.18550740 -3.147068
-439    166.55          NA           NA -1.4624073 0.18550740 -3.147068
-441    106.02   4.3385971  0.076961041 -1.4624073 0.18550740 -3.147068
-442        NA   4.3770141  0.683096845 -1.2422076 0.13496530 -3.244945
-443     99.62   4.5358201  0.900161350 -1.2422076 0.13496530 -3.244945
-444    111.18   4.3081110  0.488580015 -1.2422076 0.13496530 -3.244945
-445    103.50   4.2282925  0.067658648 -1.2422076 0.13496530 -3.244945
-446    177.90          NA           NA -1.2422076 0.13496530 -3.244945
-447        NA   4.3515674  0.451075619 -1.2422076 0.13496530 -3.244945
-448    143.00   4.3515674  0.451075619 -1.2422076 0.13496530 -3.244945
-450    113.35   4.5174313  0.678033543 -1.2422076 0.13496530 -3.244945
-451        NA   4.4601444  0.357674444 -1.2422076 0.13496530 -3.244945
-452        NA   4.2668963  0.165514438 -1.5757798 0.20749743 -3.148416
-453    134.86   4.1972019 -0.105360516 -1.5757798 0.20749743 -3.148416
-454        NA   4.2456340  0.254642218 -1.5757798 0.20749743 -3.148416
-455        NA   4.3294167  0.703097511 -1.5757798 0.20749743 -3.148416
-456     89.85   4.3993753  0.963174318 -1.5757798 0.20749743 -3.148416
-458    132.21   4.2456340  0.254642218 -1.5757798 0.20749743 -3.148416
-459    114.85   4.2668963  0.113328685 -1.5757798 0.20749743 -3.148416
-460    163.00          NA           NA -1.5757798 0.20749743 -3.148416
-461     92.89   4.1287460  0.076961041 -1.5757798 0.20749743 -3.148416
-462    125.60   3.9702919  0.425267735 -2.1617951 0.28873132 -3.404054
-463        NA   3.7376696 -0.274436846 -2.1617951 0.28873132 -3.404054
-464        NA   3.9702919  0.425267735 -2.1617951 0.28873132 -3.404054
-465    110.14   4.0758411  0.717839793 -2.1617951 0.28873132 -3.404054
-466    128.47   3.9039908  0.398776120 -2.1617951 0.28873132 -3.404054
-467    107.89   4.0656021  0.536493371 -2.1617951 0.28873132 -3.404054
-469    177.56          NA           NA -2.1617951 0.28873132 -3.404054
-470        NA   3.9473901  0.542324291 -2.1617951 0.28873132 -3.404054
-471     81.03   4.1972019  0.457424847 -2.1617951 0.28873132 -3.404054
+392     86.78   4.1383614  0.067658648 -2.0697757 0.21782136 -3.593856
+393    153.64          NA           NA -2.0697757 0.21782136 -3.593856
+394    106.63   3.8501476 -0.478035801 -2.0697757 0.21782136 -3.593856
+395        NA   4.1141472  0.009950331 -2.0697757 0.21782136 -3.593856
+396        NA   4.0342406  0.190620360 -2.0697757 0.21782136 -3.593856
+397    135.27   4.1141472  0.009950331 -2.0697757 0.21782136 -3.593856
+399        NA   3.9759363 -0.446287103 -2.0697757 0.21782136 -3.593856
+400    100.10   3.9239516 -0.072570693 -2.0697757 0.21782136 -3.593856
+401    114.85   4.2253728 -0.235722334 -2.0697757 0.21782136 -3.593856
+402    105.43   3.9180051 -0.478035801 -2.3967671 0.21384457 -3.939273
+403    162.91          NA           NA -2.3967671 0.21384457 -3.939273
+404        NA   3.8351420 -0.693147181 -2.3967671 0.21384457 -3.939273
+405     97.89   4.2061840  0.173953307 -2.3967671 0.21384457 -3.939273
+406     99.69   3.9796817 -0.235722334 -2.3967671 0.21384457 -3.939273
+407    109.77   3.9376908 -0.579818495 -2.3967671 0.21384457 -3.939273
+408        NA   3.8774316 -0.072570693 -2.3967671 0.21384457 -3.939273
+410    145.25   3.9852735 -0.301105093 -2.3967671 0.21384457 -3.939273
+411        NA   3.9852735 -0.301105093 -2.3967671 0.21384457 -3.939273
+412     88.12   3.6686767 -0.634878272 -2.6575750 0.21148191 -4.211191
+413    129.95   3.5723456 -0.798507696 -2.6575750 0.21148191 -4.211191
+415     97.83   3.2228678 -1.272965676 -2.6575750 0.21148191 -4.211191
+416        NA   3.5695327 -1.171182982 -2.6575750 0.21148191 -4.211191
+417    108.05   3.3568971 -0.733969175 -2.6575750 0.21148191 -4.211191
+418        NA   3.2347492 -0.994252273 -2.6575750 0.21148191 -4.211191
+419    168.54          NA           NA -2.6575750 0.21148191 -4.211191
+420    108.65   3.5582011 -0.994252273 -2.6575750 0.21148191 -4.211191
+421        NA   3.5723456 -0.798507696 -2.6575750 0.21148191 -4.211191
+422        NA   3.7037681 -0.385662481 -2.6521259 0.21152545 -4.205536
+424        NA   3.6054978 -0.634878272 -2.6521259 0.21152545 -4.205536
+425    117.23   3.8066625 -0.356674944 -2.6521259 0.21152545 -4.205536
+426    110.24   3.8416005 -0.356674944 -2.6521259 0.21152545 -4.205536
+427    102.63   3.7013020 -0.634878272 -2.6521259 0.21152545 -4.205536
+428        NA   3.8066625 -0.356674944 -2.6521259 0.21152545 -4.205536
+429     81.61   4.2106450  0.418710335 -2.6521259 0.21152545 -4.205536
+430    168.54          NA           NA -2.6521259 0.21152545 -4.205536
+431    109.17   3.5582011 -0.579818495 -2.6521259 0.21152545 -4.205536
+432        NA   4.3832759  0.190620360 -1.4624071 0.18550703 -3.147070
+433     89.46   4.6288867  0.703097511 -1.4624071 0.18550703 -3.147070
+434        NA   4.3502779 -0.094310679 -1.4624071 0.18550703 -3.147070
+435    113.99   4.2499228 -0.174353387 -1.4624071 0.18550703 -3.147070
+436     98.22   4.3956830  0.438254931 -1.4624071 0.18550703 -3.147070
+437    131.88   4.3832759  0.190620360 -1.4624071 0.18550703 -3.147070
+438        NA   4.3254563  0.262364264 -1.4624071 0.18550703 -3.147070
+439    166.55          NA           NA -1.4624071 0.18550703 -3.147070
+441    106.02   4.3385971  0.076961041 -1.4624071 0.18550703 -3.147070
+442        NA   4.3770141  0.683096845 -1.2422070 0.13496493 -3.244947
+443     99.62   4.5358201  0.900161350 -1.2422070 0.13496493 -3.244947
+444    111.18   4.3081110  0.488580015 -1.2422070 0.13496493 -3.244947
+445    103.50   4.2282925  0.067658648 -1.2422070 0.13496493 -3.244947
+446    177.90          NA           NA -1.2422070 0.13496493 -3.244947
+447        NA   4.3515674  0.451075619 -1.2422070 0.13496493 -3.244947
+448    143.00   4.3515674  0.451075619 -1.2422070 0.13496493 -3.244947
+450    113.35   4.5174313  0.678033543 -1.2422070 0.13496493 -3.244947
+451        NA   4.4601444  0.357674444 -1.2422070 0.13496493 -3.244947
+452        NA   4.2668963  0.165514438 -1.5757799 0.20749777 -3.148415
+453    134.86   4.1972019 -0.105360516 -1.5757799 0.20749777 -3.148415
+454        NA   4.2456340  0.254642218 -1.5757799 0.20749777 -3.148415
+455        NA   4.3294167  0.703097511 -1.5757799 0.20749777 -3.148415
+456     89.85   4.3993753  0.963174318 -1.5757799 0.20749777 -3.148415
+458    132.21   4.2456340  0.254642218 -1.5757799 0.20749777 -3.148415
+459    114.85   4.2668963  0.113328685 -1.5757799 0.20749777 -3.148415
+460    163.00          NA           NA -1.5757799 0.20749777 -3.148415
+461     92.89   4.1287460  0.076961041 -1.5757799 0.20749777 -3.148415
+462    125.60   3.9702919  0.425267735 -2.1617962 0.28873304 -3.404049
+463        NA   3.7376696 -0.274436846 -2.1617962 0.28873304 -3.404049
+464        NA   3.9702919  0.425267735 -2.1617962 0.28873304 -3.404049
+465    110.14   4.0758411  0.717839793 -2.1617962 0.28873304 -3.404049
+466    128.47   3.9039908  0.398776120 -2.1617962 0.28873304 -3.404049
+467    107.89   4.0656021  0.536493371 -2.1617962 0.28873304 -3.404049
+469    177.56          NA           NA -2.1617962 0.28873304 -3.404049
+470        NA   3.9473901  0.542324291 -2.1617962 0.28873304 -3.404049
+471     81.03   4.1972019  0.457424847 -2.1617962 0.28873304 -3.404049
     anavg_temp ansum_prec juvdev_prec juvdev_sun ansum_sun juvdev_temp
 25        11.3      725.8       -0.38       0.42    2019.7        1.00
 26        10.1     1035.6        0.23       0.22    1960.0        1.37
