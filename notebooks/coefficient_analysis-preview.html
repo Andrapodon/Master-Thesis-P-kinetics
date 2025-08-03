@@ -177,7 +177,7 @@
     <div id="quarto-embed-header" class="headroom fixed-top bg-primary">
       
       <a onclick="window.quartoBackToArticle(); return false;" class="btn btn-primary quarto-back-link" href=""><i class="bi bi-caret-left"></i> Back to Article</a>
-      <h6><i class="bi bi-journal-code"></i> coefficient_analysis</h6>
+      <h6><i class="bi bi-journal-code"></i> Coefficient Analysis</h6>
 
             <a href="../notebooks/coefficient_analysis.qmd" class="btn btn-primary quarto-download-embed" download="coefficient_analysis.qmd">Download Source</a>
           </div>
@@ -482,15 +482,15 @@ Attaching package: 'lmerTest'</code></pre>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>           R2m       R2c
-[1,] 0.6664917 0.9116984</code></pre>
+[1,] 0.6664871 0.9116983</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">r.squaredGLMM</span>(fit.soil.kPS2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>           R2m      R2c
-[1,] 0.6776745 0.832698</code></pre>
+<pre><code>           R2m       R2c
+[1,] 0.6776729 0.8326996</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -512,7 +512,7 @@ Attaching package: 'lmerTest'</code></pre>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>           R2m       R2c
-[1,] 0.1734327 0.3638402</code></pre>
+[1,] 0.1734324 0.3638395</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -527,7 +527,7 @@ Attaching package: 'lmerTest'</code></pre>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>           R2m       R2c
-[1,] 0.1937778 0.4092852</code></pre>
+[1,] 0.1937772 0.4092842</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -536,7 +536,7 @@ Attaching package: 'lmerTest'</code></pre>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>           R2m       R2c
-[1,] 0.1853823 0.2721607</code></pre>
+[1,] 0.1853821 0.2721605</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -550,8 +550,8 @@ Attaching package: 'lmerTest'</code></pre>
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">r.squaredGLMM</span>(fit.kin.Ynorm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>           R2m      R2c
-[1,] 0.2248433 0.337481</code></pre>
+<pre><code>           R2m       R2c
+[1,] 0.2248431 0.3374811</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -560,7 +560,7 @@ Attaching package: 'lmerTest'</code></pre>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>            R2m       R2c
-[1,] 0.05523889 0.4422677</code></pre>
+[1,] 0.05523853 0.4422679</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -589,10 +589,10 @@ Number of obs: 124, groups:  Site:block, 20; year, 7; Site, 5
 
 Fixed effects:
             Estimate Std. Error      df t value Pr(&gt;|t|)
-(Intercept)   0.1714     0.5807 12.5177   0.295    0.773
-k             4.3065     3.1484 11.9463   1.368    0.197
-log(PS)      -0.2232     0.1706 11.9312  -1.308    0.215
-k:log(PS)     1.4286     0.9233 11.6631   1.547    0.148
+(Intercept)   0.1714     0.5807 12.5176   0.295    0.773
+k             4.3065     3.1484 11.9462   1.368    0.197
+log(PS)      -0.2232     0.1706 11.9311  -1.308    0.215
+k:log(PS)     1.4286     0.9232 11.6630   1.547    0.148
 
 Correlation of Fixed Effects:
           (Intr) k      lg(PS)
@@ -612,8 +612,8 @@ k:log(PS) -0.940  0.992 -0.952</code></pre>
 <div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">r.squaredGLMM</span>(fit.kin.Ynorm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>            R2m       R2c
-[1,] 0.02053191 0.0423568</code></pre>
+<pre><code>            R2m        R2c
+[1,] 0.02053217 0.04235675</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -628,7 +628,7 @@ k:log(PS) -0.940  0.992 -0.952</code></pre>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>            R2m        R2c
-[1,] 0.02400614 0.04232671</code></pre>
+[1,] 0.02400558 0.04232541</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -671,7 +671,7 @@ k:log(PS) -0.940  0.992 -0.952</code></pre>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>           R2m       R2c
-[1,] 0.1937778 0.4092852</code></pre>
+[1,] 0.1937772 0.4092842</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -698,11 +698,11 @@ k:log(PS) -0.940  0.992 -0.952</code></pre>
 consider setting type = 'predictor'; see ?vif</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>              GVIF Df GVIF^(1/(2*Df))
-k         11.43420  1        3.381450
-log(PS)   14.55513  1        3.815118
-crop       1.01641  5        1.001629
-k:log(PS) 30.88727  1        5.557632</code></pre>
+<pre><code>               GVIF Df GVIF^(1/(2*Df))
+k         11.434343  1        3.381470
+log(PS)   14.555150  1        3.815121
+crop       1.016411  5        1.001629
+k:log(PS) 30.887611  1        5.557662</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -714,10 +714,10 @@ consider setting type = 'predictor'; see ?vif</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                            GVIF Df GVIF^(1/(2*Df))
-scale(k)                1.106317  1        1.051816
-scale(log(PS))          1.086059  1        1.042142
-crop                    1.016410  5        1.001629
-scale(k):scale(log(PS)) 1.043726  1        1.021629</code></pre>
+scale(k)                1.106322  1        1.051818
+scale(log(PS))          1.086062  1        1.042143
+crop                    1.016411  5        1.001629
+scale(k):scale(log(PS)) 1.043725  1        1.021629</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -725,9 +725,9 @@ scale(k):scale(log(PS)) 1.043726  1        1.021629</code></pre>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>            GVIF Df GVIF^(1/(2*Df))
-k       1.086746  1        1.042471
-log(PS) 1.070785  1        1.034788
-crop    1.015879  5        1.001577</code></pre>
+k       1.086751  1        1.042474
+log(PS) 1.070789  1        1.034789
+crop    1.015881  5        1.001577</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -735,10 +735,10 @@ crop    1.015879  5        1.001577</code></pre>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>                GVIF Df GVIF^(1/(2*Df))
-I(k * (PS)) 4.537914  1        2.130238
-k           1.729842  1        1.315235
-log(PS)     4.747277  1        2.178825
-crop        1.016587  5        1.001646</code></pre>
+I(k * (PS)) 4.537957  1        2.130248
+k           1.729862  1        1.315242
+log(PS)     4.747342  1        2.178840
+crop        1.016589  5        1.001647</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -768,7 +768,7 @@ crop        1.016587  5        1.001646</code></pre>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>           R2m       R2c
-[1,] 0.1937778 0.4092852</code></pre>
+[1,] 0.1937772 0.4092842</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -777,11 +777,11 @@ crop        1.016587  5        1.001646</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>Type III Analysis of Variance Table with Satterthwaite's method
                   Sum Sq Mean Sq NumDF  DenDF  F value    Pr(&gt;F)    
-soil_0_20_clay    0.0318  0.0318     1 54.342   0.9102 0.3442908    
-soil_0_20_pH_H2O  0.0001  0.0001     1 68.930   0.0021 0.9632822    
-soil_0_20_Corg    0.4840  0.4840     1 51.669  13.8423 0.0004912 ***
-soil_0_20_silt    0.0626  0.0626     1 42.764   1.7917 0.1877982    
-Treatment        12.2276  6.1138     2  5.725 174.8698 7.365e-06 ***
+soil_0_20_clay    0.0318  0.0318     1 54.343   0.9102 0.3442927    
+soil_0_20_pH_H2O  0.0001  0.0001     1 68.930   0.0021 0.9632251    
+soil_0_20_Corg    0.4840  0.4840     1 51.669  13.8424 0.0004912 ***
+soil_0_20_silt    0.0626  0.0626     1 42.764   1.7917 0.1877930    
+Treatment        12.2276  6.1138     2  5.725 174.8687 7.366e-06 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
@@ -794,11 +794,11 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>Type III Analysis of Variance Table with Satterthwaite's method
                     Sum Sq   Mean Sq NumDF  DenDF F value   Pr(&gt;F)   
-soil_0_20_clay   0.0043240 0.0043240     1 57.973  3.3995 0.070330 . 
-soil_0_20_pH_H2O 0.0121175 0.0121175     1 53.729  9.5267 0.003199 **
-soil_0_20_Corg   0.0000089 0.0000089     1 64.624  0.0070 0.933685   
-soil_0_20_silt   0.0103641 0.0103641     1 40.871  8.1482 0.006740 **
-Treatment        0.0069490 0.0034745     2  5.946  2.7316 0.144064   
+soil_0_20_clay   0.0043239 0.0043239     1 57.972  3.3993 0.070335 . 
+soil_0_20_pH_H2O 0.0121181 0.0121181     1 53.727  9.5270 0.003199 **
+soil_0_20_Corg   0.0000089 0.0000089     1 64.623  0.0070 0.933715   
+soil_0_20_silt   0.0103643 0.0103643     1 40.870  8.1482 0.006740 **
+Treatment        0.0069498 0.0034749     2  5.946  2.7319 0.144045   
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
@@ -816,13 +816,13 @@ Fit: lmer(formula = k ~ soil_0_20_clay + soil_0_20_pH_H2O + soil_0_20_Corg +
 
 Linear Hypotheses:
                        Estimate Std. Error z value Pr(&gt;|z|)  
-(Intercept) == 0      -0.158512   0.136980  -1.157   0.7908  
-soil_0_20_clay == 0   -0.004008   0.002174  -1.844   0.3216  
-soil_0_20_pH_H2O == 0  0.034829   0.011284   3.087   0.0131 *
-soil_0_20_Corg == 0   -0.002607   0.031212  -0.084   1.0000  
-soil_0_20_silt == 0    0.007312   0.002562   2.855   0.0268 *
-TreatmentP100 == 0     0.002003   0.015606   0.128   1.0000  
-TreatmentP166 == 0    -0.030975   0.015845  -1.955   0.2611  
+(Intercept) == 0      -0.158519   0.136979  -1.157   0.7900  
+soil_0_20_clay == 0   -0.004008   0.002174  -1.844   0.3224  
+soil_0_20_pH_H2O == 0  0.034830   0.011284   3.087   0.0125 *
+soil_0_20_Corg == 0   -0.002606   0.031212  -0.083   1.0000  
+soil_0_20_silt == 0    0.007312   0.002562   2.855   0.0277 *
+TreatmentP100 == 0     0.002002   0.015606   0.128   1.0000  
+TreatmentP166 == 0    -0.030976   0.015845  -1.955   0.2606  
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
@@ -834,11 +834,11 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 <div class="cell-output cell-output-stdout">
 <pre><code>Type III Analysis of Variance Table with Satterthwaite's method
                  Sum Sq Mean Sq NumDF  DenDF F value    Pr(&gt;F)    
-soil_0_20_clay   0.0085 0.00848     1 51.699  0.1306 0.7193120    
-soil_0_20_pH_H2O 0.2262 0.22623     1 73.657  3.4844 0.0659284 .  
-soil_0_20_Corg   0.0531 0.05309     1 71.350  0.8177 0.3688902    
-soil_0_20_silt   0.0211 0.02110     1 43.481  0.3250 0.5715324    
-Treatment        5.0624 2.53120     2  5.744 38.9865 0.0004552 ***
+soil_0_20_clay   0.0085 0.00848     1 51.699  0.1306 0.7192943    
+soil_0_20_pH_H2O 0.2262 0.22623     1 73.657  3.4845 0.0659256 .  
+soil_0_20_Corg   0.0531 0.05309     1 71.350  0.8177 0.3688953    
+soil_0_20_silt   0.0211 0.02110     1 43.481  0.3250 0.5715438    
+Treatment        5.0626 2.53130     2  5.744 38.9880 0.0004551 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
@@ -856,13 +856,13 @@ Fit: lmer(formula = I(log(k * PS)) ~ soil_0_20_clay + soil_0_20_pH_H2O +
 
 Linear Hypotheses:
                        Estimate Std. Error z value Pr(&gt;|z|)    
-(Intercept) == 0      -6.881464   1.213935  -5.669    &lt;0.01 ***
+(Intercept) == 0      -6.881452   1.213944  -5.669   &lt;0.001 ***
 soil_0_20_clay == 0   -0.006725   0.018610  -0.361    0.999    
-soil_0_20_pH_H2O == 0  0.174034   0.093233   1.867    0.319    
-soil_0_20_Corg == 0    0.216250   0.239141   0.904    0.926    
-soil_0_20_silt == 0    0.013126   0.023023   0.570    0.992    
-TreatmentP100 == 0     1.055686   0.186476   5.661    &lt;0.01 ***
-TreatmentP166 == 0     1.633402   0.187678   8.703    &lt;0.01 ***
+soil_0_20_pH_H2O == 0  0.174037   0.093233   1.867    0.317    
+soil_0_20_Corg == 0    0.216249   0.239142   0.904    0.926    
+soil_0_20_silt == 0    0.013125   0.023023   0.570    0.992    
+TreatmentP100 == 0     1.055684   0.186471   5.661   &lt;0.001 ***
+TreatmentP166 == 0     1.633397   0.187674   8.703   &lt;0.001 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
@@ -874,9 +874,9 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 <div class="cell-output cell-output-stdout">
 <pre><code>Type III Analysis of Variance Table with Satterthwaite's method
           Sum Sq Mean Sq NumDF  DenDF F value Pr(&gt;F)
-k         390.52  390.52     1 258.28  1.2552 0.2636
-log(PS)    20.80   20.80     1 258.61  0.0669 0.7962
-k:log(PS) 525.27  525.27     1 258.66  1.6884 0.1950</code></pre>
+k         390.42  390.42     1 258.28  1.2549 0.2637
+log(PS)    20.82   20.82     1 258.61  0.0669 0.7961
+k:log(PS) 525.19  525.19     1 258.66  1.6881 0.1950</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -885,9 +885,9 @@ k:log(PS) 525.27  525.27     1 258.66  1.6884 0.1950</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>Type III Analysis of Variance Table with Satterthwaite's method
             Sum Sq  Mean Sq NumDF  DenDF F value   Pr(&gt;F)   
-k         0.097429 0.097429     1 231.57  6.1632 0.013754 * 
-log(PS)   0.004736 0.004736     1 231.33  0.2996 0.584652   
-k:log(PS) 0.139250 0.139250     1 230.91  8.8087 0.003314 **
+k         0.097429 0.097429     1 231.57  6.1631 0.013754 * 
+log(PS)   0.004736 0.004736     1 231.33  0.2996 0.584661   
+k:log(PS) 0.139249 0.139249     1 230.91  8.8086 0.003314 **
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
@@ -898,9 +898,9 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>Type III Analysis of Variance Table with Satterthwaite's method
           Sum Sq Mean Sq NumDF  DenDF F value Pr(&gt;F)
-k         45.679  45.679     1 294.59  0.5848 0.4450
-log(PS)   84.862  84.862     1 295.00  1.0865 0.2981
-k:log(PS) 50.317  50.317     1 295.03  0.6442 0.4228</code></pre>
+k         45.672  45.672     1 294.59  0.5847 0.4451
+log(PS)   84.870  84.870     1 295.00  1.0866 0.2981
+k:log(PS) 50.311  50.311     1 295.03  0.6441 0.4229</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -940,7 +940,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <pre><code>Type III Analysis of Variance Table with Satterthwaite's method
           Sum Sq Mean Sq NumDF  DenDF F value    Pr(&gt;F)    
 k          124.7   124.7     1 275.62  0.6004    0.4391    
-log(PS)   4906.6  4906.6     1 285.15 23.6269 1.934e-06 ***
+log(PS)   4906.5  4906.5     1 285.15 23.6264 1.935e-06 ***
 k:log(PS)  120.8   120.8     1 280.10  0.5819    0.4462    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
@@ -960,22 +960,22 @@ REML criterion at convergence: 2719.8
 
 Scaled residuals: 
     Min      1Q  Median      3Q     Max 
--4.3960 -0.5775  0.0036  0.5915  2.8875 
+-4.3960 -0.5775  0.0036  0.5915  2.8874 
 
 Random effects:
  Groups     Name        Variance Std.Dev.
  Site:block (Intercept)  27.20    5.216  
  year       (Intercept)  54.22    7.363  
- Site       (Intercept) 127.51   11.292  
+ Site       (Intercept) 127.50   11.292  
  Residual               207.67   14.411  
 Number of obs: 330, groups:  Site:block, 20; year, 7; Site, 5
 
 Fixed effects:
             Estimate Std. Error      df t value Pr(&gt;|t|)    
-(Intercept)   59.224     11.538  62.389   5.133 3.02e-06 ***
-k             42.434     54.765 275.617   0.775    0.439    
-log(PS)       21.578      4.439 285.150   4.861 1.93e-06 ***
-k:log(PS)     17.932     23.508 280.102   0.763    0.446    
+(Intercept)   59.223     11.538  62.390   5.133 3.02e-06 ***
+k             42.436     54.765 275.615   0.775    0.439    
+log(PS)       21.577      4.439 285.149   4.861 1.93e-06 ***
+k:log(PS)     17.933     23.508 280.101   0.763    0.446    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -991,23 +991,23 @@ k:log(PS) -0.792  0.941 -0.970</code></pre>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>           R2m       R2c
-[1,] 0.4896363 0.7455873</code></pre>
+[1,] 0.4896394 0.7455866</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb114"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb114-1"><a href="#cb114-1" aria-hidden="true" tabindex="-1"></a>fit.kin.Puptake <span class="sc">|&gt;</span> <span class="fu">r.squaredGLMM</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>            R2m      R2c
-[1,] 0.04012941 0.775856</code></pre>
+<pre><code>            R2m       R2c
+[1,] 0.04012948 0.7758557</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb116"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb116-1"><a href="#cb116-1" aria-hidden="true" tabindex="-1"></a>fit.kin.Yrel <span class="sc">|&gt;</span> <span class="fu">r.squaredGLMM</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>            R2m       R2c
-[1,] 0.02909624 0.7995883</code></pre>
+<pre><code>           R2m       R2c
+[1,] 0.0290964 0.7995884</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -1015,7 +1015,7 @@ k:log(PS) -0.792  0.941 -0.970</code></pre>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>           R2m       R2c
-[1,] 0.1937778 0.4092852</code></pre>
+[1,] 0.1937772 0.4092842</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -1061,7 +1061,7 @@ Fit: lm(formula = log(PS) ~ log(soil_0_20_P_CO2) + log(soil_0_20_P_AAE10),
 
 Linear Hypotheses:
                             Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept) == 0            -1.62461    0.23590  -6.887   &lt;1e-05 ***
+(Intercept) == 0            -1.62462    0.23590  -6.887   &lt;1e-05 ***
 log(soil_0_20_P_CO2) == 0    1.03597    0.06088  17.017   &lt;1e-05 ***
 log(soil_0_20_P_AAE10) == 0 -0.01187    0.06067  -0.196    0.966    
 ---
@@ -1081,9 +1081,9 @@ Fit: lm(formula = k ~ log(soil_0_20_P_CO2) + log(soil_0_20_P_AAE10),
 
 Linear Hypotheses:
                              Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept) == 0             0.101005   0.029593   3.413  0.00107 ** 
+(Intercept) == 0             0.101007   0.029593   3.413  0.00126 ** 
 log(soil_0_20_P_CO2) == 0   -0.027290   0.007637  -3.573  &lt; 0.001 ***
-log(soil_0_20_P_AAE10) == 0  0.021790   0.007612   2.863  0.00733 ** 
+log(soil_0_20_P_AAE10) == 0  0.021789   0.007612   2.863  0.00739 ** 
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
@@ -1101,9 +1101,9 @@ Fit: lm(formula = I(log(k * PS)) ~ log(soil_0_20_P_CO2) + log(soil_0_20_P_AAE10)
 
 Linear Hypotheses:
                             Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept) == 0            -3.67500    0.24189 -15.193   &lt;0.001 ***
-log(soil_0_20_P_CO2) == 0    0.91105    0.06243  14.594   &lt;0.001 ***
-log(soil_0_20_P_AAE10) == 0  0.06770    0.06222   1.088    0.391    
+(Intercept) == 0            -3.67498    0.24189 -15.193   &lt;0.001 ***
+log(soil_0_20_P_CO2) == 0    0.91106    0.06243  14.594   &lt;0.001 ***
+log(soil_0_20_P_AAE10) == 0  0.06769    0.06222   1.088    0.391    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
@@ -1419,7 +1419,7 @@ boundary (singular) fit: see help('isSingular')</code></pre>
 <td style="text-align: right;">0.049</td>
 <td style="text-align: right;">-1.092</td>
 <td style="text-align: right;">-0.043</td>
-<td style="text-align: right;">***124.093</td>
+<td style="text-align: right;">***124.095</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">k</td>
@@ -1430,7 +1430,7 @@ boundary (singular) fit: see help('isSingular')</code></pre>
 <td style="text-align: right;"></td>
 <td style="text-align: right;"></td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">72.776</td>
+<td style="text-align: right;">72.766</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">k:log(PS)</td>
@@ -1441,7 +1441,7 @@ boundary (singular) fit: see help('isSingular')</code></pre>
 <td style="text-align: right;"></td>
 <td style="text-align: right;"></td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">36.005</td>
+<td style="text-align: right;">36.002</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">log(PS)</td>
@@ -1452,7 +1452,7 @@ boundary (singular) fit: see help('isSingular')</code></pre>
 <td style="text-align: right;"></td>
 <td style="text-align: right;"></td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">1.354</td>
+<td style="text-align: right;">1.355</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">soil_0_20_clay</td>

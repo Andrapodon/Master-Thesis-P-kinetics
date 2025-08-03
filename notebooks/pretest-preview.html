@@ -177,7 +177,7 @@
     <div id="quarto-embed-header" class="headroom fixed-top bg-primary">
       
       <a onclick="window.quartoBackToArticle(); return false;" class="btn btn-primary quarto-back-link" href=""><i class="bi bi-caret-left"></i> Back to Article</a>
-      <h6><i class="bi bi-journal-code"></i> pretest</h6>
+      <h6><i class="bi bi-journal-code"></i> Model Setup</h6>
 
             <a href="../notebooks/pretest.qmd" class="btn btn-primary quarto-download-embed" download="pretest.qmd">Download Source</a>
           </div>
@@ -773,9 +773,9 @@ Fit: lm(formula = log(PS) ~ Treatment + Site, data = nlme.coef)
 
 Linear Hypotheses:
                  Estimate Std. Error t value Pr(&gt;|t|)    
-P100 - P0 == 0    0.91948    0.09447   9.733   &lt;1e-09 ***
-P166 - P0 == 0    1.68127    0.09580  17.550   &lt;1e-09 ***
-P166 - P100 == 0  0.76179    0.09580   7.952   &lt;1e-09 ***
+P100 - P0 == 0    0.91948    0.09447   9.733   &lt;1e-10 ***
+P166 - P0 == 0    1.68127    0.09580  17.550   &lt;1e-10 ***
+P166 - P100 == 0  0.76179    0.09580   7.952   &lt;1e-10 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
@@ -846,9 +846,9 @@ Fit: lm(formula = I(log(k * PS)) ~ Treatment + Site, data = nlme.coef)
 
 Linear Hypotheses:
                  Estimate Std. Error t value Pr(&gt;|t|)    
-P100 - P0 == 0     0.9127     0.1278   7.140   &lt;1e-04 ***
-P166 - P0 == 0     1.5035     0.1296  11.599   &lt;1e-04 ***
-P166 - P100 == 0   0.5908     0.1296   4.558   &lt;1e-04 ***
+P100 - P0 == 0     0.9127     0.1278   7.140  &lt; 1e-05 ***
+P166 - P0 == 0     1.5035     0.1296  11.599  &lt; 1e-05 ***
+P166 - P100 == 0   0.5908     0.1296   4.558 8.52e-05 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
