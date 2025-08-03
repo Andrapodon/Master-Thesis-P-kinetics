@@ -6,51 +6,147 @@ format:
     smaller: true
     scrollable: true
     embed-resources: true
-    theme: blood
+    theme: dracula
 ---
 
+```{r setup}
+#| include: false
+#| message: false
+#| warning: false
 
-## delete me
-```{r}
-plot(speed ~ dist, data = cars)
+
+suppressPackageStartupMessages({
+  library(multcomp)
+  library(car)
+  library(tidyr)
+  library(lme4)
+  library(ggplot2)
+  library(ggtext)
+  library(ggpmisc)
+  library(nlme)
+  library(latex2exp)
+  library(kableExtra)
+  library(broom)
+  library(dplyr)
+  library(MuMIn)
+})
+
+options(warn = -1)
+load("~/Documents/Master Thesis/Master-Thesis-P-kinetics/data/results_coefficient_analysis")
+
 ```
 
 ## Background
 
-- In my Internship I studied the current GRUD, particularly Mg, P and K 
-- Fertilizer requirement models imply $Y\sim STP + Clay$
-- Currently only stationery measurement of STP are considered
+-   In my Internship I studied the current GRUD, particularly Mg, P and K
+
+-   Fertilizer requirement models imply $Y\sim STP + Clay$ & $P-\text{Export}\sim STP + Clay$
+
+-   Currently only stationery measurement of STP are considered
+
+-   Could a desorption kinext-model better explain the soil status and yield data?
+
+    ![GRUD 2017](https://www.agroscope.admin.ch/agroscope/de/home/themen/pflanzenbau/ackerbau/Pflanzenernaehrung/grud/_jcr_content/par/columncontrols/items/0/column/image/image.imagespooler.jpg/1497864223201/2017-GRUD-duengung.jpg){fig-align="center"}
 
 ## Context
 
-- LTE STYCS, all Nutrients equal except P, which is in 6 Levels
-- 5 Sites regarded; Cadenazzo, Ellighausen, Rümlang-Altwi, Oensingen, Zürich-Reckenholz
+-   LTE STYCS, all treatment conditions equal except P-fertilization, which is in 6 Levels, 3 were considered($P0$,$P100$,$P166$)
+-   5 Sites regarded; Cadenazzo, Ellighausen, Rümlang-Altwi, Oensingen, Zürich-Reckenholz
 
+![](https://www.agroscope.admin.ch/agroscope/en/home/topics/environment-resources/monitoring-analytics/long-term-trials/stycs/_jcr_content/par/columncontrols/items/0/column/image/image.imagespooler.jpg/1617866324311/Feld-STYCS.jpg){fig-align="center"}
 
 ## Variable Introduction
 
 **Soil Variables:**
 
+-   $P-CO_2$ & $P-AAE10$ stand for the GRUD STP-measurements in \[$g~P/kg ~ Soil$\]
+-   $k$($s^{-1}$) can be interpreted as the relative speed of desorption of orthophosphate of the net-desorption experiment
+-   $PS$($mg~P/L~H_2O$) is the equilibrium concentration of $PO_4^{3-}$ of the net-desorption experiment
+-   From the 0-20cm Horizon: Clay-, Silt-,$C_{org}$-content and pH
+
+**Yield Variables:**
+
+-   For a year $X$ and crop $C$ $Y_{main-rel}$ stands for $Y_{main-rel}:=Y_C^{X}/mean(Y_C~\text{in year}~X~\text{in CH})$
+-   For every year:site:crop combination the yield was normalised using: $Y_\text{norm}:=Y/median(Y_{P166})$
+-   The P-Export was calculated as the P-Uptake of the main product
+-   The P-Balance was calculated as the difference $P_{Fertilized}-\text{P-Export}$
 
 ## Research Questions
-- Is the method presented by Flossmann and Richter (1982) with the double extraction replicable with the soils from the STYCS-trial?
-predicting relative Yield, P-Export and P-Balance?
-- How do GRUD-measurements of STP correlate to the soil properties $C_\text{org}$-content, clay-content, silt-content and pH?
-- Are the kinetic coefficients $k$ and $PS$ ($k$ can be interpreted as the relative speed of desorption, $PS$ is the equilibrium concentration of $PO_4^{3-}$ of the observed desorption in the dried fine earth-water suspension 1:20 by weight) correlated to soil properties?
-- How well can current GRUD methods of STP ($P-CO_2$ & $P-AAE10$) predict the relative Yield, P-Export and P-Balance?
-- Can the kinetic parameters $k$ & $PS$ of the net-release-kinetic of Orthophosphate improve the model power of 
 
-## Breakfast
+-   I: Is the method presented by Flossmann and Richter (1982) with the double extraction replicable with the soils from the STYCS-trial? predicting relative Yield, P-Export and P-Balance?
+-   II: How do GRUD-measurements of STP correlate to the soil properties $C_\text{org}$-content, clay-content, silt-content and pH?
+-   III: Are the kinetic coefficients $k$ and $PS$ ($k$ can be interpreted as the relative speed of desorption, $PS$ is the equilibrium concentration of $PO_4^{3-}$ of the observed desorption in the dried fine earth-water suspension 1:20 by weight) correlated to soil properties?
+-   IV: How well can current GRUD methods of STP ($P-CO_2$ & $P-AAE10$) predict the Yield-parameters, P-Export and P-Balance?
+-   V: Can the kinetic parameters $k$ & $PS$ of the net-release-kinetic of Orthophosphate improve the prediction of Yield-parameters, P-Export and P-Balance?
 
--   Eat eggs
--   Drink coffee
+## Research Question I
 
-# In the evening
+I: Is the method presented by Flossmann and Richter (1982) with the double extraction replicable with the soils from the STYCS-trial? predicting relative Yield, P-Export and P-Balance?
 
-## Dinner
+# Question II \* III
 
--   Eat spaghetti
--   Drink wine
+The following random structure was chosen:
+
+`(1|year) + (1|Site)  + (1|Site:block) + (Treatment|Site)`
+
+## Do P-CO2, P_AAE10, k and PS correlate with soil characteristics?
+
+```{r}
+coef_table_soil <- create_coef_table(lmer_models, sig_threshold = 0.001)
+kable(coef_table_soil,
+row.names = FALSE,
+align = c("l", rep("r", ncol(coef_table) - 1)),
+caption = "Coefficient Table for Soil covariates. 
+Significant codes:  0 '\\*\\*\\*' 0.001 '\\*\\*' 0.01 '\\*' 0.05")
+
+```
+
+# Question IV & V
+
+## Yield model summary:
+
+```{r}
+
+
+coef_table_yield <- create_coef_table(lmer_models_yield, sig_threshold = 0.001)
+kable(coef_table_yield,
+row.names = FALSE,
+align = c("l", rep("r", ncol(coef_table) - 1)),
+caption = "Coefficient Table for Ynorm and Yrel. 
+Significant codes:  0 '\\*\\*\\*' 0.001 '\\*\\*' 0.01 '\\*' 0.05")
+
+
+```
+
+## P-Export model summary:
+
+```{r}
+
+
+coef_table_export <- create_coef_table(lmer_models_export, sig_threshold = 0.001)
+kable(coef_table_export,
+row.names = FALSE,
+align = c("l", rep("r", ncol(coef_table) - 1)),
+caption = "Coefficient Table for P-Export. 
+Significant codes:  0 '\\*\\*\\*' 0.001 '\\*\\*' 0.01 '\\*' 0.05")
+
+
+```
+
+## P-balance model summary:
+
+```{r}
+
+
+coef_table_balance <- create_coef_table(lmer_models_balance, sig_threshold = 0.001)
+kable(coef_table_balance,
+row.names = FALSE,
+align = c("l", rep("r", ncol(coef_table) - 1)),
+caption = "Coefficient Table for P-Balance. 
+Significant codes:  0 '\\*\\*\\*' 0.001 '\\*\\*' 0.01 '\\*' 0.05")
+
+
+```
 
 ## Going to sleep
 
