@@ -26,7 +26,7 @@ $$P(t)=P^S-(P^S-P_0)\times e^{-kt}$$
 
 If we set $P(0)=0$ we receive:
 
-$$P(t)=P^S\times(1-e^{-kt})$$
+$$P(t)=P^S\times(1-e^{-kt})q$$
 
 ## Linearization
 Now we linearize the DE, so that a linear model can be employed to test the relation and estimate the parameters of interest:

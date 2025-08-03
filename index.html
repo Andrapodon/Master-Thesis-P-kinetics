@@ -322,27 +322,27 @@ computed using a Wald t-distribution approximation.</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>We fitted a linear mixed model (estimated using REML and nloptwrap optimizer)
-to predict annual_P_uptake with soil_0_20_P_CO2, soil_0_20_P_AAE10 and
-Treatment (formula: annual_P_uptake ~ log(soil_0_20_P_CO2) +
+to predict harv1_mp_Puptake with soil_0_20_P_CO2, soil_0_20_P_AAE10 and
+Treatment (formula: harv1_mp_Puptake ~ log(soil_0_20_P_CO2) +
 log(soil_0_20_P_AAE10) + Treatment). The model included year as random effects
 (formula: list(~1 | year, ~1 | Site, ~1 | Site:block, ~1 | Site:Treatment)).
 The model's explanatory power related to the fixed effects alone (marginal R2)
-is 0.18. The model's intercept, corresponding to soil_0_20_P_CO2 = 0,
-soil_0_20_P_AAE10 = 0 and Treatment = P0, is at 26.60 (95% CI [8.88, 44.33],
-t(249) = 2.96, p = 0.003). Within this model:
+is 0.15. The model's intercept, corresponding to soil_0_20_P_CO2 = 0,
+soil_0_20_P_AAE10 = 0 and Treatment = P0, is at 24.91 (95% CI [6.92, 42.90],
+t(249) = 2.73, p = 0.007). Within this model:
 
   - The effect of soil 0 20 P CO2 [log] is statistically significant and positive
-(beta = 5.34, 95% CI [1.49, 9.20], t(249) = 2.73, p = 0.007; Std. beta = 0.48,
-95% CI [-0.09, 1.05])
+(beta = 4.78, 95% CI [0.73, 8.83], t(249) = 2.33, p = 0.021; Std. beta = 0.41,
+95% CI [-0.21, 1.04])
   - The effect of soil 0 20 P AAE10 [log] is statistically non-significant and
-negative (beta = -0.13, 95% CI [-4.46, 4.20], t(249) = -0.06, p = 0.952; Std.
-beta = 0.21, 95% CI [-0.45, 0.87])
+negative (beta = -0.04, 95% CI [-4.59, 4.50], t(249) = -0.02, p = 0.985; Std.
+beta = 0.25, 95% CI [-0.48, 0.97])
   - The effect of Treatment [P100] is statistically non-significant and positive
-(beta = 2.03, 95% CI [-1.48, 5.54], t(249) = 1.14, p = 0.256; Std. beta = 0.20,
-95% CI [-0.07, 0.47])
+(beta = 2.10, 95% CI [-1.59, 5.79], t(249) = 1.12, p = 0.264; Std. beta = 0.21,
+95% CI [-0.08, 0.50])
   - The effect of Treatment [P166] is statistically non-significant and positive
-(beta = 0.89, 95% CI [-4.03, 5.81], t(249) = 0.36, p = 0.723; Std. beta = 0.11,
-95% CI [-0.28, 0.50])
+(beta = 1.17, 95% CI [-4.01, 6.34], t(249) = 0.44, p = 0.657; Std. beta = 0.13,
+95% CI [-0.30, 0.56])
 
 Standardized parameters were obtained by fitting the model on a standardized
 version of the dataset. 95% Confidence Intervals (CIs) and p-values were
@@ -356,27 +356,27 @@ computed using a Wald t-distribution approximation.</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>We fitted a linear mixed model (estimated using REML and nloptwrap optimizer)
-to predict annual_P_balance with soil_0_20_P_CO2, soil_0_20_P_AAE10 and
-Treatment (formula: annual_P_balance ~ log(soil_0_20_P_CO2) +
+to predict annual_P_balance2 with soil_0_20_P_CO2, soil_0_20_P_AAE10 and
+Treatment (formula: annual_P_balance2 ~ log(soil_0_20_P_CO2) +
 log(soil_0_20_P_AAE10) + Treatment). The model included year as random effects
 (formula: list(~1 | year, ~1 | Site, ~1 | Site:block, ~1 | Site:Treatment)).
 The model's explanatory power related to the fixed effects alone (marginal R2)
 is 0.76. The model's intercept, corresponding to soil_0_20_P_CO2 = 0,
-soil_0_20_P_AAE10 = 0 and Treatment = P0, is at -22.34 (95% CI [-43.11, -1.57],
-t(264) = -2.12, p = 0.035). Within this model:
+soil_0_20_P_AAE10 = 0 and Treatment = P0, is at -24.46 (95% CI [-46.63, -2.29],
+t(249) = -2.17, p = 0.031). Within this model:
 
   - The effect of soil 0 20 P CO2 [log] is statistically non-significant and
-negative (beta = -4.68, 95% CI [-9.61, 0.25], t(264) = -1.87, p = 0.063; Std.
-beta = -0.15, 95% CI [-0.53, 0.24])
+negative (beta = -5.14, 95% CI [-10.28, 3.19e-03], t(249) = -1.97, p = 0.050;
+Std. beta = -0.17, 95% CI [-0.57, 0.23])
   - The effect of soil 0 20 P AAE10 [log] is statistically non-significant and
-negative (beta = -1.07, 95% CI [-6.42, 4.28], t(264) = -0.39, p = 0.694; Std.
-beta = -0.23, 95% CI [-0.66, 0.21])
+negative (beta = -0.02, 95% CI [-5.75, 5.70], t(249) = -7.74e-03, p = 0.994;
+Std. beta = -0.18, 95% CI [-0.64, 0.28])
   - The effect of Treatment [P100] is statistically significant and positive
-(beta = 30.77, 95% CI [26.38, 35.17], t(264) = 13.77, p &lt; .001; Std. beta =
-1.30, 95% CI [1.12, 1.48])
+(beta = 30.97, 95% CI [26.28, 35.67], t(249) = 13.00, p &lt; .001; Std. beta =
+1.30, 95% CI [1.11, 1.49])
   - The effect of Treatment [P166] is statistically significant and positive
-(beta = 53.30, 95% CI [47.13, 59.46], t(264) = 17.02, p &lt; .001; Std. beta =
-2.26, 95% CI [2.00, 2.52])
+(beta = 54.07, 95% CI [47.49, 60.64], t(249) = 16.19, p &lt; .001; Std. beta =
+2.28, 95% CI [2.00, 2.55])
 
 Standardized parameters were obtained by fitting the model on a standardized
 version of the dataset. 95% Confidence Intervals (CIs) and p-values were
@@ -806,100 +806,100 @@ boundary (singular) fit: see help('isSingular')</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>Type III Analysis of Variance Table with Satterthwaite's method
           Sum Sq Mean Sq NumDF  DenDF F value Pr(&gt;F)
-k         45.672  45.672     1 294.59  0.5847 0.4451
-log(PS)   84.870  84.870     1 295.00  1.0866 0.2981
-k:log(PS) 50.311  50.311     1 295.03  0.6441 0.4229</code></pre>
+k         45.643  45.643     1 294.59  0.5443 0.4612
+log(PS)   70.704  70.704     1 295.04  0.8432 0.3592
+k:log(PS) 52.971  52.971     1 295.06  0.6317 0.4274</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite's method [
 lmerModLmerTest]
-Formula: annual_P_uptake ~ k * log(PS) + (1 | year) + (1 | Site) + (1 |  
+Formula: harv1_mp_Puptake ~ k * log(PS) + (1 | year) + (1 | Site) + (1 |  
     Site:block)
    Data: D
 
-REML criterion at convergence: 2246.3
+REML criterion at convergence: 2266.4
 
 Scaled residuals: 
     Min      1Q  Median      3Q     Max 
--3.2117 -0.4503 -0.0157  0.3557  4.7009 
+-2.6662 -0.5007 -0.0547  0.3651  4.9313 
 
 Random effects:
  Groups     Name        Variance Std.Dev.
  Site:block (Intercept)   0.00    0.000  
- year       (Intercept) 114.37   10.695  
- Site       (Intercept) 142.00   11.916  
- Residual                78.11    8.838  
+ year       (Intercept)  99.90    9.995  
+ Site       (Intercept) 139.48   11.810  
+ Residual                83.85    9.157  
 Number of obs: 309, groups:  Site:block, 19; year, 7; Site, 5
 
 Fixed effects:
             Estimate Std. Error      df t value Pr(&gt;|t|)    
-(Intercept)   38.072      8.813  19.155   4.320 0.000363 ***
-k             23.502     30.734 294.594   0.765 0.445074    
-log(PS)        2.608      2.502 295.003   1.042 0.298082    
-k:log(PS)     10.549     13.144 295.027   0.803 0.422866    
+(Intercept)   36.785      8.804  19.930   4.178 0.000467 ***
+k             23.494     31.845 294.593   0.738 0.461238    
+log(PS)        2.380      2.592 295.038   0.918 0.359243    
+k:log(PS)     10.824     13.618 295.065   0.795 0.427370    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 Correlation of Fixed Effects:
           (Intr) k      lg(PS)
-k         -0.615              
-log(PS)    0.607 -0.897       
-k:log(PS) -0.591  0.944 -0.965
+k         -0.638              
+log(PS)    0.630 -0.897       
+k:log(PS) -0.613  0.944 -0.965
 optimizer (nloptwrap) convergence code: 0 (OK)
 boundary (singular) fit: see help('isSingular')</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>            R2m       R2c
-[1,] 0.04012948 0.7758557</code></pre>
+[1,] 0.03868873 0.7506145</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Type III Analysis of Variance Table with Satterthwaite's method
           Sum Sq Mean Sq NumDF  DenDF F value    Pr(&gt;F)    
-k          124.7   124.7     1 275.62  0.6004    0.4391    
-log(PS)   4906.5  4906.5     1 285.15 23.6264 1.935e-06 ***
-k:log(PS)  120.8   120.8     1 280.10  0.5819    0.4462    
+k          410.9   410.9     1 263.45  2.3605    0.1256    
+log(PS)   3584.3  3584.3     1 268.42 20.5896 8.592e-06 ***
+k:log(PS)  345.5   345.5     1 265.15  1.9849    0.1600    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite's method [
 lmerModLmerTest]
-Formula: annual_P_balance ~ k * log(PS) + (1 | year) + (1 | Site) + (1 |  
+Formula: annual_P_balance2 ~ k * log(PS) + (1 | year) + (1 | Site) + (1 |  
     Site:block)
    Data: D
 
-REML criterion at convergence: 2719.8
+REML criterion at convergence: 2496.1
 
 Scaled residuals: 
     Min      1Q  Median      3Q     Max 
--4.3960 -0.5775  0.0036  0.5915  2.8874 
+-4.3217 -0.5820  0.0517  0.6543  2.4811 
 
 Random effects:
  Groups     Name        Variance Std.Dev.
- Site:block (Intercept)  27.20    5.216  
- year       (Intercept)  54.22    7.363  
- Site       (Intercept) 127.50   11.292  
- Residual               207.67   14.411  
-Number of obs: 330, groups:  Site:block, 20; year, 7; Site, 5
+ Site:block (Intercept)  27.89    5.281  
+ year       (Intercept)  70.63    8.404  
+ Site       (Intercept) 113.57   10.657  
+ Residual               174.08   13.194  
+Number of obs: 309, groups:  Site:block, 19; year, 7; Site, 5
 
 Fixed effects:
             Estimate Std. Error      df t value Pr(&gt;|t|)    
-(Intercept)   59.223     11.538  62.390   5.133 3.02e-06 ***
-k             42.436     54.765 275.615   0.775    0.439    
-log(PS)       21.577      4.439 285.149   4.861 1.93e-06 ***
-k:log(PS)     17.933     23.508 280.101   0.763    0.446    
+(Intercept)   45.816     11.352  51.144   4.036 0.000182 ***
+k             81.169     52.831 263.451   1.536 0.125642    
+log(PS)       19.365      4.268 268.416   4.538 8.59e-06 ***
+k:log(PS)     31.798     22.570 265.148   1.409 0.160049    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 Correlation of Fixed Effects:
           (Intr) k      lg(PS)
-k         -0.827              
-log(PS)    0.807 -0.897       
-k:log(PS) -0.792  0.941 -0.970</code></pre>
+k         -0.821              
+log(PS)    0.800 -0.901       
+k:log(PS) -0.786  0.942 -0.972</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>           R2m       R2c
-[1,] 0.4896394 0.7455866</code></pre>
+<pre><code>           R2m      R2c
+[1,] 0.5205029 0.783847</code></pre>
 </div>
 </div>
 </section>
@@ -931,10 +931,10 @@ Fit: lmer(formula = log(PS) ~ soil_0_20_clay + soil_0_20_pH_H2O +
 Linear Hypotheses:
                        Estimate Std. Error z value Pr(&gt;|z|)    
 (Intercept) == 0      -4.270761   0.799138  -5.344  &lt; 0.001 ***
-soil_0_20_clay == 0    0.011675   0.012237   0.954  0.90644    
+soil_0_20_clay == 0    0.011675   0.012237   0.954  0.90628    
 soil_0_20_pH_H2O == 0 -0.002894   0.062550  -0.046  1.00000    
-soil_0_20_Corg == 0    0.567158   0.152440   3.721  0.00152 ** 
-soil_0_20_silt == 0   -0.020910   0.015622  -1.339  0.68331    
+soil_0_20_Corg == 0    0.567158   0.152440   3.721  0.00127 ** 
+soil_0_20_silt == 0   -0.020910   0.015622  -1.339  0.68320    
 TreatmentP100 == 0     1.063454   0.097897  10.863  &lt; 0.001 ***
 TreatmentP166 == 0     1.840851   0.098858  18.621  &lt; 0.001 ***
 ---
@@ -962,13 +962,13 @@ Fit: lmer(formula = k ~ soil_0_20_clay + soil_0_20_pH_H2O + soil_0_20_Corg +
 
 Linear Hypotheses:
                        Estimate Std. Error z value Pr(&gt;|z|)  
-(Intercept) == 0      -0.158519   0.136979  -1.157   0.7908  
-soil_0_20_clay == 0   -0.004008   0.002174  -1.844   0.3203  
-soil_0_20_pH_H2O == 0  0.034830   0.011284   3.087   0.0118 *
+(Intercept) == 0      -0.158519   0.136979  -1.157   0.7903  
+soil_0_20_clay == 0   -0.004008   0.002174  -1.844   0.3220  
+soil_0_20_pH_H2O == 0  0.034830   0.011284   3.087   0.0126 *
 soil_0_20_Corg == 0   -0.002606   0.031212  -0.083   1.0000  
-soil_0_20_silt == 0    0.007312   0.002562   2.855   0.0279 *
+soil_0_20_silt == 0    0.007312   0.002562   2.855   0.0272 *
 TreatmentP100 == 0     0.002002   0.015606   0.128   1.0000  
-TreatmentP166 == 0    -0.030976   0.015845  -1.955   0.2613  
+TreatmentP166 == 0    -0.030976   0.015845  -1.955   0.2615  
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
@@ -996,7 +996,7 @@ Linear Hypotheses:
                        Estimate Std. Error z value Pr(&gt;|z|)    
 (Intercept) == 0      -6.881452   1.213944  -5.669    &lt;0.01 ***
 soil_0_20_clay == 0   -0.006725   0.018610  -0.361    0.999    
-soil_0_20_pH_H2O == 0  0.174037   0.093233   1.867    0.319    
+soil_0_20_pH_H2O == 0  0.174037   0.093233   1.867    0.318    
 soil_0_20_Corg == 0    0.216249   0.239142   0.904    0.926    
 soil_0_20_silt == 0    0.013125   0.023023   0.570    0.992    
 TreatmentP100 == 0     1.055684   0.186471   5.661    &lt;0.01 ***
@@ -1224,9 +1224,9 @@ Fit: lm(formula = I(log(k * PS)) ~ Treatment + Site, data = nlme.coef)
 
 Linear Hypotheses:
                  Estimate Std. Error t value Pr(&gt;|t|)    
-P100 - P0 == 0     0.9127     0.1278   7.140  &lt; 1e-05 ***
-P166 - P0 == 0     1.5035     0.1296  11.599  &lt; 1e-05 ***
-P166 - P100 == 0   0.5908     0.1296   4.558 8.25e-05 ***
+P100 - P0 == 0     0.9127     0.1278   7.140   &lt;1e-04 ***
+P166 - P0 == 0     1.5035     0.1296  11.599   &lt;1e-04 ***
+P166 - P100 == 0   0.5908     0.1296   4.558   &lt;1e-04 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
@@ -1263,13 +1263,13 @@ Fit: lmer(formula = k ~ soil_0_20_clay + soil_0_20_pH_H2O + soil_0_20_Corg +
 
 Linear Hypotheses:
                        Estimate Std. Error z value Pr(&gt;|z|)  
-(Intercept) == 0      -0.158519   0.136979  -1.157   0.7904  
-soil_0_20_clay == 0   -0.004008   0.002174  -1.844   0.3212  
-soil_0_20_pH_H2O == 0  0.034830   0.011284   3.087   0.0128 *
+(Intercept) == 0      -0.158519   0.136979  -1.157   0.7902  
+soil_0_20_clay == 0   -0.004008   0.002174  -1.844   0.3218  
+soil_0_20_pH_H2O == 0  0.034830   0.011284   3.087   0.0132 *
 soil_0_20_Corg == 0   -0.002606   0.031212  -0.083   1.0000  
-soil_0_20_silt == 0    0.007312   0.002562   2.855   0.0265 *
+soil_0_20_silt == 0    0.007312   0.002562   2.855   0.0264 *
 TreatmentP100 == 0     0.002002   0.015606   0.128   1.0000  
-TreatmentP166 == 0    -0.030976   0.015845  -1.955   0.2608  
+TreatmentP166 == 0    -0.030976   0.015845  -1.955   0.2606  
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
