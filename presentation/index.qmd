@@ -3,21 +3,33 @@ title: "Master Thesis"
 author: "Marc Jerónimo Pérez y Ropero"
 format: 
   revealjs:
+    smaller: true
+    scrollable: true
     embed-resources: true
     theme: blood
 ---
 
-# Heil Hitleeeer
 
 ## delete me
 ```{r}
 plot(speed ~ dist, data = cars)
 ```
 
+## Background
+
+- In my Internship I studied the current GRUD, particularly Mg, P and K 
+- Fertilizer requirement models imply $Y\sim STP + Clay$
+- Currently only stationery measurement of STP are considered
+
 ## Context
 
 - LTE STYCS, all Nutrients equal except P, which is in 6 Levels
 - 5 Sites regarded; Cadenazzo, Ellighausen, Rümlang-Altwi, Oensingen, Zürich-Reckenholz
+
+
+## Variable Introduction
+
+**Soil Variables:**
 
 
 ## Research Questions
