@@ -1,5 +1,6 @@
 ---
 title: "Master Thesis"
+subtitle: "P-release kinetic as a predictor for P-availability in the STYCS Trials"
 author: "Marc Jerónimo Pérez y Ropero"
 format: 
   revealjs:
@@ -7,6 +8,7 @@ format:
     scrollable: true
     embed-resources: true
     theme: dracula
+    incremental: true
 ---
 
 ```{r setup}
@@ -41,7 +43,7 @@ d <- RES$data
 
 ```
 
-## Background
+## Introduction
 
 -   In my Internship I studied the current GRUD, particularly Mg, P and K
 
@@ -49,7 +51,7 @@ d <- RES$data
 
 -   Currently only stationery measurement of STP are considered
 
--   Could a desorption kinext-model better explain the soil status and yield data?
+-   Could a kinetic desorption-model better explain the soil status and yield data?
 
     ![GRUD 2017](https://www.agroscope.admin.ch/agroscope/de/home/themen/pflanzenbau/ackerbau/Pflanzenernaehrung/grud/_jcr_content/par/columncontrols/items/0/column/image/image.imagespooler.jpg/1497864223201/2017-GRUD-duengung.jpg){fig-align="center"}
 
@@ -64,15 +66,24 @@ d <- RES$data
 
 ## Kinetic Model
 
-Flossmann & Richter conducted in 1982 experiments that should: - improve the classification of P-supply in soils - work in tandem with a current STP-method e.g. CAL or Olsen
+Flossmann & Richter conducted in 1982 experiments that should: 
+- improve the classification of P-supply in soils 
+- work in tandem with a current STP-method e.g. CAL or Olsen
 
-The net-desorption was observed, a kinetic of first order was assumed: $$\frac{dP}{dt}=k\times(P^S-P)$$ When solved with $P(0)=0$, the following equation was obtained: $$P(t)=P^S\times(1-e^{-kt})$$ The researchers estimated $P^S=P_\text{CAL/Olsen}-P_{H_2O}$ and linearized as follows: $$log(1-\frac{P(t)}{P^S})=-kt$$ $PS$, $k$ and $k*PS$ were extracted, $k*PS$ being the average net-release speed.
+The net-desorption was observed, a kinetic of first order was assumed: 
+$$\frac{dP}{dt}=k\times(P^S-P)$$ 
+When solved with $P(0)=0$, the following equation was obtained: 
+$$P(t)=P^S\times(1-e^{-kt})$$ 
+The researchers estimated $P^S=P_\text{CAL/Olsen}-P_{H_2O}$ and linearized as follows: 
+$$log(1-\frac{P(t)}{P^S})=-kt$$ $PS$, $k$ and $k*PS$ were extracted, $k*PS$ being the average net-release speed.
 
 ## Kinetic-Experiment Setup
 
 ![](Experimental_Setup.png){fig-align="center"}
 
-## Variable Introduction
+## Could a kinetic desorption-model better explain the soil status and yield data?
+
+[**Relevant Variables**]{.underline}
 
 **Soil Variables:**
 
@@ -95,11 +106,9 @@ The net-desorption was observed, a kinetic of first order was assumed: $$\frac{d
 -   II: How do GRUD-measurements of **STP** **correlate** to the soil properties $C_\text{org}$**-content, clay-content, silt-content and pH**?
 -   III: Are the kinetic coefficients $k$ **and** $PS$ **correlated to soil properties**?
 -   IV: How well can current GRUD methods of **STP** ($P-CO_2$ & $P-AAE10$) **predict** the **Yield-parameters, P-Export and P-Balance**?
--   V: How well can the **kinetic parameters** $k$ & $PS$ improve the **predict Yield-parameters, P-Export and P-Balance**?
+-   V: How well can the **kinetic parameters** $k$ & $PS$ **predict Yield-parameters, P-Export and P-Balance**?
 
-## Research Question I
-
-I: Is the **method** presented by Flossmann and Richter (1982) with the double extraction **replicable** with the soils from the **STYCS-trial**?
+## QI: Replicability of kinetic model in STYCS
 
 ```{r}
 Res <- nlsList(Pv.mg.L. ~ PS * (1 - exp(-k * (t.dt))) | uid, d[, c("Pv.mg.L.", "uid", "t.dt")],  start=list(PS=0.1,k=0.2))
@@ -132,9 +141,16 @@ ggplot() +
        y = TeX("$P_{V}(\\frac{mg}{L})$"))
 ```
 
-# Question II & III
+# QII & III: STP, k & PS correlate to soil properties?
 
-II: How do GRUD-measurements of **STP correlate** to the soil properties $C_\text{org}$**-content, clay-content, silt-content and pH**? III: Are the **kinetic coefficients** $k$ and $PS$ **correlated** to **soil properties**?
+
+
+
+
+
+
+
+
 
 The following random structure was chosen:
 
@@ -195,9 +211,7 @@ kable(coef_table_soil_highlighted,
 
 ```
 
-# Question IV & V
-
-IV: How well can current **GRUD** methods of **STP** ($P-CO_2$ & $P-AAE10$) **predict** the **Yield-parameters, P-Export and P-Balance?** V: Can the **kinetic parameters** $k$ & $PS$ predict the **Yield-parameters, P-Export and P-Balance**?
+# QIV & V: Correlation k, PS & STP to Yield and P-metrics
 
 ## Yield model summary:
 
@@ -273,8 +287,9 @@ kable(coef_table_balance_highlighted,
 -   The estimation $PS=P_{Olsen}-P_{H_2O}$ did not deliver reasonable and significant models
 -   P-CO2 did not correlate with clay-content
 -   k does not correlate with Treatment but with pH and silt-content
+-   $k*log(PS)$ had significant effects for clay- and silt-content as well as pH
 -   PS was the covariate best predicted by soil properties: $R^2_m=0.858$
--   $k*log(PS)$ showed the strongest effect in the prediction of Ynorm
--   P-AAE10 did show a string and significant effect in prediction of Yrel
+-   $k*log(PS)$ and $k$ showed the strongest effects in the prediction of Ynorm and Yrel
+-   P-AAE10 did show a significant effect in prediction of Yrel
 -   P-CO2 did show strong effects in both predicting Pexport and Pbalance (however negative in Pbalance)
 -   $PS$ showed the strongest effect in predicting P_balance
