@@ -60,14 +60,14 @@ load("~/Documents/Master Thesis/Master-Thesis-P-kinetics/data/results_coefficien
 #|tidy: true  
 #|echo: false
 
-ggplot(D[D$soil_0_20_P_CO2!=0,],aes(y=Ymain_rel, x=soil_0_20_P_CO2, col=Site, size = Treatment)) +
+ggplot(D[D$soil_0_20_P_CO2!=0,],aes(y=Ymain_norm, x=soil_0_20_P_CO2, col=Site, size = Treatment)) +
   geom_point(shape = 7) + 
   scale_x_log10() + scale_y_log10() +
   labs(x=TeX("$P_{CO_{2}}(mg/kg Soil)$"),
          y="relative Yield (%)") +
   facet_wrap( ~ Site, nrow = 2)
 
-ggplot(D[D$soil_0_20_P_AAE10!=0,],aes(y=Ymain_rel, x=soil_0_20_P_AAE10, col=Site, size = Treatment)) +
+ggplot(D[D$soil_0_20_P_AAE10!=0,],aes(y=Ymain_norm, x=soil_0_20_P_AAE10, col=Site, size = Treatment)) +
   geom_point(shape = 7) + 
   scale_x_log10() + scale_y_log10() +
   labs(x=TeX("$P_{AAE10}(mg/kg Soil)$"),
@@ -115,7 +115,7 @@ Now we want to check the strength of the models in terms of $R^2$ and the signif
 
 #tab_model(fit.grud.Yrel,fit.grud.Puptake,fit.grud.Pbalance)
 report(fit.grud.Yrel)
-report(fit.grud.Puptake)
+report(fit.grud.Pexport)
 report(fit.grud.Pbalance)
 ```
 here I also show the non linear mixed models, following the Mitscherlich saturation curve:
@@ -245,9 +245,9 @@ summary(fit.kin.Yrel)
 fit.kin.Yrel |> r.squaredGLMM()
 
 # P-Uptake
-anova(fit.kin.Puptake)
-summary(fit.kin.Puptake)
-fit.kin.Puptake |> r.squaredGLMM()
+anova(fit.kin.Pexport)
+summary(fit.kin.Pexport)
+fit.kin.Pexport |> r.squaredGLMM()
 
 
 anova(fit.kin.Pbalance)

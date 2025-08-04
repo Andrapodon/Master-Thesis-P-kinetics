@@ -106,6 +106,15 @@ The net-desorption was observed, a kinetic of first order was assumed: $$\frac{d
 
 ## QI: Replicability of kinetic model in STYCS
 
+**Observation**
+
+-   The estimation $PS=P_{Olsen}-P_{H_2O}$ did not deliver reasonable and significant models in terms of residuals and significance
+
+::: notes
+The estimation of the Plateau PS as proposed by Flossman und Richter was over 10 times higher than the observed concentrations in the experiment. As a consequence the linearization of the data-points did not deliver models with low $R^2$ and significant parameter estimations. To this end I took more measurements and attempted to use a non-linear-regression to simultaneously estimate PS and k. Those models were calculated for every site:treatment combination and delivered favourable predictions, although some experimantal errors or block effects were observable. 
+:::
+
+
 ```{r}
 Res <- nlsList(Pv.mg.L. ~ PS * (1 - exp(-k * (t.dt))) | uid, d[, c("Pv.mg.L.", "uid", "t.dt")],  start=list(PS=0.1,k=0.2))
 # summary(Res)
@@ -137,13 +146,6 @@ ggplot() +
        y = TeX("$P_{V}(\\frac{mg}{L})$"))
 ```
 
-**Observation**
-
--   The estimation $PS=P_{Olsen}-P_{H_2O}$ did not deliver reasonable and significant models in terms of residuals and significance
-
-::: notes
-The estimation of PS as proposed by Flossman und Richter was over 10 times higher than the observed concentrations in the experiment. As a consequence the linearization of the data-points did not deliver models with low $R^2$ and significant parameter estimations. To this end I took more measurements and attempted to use a non-linear-regression to simultaneously estimate PS and k. Those models were calculated for every site:treatment combination and delivered favourable predictions, although some experimantal errors or block effects were observable. 
-:::
 
 # QII & III: STP, k & PS correlate to soil properties?
 
