@@ -49,7 +49,7 @@ d <- RES$data
 
 -   Fertilizer requirement models imply $Y\sim STP + Clay$ & $P-\text{Export}\sim STP + Clay$
 
--   Currently only stationery measurement of STP are considered
+-   Currently only stationary measurement of STP are considered
 
 -   Could a kinetic desorption-model better explain the soil status and yield data?
 
@@ -71,7 +71,7 @@ Flossmann & Richter conducted in 1982 experiments that should:
 -   improve the classification of P-supply in soils
 -   work in tandem with a current STP-method e.g. CAL or Olsen
 
-The net-desorption was observed, a kinetic of first order was assumed: $$\frac{dP}{dt}=k\times(P^S-P)$$ When solved with $P(0)=0$, the following equation was obtained: $$P(t)=P^S\times(1-e^{-kt})$$ The researchers estimated $P^S=P_\text{CAL/Olsen}-P_{H_2O}$ and linearized as follows: $$log(1-\frac{P(t)}{P^S})=-kt$$ $PS$, $k$ and $k*PS$ were extracted, $k*PS$ being the average net-release speed.
+The net-desorption was observed, a kinetic of first order was assumed: $$\frac{dP}{dt}=k\times(P^S-P)$$ When solved with $P(0)=0$, the following equation was obtained: $$P(t)=P^S\times(1-e^{-kt})$$ The researchers estimated the plateau $P^S=P_\text{CAL/Olsen}-P_{H_2O}$ and linearized as follows: $$log(1-\frac{P(t)}{P^S})=-kt$$ $PS$, $k$ and $k*PS$ were extracted, $k*PS$ being the average net-release speed.
 
 ## Kinetic-Experiment Setup
 
@@ -83,17 +83,17 @@ The net-desorption was observed, a kinetic of first order was assumed: $$\frac{d
 
 **Soil Variables:**
 
--   $P-CO_2$ & $P-AAE10$ stand for the GRUD STP-measurements in \[$g~P/kg ~ Soil$\]
--   $k$($s^{-1}$) can be interpreted as the relative speed of net-desorption of orthophosphate
--   $k*PS$($g~Ps^{-1}$) can be interpreted as the average net-release speed
--   $PS$($mg~P/L~H_2O$) is the equilibrium concentration of $PO_4^{3-}$ of the net-desorption experiment
+-   $P-CO_2$ & $P-AAE10$ stand for the **GRUD STP-measurements** in \[$g~P/kg ~ Soil$\]
+-   $k$($s^{-1}$) can be interpreted as the **relative speed of net-desorption** of orthophosphate
+-   $k*PS$($g~Ps^{-1}$) can be interpreted as the **average net-release speed**
+-   $PS$($mg~P/L~H_2O$) is the **equilibrium concentration of $PO_4^{3-}$ of the net-desorption** experiment
 -   From the 0-20cm Horizon: Clay-, Silt-,$C_{org}$-content and pH
 
 **Yield Variables:**
 
 -   For a year $X$ and crop $C$ $Y_{main-rel}$ stands for $Y_{main-rel}:=Y_C^{X}/mean(Y_C~\text{in year}~X~\text{in CH})$
 -   For every year:site:crop combination the yield was normalised using: $Y_\text{norm}:=Y/median(Y_{P166})$
--   The P-Export was calculated as the P-Uptake of the main product
+-   The P-Export was calculated as the **P-Uptake of the main product**
 -   The P-Balance was calculated as the difference $P_{Fertilized}-\text{P-Export}$
 
 ## Research Questions
@@ -141,6 +141,9 @@ ggplot() +
 
 -   The estimation $PS=P_{Olsen}-P_{H_2O}$ did not deliver reasonable and significant models in terms of residuals and significance
 
+::: notes
+The estimation of PS as proposed by Flossman und Richter was over 10 times higher than the observed concentrations in the experiment. As a consequence the linearization of the data-points did not deliver models with low $R^2$ and significant parameter estimations. To this end I took more measurements and attempted to use a non-linear-regression to simultaneously estimate PS and k. Those models were calculated for every site:treatment combination and delivered favourable predictions, although some experimantal errors or block effects were observable. 
+:::
 
 # QII & III: STP, k & PS correlate to soil properties?
 
@@ -325,16 +328,12 @@ kable(coef_table_balance_highlighted,
 
 -   $PS$ showed the strongest effect in predicting P_balance and k showed substantial $R^2_m$
 
-## Key Findings
+## Concluding Remarcs
 
--   The estimation $PS=P_{Olsen}-P_{H_2O}$ did not deliver reasonable and significant models
--   P-CO2 and P-AAE10 did not correlate with clay-content
--   k does not correlate with Treatment but with pH and silt-content
--   $k*log(PS)$ had significant effects for clay- and silt-content as well as pH
--   PS was the covariate best predicted by soil properties: $R^2_m=0.858$
--   $k*log(PS)$ and $k$ showed the strongest effects in the prediction of Ynorm and Yrel
--   P-AAE10 did show a significant effect in prediction of Yrel
--   P-CO2 did show strong effects in predicting Pexport
--   $PS$ showed the strongest effect in predicting P_balance and k showed substantial $R^2_m$
+- The net-desorption of P probably follows a first-order-kinetic, but $PS$ is difficult to directly estimate.
+- The kinetic parameters $k$ and $PS$ could comparably and sometimes better explain Ynorm, Yrel and P-Balance.
+- Regarding the difference between $R^2_m$ and $R^2_C$ confounded effects seem to be buried in the sites.
+- P-CO2 and P-AAE10 are not as well explainable as $PS$ and $k$, in particular not by clay-content.
+- P-CO2 correlated however significantly with P-Export
 
 Thank you for your attention
