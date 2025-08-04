@@ -137,6 +137,11 @@ ggplot() +
        y = TeX("$P_{V}(\\frac{mg}{L})$"))
 ```
 
+**Observation**
+
+-   The estimation $PS=P_{Olsen}-P_{H_2O}$ did not deliver reasonable and significant models in terms of residuals and significance
+
+
 # QII & III: STP, k & PS correlate to soil properties?
 
 The following random structure was chosen:
