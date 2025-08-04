@@ -356,27 +356,20 @@ computed using a Wald t-distribution approximation.</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>We fitted a linear mixed model (estimated using REML and nloptwrap optimizer)
-to predict annual_P_balance2 with soil_0_20_P_CO2, soil_0_20_P_AAE10 and
-Treatment (formula: annual_P_balance2 ~ log(soil_0_20_P_CO2) +
-log(soil_0_20_P_AAE10) + Treatment). The model included year as random effects
-(formula: list(~1 | year, ~1 | Site, ~1 | Site:block, ~1 | Site:Treatment)).
-The model's explanatory power related to the fixed effects alone (marginal R2)
-is 0.76. The model's intercept, corresponding to soil_0_20_P_CO2 = 0,
-soil_0_20_P_AAE10 = 0 and Treatment = P0, is at -24.46 (95% CI [-46.63, -2.29],
-t(249) = -2.17, p = 0.031). Within this model:
+to predict annual_P_balance2 with soil_0_20_P_CO2 and soil_0_20_P_AAE10
+(formula: annual_P_balance2 ~ log(soil_0_20_P_CO2) + log(soil_0_20_P_AAE10)).
+The model included year as random effects (formula: list(~1 | year, ~1 | Site,
+~1 | Site:block, ~1 | Site:Treatment)). The model's explanatory power related
+to the fixed effects alone (marginal R2) is 0.06. The model's intercept,
+corresponding to soil_0_20_P_CO2 = 0 and soil_0_20_P_AAE10 = 0, is at -0.43
+(95% CI [-28.70, 27.85], t(251) = -0.03, p = 0.976). Within this model:
 
   - The effect of soil 0 20 P CO2 [log] is statistically non-significant and
-negative (beta = -5.14, 95% CI [-10.28, 3.19e-03], t(249) = -1.97, p = 0.050;
-Std. beta = -0.17, 95% CI [-0.57, 0.23])
+negative (beta = -5.15, 95% CI [-11.27, 0.97], t(251) = -1.66, p = 0.099; Std.
+beta = -0.18, 95% CI [-0.64, 0.29])
   - The effect of soil 0 20 P AAE10 [log] is statistically non-significant and
-negative (beta = -0.02, 95% CI [-5.75, 5.70], t(249) = -7.74e-03, p = 0.994;
-Std. beta = -0.18, 95% CI [-0.64, 0.28])
-  - The effect of Treatment [P100] is statistically significant and positive
-(beta = 30.97, 95% CI [26.28, 35.67], t(249) = 13.00, p &lt; .001; Std. beta =
-1.30, 95% CI [1.11, 1.49])
-  - The effect of Treatment [P166] is statistically significant and positive
-(beta = 54.07, 95% CI [47.49, 60.64], t(249) = 16.19, p &lt; .001; Std. beta =
-2.28, 95% CI [2.00, 2.55])
+positive (beta = 1.28, 95% CI [-5.17, 7.73], t(251) = 0.39, p = 0.696; Std.
+beta = -0.07, 95% CI [-0.57, 0.42])
 
 Standardized parameters were obtained by fitting the model on a standardized
 version of the dataset. 95% Confidence Intervals (CIs) and p-values were
@@ -930,13 +923,13 @@ Fit: lmer(formula = log(PS) ~ soil_0_20_clay + soil_0_20_pH_H2O +
 
 Linear Hypotheses:
                        Estimate Std. Error z value Pr(&gt;|z|)    
-(Intercept) == 0      -4.270761   0.799138  -5.344   &lt;0.001 ***
-soil_0_20_clay == 0    0.011675   0.012237   0.954   0.9062    
-soil_0_20_pH_H2O == 0 -0.002894   0.062550  -0.046   1.0000    
-soil_0_20_Corg == 0    0.567158   0.152440   3.721   0.0012 ** 
-soil_0_20_silt == 0   -0.020910   0.015622  -1.339   0.6825    
-TreatmentP100 == 0     1.063454   0.097897  10.863   &lt;0.001 ***
-TreatmentP166 == 0     1.840851   0.098858  18.621   &lt;0.001 ***
+(Intercept) == 0      -4.270761   0.799138  -5.344  &lt; 0.001 ***
+soil_0_20_clay == 0    0.011675   0.012237   0.954  0.90627    
+soil_0_20_pH_H2O == 0 -0.002894   0.062550  -0.046  1.00000    
+soil_0_20_Corg == 0    0.567158   0.152440   3.721  0.00151 ** 
+soil_0_20_silt == 0   -0.020910   0.015622  -1.339  0.68319    
+TreatmentP100 == 0     1.063454   0.097897  10.863  &lt; 0.001 ***
+TreatmentP166 == 0     1.840851   0.098858  18.621  &lt; 0.001 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
@@ -962,13 +955,13 @@ Fit: lmer(formula = k ~ soil_0_20_clay + soil_0_20_pH_H2O + soil_0_20_Corg +
 
 Linear Hypotheses:
                        Estimate Std. Error z value Pr(&gt;|z|)  
-(Intercept) == 0      -0.158519   0.136979  -1.157   0.7906  
-soil_0_20_clay == 0   -0.004008   0.002174  -1.844   0.3227  
-soil_0_20_pH_H2O == 0  0.034830   0.011284   3.087   0.0131 *
+(Intercept) == 0      -0.158519   0.136979  -1.157   0.7905  
+soil_0_20_clay == 0   -0.004008   0.002174  -1.844   0.3220  
+soil_0_20_pH_H2O == 0  0.034830   0.011284   3.087   0.0126 *
 soil_0_20_Corg == 0   -0.002606   0.031212  -0.083   1.0000  
-soil_0_20_silt == 0    0.007312   0.002562   2.855   0.0274 *
+soil_0_20_silt == 0    0.007312   0.002562   2.855   0.0271 *
 TreatmentP100 == 0     0.002002   0.015606   0.128   1.0000  
-TreatmentP166 == 0    -0.030976   0.015845  -1.955   0.2611  
+TreatmentP166 == 0    -0.030976   0.015845  -1.955   0.2606  
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
@@ -1168,9 +1161,9 @@ Fit: lm(formula = log(PS) ~ Treatment + Site, data = nlme.coef)
 
 Linear Hypotheses:
                  Estimate Std. Error t value Pr(&gt;|t|)    
-P100 - P0 == 0    0.91948    0.09447   9.733   &lt;1e-09 ***
-P166 - P0 == 0    1.68127    0.09580  17.550   &lt;1e-09 ***
-P166 - P100 == 0  0.76179    0.09580   7.952   &lt;1e-09 ***
+P100 - P0 == 0    0.91948    0.09447   9.733   &lt;1e-10 ***
+P166 - P0 == 0    1.68127    0.09580  17.550   &lt;1e-10 ***
+P166 - P100 == 0  0.76179    0.09580   7.952   &lt;1e-10 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
@@ -1226,7 +1219,7 @@ Linear Hypotheses:
                  Estimate Std. Error t value Pr(&gt;|t|)    
 P100 - P0 == 0     0.9127     0.1278   7.140   &lt;1e-04 ***
 P166 - P0 == 0     1.5035     0.1296  11.599   &lt;1e-04 ***
-P166 - P100 == 0   0.5908     0.1296   4.558    1e-04 ***
+P166 - P100 == 0   0.5908     0.1296   4.558   &lt;1e-04 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
@@ -1263,13 +1256,13 @@ Fit: lmer(formula = k ~ soil_0_20_clay + soil_0_20_pH_H2O + soil_0_20_Corg +
 
 Linear Hypotheses:
                        Estimate Std. Error z value Pr(&gt;|z|)  
-(Intercept) == 0      -0.158519   0.136979  -1.157   0.7902  
-soil_0_20_clay == 0   -0.004008   0.002174  -1.844   0.3228  
-soil_0_20_pH_H2O == 0  0.034830   0.011284   3.087   0.0125 *
+(Intercept) == 0      -0.158519   0.136979  -1.157   0.7901  
+soil_0_20_clay == 0   -0.004008   0.002174  -1.844   0.3223  
+soil_0_20_pH_H2O == 0  0.034830   0.011284   3.087   0.0123 *
 soil_0_20_Corg == 0   -0.002606   0.031212  -0.083   1.0000  
-soil_0_20_silt == 0    0.007312   0.002562   2.855   0.0273 *
+soil_0_20_silt == 0    0.007312   0.002562   2.855   0.0271 *
 TreatmentP100 == 0     0.002002   0.015606   0.128   1.0000  
-TreatmentP166 == 0    -0.030976   0.015845  -1.955   0.2616  
+TreatmentP166 == 0    -0.030976   0.015845  -1.955   0.2614  
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
@@ -1295,13 +1288,13 @@ Fit: lmer(formula = I(log(k * PS)) ~ soil_0_20_clay + soil_0_20_pH_H2O +
 
 Linear Hypotheses:
                        Estimate Std. Error z value Pr(&gt;|z|)    
-(Intercept) == 0      -6.881452   1.213944  -5.669    &lt;0.01 ***
+(Intercept) == 0      -6.881452   1.213944  -5.669   &lt;0.001 ***
 soil_0_20_clay == 0   -0.006725   0.018610  -0.361    0.999    
-soil_0_20_pH_H2O == 0  0.174037   0.093233   1.867    0.318    
+soil_0_20_pH_H2O == 0  0.174037   0.093233   1.867    0.319    
 soil_0_20_Corg == 0    0.216249   0.239142   0.904    0.926    
 soil_0_20_silt == 0    0.013125   0.023023   0.570    0.992    
-TreatmentP100 == 0     1.055684   0.186471   5.661    &lt;0.01 ***
-TreatmentP166 == 0     1.633397   0.187674   8.703    &lt;0.01 ***
+TreatmentP100 == 0     1.055684   0.186471   5.661   &lt;0.001 ***
+TreatmentP166 == 0     1.633397   0.187674   8.703   &lt;0.001 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
