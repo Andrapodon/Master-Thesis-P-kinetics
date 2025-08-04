@@ -930,13 +930,13 @@ Fit: lmer(formula = log(PS) ~ soil_0_20_clay + soil_0_20_pH_H2O +
 
 Linear Hypotheses:
                        Estimate Std. Error z value Pr(&gt;|z|)    
-(Intercept) == 0      -4.270761   0.799138  -5.344  &lt; 0.001 ***
-soil_0_20_clay == 0    0.011675   0.012237   0.954  0.90628    
-soil_0_20_pH_H2O == 0 -0.002894   0.062550  -0.046  1.00000    
-soil_0_20_Corg == 0    0.567158   0.152440   3.721  0.00127 ** 
-soil_0_20_silt == 0   -0.020910   0.015622  -1.339  0.68320    
-TreatmentP100 == 0     1.063454   0.097897  10.863  &lt; 0.001 ***
-TreatmentP166 == 0     1.840851   0.098858  18.621  &lt; 0.001 ***
+(Intercept) == 0      -4.270761   0.799138  -5.344   &lt;0.001 ***
+soil_0_20_clay == 0    0.011675   0.012237   0.954   0.9062    
+soil_0_20_pH_H2O == 0 -0.002894   0.062550  -0.046   1.0000    
+soil_0_20_Corg == 0    0.567158   0.152440   3.721   0.0012 ** 
+soil_0_20_silt == 0   -0.020910   0.015622  -1.339   0.6825    
+TreatmentP100 == 0     1.063454   0.097897  10.863   &lt;0.001 ***
+TreatmentP166 == 0     1.840851   0.098858  18.621   &lt;0.001 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
@@ -962,13 +962,13 @@ Fit: lmer(formula = k ~ soil_0_20_clay + soil_0_20_pH_H2O + soil_0_20_Corg +
 
 Linear Hypotheses:
                        Estimate Std. Error z value Pr(&gt;|z|)  
-(Intercept) == 0      -0.158519   0.136979  -1.157   0.7903  
-soil_0_20_clay == 0   -0.004008   0.002174  -1.844   0.3220  
-soil_0_20_pH_H2O == 0  0.034830   0.011284   3.087   0.0126 *
+(Intercept) == 0      -0.158519   0.136979  -1.157   0.7906  
+soil_0_20_clay == 0   -0.004008   0.002174  -1.844   0.3227  
+soil_0_20_pH_H2O == 0  0.034830   0.011284   3.087   0.0131 *
 soil_0_20_Corg == 0   -0.002606   0.031212  -0.083   1.0000  
-soil_0_20_silt == 0    0.007312   0.002562   2.855   0.0272 *
+soil_0_20_silt == 0    0.007312   0.002562   2.855   0.0274 *
 TreatmentP100 == 0     0.002002   0.015606   0.128   1.0000  
-TreatmentP166 == 0    -0.030976   0.015845  -1.955   0.2615  
+TreatmentP166 == 0    -0.030976   0.015845  -1.955   0.2611  
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
@@ -994,13 +994,13 @@ Fit: lmer(formula = I(log(k * PS)) ~ soil_0_20_clay + soil_0_20_pH_H2O +
 
 Linear Hypotheses:
                        Estimate Std. Error z value Pr(&gt;|z|)    
-(Intercept) == 0      -6.881452   1.213944  -5.669    &lt;0.01 ***
+(Intercept) == 0      -6.881452   1.213944  -5.669   &lt;0.001 ***
 soil_0_20_clay == 0   -0.006725   0.018610  -0.361    0.999    
-soil_0_20_pH_H2O == 0  0.174037   0.093233   1.867    0.318    
+soil_0_20_pH_H2O == 0  0.174037   0.093233   1.867    0.319    
 soil_0_20_Corg == 0    0.216249   0.239142   0.904    0.926    
 soil_0_20_silt == 0    0.013125   0.023023   0.570    0.992    
-TreatmentP100 == 0     1.055684   0.186471   5.661    &lt;0.01 ***
-TreatmentP166 == 0     1.633397   0.187674   8.703    &lt;0.01 ***
+TreatmentP100 == 0     1.055684   0.186471   5.661   &lt;0.001 ***
+TreatmentP166 == 0     1.633397   0.187674   8.703   &lt;0.001 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
@@ -1226,7 +1226,7 @@ Linear Hypotheses:
                  Estimate Std. Error t value Pr(&gt;|t|)    
 P100 - P0 == 0     0.9127     0.1278   7.140   &lt;1e-04 ***
 P166 - P0 == 0     1.5035     0.1296  11.599   &lt;1e-04 ***
-P166 - P100 == 0   0.5908     0.1296   4.558   &lt;1e-04 ***
+P166 - P100 == 0   0.5908     0.1296   4.558    1e-04 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
@@ -1264,12 +1264,12 @@ Fit: lmer(formula = k ~ soil_0_20_clay + soil_0_20_pH_H2O + soil_0_20_Corg +
 Linear Hypotheses:
                        Estimate Std. Error z value Pr(&gt;|z|)  
 (Intercept) == 0      -0.158519   0.136979  -1.157   0.7902  
-soil_0_20_clay == 0   -0.004008   0.002174  -1.844   0.3218  
-soil_0_20_pH_H2O == 0  0.034830   0.011284   3.087   0.0132 *
+soil_0_20_clay == 0   -0.004008   0.002174  -1.844   0.3228  
+soil_0_20_pH_H2O == 0  0.034830   0.011284   3.087   0.0125 *
 soil_0_20_Corg == 0   -0.002606   0.031212  -0.083   1.0000  
-soil_0_20_silt == 0    0.007312   0.002562   2.855   0.0264 *
+soil_0_20_silt == 0    0.007312   0.002562   2.855   0.0273 *
 TreatmentP100 == 0     0.002002   0.015606   0.128   1.0000  
-TreatmentP166 == 0    -0.030976   0.015845  -1.955   0.2606  
+TreatmentP166 == 0    -0.030976   0.015845  -1.955   0.2616  
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
@@ -1297,7 +1297,7 @@ Linear Hypotheses:
                        Estimate Std. Error z value Pr(&gt;|z|)    
 (Intercept) == 0      -6.881452   1.213944  -5.669    &lt;0.01 ***
 soil_0_20_clay == 0   -0.006725   0.018610  -0.361    0.999    
-soil_0_20_pH_H2O == 0  0.174037   0.093233   1.867    0.319    
+soil_0_20_pH_H2O == 0  0.174037   0.093233   1.867    0.318    
 soil_0_20_Corg == 0    0.216249   0.239142   0.904    0.926    
 soil_0_20_silt == 0    0.013125   0.023023   0.570    0.992    
 TreatmentP100 == 0     1.055684   0.186471   5.661    &lt;0.01 ***

@@ -397,10 +397,10 @@ lmer_models_yield <- list(
   CO2_Ynorm = fit.grud.CO2.Ynorm,
   AAE10_Ynorm = fit.grud.AAE10.Ynorm,
   Grud_Ynorm = fit.grud.CO2.AAE10.Ynorm,
+  Kin_Ynorm = fit.kin.Ynorm,
   CO2_Yrel = fit.grud.CO2.Yrel,
   AAE10_Yrel = fit.grud.AAE10.Yrel,
   Grud_Yrel = fit.grud.Yrel,
-  Kin_Ynorm = fit.kin.Ynorm,
   Kin_Yrel = fit.kin.Yrel
 )
 
