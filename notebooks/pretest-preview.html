@@ -609,7 +609,7 @@ Residual standard error: 0.02119011 on 68 degrees of freedom</code></pre>
 <span id="cb37-24"><a href="#cb37-24" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
 <span id="cb37-25"><a href="#cb37-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> d_plot, <span class="fu">aes</span>(<span class="at">y =</span> Pv.mg.L., <span class="at">x =</span> t.dt, <span class="at">col =</span> Repetition)) <span class="sc">+</span></span>
 <span id="cb37-26"><a href="#cb37-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> pred_data, <span class="fu">aes</span>(<span class="at">x =</span> t.dt, <span class="at">y =</span> pred_Pv, <span class="at">col =</span> Repetition), <span class="at">size =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb37-27"><a href="#cb37-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(Treatment <span class="sc">~</span> Site) <span class="sc">+</span></span>
+<span id="cb37-27"><a href="#cb37-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(Treatment <span class="sc">~</span> Site,<span class="at">scales =</span> <span class="st">"free_y"</span>) <span class="sc">+</span></span>
 <span id="cb37-28"><a href="#cb37-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">TeX</span>(<span class="st">"$Time (min)$"</span>),</span>
 <span id="cb37-29"><a href="#cb37-29" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="fu">TeX</span>(<span class="st">"$P_{V}(</span><span class="sc">\\</span><span class="st">frac{mg}{L})$"</span>)); <span class="fu">suppressWarnings</span>(<span class="fu">print</span>(p1))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
@@ -773,9 +773,9 @@ Fit: lm(formula = log(PS) ~ Treatment + Site, data = nlme.coef)
 
 Linear Hypotheses:
                  Estimate Std. Error t value Pr(&gt;|t|)    
-P100 - P0 == 0    0.91948    0.09447   9.733   &lt;1e-09 ***
-P166 - P0 == 0    1.68127    0.09580  17.550   &lt;1e-09 ***
-P166 - P100 == 0  0.76179    0.09580   7.952   &lt;1e-09 ***
+P100 - P0 == 0    0.91948    0.09447   9.733   &lt;1e-10 ***
+P166 - P0 == 0    1.68127    0.09580  17.550   &lt;1e-10 ***
+P166 - P100 == 0  0.76179    0.09580   7.952   &lt;1e-10 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
@@ -846,9 +846,9 @@ Fit: lm(formula = I(log(k * PS)) ~ Treatment + Site, data = nlme.coef)
 
 Linear Hypotheses:
                  Estimate Std. Error t value Pr(&gt;|t|)    
-P100 - P0 == 0     0.9127     0.1278   7.140  &lt; 1e-04 ***
-P166 - P0 == 0     1.5035     0.1296  11.599  &lt; 1e-04 ***
-P166 - P100 == 0   0.5908     0.1296   4.558 0.000151 ***
+P100 - P0 == 0     0.9127     0.1278   7.140   &lt;1e-04 ***
+P166 - P0 == 0     1.5035     0.1296  11.599   &lt;1e-04 ***
+P166 - P100 == 0   0.5908     0.1296   4.558   &lt;1e-04 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>

@@ -811,13 +811,13 @@ Fit: lmer(formula = k ~ soil_0_20_clay + soil_0_20_pH_H2O + soil_0_20_Corg +
 
 Linear Hypotheses:
                        Estimate Std. Error z value Pr(&gt;|z|)  
-(Intercept) == 0      -0.158519   0.136979  -1.157   0.7906  
+(Intercept) == 0      -0.158519   0.136979  -1.157   0.7904  
 soil_0_20_clay == 0   -0.004008   0.002174  -1.844   0.3220  
-soil_0_20_pH_H2O == 0  0.034830   0.011284   3.087   0.0128 *
+soil_0_20_pH_H2O == 0  0.034830   0.011284   3.087   0.0114 *
 soil_0_20_Corg == 0   -0.002606   0.031212  -0.083   1.0000  
-soil_0_20_silt == 0    0.007312   0.002562   2.855   0.0267 *
+soil_0_20_silt == 0    0.007312   0.002562   2.855   0.0271 *
 TreatmentP100 == 0     0.002002   0.015606   0.128   1.0000  
-TreatmentP166 == 0    -0.030976   0.015845  -1.955   0.2619  
+TreatmentP166 == 0    -0.030976   0.015845  -1.955   0.2610  
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
@@ -851,13 +851,13 @@ Fit: lmer(formula = I(log(k * PS)) ~ soil_0_20_clay + soil_0_20_pH_H2O +
 
 Linear Hypotheses:
                        Estimate Std. Error z value Pr(&gt;|z|)    
-(Intercept) == 0      -6.881452   1.213944  -5.669   &lt;0.001 ***
+(Intercept) == 0      -6.881452   1.213944  -5.669    &lt;0.01 ***
 soil_0_20_clay == 0   -0.006725   0.018610  -0.361    0.999    
-soil_0_20_pH_H2O == 0  0.174037   0.093233   1.867    0.318    
+soil_0_20_pH_H2O == 0  0.174037   0.093233   1.867    0.319    
 soil_0_20_Corg == 0    0.216249   0.239142   0.904    0.926    
 soil_0_20_silt == 0    0.013125   0.023023   0.570    0.992    
-TreatmentP100 == 0     1.055684   0.186471   5.661   &lt;0.001 ***
-TreatmentP166 == 0     1.633397   0.187674   8.703   &lt;0.001 ***
+TreatmentP100 == 0     1.055684   0.186471   5.661    &lt;0.01 ***
+TreatmentP166 == 0     1.633397   0.187674   8.703    &lt;0.01 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
@@ -1053,21 +1053,21 @@ k:log(PS) -0.786  0.942 -0.972</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb125"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb125-1"><a href="#cb125-1" aria-hidden="true" tabindex="-1"></a>fit.CO2.Pbalance     <span class="ot">&lt;-</span> <span class="fu">lmer</span>(annual_P_balance2      <span class="sc">~</span> <span class="fu">log</span>(soil_0_20_P_CO2) <span class="sc">+</span> Treatment <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>year) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site)  <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>block) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>Treatment), D)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb125"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb125-1"><a href="#cb125-1" aria-hidden="true" tabindex="-1"></a>fit.CO2.Pbalance     <span class="ot">&lt;-</span> <span class="fu">lmer</span>(annual_P_balance2      <span class="sc">~</span> <span class="fu">log</span>(soil_0_20_P_CO2)  <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>year) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site)  <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>block) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>Treatment), D)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>boundary (singular) fit: see help('isSingular')</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb127"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb127-1"><a href="#cb127-1" aria-hidden="true" tabindex="-1"></a>fit.AAE10.Pbalance     <span class="ot">&lt;-</span> <span class="fu">lmer</span>(annual_P_balance2      <span class="sc">~</span> <span class="fu">log</span>(soil_0_20_P_AAE10) <span class="sc">+</span> Treatment <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>year) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site)  <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>block) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>Treatment), D)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb127"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb127-1"><a href="#cb127-1" aria-hidden="true" tabindex="-1"></a>fit.AAE10.Pbalance     <span class="ot">&lt;-</span> <span class="fu">lmer</span>(annual_P_balance2      <span class="sc">~</span> <span class="fu">log</span>(soil_0_20_P_AAE10)  <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>year) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site)  <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>block) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>Treatment), D)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>boundary (singular) fit: see help('isSingular')</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb129"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb129-1"><a href="#cb129-1" aria-hidden="true" tabindex="-1"></a>fit.grud.Pbalance     <span class="ot">&lt;-</span> <span class="fu">lmer</span>(annual_P_balance2      <span class="sc">~</span> <span class="fu">log</span>(soil_0_20_P_CO2) <span class="sc">+</span> <span class="fu">log</span>(soil_0_20_P_AAE10) <span class="sc">+</span> Treatment <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>year) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site)  <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>block) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>Treatment), D)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb129"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb129-1"><a href="#cb129-1" aria-hidden="true" tabindex="-1"></a>fit.grud.Pbalance     <span class="ot">&lt;-</span> <span class="fu">lmer</span>(annual_P_balance2      <span class="sc">~</span> <span class="fu">log</span>(soil_0_20_P_CO2) <span class="sc">+</span> <span class="fu">log</span>(soil_0_20_P_AAE10)  <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>year) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site)  <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>block) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>Treatment), D)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>boundary (singular) fit: see help('isSingular')</code></pre>
@@ -1107,9 +1107,9 @@ Fit: lm(formula = k ~ log(soil_0_20_P_CO2) + log(soil_0_20_P_AAE10),
 
 Linear Hypotheses:
                              Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept) == 0             0.101007   0.029593   3.413  0.00121 ** 
+(Intercept) == 0             0.101007   0.029593   3.413  0.00135 ** 
 log(soil_0_20_P_CO2) == 0   -0.027290   0.007637  -3.573  &lt; 0.001 ***
-log(soil_0_20_P_AAE10) == 0  0.021789   0.007612   2.863  0.00767 ** 
+log(soil_0_20_P_AAE10) == 0  0.021789   0.007612   2.863  0.00817 ** 
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
@@ -1234,42 +1234,37 @@ boundary (singular) fit: see help('isSingular')</code></pre>
 <pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite's method [
 lmerModLmerTest]
 Formula: annual_P_balance2 ~ log(soil_0_20_P_CO2) + log(soil_0_20_P_AAE10) +  
-    Treatment + (1 | year) + (1 | Site) + (1 | Site:block) +  
-    (1 | Site:Treatment)
+    (1 | year) + (1 | Site) + (1 | Site:block) + (1 | Site:Treatment)
    Data: D
 
-REML criterion at convergence: 1974.5
+REML criterion at convergence: 2027.5
 
 Scaled residuals: 
     Min      1Q  Median      3Q     Max 
--4.4655 -0.5122  0.0783  0.5061  2.5278 
+-4.5311 -0.5223  0.0978  0.5009  2.7103 
 
 Random effects:
  Groups         Name        Variance  Std.Dev. 
- Site:block     (Intercept) 3.984e-07 6.312e-04
- Site:Treatment (Intercept) 0.000e+00 0.000e+00
- year           (Intercept) 7.625e+01 8.732e+00
- Site           (Intercept) 3.288e+01 5.734e+00
- Residual                   1.167e+02 1.080e+01
+ Site:block     (Intercept) 0.000e+00  0.000000
+ Site:Treatment (Intercept) 5.315e+02 23.053419
+ year           (Intercept) 7.609e+01  8.723142
+ Site           (Intercept) 3.087e-06  0.001757
+ Residual                   1.189e+02 10.902764
 Number of obs: 259, groups:  
 Site:block, 16; Site:Treatment, 12; year, 6; Site, 4
 
 Fixed effects:
-                        Estimate Std. Error        df t value Pr(&gt;|t|)    
-(Intercept)            -24.46024   11.25584 102.48350  -2.173   0.0321 *  
-log(soil_0_20_P_CO2)    -5.13848    2.61060 246.12970  -1.968   0.0502 .  
-log(soil_0_20_P_AAE10)  -0.02248    2.90621 194.51957  -0.008   0.9938    
-TreatmentP100           30.97415    2.38191 248.34100  13.004   &lt;2e-16 ***
-TreatmentP166           54.06633    3.33853 248.19504  16.195   &lt;2e-16 ***
+                       Estimate Std. Error      df t value Pr(&gt;|t|)  
+(Intercept)              -0.429     14.357 121.574  -0.030   0.9762  
+log(soil_0_20_P_CO2)     -5.151      3.108 248.985  -1.658   0.0987 .
+log(soil_0_20_P_AAE10)    1.280      3.276 250.763   0.391   0.6963  
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 Correlation of Fixed Effects:
-            (Intr) l(_0_20_P_C l(_0_20_P_A TrP100
-l(_0_20_P_C  0.734                               
-l(_0_20_P_A -0.878 -0.631                        
-TretmntP100  0.158 -0.223      -0.398            
-TretmntP166  0.116 -0.367      -0.379       0.796
+            (Intr) l(_0_20_P_C
+l(_0_20_P_C  0.636            
+l(_0_20_P_A -0.843 -0.665     
 optimizer (nloptwrap) convergence code: 0 (OK)
 boundary (singular) fit: see help('isSingular')</code></pre>
 </div>
@@ -1278,8 +1273,8 @@ boundary (singular) fit: see help('isSingular')</code></pre>
 <div class="sourceCode cell-code" id="cb143"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb143-1"><a href="#cb143-1" aria-hidden="true" tabindex="-1"></a>fit.grud.Pbalance <span class="sc">|&gt;</span> <span class="fu">r.squaredGLMM</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>           R2m       R2c
-[1,] 0.6271185 0.8073452</code></pre>
+<pre><code>             R2m       R2c
+[1,] 0.009825987 0.8379702</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>

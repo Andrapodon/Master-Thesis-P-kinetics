@@ -258,13 +258,13 @@ fit.AAE10.Pexport     <- lmer(harv1_mp_Puptake ~ log(soil_0_20_P_AAE10) + Treatm
 fit.grud.Pexport     <- lmer(harv1_mp_Puptake     ~ log(soil_0_20_P_CO2) + log(soil_0_20_P_AAE10) + Treatment + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
 
 
-fit.CO2.Pbalance     <- lmer(annual_P_balance2      ~ log(soil_0_20_P_CO2) + Treatment + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.CO2.Pbalance     <- lmer(annual_P_balance2      ~ log(soil_0_20_P_CO2)  + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
 
 
-fit.AAE10.Pbalance     <- lmer(annual_P_balance2      ~ log(soil_0_20_P_AAE10) + Treatment + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.AAE10.Pbalance     <- lmer(annual_P_balance2      ~ log(soil_0_20_P_AAE10)  + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
 
 
-fit.grud.Pbalance     <- lmer(annual_P_balance2      ~ log(soil_0_20_P_CO2) + log(soil_0_20_P_AAE10) + Treatment + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.grud.Pbalance     <- lmer(annual_P_balance2      ~ log(soil_0_20_P_CO2) + log(soil_0_20_P_AAE10)  + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
 
 
 

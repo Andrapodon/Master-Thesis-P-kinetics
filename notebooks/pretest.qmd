@@ -166,7 +166,7 @@ pred_data <- d_plot %>%
 p1 <- ggplot() +
   geom_point(data = d_plot, aes(y = Pv.mg.L., x = t.dt, col = Repetition)) +
   geom_line(data = pred_data, aes(x = t.dt, y = pred_Pv, col = Repetition), size = 0.5) +
-  facet_grid(Treatment ~ Site) +
+  facet_grid(Treatment ~ Site,scales = "free_y") +
   labs(x = TeX("$Time (min)$"),
        y = TeX("$P_{V}(\\frac{mg}{L})$")); suppressWarnings(print(p1))
 
