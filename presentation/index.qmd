@@ -61,6 +61,7 @@ d <- RES$data
 -   5 Sites regarded; Cadenazzo, Ellighausen, Rümlang-Altwi, Oensingen, Zürich-Reckenholz
 -   5 Sites, 4 blocks per site, 6 Treatment-Levels, 4 Repetitions
 -   Years 2017-2022 were observed, kinetic data was collected for year 2022 and used to predict 2017-2022
+-   kinetic data worth one year vs STP worth 6 years to predict the same data-set
 
 ![](https://www.agroscope.admin.ch/agroscope/en/home/topics/environment-resources/monitoring-analytics/long-term-trials/stycs/_jcr_content/par/columncontrols/items/0/column/image/image.imagespooler.jpg/1617866324311/Feld-STYCS.jpg){fig-align="center"}
 
