@@ -29,10 +29,15 @@ suppressPackageStartupMessages({
   library(broom)
   library(dplyr)
   library(MuMIn)
+  library(kableExtra)
+  library(dplyr)
+
 })
 
 options(warn = -1)
 load("~/Documents/Master Thesis/Master-Thesis-P-kinetics/data/results_coefficient_analysis")
+RES <- readRDS("~/Documents/Master Thesis/Master-Thesis-P-kinetics/data/RES.rds")
+d <- RES$data
 
 ```
 
@@ -48,19 +53,32 @@ load("~/Documents/Master Thesis/Master-Thesis-P-kinetics/data/results_coefficien
 
     ![GRUD 2017](https://www.agroscope.admin.ch/agroscope/de/home/themen/pflanzenbau/ackerbau/Pflanzenernaehrung/grud/_jcr_content/par/columncontrols/items/0/column/image/image.imagespooler.jpg/1497864223201/2017-GRUD-duengung.jpg){fig-align="center"}
 
-## Context
+## Experimental Setup
 
 -   LTE STYCS, all treatment conditions equal except P-fertilization, which is in 6 Levels, 3 were considered($P0$,$P100$,$P166$)
 -   5 Sites regarded; Cadenazzo, Ellighausen, Rümlang-Altwi, Oensingen, Zürich-Reckenholz
+-   5 Sites, 4 blocks per site, 6 Treatment-Levels, 4 Repetitions
+-   Years 2017-2022 were observed, kinetic data was collected for year 2022 and used to predict 2017-2022
 
 ![](https://www.agroscope.admin.ch/agroscope/en/home/topics/environment-resources/monitoring-analytics/long-term-trials/stycs/_jcr_content/par/columncontrols/items/0/column/image/image.imagespooler.jpg/1617866324311/Feld-STYCS.jpg){fig-align="center"}
+
+## Kinetic Model
+
+Flossmann & Richter conducted in 1982 experiments that should: - improve the classification of P-supply in soils - work in tandem with a current STP-method e.g. CAL or Olsen
+
+The net-desorption was observed, a kinetic of first order was assumed: $$\frac{dP}{dt}=k\times(P^S-P)$$ When solved with $P(0)=0$, the following equation was obtained: $$P(t)=P^S\times(1-e^{-kt})$$ The researchers estimated $P^S=P_\text{CAL/Olsen}-P_{H_2O}$ and linearized as follows: $$log(1-\frac{P(t)}{P^S})=-kt$$ $PS$, $k$ and $k*PS$ were extracted, $k*PS$ being the average net-release speed.
+
+## Kinetic-Experiment Setup
+
+![](Experimental_Setup.png){fig-align="center"}
 
 ## Variable Introduction
 
 **Soil Variables:**
 
 -   $P-CO_2$ & $P-AAE10$ stand for the GRUD STP-measurements in \[$g~P/kg ~ Soil$\]
--   $k$($s^{-1}$) can be interpreted as the relative speed of desorption of orthophosphate of the net-desorption experiment
+-   $k$($s^{-1}$) can be interpreted as the relative speed of net-desorption of orthophosphate
+-   $k*PS$($g~Ps^{-1}$) can be interpreted as the average net-release speed
 -   $PS$($mg~P/L~H_2O$) is the equilibrium concentration of $PO_4^{3-}$ of the net-desorption experiment
 -   From the 0-20cm Horizon: Clay-, Silt-,$C_{org}$-content and pH
 
@@ -73,17 +91,50 @@ load("~/Documents/Master Thesis/Master-Thesis-P-kinetics/data/results_coefficien
 
 ## Research Questions
 
--   I: Is the method presented by Flossmann and Richter (1982) with the double extraction replicable with the soils from the STYCS-trial? predicting relative Yield, P-Export and P-Balance?
--   II: How do GRUD-measurements of STP correlate to the soil properties $C_\text{org}$-content, clay-content, silt-content and pH?
--   III: Are the kinetic coefficients $k$ and $PS$ ($k$ can be interpreted as the relative speed of desorption, $PS$ is the equilibrium concentration of $PO_4^{3-}$ of the observed desorption in the dried fine earth-water suspension 1:20 by weight) correlated to soil properties?
--   IV: How well can current GRUD methods of STP ($P-CO_2$ & $P-AAE10$) predict the Yield-parameters, P-Export and P-Balance?
--   V: Can the kinetic parameters $k$ & $PS$ of the net-release-kinetic of Orthophosphate improve the prediction of Yield-parameters, P-Export and P-Balance?
+-   I: Is the **method** presented by Flossmann and Richter (1982) with the double extraction **replicable** with the soils from the **STYCS-trial**?
+-   II: How do GRUD-measurements of **STP** **correlate** to the soil properties $C_\text{org}$**-content, clay-content, silt-content and pH**?
+-   III: Are the kinetic coefficients $k$ **and** $PS$ **correlated to soil properties**?
+-   IV: How well can current GRUD methods of **STP** ($P-CO_2$ & $P-AAE10$) **predict** the **Yield-parameters, P-Export and P-Balance**?
+-   V: How well can the **kinetic parameters** $k$ & $PS$ improve the **predict Yield-parameters, P-Export and P-Balance**?
 
 ## Research Question I
 
-I: Is the method presented by Flossmann and Richter (1982) with the double extraction replicable with the soils from the STYCS-trial? predicting relative Yield, P-Export and P-Balance?
+I: Is the **method** presented by Flossmann and Richter (1982) with the double extraction **replicable** with the soils from the **STYCS-trial**?
 
-# Question II \* III
+```{r}
+Res <- nlsList(Pv.mg.L. ~ PS * (1 - exp(-k * (t.dt))) | uid, d[, c("Pv.mg.L.", "uid", "t.dt")],  start=list(PS=0.1,k=0.2))
+# summary(Res)
+# d$nls_pred <- predict(Res)
+
+# Extract coefficients from the nlsList results
+nls_coefs <- coef(Res)
+nls_coefs$uid <- rownames(nls_coefs)
+
+
+d_plot <- merge(d, nls_coefs, by = "uid")
+
+# Most straightforward approach - create curves manually
+time_seq <- seq(min(d$t.dt, na.rm = TRUE), max(d$t.dt, na.rm = TRUE), length.out = 100)
+
+# Create prediction data
+pred_data <- d_plot %>%
+  select(uid, Site, Treatment, Repetition, PS, k) %>%
+  distinct() %>%
+  crossing(t.dt = time_seq) %>%
+  mutate(pred_Pv = PS * (1 - exp(-k * (t.dt))))
+
+
+ggplot() +
+  geom_point(data = d_plot, aes(y = Pv.mg.L., x = t.dt, col = Repetition)) +
+  geom_line(data = pred_data, aes(x = t.dt, y = pred_Pv, col = Repetition), size = 0.5) +
+  facet_grid(Treatment ~ Site,scales = "free_y") +
+  labs(x = TeX("$Time (min)$"),
+       y = TeX("$P_{V}(\\frac{mg}{L})$"))
+```
+
+# Question II & III
+
+II: How do GRUD-measurements of **STP correlate** to the soil properties $C_\text{org}$**-content, clay-content, silt-content and pH**? III: Are the **kinetic coefficients** $k$ and $PS$ **correlated** to **soil properties**?
 
 The following random structure was chosen:
 
@@ -93,15 +144,60 @@ The following random structure was chosen:
 
 ```{r}
 coef_table_soil <- create_coef_table(lmer_models, sig_threshold = 0.001)
-kable(coef_table_soil,
-row.names = FALSE,
-align = c("l", rep("r", ncol(coef_table) - 1)),
-caption = "Coefficient Table for Soil covariates. 
-Significant codes:  0 '\\*\\*\\*' 0.001 '\\*\\*' 0.01 '\\*' 0.05")
+
+# highlight_significant_cells <- function(df) {
+#   df_highlighted <- df
+# 
+#   # Loop through data columns (excluding Covariate column)
+#   for (col in names(df)[-1]) {
+#     df_highlighted[[col]] <- cell_spec(df[[col]],
+#                                        format = "html",
+#                                        color = ifelse(grepl("\\*", df[[col]]), "red", "white"),
+#                                        bold = grepl("\\*", df[[col]]))
+#   }
+# 
+#   return(df_highlighted)
+# }
+
+highlight_significant_cells <- function(df) {
+  df_highlighted <- df
+
+  for (col in names(df)[-1]) {
+    df_highlighted[[col]] <- cell_spec(df[[col]],
+      format = "html",
+      color = case_when(
+        grepl("\\*\\*\\*", df[[col]]) ~ "red",
+        grepl("\\*\\*", df[[col]])    ~ "orange",
+        grepl("\\*", df[[col]])       ~ "yellow",
+        TRUE                          ~ "white"
+      ),
+      bold = grepl("\\*", df[[col]])
+    )
+  }
+
+  return(df_highlighted)
+}
+
+
+# Apply formatting
+coef_table_soil_highlighted <- highlight_significant_cells(coef_table_soil)
+
+# Display with kable
+kable(coef_table_soil_highlighted,
+      escape = FALSE,
+      format = "html",
+      row.names = FALSE,
+      caption = "Coefficient Table for Soil Covariates.  
+      Significant codes:  0 '***' 0.001 '**' 0.01 '*' 0.05") |>
+  kable_styling(full_width = FALSE, position = "left")
+
+
 
 ```
 
 # Question IV & V
+
+IV: How well can current **GRUD** methods of **STP** ($P-CO_2$ & $P-AAE10$) **predict** the **Yield-parameters, P-Export and P-Balance?** V: Can the **kinetic parameters** $k$ & $PS$ predict the **Yield-parameters, P-Export and P-Balance**?
 
 ## Yield model summary:
 
@@ -109,11 +205,19 @@ Significant codes:  0 '\\*\\*\\*' 0.001 '\\*\\*' 0.01 '\\*' 0.05")
 
 
 coef_table_yield <- create_coef_table(lmer_models_yield, sig_threshold = 0.001)
-kable(coef_table_yield,
-row.names = FALSE,
-align = c("l", rep("r", ncol(coef_table) - 1)),
-caption = "Coefficient Table for Ynorm and Yrel. 
-Significant codes:  0 '\\*\\*\\*' 0.001 '\\*\\*' 0.01 '\\*' 0.05")
+# Apply formatting
+coef_table_yield_highlighted <- highlight_significant_cells(coef_table_yield)
+
+# Display with kable
+kable(coef_table_yield_highlighted,
+      escape = FALSE,
+      format = "html",
+      row.names = FALSE,
+      caption = "Coefficient Table for Yield Variables.  
+      Significant codes:  0 '***' 0.001 '**' 0.01 '*' 0.05") |>
+  kable_styling(full_width = FALSE, position = "left")
+
+
 
 
 ```
@@ -124,11 +228,19 @@ Significant codes:  0 '\\*\\*\\*' 0.001 '\\*\\*' 0.01 '\\*' 0.05")
 
 
 coef_table_export <- create_coef_table(lmer_models_export, sig_threshold = 0.001)
-kable(coef_table_export,
-row.names = FALSE,
-align = c("l", rep("r", ncol(coef_table) - 1)),
-caption = "Coefficient Table for P-Export. 
-Significant codes:  0 '\\*\\*\\*' 0.001 '\\*\\*' 0.01 '\\*' 0.05")
+# Apply formatting
+coef_table_export_highlighted <- highlight_significant_cells(coef_table_export)
+
+# Display with kable
+kable(coef_table_export_highlighted,
+      escape = FALSE,
+      format = "html",
+      row.names = FALSE,
+      caption = "Coefficient Table for P-export.  
+      Significant codes:  0 '***' 0.001 '**' 0.01 '*' 0.05") |>
+  kable_styling(full_width = FALSE, position = "left")
+
+
 
 
 ```
@@ -139,16 +251,30 @@ Significant codes:  0 '\\*\\*\\*' 0.001 '\\*\\*' 0.01 '\\*' 0.05")
 
 
 coef_table_balance <- create_coef_table(lmer_models_balance, sig_threshold = 0.001)
-kable(coef_table_balance,
-row.names = FALSE,
-align = c("l", rep("r", ncol(coef_table) - 1)),
-caption = "Coefficient Table for P-Balance. 
-Significant codes:  0 '\\*\\*\\*' 0.001 '\\*\\*' 0.01 '\\*' 0.05")
+# Apply formatting
+coef_table_balance_highlighted <- highlight_significant_cells(coef_table_balance)
+
+# Display with kable
+kable(coef_table_balance_highlighted,
+      escape = FALSE,
+      format = "html",
+      row.names = FALSE,
+      caption = "Coefficient Table for P-balance.  
+      Significant codes:  0 '***' 0.001 '**' 0.01 '*' 0.05") |>
+  kable_styling(full_width = FALSE, position = "left")
+
+
 
 
 ```
 
-## Going to sleep
+## Key Findings
 
--   Get in bed
--   Count sheep
+-   The estimation $PS=P_{Olsen}-P_{H_2O}$ did not deliver reasonable and significant models
+-   P-CO2 did not correlate with clay-content
+-   k does not correlate with Treatment but with pH and silt-content
+-   PS was the covariate best predicted by soil properties: $R^2_m=0.858$
+-   $k*log(PS)$ showed the strongest effect in the prediction of Ynorm
+-   P-AAE10 did show a string and significant effect in prediction of Yrel
+-   P-CO2 did show strong effects in both predicting Pexport and Pbalance (however negative in Pbalance)
+-   $PS$ showed the strongest effect in predicting P_balance
