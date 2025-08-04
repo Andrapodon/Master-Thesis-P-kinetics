@@ -66,16 +66,12 @@ d <- RES$data
 
 ## Kinetic Model
 
-Flossmann & Richter conducted in 1982 experiments that should: 
-- improve the classification of P-supply in soils 
-- work in tandem with a current STP-method e.g. CAL or Olsen
+Flossmann & Richter conducted in 1982 experiments that should:
 
-The net-desorption was observed, a kinetic of first order was assumed: 
-$$\frac{dP}{dt}=k\times(P^S-P)$$ 
-When solved with $P(0)=0$, the following equation was obtained: 
-$$P(t)=P^S\times(1-e^{-kt})$$ 
-The researchers estimated $P^S=P_\text{CAL/Olsen}-P_{H_2O}$ and linearized as follows: 
-$$log(1-\frac{P(t)}{P^S})=-kt$$ $PS$, $k$ and $k*PS$ were extracted, $k*PS$ being the average net-release speed.
+-   improve the classification of P-supply in soils
+-   work in tandem with a current STP-method e.g. CAL or Olsen
+
+The net-desorption was observed, a kinetic of first order was assumed: $$\frac{dP}{dt}=k\times(P^S-P)$$ When solved with $P(0)=0$, the following equation was obtained: $$P(t)=P^S\times(1-e^{-kt})$$ The researchers estimated $P^S=P_\text{CAL/Olsen}-P_{H_2O}$ and linearized as follows: $$log(1-\frac{P(t)}{P^S})=-kt$$ $PS$, $k$ and $k*PS$ were extracted, $k*PS$ being the average net-release speed.
 
 ## Kinetic-Experiment Setup
 
@@ -143,15 +139,6 @@ ggplot() +
 
 # QII & III: STP, k & PS correlate to soil properties?
 
-
-
-
-
-
-
-
-
-
 The following random structure was chosen:
 
 `(1|year) + (1|Site)  + (1|Site:block) + (Treatment|Site)`
@@ -211,6 +198,24 @@ kable(coef_table_soil_highlighted,
 
 ```
 
+::: notes
+-   columns are models, rows are covariates used, cells are effects with significance
+-   all but $k$ correlated to treatment
+-   $k$ correlated to pH and silt
+-   Plateau, P-CO2 and P-AAE10 correlated to Corg, unexpected
+-   P-CO2, P-AAE10 no correlation with clay
+-   P-AAE10 positive correlation to pH, surprising, should be negative
+-   $k*log(PS)$ correlated to pH, silt and clay and weaker to Treatment
+-   $R^2_m=0.85$ is remarkable
+:::
+
+**Observation**
+
+-   P-CO2 and P-AAE10 did not correlate with clay-content
+-   k does not correlate with Treatment but with pH and silt-content
+-   $k*log(PS)$ had significant effects for clay- and silt-content as well as pH, but lower in Treatment
+-   PS was the covariate best predicted by soil properties: $R^2_m=0.858$
+
 # QIV & V: Correlation k, PS & STP to Yield and P-metrics
 
 ## Yield model summary:
@@ -236,6 +241,20 @@ kable(coef_table_yield_highlighted,
 
 ```
 
+::: notes
+-   columns are models, rows are covariates used, cells are effects with significance
+-   $R^2_m$ for Ynorm-models is notably hugher than Yrel
+-   P-CO2 and P-AAE10 had significant effect separately, but not combined and no increase in $R^2_m$, although this is grud interpretation
+-   Ynorm correlated to $k$ and $k*log(PS)$
+-   Yrel did not show any correlation, except for P-AAE10,
+-   for Yrel $R^2_c$ are very big comared to $R^2_m$, confounded information in the sites or normalize through national mean problematic?
+:::
+
+**Observation**
+
+-   $k*log(PS)$ and $k$ showed the strongest effects in the prediction of Ynorm and Yrel
+-   P-AAE10 did show a significant effect in prediction of Yrel
+
 ## P-Export model summary:
 
 ```{r}
@@ -258,6 +277,16 @@ kable(coef_table_export_highlighted,
 
 
 ```
+
+::: notes
+-   columns are models, rows are covariates used, cells are effects with significance
+-   P-CO2 significant alone and in combination with P-AAE10
+-   $R^2_c$ seem inflated in comparison to $R^2_m$ confounded effects?
+:::
+
+**Observations**
+
+-   P-CO2 did show strong effects in predicting Pexport
 
 ## P-balance model summary:
 
@@ -282,14 +311,25 @@ kable(coef_table_balance_highlighted,
 
 ```
 
+::: notes
+-   columns are models, rows are covariates used, cells are effects with significance
+-   P-Balance correlates strongly to PS and $R^2_m=0.52$ is substantial compared to grud STP
+:::
+
+**Observation**
+
+-   $PS$ showed the strongest effect in predicting P_balance and k showed substantial $R^2_m$
+
 ## Key Findings
 
 -   The estimation $PS=P_{Olsen}-P_{H_2O}$ did not deliver reasonable and significant models
--   P-CO2 did not correlate with clay-content
+-   P-CO2 and P-AAE10 did not correlate with clay-content
 -   k does not correlate with Treatment but with pH and silt-content
 -   $k*log(PS)$ had significant effects for clay- and silt-content as well as pH
 -   PS was the covariate best predicted by soil properties: $R^2_m=0.858$
 -   $k*log(PS)$ and $k$ showed the strongest effects in the prediction of Ynorm and Yrel
 -   P-AAE10 did show a significant effect in prediction of Yrel
--   P-CO2 did show strong effects in both predicting Pexport and Pbalance (however negative in Pbalance)
--   $PS$ showed the strongest effect in predicting P_balance
+-   P-CO2 did show strong effects in predicting Pexport
+-   $PS$ showed the strongest effect in predicting P_balance and k showed substantial $R^2_m$
+
+Thank you for your attention

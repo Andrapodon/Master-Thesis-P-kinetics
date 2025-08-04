@@ -258,13 +258,13 @@ fit.AAE10.Pexport     <- lmer(harv1_mp_Puptake ~ log(soil_0_20_P_AAE10) + Treatm
 fit.grud.Pexport     <- lmer(harv1_mp_Puptake     ~ log(soil_0_20_P_CO2) + log(soil_0_20_P_AAE10) + Treatment + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
 
 
-fit.CO2.Pbalance     <- lmer(annual_P_balance2      ~ log(soil_0_20_P_CO2) + Treatment + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.CO2.Pbalance     <- lmer(annual_P_balance2      ~ log(soil_0_20_P_CO2)  + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
 
 
-fit.AAE10.Pbalance     <- lmer(annual_P_balance2      ~ log(soil_0_20_P_AAE10) + Treatment + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.AAE10.Pbalance     <- lmer(annual_P_balance2      ~ log(soil_0_20_P_AAE10)  + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
 
 
-fit.grud.Pbalance     <- lmer(annual_P_balance2      ~ log(soil_0_20_P_CO2) + log(soil_0_20_P_AAE10) + Treatment + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.grud.Pbalance     <- lmer(annual_P_balance2      ~ log(soil_0_20_P_CO2) + log(soil_0_20_P_AAE10)  + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
 
 
 
@@ -386,7 +386,7 @@ lmer_models <- list(
 coef_table_soil <- create_coef_table(lmer_models, sig_threshold = 0.001)
 kable(coef_table_soil,
 row.names = FALSE,
-align = c("l", rep("r", ncol(coef_table) - 1)),
+align = c("l", rep("r", ncol(coef_table_soil) - 1)),
 caption = "Coefficient Table for Soil covariates. 
 Significant codes:  0 '\\*\\*\\*' 0.001 '\\*\\*' 0.01 '\\*' 0.05")
 
@@ -397,10 +397,10 @@ lmer_models_yield <- list(
   CO2_Ynorm = fit.grud.CO2.Ynorm,
   AAE10_Ynorm = fit.grud.AAE10.Ynorm,
   Grud_Ynorm = fit.grud.CO2.AAE10.Ynorm,
+  Kin_Ynorm = fit.kin.Ynorm,
   CO2_Yrel = fit.grud.CO2.Yrel,
   AAE10_Yrel = fit.grud.AAE10.Yrel,
   Grud_Yrel = fit.grud.Yrel,
-  Kin_Ynorm = fit.kin.Ynorm,
   Kin_Yrel = fit.kin.Yrel
 )
 
@@ -419,10 +419,10 @@ lmer_models_export <- list(
 )
 
 
-coef_table_yield <- create_coef_table(lmer_models_yieldvar, sig_threshold = 0.001)
+coef_table_yield <- create_coef_table(lmer_models_yield, sig_threshold = 0.001)
 kable(coef_table_yield,
 row.names = FALSE,
-align = c("l", rep("r", ncol(coef_table) - 1)),
+align = c("l", rep("r", ncol(coef_table_yield) - 1)),
 caption = "Coefficient Table for Ynorm and Yrel. 
 Significant codes:  0 '\\*\\*\\*' 0.001 '\\*\\*' 0.01 '\\*' 0.05")
 
