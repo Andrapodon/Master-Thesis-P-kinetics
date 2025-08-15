@@ -35,7 +35,6 @@ options(warn = -1)
 RES <- readRDS("~/Documents/Master Thesis/Master-Thesis-P-kinetics/data/RES.rds")
 D <- RES$D
 d <- RES$data
-D$annual_P_balance2 <-   D$fert_P_tot-D$harv1_mp_Puptake
 ```
 
 Model Agroscope
@@ -201,8 +200,8 @@ fit.kin.Ynorm   <- lmer(Ymain_norm       ~ k*log(PS) + (1|year) + (1|Site)  + (1
 r.squaredGLMM(fit.kin.Ynorm)
 
 fit.kin.Ynorm    <- lmer(Ymain_norm       ~ k * log(PS) + (1|year) + (1|Site)  + (1|Site:block), D, subset = Treatment != "P166")
-fit.kin.Pexport  <- lmer(harv1_mp_Puptake  ~ k * log(PS) + (1|year) + (1|Site)  + (1|Site:block), D)
-fit.kin.Pbalance <- lmer(annual_P_balance2 ~ k * log(PS) + (1|year) + (1|Site)  + (1|Site:block), D)
+fit.kin.Pexport  <- lmer(annual_P_uptake  ~ k * log(PS) + (1|year) + (1|Site)  + (1|Site:block), D)
+fit.kin.Pbalance <- lmer(annual_P_balance ~ k * log(PS) + (1|year) + (1|Site)  + (1|Site:block), D)
 
 car::vif(lm(Ymain_norm       ~ (k) * log(PS)  + crop, D))
 car::vif(lm(Ymain_norm       ~ scale(k) * scale(log(PS))   + crop, D))
@@ -251,20 +250,20 @@ fit.grud.Yrel     <- lmer(Ymain_rel       ~ log(soil_0_20_P_CO2) + log(soil_0_20
 
 
 # this is hopeless, since cannot log becaus of 0's
-fit.CO2.Pexport     <- lmer(harv1_mp_Puptake     ~ log(soil_0_20_P_CO2) + Treatment + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.CO2.Pexport     <- lmer(annual_P_uptake     ~ log(soil_0_20_P_CO2) + Treatment + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
 
-fit.AAE10.Pexport     <- lmer(harv1_mp_Puptake ~ log(soil_0_20_P_AAE10) + Treatment + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.AAE10.Pexport     <- lmer(annual_P_uptake ~ log(soil_0_20_P_AAE10) + Treatment + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
 
-fit.grud.Pexport     <- lmer(harv1_mp_Puptake     ~ log(soil_0_20_P_CO2) + log(soil_0_20_P_AAE10) + Treatment + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
-
-
-fit.CO2.Pbalance     <- lmer(annual_P_balance2      ~ log(soil_0_20_P_CO2)  + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.grud.Pexport     <- lmer(annual_P_uptake     ~ log(soil_0_20_P_CO2) + log(soil_0_20_P_AAE10) + Treatment + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
 
 
-fit.AAE10.Pbalance     <- lmer(annual_P_balance2      ~ log(soil_0_20_P_AAE10)  + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.CO2.Pbalance     <- lmer(annual_P_balance      ~ log(soil_0_20_P_CO2)  + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
 
 
-fit.grud.Pbalance     <- lmer(annual_P_balance2      ~ log(soil_0_20_P_CO2) + log(soil_0_20_P_AAE10)  + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.AAE10.Pbalance     <- lmer(annual_P_balance      ~ log(soil_0_20_P_AAE10)  + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+
+
+fit.grud.Pbalance     <- lmer(annual_P_balance      ~ log(soil_0_20_P_CO2) + log(soil_0_20_P_AAE10)  + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
 
 
 
