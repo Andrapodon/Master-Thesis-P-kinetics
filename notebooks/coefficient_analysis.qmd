@@ -250,11 +250,11 @@ fit.grud.Yrel     <- lmer(Ymain_rel       ~ log(soil_0_20_P_CO2) + log(soil_0_20
 
 
 # this is hopeless, since cannot log becaus of 0's
-fit.CO2.Pexport     <- lmer(annual_P_uptake     ~ log(soil_0_20_P_CO2) + Treatment + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.CO2.Pexport     <- lmer(annual_P_uptake     ~ log(soil_0_20_P_CO2) + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
 
-fit.AAE10.Pexport     <- lmer(annual_P_uptake ~ log(soil_0_20_P_AAE10) + Treatment + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.AAE10.Pexport     <- lmer(annual_P_uptake ~ log(soil_0_20_P_AAE10) + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
 
-fit.grud.Pexport     <- lmer(annual_P_uptake     ~ log(soil_0_20_P_CO2) + log(soil_0_20_P_AAE10) + Treatment + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.grud.Pexport     <- lmer(annual_P_uptake     ~ log(soil_0_20_P_CO2) + log(soil_0_20_P_AAE10) + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
 
 
 fit.CO2.Pbalance     <- lmer(annual_P_balance      ~ log(soil_0_20_P_CO2)  + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
@@ -376,8 +376,7 @@ lmer_models <- list(
   'log(k*PS)' = fit.soil.kPS,
   'k*log(PS)' = fit.soil.kPS2,
   CO2 = fit.soil.CO2,
-  AAE10 = fit.soil.AAE10,
-  fail = fit.kin.Yrel
+  AAE10 = fit.soil.AAE10
 )
 
 
