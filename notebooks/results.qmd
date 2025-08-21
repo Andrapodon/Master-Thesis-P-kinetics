@@ -1,5 +1,5 @@
 ---
-  title: "Model Validation and coefficient calculation"
+title: "Model Validation and coefficient calculation"
 format: 
   html:
   math: mathjax
