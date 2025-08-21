@@ -51,8 +51,8 @@ Es gibt noch die Kovariaten Niederschlag pro Jahr, Jahresdurchschnittstemperatur
 
 
 ```{r}
-#|code-fold: true
-#|tidy: true
+#| eval: false
+#| include: false
 
 
 
@@ -146,13 +146,13 @@ wir sind abe nicht an einem Treatment effekt interesseiert. drum verwerfen wir T
 
 library(lmerTest)
 
-fit.soil.PS  <- lmer(log(PS)     ~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Treatment + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
-# fit.soil.PS2 <- lmer(log(PS)     ~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Treatment + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
-fit.soil.k   <- lmer(k           ~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Treatment + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
-fit.soil.kPS <- lmer(I(log(k*PS))~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Treatment + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
-fit.soil.kPS2<- lmer(I(k*log(PS))~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Treatment + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
-fit.soil.CO2 <- lmer(log(soil_0_20_P_CO2)~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Treatment + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
-fit.soil.AAE10<-lmer(log(soil_0_20_P_AAE10)~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Treatment + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.soil.PS  <- lmer(log(PS)     ~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt  + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+# fit.soil.PS2 <- lmer(log(PS)     ~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt  + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.soil.k   <- lmer(k           ~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt  + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.soil.kPS <- lmer(I(log(k*PS))~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt  + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.soil.kPS2<- lmer(I(k*log(PS))~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt  + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.soil.CO2 <- lmer(log(soil_0_20_P_CO2)~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt  + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.soil.AAE10<-lmer(log(soil_0_20_P_AAE10)~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt  + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
 
 
 
@@ -244,17 +244,17 @@ fit.grud.PS       <- lm(log(PS)         ~ log(soil_0_20_P_CO2) + log(soil_0_20_P
 fit.grud.k        <- lm(k               ~ log(soil_0_20_P_CO2) + log(soil_0_20_P_AAE10), D)
 fit.grud.kPS      <- lm(I(log(k*PS))    ~ log(soil_0_20_P_CO2) + log(soil_0_20_P_AAE10), D)
 
-fit.grud.CO2.Yrel     <- lmer(Ymain_rel       ~ log(soil_0_20_P_CO2)  + Treatment + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
-fit.grud.AAE10.Yrel     <- lmer(Ymain_rel       ~ log(soil_0_20_P_AAE10) + Treatment + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
-fit.grud.Yrel     <- lmer(Ymain_rel       ~ log(soil_0_20_P_CO2) + log(soil_0_20_P_AAE10) + Treatment + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.grud.CO2.Yrel     <- lmer(Ymain_rel       ~ log(soil_0_20_P_CO2) + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.grud.AAE10.Yrel     <- lmer(Ymain_rel       ~ log(soil_0_20_P_AAE10) + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.grud.Yrel     <- lmer(Ymain_rel       ~ log(soil_0_20_P_CO2) + log(soil_0_20_P_AAE10) + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
 
 
 # this is hopeless, since cannot log becaus of 0's
-fit.CO2.Pexport     <- lmer(annual_P_uptake     ~ log(soil_0_20_P_CO2) + Treatment + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.CO2.Pexport     <- lmer(annual_P_uptake     ~ log(soil_0_20_P_CO2) + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
 
-fit.AAE10.Pexport     <- lmer(annual_P_uptake ~ log(soil_0_20_P_AAE10) + Treatment + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.AAE10.Pexport     <- lmer(annual_P_uptake ~ log(soil_0_20_P_AAE10) + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
 
-fit.grud.Pexport     <- lmer(annual_P_uptake     ~ log(soil_0_20_P_CO2) + log(soil_0_20_P_AAE10) + Treatment + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.grud.Pexport     <- lmer(annual_P_uptake     ~ log(soil_0_20_P_CO2) + log(soil_0_20_P_AAE10) + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
 
 
 fit.CO2.Pbalance     <- lmer(annual_P_balance      ~ log(soil_0_20_P_CO2)  + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
@@ -287,83 +287,96 @@ save.image(file = "~/Documents/Master Thesis/Master-Thesis-P-kinetics/data/resul
 
 
 ```{r}
-create_coef_table <- function(lmer_models, sig_threshold = 0.001, covariate_order = NULL) {
+create_coef_table <- function(lmer_models, 
+                              covariate_order = NULL, 
+                              covariate_labels = NULL, # NEU: Benannter Vektor für Zeilennamen
+                              model_labels = NULL) {   # NEU: Benannter Vektor für Spaltennamen
 
-  # Extract coefficients and p-values from lmerTest::lmer objects
+  # Extract coefficients and p-values (Ihre Originalfunktion, keine Änderung hier)
   extract_coef_info <- function(model) {
+    # ... (keine Änderung, Ihr Code bleibt hier)
     coef_matrix <- summary(model)|> coef()
     estimates <- coef_matrix[, 1]
     p_values <- coef_matrix[, ncol(coef_matrix)]
-    # Format with significance stars
     formatted_coef <- sapply(seq_along(estimates), function(i) {
-    est_str <- sprintf("%.3f", estimates[i])
-    stars <- if (p_values[i] < 0.001) "***" else
-    if (p_values[i] < 0.01) "** " else
-    if (p_values[i] < 0.05) "*  " else  ""
-    paste0(stars, est_str)
+      est_str <- sprintf("%.3f", estimates[i])
+      stars <- if (p_values[i] < 0.001) "***" else
+               if (p_values[i] < 0.01) "** " else
+               if (p_values[i] < 0.05) "* " else  ""
+      paste0(stars, est_str)
     })
     names(formatted_coef) <- rownames(coef_matrix)
     return(formatted_coef)
   }
 
-  # Extract R-squared values
+  # Extract R-squared values (Ihre Originalfunktion, keine Änderung hier)
   extract_r_squared <- function(model) {
-  r2_values <- r.squaredGLMM(model)
-  return(c(
-    R2m = sprintf("%.3f", r2_values[1, "R2m"]),
-    R2c = sprintf("%.3f", r2_values[1, "R2c"])
-  ))
+    # ... (keine Änderung, Ihr Code bleibt hier)
+    r2_values <- MuMIn::r.squaredGLMM(model) # MuMIn:: hinzugefügt für Klarheit
+    return(c(
+      R2m = sprintf("%.3f", r2_values[1, "R2m"]),
+      R2c = sprintf("%.3f", r2_values[1, "R2c"])
+    ))
   }
 
-  # Extract coefficients for all models
+  # Daten extrahieren (Ihr Originalcode)
   all_coefs <- lapply(lmer_models, extract_coef_info)
-
-  # Extract R-squared for all models
   all_r_squared <- lapply(lmer_models, extract_r_squared)
-
-  # Get all unique coefficient names
   all_covariate_names <- unique(unlist(lapply(all_coefs, names)))
 
-  # Apply covariate ordering
   if (is.null(covariate_order)) {
-  # Default: Intercept first, then alphabetical
-  covariate_order <- c("(Intercept)", sort(all_covariate_names[all_covariate_names != "(Intercept)"]))
+    covariate_order <- c("(Intercept)", sort(all_covariate_names[all_covariate_names != "(Intercept)"]))
   }
-
-  # Filter to only include covariates that exist
   covariate_order <- covariate_order[covariate_order %in% all_covariate_names]
-
-  # Add R-squared rows to the ordering
   final_order <- c(covariate_order, "R2m", "R2c")
 
-  # Create results matrix
+  # Matrix erstellen (Ihr Originalcode)
   results_matrix <- matrix("",
-  nrow = length(final_order),
-  ncol = length(lmer_models),
-  dimnames = list(final_order, names(lmer_models)))
+                           nrow = length(final_order),
+                           ncol = length(lmer_models),
+                           dimnames = list(final_order, names(lmer_models)))
 
-  # Fill in the coefficients
+  # Matrix füllen (Ihr Originalcode)
   for (model_name in names(lmer_models)) {
-  model_coefs <- all_coefs[[model_name]]
-  for (covar in names(model_coefs)) {
-  if (covar %in% covariate_order) {
-  results_matrix[covar, model_name] <- model_coefs[covar]
-  }
-  }
+    model_coefs <- all_coefs[[model_name]]
+    for (covar in names(model_coefs)) {
+      if (covar %in% covariate_order) {
+        results_matrix[covar, model_name] <- model_coefs[covar]
+      }
+    }
+    r2_values <- all_r_squared[[model_name]]
+    results_matrix["R2m", model_name] <- r2_values["R2m"]
+    results_matrix["R2c", model_name] <- r2_values["R2c"]
   }
 
-  # Fill in the R-squared values
-  for (model_name in names(lmer_models)) {
-  r2_values <- all_r_squared[[model_name]]
-  results_matrix["R2m", model_name] <- r2_values["R2m"]
-  results_matrix["R2c", model_name] <- r2_values["R2c"]
+  # --- NEU: Zeilen- und Spaltennamen ersetzen ---
+  
+  # Ersetze die Zeilennamen (Kovariaten), falls covariate_labels übergeben wurde
+  if (!is.null(covariate_labels)) {
+    # Finde die Übereinstimmungen in den aktuellen Zeilennamen
+    row_matches <- match(rownames(results_matrix), names(covariate_labels))
+    # Ersetze nur die, die gefunden wurden
+    new_rownames <- rownames(results_matrix)
+    new_rownames[!is.na(row_matches)] <- covariate_labels[row_matches[!is.na(row_matches)]]
+    rownames(results_matrix) <- new_rownames
   }
+  
+  # Ersetze die Spaltennamen (Modelle), falls model_labels übergeben wurde
+  if (!is.null(model_labels)) {
+    col_matches <- match(colnames(results_matrix), names(model_labels))
+    new_colnames <- colnames(results_matrix)
+    new_colnames[!is.na(col_matches)] <- model_labels[col_matches[!is.na(col_matches)]]
+    colnames(results_matrix) <- new_colnames
+  }
+  
+  # --- Ende der neuen Sektion ---
 
   # Convert to data frame for kable
   results_df <- data.frame(Covariate = rownames(results_matrix),
-  results_matrix,
-  stringsAsFactors = FALSE)
-
+                           results_matrix,
+                           check.names = FALSE, # Verhindert, dass R Spaltennamen ändert
+                           stringsAsFactors = FALSE)
+  
   results_df
 }
 ```
@@ -376,16 +389,16 @@ lmer_models <- list(
   'log(k*PS)' = fit.soil.kPS,
   'k*log(PS)' = fit.soil.kPS2,
   CO2 = fit.soil.CO2,
-  AAE10 = fit.soil.AAE10,
-  fail = fit.kin.Yrel
+  AAE10 = fit.soil.AAE10
 )
 
 
 
-coef_table_soil <- create_coef_table(lmer_models, sig_threshold = 0.001)
+coef_table_soil <- create_coef_table(lmer_models)
 kable(coef_table_soil,
 row.names = FALSE,
 align = c("l", rep("r", ncol(coef_table_soil) - 1)),
+escape = FALSE,
 caption = "Coefficient Table for Soil covariates. 
 Significant codes:  0 '\\*\\*\\*' 0.001 '\\*\\*' 0.01 '\\*' 0.05")
 
@@ -393,14 +406,14 @@ Significant codes:  0 '\\*\\*\\*' 0.001 '\\*\\*' 0.01 '\\*' 0.05")
 
 
 lmer_models_yield <- list(
-  CO2_Ynorm = fit.grud.CO2.Ynorm,
-  AAE10_Ynorm = fit.grud.AAE10.Ynorm,
-  Grud_Ynorm = fit.grud.CO2.AAE10.Ynorm,
-  Kin_Ynorm = fit.kin.Ynorm,
-  CO2_Yrel = fit.grud.CO2.Yrel,
-  AAE10_Yrel = fit.grud.AAE10.Yrel,
-  Grud_Yrel = fit.grud.Yrel,
-  Kin_Yrel = fit.kin.Yrel
+  "Yn-STP-CO2" = fit.grud.CO2.Ynorm,
+  "Yn-STP-AAE10" = fit.grud.AAE10.Ynorm,
+  "Yn-STP-GRUD" = fit.grud.CO2.AAE10.Ynorm,
+  "Yn-Kinetic" = fit.kin.Ynorm,
+  "Yn-STP-CO2" = fit.grud.CO2.Yrel,
+  "Yn-STP-AAE10" = fit.grud.AAE10.Yrel,
+  "Yn-STP-GRUD" = fit.grud.Yrel,
+  "Yn-Kinetic" = fit.kin.Yrel
 )
 
 lmer_models_balance <- list(
@@ -418,9 +431,10 @@ lmer_models_export <- list(
 )
 
 
-coef_table_yield <- create_coef_table(lmer_models_yield, sig_threshold = 0.001)
+coef_table_yield <- create_coef_table(lmer_models_yield)
 kable(coef_table_yield,
 row.names = FALSE,
+escape = FALSE,
 align = c("l", rep("r", ncol(coef_table_yield) - 1)),
 caption = "Coefficient Table for Ynorm and Yrel. 
 Significant codes:  0 '\\*\\*\\*' 0.001 '\\*\\*' 0.01 '\\*' 0.05")
