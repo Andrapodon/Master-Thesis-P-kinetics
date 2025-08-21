@@ -65,6 +65,7 @@ library(latex2exp)
 library(kableExtra)
 library(broom)
 library(dplyr)
+library(readr)
 
 
 try(setwd("~/Documents/Master Thesis/Master-Thesis-P-kinetics/"), silent=TRUE)
@@ -266,8 +267,32 @@ allP$uid <- paste(allP$location,allP$treatment_ID,as.character(allP$rep),sep = "
 
 ```{r}
 # 1. merge this with nlme.coef
+soil_data_2022 <- allP %>%
+  filter(year == 2022) %>%
+  select(soil_0_20_P_AAE10, soil_0_20_P_CO2,uid) %>%
+  # Wir benennen die Spalten um, um später Konflikte zu vermeiden.
+  rename(
+    soil_AAE10_from_2022 = soil_0_20_P_AAE10,
+    soil_CO2_from_2022 = soil_0_20_P_CO2
+  )
+
+ 
+Stycs_data <- allP %>% filter(year>=2017 & year<=2022) %>% 
+  left_join(soil_data_2022, by = "uid")
+
+
+Stycs_data_2022 <- Stycs_data %>%
+  mutate(
+    soil_0_20_P_AAE10 = ifelse(year != 2022, soil_AAE10_from_2022, soil_0_20_P_AAE10),
+    soil_0_20_P_CO2   = ifelse(year != 2022, soil_CO2_from_2022, soil_0_20_P_CO2)
+  ) %>%
+  # Die Hilfsspalten werden nicht mehr benötigt und können entfernt werden.
+  select(-soil_AAE10_from_2022, -soil_CO2_from_2022)
+
+
 nlme.coef$kPS <- nlme.coef$k * nlme.coef$PS
-D <- merge(nlme.coef, allP[allP$year>=2017,],by = "uid")
+
+D <- merge(nlme.coef, Stycs_data_2022,by = "uid")
 D$uuid <- interaction(D$Site, D$treatment_ID, D$rep, D$year, D$crop)
 
 # rm FodderCrop
@@ -311,7 +336,59 @@ D$Ymain_norm <- tmp$Ymain_norm
 
 
 
+
+###################################################
+# Original Comparison 1 year k,PS vs. 6 years CO2 AAE10
+###################################################
+
+D2 <- merge(nlme.coef, allP[allP$year>=2017,],by = "uid")
+D2$uuid <- interaction(D2$Site, D2$treatment_ID, D2$rep, D2$year, D2$crop)
+
+# rm FodderCrop
+D2 <- D2[D2$crop != "FodderCrop",]
+
+# set wrong 0's to NA
+D2[D2$soil_0_20_P_CO2 %in% c(NA,0), "soil_0_20_P_CO2"] <- NA
+D2[D2$soil_0_20_P_AAE10 %in% c(NA,0), "soil_0_20_P_AAE10"] <- NA
+D2[D2$annual_yield_mp_DM %in% c(NA,0), "annual_yield_mp_DM"] <- NA
+D2[D2$Ymain_rel %in% c(NA,0), "Ymain_rel"] <- NA
+D2[D2$annual_P_uptake %in% c(NA,0), "annual_P_uptake"] <- NA
+D2[D2$annual_P_balance %in% c(NA,0), "annual_P_balance"] <- NA
+
+# add log-transformed versions
+# D2$k_logPS <- D2$k * log(D2$PS)
+D2$kPS_log <- log(D2$kPS)
+D2$PS_log <- log(D2$PS)
+D2$P_AAE10_log <- log(D2$soil_0_20_P_AAE10)
+D2$P_CO2_log <- log(D2$soil_0_20_P_CO2)
+D2$P_AAE10_CO2_loglog <- log(D2$soil_0_20_P_AAE10) * log(D2$soil_0_20_P_CO2)
+
+
+
+
+D2$Site <- as.factor(D2$Site)
+
+
+## Compute Ymain_norm as the median yield of P166 treatment per site, year and crop
+# set 0 values of annual_yield_mp_DM, Ymain_rel, annual_P_uptake, annual_P_balance to NA
+dd <- aggregate(annual_yield_mp_DM ~ Site+Treatment+year+crop, data=D2, median, na.rm = TRUE, na.action = na.pass)
+# only keep P166
+dd <- dd[dd$Treatment == "P166",]
+dd$Treatment <- NULL
+tmp <- merge(D2, dd, by = c("Site", "year", "crop"), suffixes = c("", ".norm"), sort=FALSE)
+nrow(tmp)
+tmp$Ymain_norm <- tmp$annual_yield_mp_DM / tmp$annual_yield_mp_DM.norm
+# order tmp by uid s.t. it matches D2
+tmp <- tmp[match(D2$uuid, tmp$uuid),]
+# check: cbind(tmp$uid, D2$uid)
+D2$Ymain_norm <- tmp$Ymain_norm
+
+
+
+
+
 RES$D <- D
+RES$D2 <- D2
 RES$nlme.coef.avg <- nlme.coef.avg
 RES$data <- d
 saveRDS(RES, file = "./data/RES.rds")

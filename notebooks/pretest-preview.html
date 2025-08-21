@@ -404,29 +404,32 @@ Attaching package: 'dplyr'</code></pre>
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">try</span>(<span class="fu">setwd</span>(<span class="st">"~/Documents/Master Thesis/Master-Thesis-P-kinetics/"</span>), <span class="at">silent=</span><span class="cn">TRUE</span>)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">warn =</span> <span class="sc">-</span><span class="dv">1</span>)</span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Dataset preparation</span></span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">tryCatch</span>(<span class="fu">read.csv</span>(<span class="at">file =</span> <span class="st">"./data/release-Data.csv"</span>, <span class="at">na.strings =</span> <span class="fu">c</span>(<span class="st">""</span>, <span class="st">"n.a."</span>)))</span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">inherits</span>(d, <span class="st">"try-error"</span>)){</span>
-<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>  d <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file =</span> <span class="st">"~/Documents/Master Thesis/Master-Thesis-P-kinetics/data/release-Data.csv"</span>, <span class="at">na.strings =</span> <span class="fu">c</span>(<span class="st">""</span>, <span class="st">"n.a."</span>))</span>
-<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Treatment <span class="ot">&lt;-</span> d<span class="sc">$</span>Treatment <span class="sc">|&gt;</span> <span class="fu">factor</span>()</span>
-<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Pv.mg.L. <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(d<span class="sc">$</span>Pv.mg.L.)</span>
-<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Pv_labile.mg.L. <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(d<span class="sc">$</span>Pv_labile.mg.L.)</span>
-<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Pv_Olsen.mg.L. <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(d<span class="sc">$</span>Pv_Olsen.mg.L.)</span>
-<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>uid <span class="ot">&lt;-</span> <span class="fu">paste</span>(d<span class="sc">$</span>Site, d<span class="sc">$</span>Treatment, <span class="fu">as.character</span>(d<span class="sc">$</span>Repetition), <span class="at">sep=</span><span class="st">"_"</span>)</span>
-<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Repetition <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(d<span class="sc">$</span>Repetition)</span>
-<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>t.dt <span class="ot">&lt;-</span> d<span class="sc">$</span>t.min. <span class="sc">+</span> <span class="dv">3</span></span>
-<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>d[d<span class="sc">$</span>Treatment<span class="sc">==</span><span class="st">"P0"</span><span class="sc">&amp;</span>d<span class="sc">$</span>Site<span class="sc">==</span><span class="st">"Ellighausen"</span><span class="sc">&amp;</span>d<span class="sc">$</span>Repetition<span class="sc">==</span><span class="dv">4</span>,<span class="st">"Pv_Olsen.mg.L."</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
-<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>flos <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(d<span class="sc">$</span>Pv_Olsen.mg.L.)<span class="sc">-</span><span class="fu">as.numeric</span>(d<span class="sc">$</span>Pv_labile.mg.L.)</span>
-<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>flos[d<span class="sc">$</span>flos <span class="sc">&lt;=</span> <span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="fu">quantile</span>(d<span class="sc">$</span>flos[d<span class="sc">$</span>flos <span class="sc">&gt;</span> <span class="dv">0</span>], <span class="fl">0.025</span>, <span class="at">na.rm=</span><span class="cn">TRUE</span>)<span class="sc">/</span><span class="dv">2</span></span>
-<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Y1 <span class="ot">&lt;-</span> <span class="fu">log</span>(<span class="dv">1</span> <span class="sc">-</span> d<span class="sc">$</span>Pv.mg.L. <span class="sc">/</span> d<span class="sc">$</span>flos) <span class="co"># one timeseries removed, since flos too low</span></span>
-<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Y1[<span class="fu">is.nan</span>(d<span class="sc">$</span>Y1)] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
-<span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-23"><a href="#cb30-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-24"><a href="#cb30-24" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(d)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="fu">try</span>(<span class="fu">setwd</span>(<span class="st">"~/Documents/Master Thesis/Master-Thesis-P-kinetics/"</span>), <span class="at">silent=</span><span class="cn">TRUE</span>)</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">warn =</span> <span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Dataset preparation</span></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">tryCatch</span>(<span class="fu">read.csv</span>(<span class="at">file =</span> <span class="st">"./data/release-Data.csv"</span>, <span class="at">na.strings =</span> <span class="fu">c</span>(<span class="st">""</span>, <span class="st">"n.a."</span>)))</span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">inherits</span>(d, <span class="st">"try-error"</span>)){</span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>  d <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file =</span> <span class="st">"~/Documents/Master Thesis/Master-Thesis-P-kinetics/data/release-Data.csv"</span>, <span class="at">na.strings =</span> <span class="fu">c</span>(<span class="st">""</span>, <span class="st">"n.a."</span>))</span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Treatment <span class="ot">&lt;-</span> d<span class="sc">$</span>Treatment <span class="sc">|&gt;</span> <span class="fu">factor</span>()</span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Pv.mg.L. <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(d<span class="sc">$</span>Pv.mg.L.)</span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Pv_labile.mg.L. <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(d<span class="sc">$</span>Pv_labile.mg.L.)</span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Pv_Olsen.mg.L. <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(d<span class="sc">$</span>Pv_Olsen.mg.L.)</span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>uid <span class="ot">&lt;-</span> <span class="fu">paste</span>(d<span class="sc">$</span>Site, d<span class="sc">$</span>Treatment, <span class="fu">as.character</span>(d<span class="sc">$</span>Repetition), <span class="at">sep=</span><span class="st">"_"</span>)</span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Repetition <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(d<span class="sc">$</span>Repetition)</span>
+<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>t.dt <span class="ot">&lt;-</span> d<span class="sc">$</span>t.min. <span class="sc">+</span> <span class="dv">3</span></span>
+<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a>d[d<span class="sc">$</span>Treatment<span class="sc">==</span><span class="st">"P0"</span><span class="sc">&amp;</span>d<span class="sc">$</span>Site<span class="sc">==</span><span class="st">"Ellighausen"</span><span class="sc">&amp;</span>d<span class="sc">$</span>Repetition<span class="sc">==</span><span class="dv">4</span>,<span class="st">"Pv_Olsen.mg.L."</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>flos <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(d<span class="sc">$</span>Pv_Olsen.mg.L.)<span class="sc">-</span><span class="fu">as.numeric</span>(d<span class="sc">$</span>Pv_labile.mg.L.)</span>
+<span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>flos[d<span class="sc">$</span>flos <span class="sc">&lt;=</span> <span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="fu">quantile</span>(d<span class="sc">$</span>flos[d<span class="sc">$</span>flos <span class="sc">&gt;</span> <span class="dv">0</span>], <span class="fl">0.025</span>, <span class="at">na.rm=</span><span class="cn">TRUE</span>)<span class="sc">/</span><span class="dv">2</span></span>
+<span id="cb30-23"><a href="#cb30-23" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Y1 <span class="ot">&lt;-</span> <span class="fu">log</span>(<span class="dv">1</span> <span class="sc">-</span> d<span class="sc">$</span>Pv.mg.L. <span class="sc">/</span> d<span class="sc">$</span>flos) <span class="co"># one timeseries removed, since flos too low</span></span>
+<span id="cb30-24"><a href="#cb30-24" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Y1[<span class="fu">is.nan</span>(d<span class="sc">$</span>Y1)] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb30-25"><a href="#cb30-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-26"><a href="#cb30-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-27"><a href="#cb30-27" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(d)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>'data.frame':   394 obs. of  21 variables:
@@ -773,9 +776,9 @@ Fit: lm(formula = log(PS) ~ Treatment + Site, data = nlme.coef)
 
 Linear Hypotheses:
                  Estimate Std. Error t value Pr(&gt;|t|)    
-P100 - P0 == 0    0.91948    0.09447   9.733   &lt;1e-10 ***
-P166 - P0 == 0    1.68127    0.09580  17.550   &lt;1e-10 ***
-P166 - P100 == 0  0.76179    0.09580   7.952   &lt;1e-10 ***
+P100 - P0 == 0    0.91948    0.09447   9.733   &lt;1e-09 ***
+P166 - P0 == 0    1.68127    0.09580  17.550   &lt;1e-09 ***
+P166 - P100 == 0  0.76179    0.09580   7.952   &lt;1e-09 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
@@ -875,46 +878,70 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. merge this with nlme.coef</span></span>
-<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>nlme.coef<span class="sc">$</span>kPS <span class="ot">&lt;-</span> nlme.coef<span class="sc">$</span>k <span class="sc">*</span> nlme.coef<span class="sc">$</span>PS</span>
-<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>D <span class="ot">&lt;-</span> <span class="fu">merge</span>(nlme.coef, allP[allP<span class="sc">$</span>year<span class="sc">&gt;=</span><span class="dv">2017</span>,],<span class="at">by =</span> <span class="st">"uid"</span>)</span>
-<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>D<span class="sc">$</span>uuid <span class="ot">&lt;-</span> <span class="fu">interaction</span>(D<span class="sc">$</span>Site, D<span class="sc">$</span>treatment_ID, D<span class="sc">$</span>rep, D<span class="sc">$</span>year, D<span class="sc">$</span>crop)</span>
-<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a><span class="co"># rm FodderCrop</span></span>
-<span id="cb58-7"><a href="#cb58-7" aria-hidden="true" tabindex="-1"></a>D <span class="ot">&lt;-</span> D[D<span class="sc">$</span>crop <span class="sc">!=</span> <span class="st">"FodderCrop"</span>,]</span>
-<span id="cb58-8"><a href="#cb58-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb58-9"><a href="#cb58-9" aria-hidden="true" tabindex="-1"></a><span class="co"># set wrong 0's to NA</span></span>
-<span id="cb58-10"><a href="#cb58-10" aria-hidden="true" tabindex="-1"></a>D[D<span class="sc">$</span>soil_0_20_P_CO2 <span class="sc">%in%</span> <span class="fu">c</span>(<span class="cn">NA</span>,<span class="dv">0</span>), <span class="st">"soil_0_20_P_CO2"</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
-<span id="cb58-11"><a href="#cb58-11" aria-hidden="true" tabindex="-1"></a>D[D<span class="sc">$</span>soil_0_20_P_AAE10 <span class="sc">%in%</span> <span class="fu">c</span>(<span class="cn">NA</span>,<span class="dv">0</span>), <span class="st">"soil_0_20_P_AAE10"</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
-<span id="cb58-12"><a href="#cb58-12" aria-hidden="true" tabindex="-1"></a>D[D<span class="sc">$</span>annual_yield_mp_DM <span class="sc">%in%</span> <span class="fu">c</span>(<span class="cn">NA</span>,<span class="dv">0</span>), <span class="st">"annual_yield_mp_DM"</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
-<span id="cb58-13"><a href="#cb58-13" aria-hidden="true" tabindex="-1"></a>D[D<span class="sc">$</span>Ymain_rel <span class="sc">%in%</span> <span class="fu">c</span>(<span class="cn">NA</span>,<span class="dv">0</span>), <span class="st">"Ymain_rel"</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
-<span id="cb58-14"><a href="#cb58-14" aria-hidden="true" tabindex="-1"></a>D[D<span class="sc">$</span>annual_P_uptake <span class="sc">%in%</span> <span class="fu">c</span>(<span class="cn">NA</span>,<span class="dv">0</span>), <span class="st">"annual_P_uptake"</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
-<span id="cb58-15"><a href="#cb58-15" aria-hidden="true" tabindex="-1"></a>D[D<span class="sc">$</span>annual_P_balance <span class="sc">%in%</span> <span class="fu">c</span>(<span class="cn">NA</span>,<span class="dv">0</span>), <span class="st">"annual_P_balance"</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
-<span id="cb58-16"><a href="#cb58-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb58-17"><a href="#cb58-17" aria-hidden="true" tabindex="-1"></a><span class="co"># add log-transformed versions</span></span>
-<span id="cb58-18"><a href="#cb58-18" aria-hidden="true" tabindex="-1"></a><span class="co"># D$k_logPS &lt;- D$k * log(D$PS)</span></span>
-<span id="cb58-19"><a href="#cb58-19" aria-hidden="true" tabindex="-1"></a>D<span class="sc">$</span>kPS_log <span class="ot">&lt;-</span> <span class="fu">log</span>(D<span class="sc">$</span>kPS)</span>
-<span id="cb58-20"><a href="#cb58-20" aria-hidden="true" tabindex="-1"></a>D<span class="sc">$</span>PS_log <span class="ot">&lt;-</span> <span class="fu">log</span>(D<span class="sc">$</span>PS)</span>
-<span id="cb58-21"><a href="#cb58-21" aria-hidden="true" tabindex="-1"></a>D<span class="sc">$</span>P_AAE10_log <span class="ot">&lt;-</span> <span class="fu">log</span>(D<span class="sc">$</span>soil_0_20_P_AAE10)</span>
-<span id="cb58-22"><a href="#cb58-22" aria-hidden="true" tabindex="-1"></a>D<span class="sc">$</span>P_CO2_log <span class="ot">&lt;-</span> <span class="fu">log</span>(D<span class="sc">$</span>soil_0_20_P_CO2)</span>
-<span id="cb58-23"><a href="#cb58-23" aria-hidden="true" tabindex="-1"></a>D<span class="sc">$</span>P_AAE10_CO2_loglog <span class="ot">&lt;-</span> <span class="fu">log</span>(D<span class="sc">$</span>soil_0_20_P_AAE10) <span class="sc">*</span> <span class="fu">log</span>(D<span class="sc">$</span>soil_0_20_P_CO2)</span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>soil_data_2022 <span class="ot">&lt;-</span> allP <span class="sc">%&gt;%</span></span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2022</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(soil_0_20_P_AAE10, soil_0_20_P_CO2,uid) <span class="sc">%&gt;%</span></span>
+<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Wir benennen die Spalten um, um später Konflikte zu vermeiden.</span></span>
+<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
+<span id="cb58-7"><a href="#cb58-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">soil_AAE10_from_2022 =</span> soil_0_20_P_AAE10,</span>
+<span id="cb58-8"><a href="#cb58-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">soil_CO2_from_2022 =</span> soil_0_20_P_CO2</span>
+<span id="cb58-9"><a href="#cb58-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb58-10"><a href="#cb58-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-11"><a href="#cb58-11" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb58-12"><a href="#cb58-12" aria-hidden="true" tabindex="-1"></a>Stycs_data <span class="ot">&lt;-</span> allP <span class="sc">%&gt;%</span> <span class="fu">filter</span>(year<span class="sc">&gt;=</span><span class="dv">2017</span> <span class="sc">&amp;</span> year<span class="sc">&lt;=</span><span class="dv">2022</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb58-13"><a href="#cb58-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(soil_data_2022, <span class="at">by =</span> <span class="st">"uid"</span>)</span>
+<span id="cb58-14"><a href="#cb58-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-15"><a href="#cb58-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-16"><a href="#cb58-16" aria-hidden="true" tabindex="-1"></a>Stycs_data_2022 <span class="ot">&lt;-</span> Stycs_data <span class="sc">%&gt;%</span></span>
+<span id="cb58-17"><a href="#cb58-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb58-18"><a href="#cb58-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">soil_0_20_P_AAE10 =</span> <span class="fu">ifelse</span>(year <span class="sc">!=</span> <span class="dv">2022</span>, soil_AAE10_from_2022, soil_0_20_P_AAE10),</span>
+<span id="cb58-19"><a href="#cb58-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">soil_0_20_P_CO2   =</span> <span class="fu">ifelse</span>(year <span class="sc">!=</span> <span class="dv">2022</span>, soil_CO2_from_2022, soil_0_20_P_CO2)</span>
+<span id="cb58-20"><a href="#cb58-20" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb58-21"><a href="#cb58-21" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Die Hilfsspalten werden nicht mehr benötigt und können entfernt werden.</span></span>
+<span id="cb58-22"><a href="#cb58-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>soil_AAE10_from_2022, <span class="sc">-</span>soil_CO2_from_2022)</span>
+<span id="cb58-23"><a href="#cb58-23" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb58-24"><a href="#cb58-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb58-25"><a href="#cb58-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-25"><a href="#cb58-25" aria-hidden="true" tabindex="-1"></a>nlme.coef<span class="sc">$</span>kPS <span class="ot">&lt;-</span> nlme.coef<span class="sc">$</span>k <span class="sc">*</span> nlme.coef<span class="sc">$</span>PS</span>
 <span id="cb58-26"><a href="#cb58-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb58-27"><a href="#cb58-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb58-28"><a href="#cb58-28" aria-hidden="true" tabindex="-1"></a>D<span class="sc">$</span>Site <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(D<span class="sc">$</span>Site)</span>
+<span id="cb58-27"><a href="#cb58-27" aria-hidden="true" tabindex="-1"></a>D <span class="ot">&lt;-</span> <span class="fu">merge</span>(nlme.coef, Stycs_data_2022,<span class="at">by =</span> <span class="st">"uid"</span>)</span>
+<span id="cb58-28"><a href="#cb58-28" aria-hidden="true" tabindex="-1"></a>D<span class="sc">$</span>uuid <span class="ot">&lt;-</span> <span class="fu">interaction</span>(D<span class="sc">$</span>Site, D<span class="sc">$</span>treatment_ID, D<span class="sc">$</span>rep, D<span class="sc">$</span>year, D<span class="sc">$</span>crop)</span>
 <span id="cb58-29"><a href="#cb58-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb58-30"><a href="#cb58-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb58-31"><a href="#cb58-31" aria-hidden="true" tabindex="-1"></a><span class="do">## Compute Ymain_norm as the median yield of P166 treatment per site, year and crop</span></span>
-<span id="cb58-32"><a href="#cb58-32" aria-hidden="true" tabindex="-1"></a><span class="co"># set 0 values of annual_yield_mp_DM, Ymain_rel, annual_P_uptake, annual_P_balance to NA</span></span>
-<span id="cb58-33"><a href="#cb58-33" aria-hidden="true" tabindex="-1"></a>dd <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(annual_yield_mp_DM <span class="sc">~</span> Site<span class="sc">+</span>Treatment<span class="sc">+</span>year<span class="sc">+</span>crop, <span class="at">data=</span>D, median, <span class="at">na.rm =</span> <span class="cn">TRUE</span>, <span class="at">na.action =</span> na.pass)</span>
-<span id="cb58-34"><a href="#cb58-34" aria-hidden="true" tabindex="-1"></a><span class="co"># only keep P166</span></span>
-<span id="cb58-35"><a href="#cb58-35" aria-hidden="true" tabindex="-1"></a>dd <span class="ot">&lt;-</span> dd[dd<span class="sc">$</span>Treatment <span class="sc">==</span> <span class="st">"P166"</span>,]</span>
-<span id="cb58-36"><a href="#cb58-36" aria-hidden="true" tabindex="-1"></a>dd<span class="sc">$</span>Treatment <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
-<span id="cb58-37"><a href="#cb58-37" aria-hidden="true" tabindex="-1"></a>tmp <span class="ot">&lt;-</span> <span class="fu">merge</span>(D, dd, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"Site"</span>, <span class="st">"year"</span>, <span class="st">"crop"</span>), <span class="at">suffixes =</span> <span class="fu">c</span>(<span class="st">""</span>, <span class="st">".norm"</span>), <span class="at">sort=</span><span class="cn">FALSE</span>)</span>
-<span id="cb58-38"><a href="#cb58-38" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(tmp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb58-30"><a href="#cb58-30" aria-hidden="true" tabindex="-1"></a><span class="co"># rm FodderCrop</span></span>
+<span id="cb58-31"><a href="#cb58-31" aria-hidden="true" tabindex="-1"></a>D <span class="ot">&lt;-</span> D[D<span class="sc">$</span>crop <span class="sc">!=</span> <span class="st">"FodderCrop"</span>,]</span>
+<span id="cb58-32"><a href="#cb58-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-33"><a href="#cb58-33" aria-hidden="true" tabindex="-1"></a><span class="co"># set wrong 0's to NA</span></span>
+<span id="cb58-34"><a href="#cb58-34" aria-hidden="true" tabindex="-1"></a>D[D<span class="sc">$</span>soil_0_20_P_CO2 <span class="sc">%in%</span> <span class="fu">c</span>(<span class="cn">NA</span>,<span class="dv">0</span>), <span class="st">"soil_0_20_P_CO2"</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb58-35"><a href="#cb58-35" aria-hidden="true" tabindex="-1"></a>D[D<span class="sc">$</span>soil_0_20_P_AAE10 <span class="sc">%in%</span> <span class="fu">c</span>(<span class="cn">NA</span>,<span class="dv">0</span>), <span class="st">"soil_0_20_P_AAE10"</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb58-36"><a href="#cb58-36" aria-hidden="true" tabindex="-1"></a>D[D<span class="sc">$</span>annual_yield_mp_DM <span class="sc">%in%</span> <span class="fu">c</span>(<span class="cn">NA</span>,<span class="dv">0</span>), <span class="st">"annual_yield_mp_DM"</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb58-37"><a href="#cb58-37" aria-hidden="true" tabindex="-1"></a>D[D<span class="sc">$</span>Ymain_rel <span class="sc">%in%</span> <span class="fu">c</span>(<span class="cn">NA</span>,<span class="dv">0</span>), <span class="st">"Ymain_rel"</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb58-38"><a href="#cb58-38" aria-hidden="true" tabindex="-1"></a>D[D<span class="sc">$</span>annual_P_uptake <span class="sc">%in%</span> <span class="fu">c</span>(<span class="cn">NA</span>,<span class="dv">0</span>), <span class="st">"annual_P_uptake"</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb58-39"><a href="#cb58-39" aria-hidden="true" tabindex="-1"></a>D[D<span class="sc">$</span>annual_P_balance <span class="sc">%in%</span> <span class="fu">c</span>(<span class="cn">NA</span>,<span class="dv">0</span>), <span class="st">"annual_P_balance"</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb58-40"><a href="#cb58-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-41"><a href="#cb58-41" aria-hidden="true" tabindex="-1"></a><span class="co"># add log-transformed versions</span></span>
+<span id="cb58-42"><a href="#cb58-42" aria-hidden="true" tabindex="-1"></a><span class="co"># D$k_logPS &lt;- D$k * log(D$PS)</span></span>
+<span id="cb58-43"><a href="#cb58-43" aria-hidden="true" tabindex="-1"></a>D<span class="sc">$</span>kPS_log <span class="ot">&lt;-</span> <span class="fu">log</span>(D<span class="sc">$</span>kPS)</span>
+<span id="cb58-44"><a href="#cb58-44" aria-hidden="true" tabindex="-1"></a>D<span class="sc">$</span>PS_log <span class="ot">&lt;-</span> <span class="fu">log</span>(D<span class="sc">$</span>PS)</span>
+<span id="cb58-45"><a href="#cb58-45" aria-hidden="true" tabindex="-1"></a>D<span class="sc">$</span>P_AAE10_log <span class="ot">&lt;-</span> <span class="fu">log</span>(D<span class="sc">$</span>soil_0_20_P_AAE10)</span>
+<span id="cb58-46"><a href="#cb58-46" aria-hidden="true" tabindex="-1"></a>D<span class="sc">$</span>P_CO2_log <span class="ot">&lt;-</span> <span class="fu">log</span>(D<span class="sc">$</span>soil_0_20_P_CO2)</span>
+<span id="cb58-47"><a href="#cb58-47" aria-hidden="true" tabindex="-1"></a>D<span class="sc">$</span>P_AAE10_CO2_loglog <span class="ot">&lt;-</span> <span class="fu">log</span>(D<span class="sc">$</span>soil_0_20_P_AAE10) <span class="sc">*</span> <span class="fu">log</span>(D<span class="sc">$</span>soil_0_20_P_CO2)</span>
+<span id="cb58-48"><a href="#cb58-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-49"><a href="#cb58-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-50"><a href="#cb58-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-51"><a href="#cb58-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-52"><a href="#cb58-52" aria-hidden="true" tabindex="-1"></a>D<span class="sc">$</span>Site <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(D<span class="sc">$</span>Site)</span>
+<span id="cb58-53"><a href="#cb58-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-54"><a href="#cb58-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-55"><a href="#cb58-55" aria-hidden="true" tabindex="-1"></a><span class="do">## Compute Ymain_norm as the median yield of P166 treatment per site, year and crop</span></span>
+<span id="cb58-56"><a href="#cb58-56" aria-hidden="true" tabindex="-1"></a><span class="co"># set 0 values of annual_yield_mp_DM, Ymain_rel, annual_P_uptake, annual_P_balance to NA</span></span>
+<span id="cb58-57"><a href="#cb58-57" aria-hidden="true" tabindex="-1"></a>dd <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(annual_yield_mp_DM <span class="sc">~</span> Site<span class="sc">+</span>Treatment<span class="sc">+</span>year<span class="sc">+</span>crop, <span class="at">data=</span>D, median, <span class="at">na.rm =</span> <span class="cn">TRUE</span>, <span class="at">na.action =</span> na.pass)</span>
+<span id="cb58-58"><a href="#cb58-58" aria-hidden="true" tabindex="-1"></a><span class="co"># only keep P166</span></span>
+<span id="cb58-59"><a href="#cb58-59" aria-hidden="true" tabindex="-1"></a>dd <span class="ot">&lt;-</span> dd[dd<span class="sc">$</span>Treatment <span class="sc">==</span> <span class="st">"P166"</span>,]</span>
+<span id="cb58-60"><a href="#cb58-60" aria-hidden="true" tabindex="-1"></a>dd<span class="sc">$</span>Treatment <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb58-61"><a href="#cb58-61" aria-hidden="true" tabindex="-1"></a>tmp <span class="ot">&lt;-</span> <span class="fu">merge</span>(D, dd, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"Site"</span>, <span class="st">"year"</span>, <span class="st">"crop"</span>), <span class="at">suffixes =</span> <span class="fu">c</span>(<span class="st">""</span>, <span class="st">".norm"</span>), <span class="at">sort=</span><span class="cn">FALSE</span>)</span>
+<span id="cb58-62"><a href="#cb58-62" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(tmp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 447</code></pre>
+<pre><code>[1] 329</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -926,10 +953,68 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 <span id="cb60-6"><a href="#cb60-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb60-7"><a href="#cb60-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb60-8"><a href="#cb60-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-9"><a href="#cb60-9" aria-hidden="true" tabindex="-1"></a>RES<span class="sc">$</span>D <span class="ot">&lt;-</span> D</span>
-<span id="cb60-10"><a href="#cb60-10" aria-hidden="true" tabindex="-1"></a>RES<span class="sc">$</span>nlme.coef.avg <span class="ot">&lt;-</span> nlme.coef.avg</span>
-<span id="cb60-11"><a href="#cb60-11" aria-hidden="true" tabindex="-1"></a>RES<span class="sc">$</span>data <span class="ot">&lt;-</span> d</span>
-<span id="cb60-12"><a href="#cb60-12" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(RES, <span class="at">file =</span> <span class="st">"./data/RES.rds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb60-9"><a href="#cb60-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-10"><a href="#cb60-10" aria-hidden="true" tabindex="-1"></a><span class="do">###################################################</span></span>
+<span id="cb60-11"><a href="#cb60-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Original Comparison 1 year k,PS vs. 6 years CO2 AAE10</span></span>
+<span id="cb60-12"><a href="#cb60-12" aria-hidden="true" tabindex="-1"></a><span class="do">###################################################</span></span>
+<span id="cb60-13"><a href="#cb60-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-14"><a href="#cb60-14" aria-hidden="true" tabindex="-1"></a>D2 <span class="ot">&lt;-</span> <span class="fu">merge</span>(nlme.coef, allP[allP<span class="sc">$</span>year<span class="sc">&gt;=</span><span class="dv">2017</span>,],<span class="at">by =</span> <span class="st">"uid"</span>)</span>
+<span id="cb60-15"><a href="#cb60-15" aria-hidden="true" tabindex="-1"></a>D2<span class="sc">$</span>uuid <span class="ot">&lt;-</span> <span class="fu">interaction</span>(D2<span class="sc">$</span>Site, D2<span class="sc">$</span>treatment_ID, D2<span class="sc">$</span>rep, D2<span class="sc">$</span>year, D2<span class="sc">$</span>crop)</span>
+<span id="cb60-16"><a href="#cb60-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-17"><a href="#cb60-17" aria-hidden="true" tabindex="-1"></a><span class="co"># rm FodderCrop</span></span>
+<span id="cb60-18"><a href="#cb60-18" aria-hidden="true" tabindex="-1"></a>D2 <span class="ot">&lt;-</span> D2[D2<span class="sc">$</span>crop <span class="sc">!=</span> <span class="st">"FodderCrop"</span>,]</span>
+<span id="cb60-19"><a href="#cb60-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-20"><a href="#cb60-20" aria-hidden="true" tabindex="-1"></a><span class="co"># set wrong 0's to NA</span></span>
+<span id="cb60-21"><a href="#cb60-21" aria-hidden="true" tabindex="-1"></a>D2[D2<span class="sc">$</span>soil_0_20_P_CO2 <span class="sc">%in%</span> <span class="fu">c</span>(<span class="cn">NA</span>,<span class="dv">0</span>), <span class="st">"soil_0_20_P_CO2"</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb60-22"><a href="#cb60-22" aria-hidden="true" tabindex="-1"></a>D2[D2<span class="sc">$</span>soil_0_20_P_AAE10 <span class="sc">%in%</span> <span class="fu">c</span>(<span class="cn">NA</span>,<span class="dv">0</span>), <span class="st">"soil_0_20_P_AAE10"</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb60-23"><a href="#cb60-23" aria-hidden="true" tabindex="-1"></a>D2[D2<span class="sc">$</span>annual_yield_mp_DM <span class="sc">%in%</span> <span class="fu">c</span>(<span class="cn">NA</span>,<span class="dv">0</span>), <span class="st">"annual_yield_mp_DM"</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb60-24"><a href="#cb60-24" aria-hidden="true" tabindex="-1"></a>D2[D2<span class="sc">$</span>Ymain_rel <span class="sc">%in%</span> <span class="fu">c</span>(<span class="cn">NA</span>,<span class="dv">0</span>), <span class="st">"Ymain_rel"</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb60-25"><a href="#cb60-25" aria-hidden="true" tabindex="-1"></a>D2[D2<span class="sc">$</span>annual_P_uptake <span class="sc">%in%</span> <span class="fu">c</span>(<span class="cn">NA</span>,<span class="dv">0</span>), <span class="st">"annual_P_uptake"</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb60-26"><a href="#cb60-26" aria-hidden="true" tabindex="-1"></a>D2[D2<span class="sc">$</span>annual_P_balance <span class="sc">%in%</span> <span class="fu">c</span>(<span class="cn">NA</span>,<span class="dv">0</span>), <span class="st">"annual_P_balance"</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb60-27"><a href="#cb60-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-28"><a href="#cb60-28" aria-hidden="true" tabindex="-1"></a><span class="co"># add log-transformed versions</span></span>
+<span id="cb60-29"><a href="#cb60-29" aria-hidden="true" tabindex="-1"></a><span class="co"># D2$k_logPS &lt;- D2$k * log(D2$PS)</span></span>
+<span id="cb60-30"><a href="#cb60-30" aria-hidden="true" tabindex="-1"></a>D2<span class="sc">$</span>kPS_log <span class="ot">&lt;-</span> <span class="fu">log</span>(D2<span class="sc">$</span>kPS)</span>
+<span id="cb60-31"><a href="#cb60-31" aria-hidden="true" tabindex="-1"></a>D2<span class="sc">$</span>PS_log <span class="ot">&lt;-</span> <span class="fu">log</span>(D2<span class="sc">$</span>PS)</span>
+<span id="cb60-32"><a href="#cb60-32" aria-hidden="true" tabindex="-1"></a>D2<span class="sc">$</span>P_AAE10_log <span class="ot">&lt;-</span> <span class="fu">log</span>(D2<span class="sc">$</span>soil_0_20_P_AAE10)</span>
+<span id="cb60-33"><a href="#cb60-33" aria-hidden="true" tabindex="-1"></a>D2<span class="sc">$</span>P_CO2_log <span class="ot">&lt;-</span> <span class="fu">log</span>(D2<span class="sc">$</span>soil_0_20_P_CO2)</span>
+<span id="cb60-34"><a href="#cb60-34" aria-hidden="true" tabindex="-1"></a>D2<span class="sc">$</span>P_AAE10_CO2_loglog <span class="ot">&lt;-</span> <span class="fu">log</span>(D2<span class="sc">$</span>soil_0_20_P_AAE10) <span class="sc">*</span> <span class="fu">log</span>(D2<span class="sc">$</span>soil_0_20_P_CO2)</span>
+<span id="cb60-35"><a href="#cb60-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-36"><a href="#cb60-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-37"><a href="#cb60-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-38"><a href="#cb60-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-39"><a href="#cb60-39" aria-hidden="true" tabindex="-1"></a>D2<span class="sc">$</span>Site <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(D2<span class="sc">$</span>Site)</span>
+<span id="cb60-40"><a href="#cb60-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-41"><a href="#cb60-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-42"><a href="#cb60-42" aria-hidden="true" tabindex="-1"></a><span class="do">## Compute Ymain_norm as the median yield of P166 treatment per site, year and crop</span></span>
+<span id="cb60-43"><a href="#cb60-43" aria-hidden="true" tabindex="-1"></a><span class="co"># set 0 values of annual_yield_mp_DM, Ymain_rel, annual_P_uptake, annual_P_balance to NA</span></span>
+<span id="cb60-44"><a href="#cb60-44" aria-hidden="true" tabindex="-1"></a>dd <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(annual_yield_mp_DM <span class="sc">~</span> Site<span class="sc">+</span>Treatment<span class="sc">+</span>year<span class="sc">+</span>crop, <span class="at">data=</span>D2, median, <span class="at">na.rm =</span> <span class="cn">TRUE</span>, <span class="at">na.action =</span> na.pass)</span>
+<span id="cb60-45"><a href="#cb60-45" aria-hidden="true" tabindex="-1"></a><span class="co"># only keep P166</span></span>
+<span id="cb60-46"><a href="#cb60-46" aria-hidden="true" tabindex="-1"></a>dd <span class="ot">&lt;-</span> dd[dd<span class="sc">$</span>Treatment <span class="sc">==</span> <span class="st">"P166"</span>,]</span>
+<span id="cb60-47"><a href="#cb60-47" aria-hidden="true" tabindex="-1"></a>dd<span class="sc">$</span>Treatment <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb60-48"><a href="#cb60-48" aria-hidden="true" tabindex="-1"></a>tmp <span class="ot">&lt;-</span> <span class="fu">merge</span>(D2, dd, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"Site"</span>, <span class="st">"year"</span>, <span class="st">"crop"</span>), <span class="at">suffixes =</span> <span class="fu">c</span>(<span class="st">""</span>, <span class="st">".norm"</span>), <span class="at">sort=</span><span class="cn">FALSE</span>)</span>
+<span id="cb60-49"><a href="#cb60-49" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(tmp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 447</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>tmp<span class="sc">$</span>Ymain_norm <span class="ot">&lt;-</span> tmp<span class="sc">$</span>annual_yield_mp_DM <span class="sc">/</span> tmp<span class="sc">$</span>annual_yield_mp_DM.norm</span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="co"># order tmp by uid s.t. it matches D2</span></span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>tmp <span class="ot">&lt;-</span> tmp[<span class="fu">match</span>(D2<span class="sc">$</span>uuid, tmp<span class="sc">$</span>uuid),]</span>
+<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a><span class="co"># check: cbind(tmp$uid, D2$uid)</span></span>
+<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a>D2<span class="sc">$</span>Ymain_norm <span class="ot">&lt;-</span> tmp<span class="sc">$</span>Ymain_norm</span>
+<span id="cb62-6"><a href="#cb62-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-7"><a href="#cb62-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-8"><a href="#cb62-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-9"><a href="#cb62-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-10"><a href="#cb62-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-11"><a href="#cb62-11" aria-hidden="true" tabindex="-1"></a>RES<span class="sc">$</span>D <span class="ot">&lt;-</span> D</span>
+<span id="cb62-12"><a href="#cb62-12" aria-hidden="true" tabindex="-1"></a>RES<span class="sc">$</span>D2 <span class="ot">&lt;-</span> D2</span>
+<span id="cb62-13"><a href="#cb62-13" aria-hidden="true" tabindex="-1"></a>RES<span class="sc">$</span>nlme.coef.avg <span class="ot">&lt;-</span> nlme.coef.avg</span>
+<span id="cb62-14"><a href="#cb62-14" aria-hidden="true" tabindex="-1"></a>RES<span class="sc">$</span>data <span class="ot">&lt;-</span> d</span>
+<span id="cb62-15"><a href="#cb62-15" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(RES, <span class="at">file =</span> <span class="st">"./data/RES.rds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div></div>
 
