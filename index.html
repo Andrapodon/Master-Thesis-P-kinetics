@@ -140,7 +140,7 @@ window.Quarto = {
               </div>
       </div>
       <div class="quarto-title-meta-column-end quarto-other-formats-target">
-      </div>
+      <div class="quarto-alternate-formats"><div class="quarto-title-meta-heading">Other Formats</div><div class="quarto-title-meta-contents"><p><a href="index.docx"><i class="bi bi-file-word"></i>MS Word</a></p></div><div class="quarto-title-meta-contents"><p><a href="index.pdf"><i class="bi bi-file-pdf"></i>PDF</a></p></div></div></div>
     </div>
 
     <div>
@@ -171,8 +171,23 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#complexity-of-phosphorous" id="toc-complexity-of-phosphorous" class="nav-link" data-scroll-target="#complexity-of-phosphorous">Complexity of Phosphorous</a></li>
   <li><a href="#principle-mechanism-of-p-transport-to-the-plant" id="toc-principle-mechanism-of-p-transport-to-the-plant" class="nav-link" data-scroll-target="#principle-mechanism-of-p-transport-to-the-plant">Principle Mechanism of P-transport to the Plant</a></li>
+  <li><a href="#prediction-of-biological-sinks" id="toc-prediction-of-biological-sinks" class="nav-link" data-scroll-target="#prediction-of-biological-sinks">Prediction of biological sinks</a></li>
   </ul></li>
-  <li><a href="#method" id="toc-method" class="nav-link" data-scroll-target="#method">Method</a></li>
+  <li><a href="#materials-and-methods" id="toc-materials-and-methods" class="nav-link" data-scroll-target="#materials-and-methods">Materials and Methods</a>
+  <ul class="collapse">
+  <li><a href="#the-long-term-phosphorus-fertilization-experiment" id="toc-the-long-term-phosphorus-fertilization-experiment" class="nav-link" data-scroll-target="#the-long-term-phosphorus-fertilization-experiment">The Long-Term Phosphorus Fertilization Experiment</a></li>
+  <li><a href="#experimental-sites" id="toc-experimental-sites" class="nav-link" data-scroll-target="#experimental-sites">Experimental Sites</a></li>
+  <li><a href="#phosphorus-desorption-kinetics" id="toc-phosphorus-desorption-kinetics" class="nav-link" data-scroll-target="#phosphorus-desorption-kinetics">Phosphorus Desorption Kinetics</a>
+  <ul class="collapse">
+  <li><a href="#original-method-of-flossmann-and-richter-1982" id="toc-original-method-of-flossmann-and-richter-1982" class="nav-link" data-scroll-target="#original-method-of-flossmann-and-richter-1982">Original Method of Flossmann and Richter (1982)</a></li>
+  <li><a href="#adapted-kinetic-protocol-for-this-study" id="toc-adapted-kinetic-protocol-for-this-study" class="nav-link" data-scroll-target="#adapted-kinetic-protocol-for-this-study">Adapted Kinetic Protocol for This Study</a></li>
+  </ul></li>
+  <li><a href="#statistical-analysis" id="toc-statistical-analysis" class="nav-link" data-scroll-target="#statistical-analysis">Statistical Analysis</a>
+  <ul class="collapse">
+  <li><a href="#initial-approach-linearized-model" id="toc-initial-approach-linearized-model" class="nav-link" data-scroll-target="#initial-approach-linearized-model">Initial Approach: Linearized Model</a></li>
+  <li><a href="#final-approach-non-linear-mixed-effects-model" id="toc-final-approach-non-linear-mixed-effects-model" class="nav-link" data-scroll-target="#final-approach-non-linear-mixed-effects-model">Final Approach: Non-Linear Mixed-Effects Model</a></li>
+  </ul></li>
+  </ul></li>
   <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a></li>
   <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion">Discussion</a></li>
   <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
@@ -208,11 +223,171 @@ window.Quarto = {
 </section>
 <section id="principle-mechanism-of-p-transport-to-the-plant" class="level2">
 <h2 class="anchored" data-anchor-id="principle-mechanism-of-p-transport-to-the-plant">Principle Mechanism of P-transport to the Plant</h2>
-<p>Plants that live in ground, interface with their roots the soil-matrix, soil-solution and air-pockets. It is the interface between root and soil-solution, where the exchange, particularly the uptake of water and nutrients happens. High-affinity phosphate transporters are mainly responsible for the transport of phosphate from the soil-solution into the cytosol. The momentary concentration of orthophosphate [<span class="math inline">\(H_nPO_4^{n-3}\)</span>] in the soil-solution is called the intensity. It is influenced by sinks such as biological uptake, precipitation, adsorption and leaching, sources are dissolution of phosphate-minerals, mineralization resp. enzymatic hydrolization of organic Phosphate-esters and -anhydrides. Since it is difficult and sometimes up to now impossible to accurately assess all these factors, it has been shown beneficial to use a more agnostic approach and regard the net-diffusion rates, as a black-box model. For the sake of simplicity and feasibility, all biological-uptake can be removed, such that only the interaction between soil-matrix and soil-solution can be observed. Such a model would consist of the soil-matrix, containing the adsorption-surfaces and the interfacing soil-solution that exchanges phosphates until an equilibrium is reached. There have been different approaches to capture the diffusion of Phosphate. The IEK method employs <span class="math inline">\(^{31}P\)</span> and assesses the amount of P, that is exchangeable between both phases and the temporal development of that amount. Flossmann &amp; Richter</p>
+<p>Plants that live in ground, interface with their roots the soil-matrix, soil-solution and air-pockets. It is the interface between root and soil-solution, where the exchange, particularly the uptake of water and nutrients happens. High-affinity phosphate transporters are mainly responsible for the transport of phosphate from the soil-solution into the cytosol. The momentary concentration of orthophosphate [<span class="math inline">\(H_nPO_4^{n-3}\)</span>] in the soil-solution is called the intensity. It is influenced by sinks such as biological uptake, precipitation, adsorption and leaching, sources are dissolution of phosphate-minerals, mineralization resp. enzymatic hydrolization of organic Phosphate-esters and -anhydrides. Since it is difficult and sometimes up to now impossible to accurately assess all these factors, it has been shown beneficial to use a more agnostic approach and regard the net-diffusion rates, as a black-box model. For the sake of simplicity and feasibility, all biological-uptake can be removed, such that only the interaction between soil-matrix and soil-solution can be observed. Such a model would consist of the soil-matrix, containing the adsorption-surfaces and the interfacing soil-solution that exchanges phosphates until an equilibrium is reached. There have been different approaches to capture the diffusion of Phosphate. The IEK method employs <span class="math inline">\(^{31}P\)</span> and assesses the amount of P, that is exchangeable between both phases and the temporal development of that amount. Flossmann &amp; Richter assessed the net-diffusion rate and equilibrium-concentration, modelling the diffusion-process as a first-order-kinetic. Whilst IEK observes the diffusion in a steady-state, the approach of Flossmann &amp; Richter did start with a system of dried fine soil and deionized water, and subsequently sampling at different time-points, observing the desorption-reaction-speed from start to equilibrium.</p>
+</section>
+<section id="prediction-of-biological-sinks" class="level2">
+<h2 class="anchored" data-anchor-id="prediction-of-biological-sinks">Prediction of biological sinks</h2>
+<p>The prediction of biological sinks, particularly plant uptake is of great practical and academic interest. To adequately estimate the ability of a soil to provide sufficient <span class="math inline">\(Pi\)</span> by assessing the status of both soil and soil-solution is the basis for economically and ecologically sustainable fertilization practice. Several approaches and models exist and aim to connect estimations of the <span class="math inline">\(Pi\)</span>-availability and the expected requirements of crops. The predominant of models in use try to measure the extractable <span class="math inline">\(Pi\)</span> via different solvents, and depending on agressivity of the solvent to identify different pools of <span class="math inline">\(Pi\)</span>. The extraction of <span class="math inline">\(Pi\)</span> with <span class="math inline">\(H_2O\)</span> or weakly acidic aqueous solutions are generally identified as the immediately available <span class="math inline">\(Pi\)</span> or the Intensity. Extractants with strong acids or chelators, able to dissolve and desorb strongly bound <span class="math inline">\(Pi\)</span> are identified as the <span class="math inline">\(Pi\)</span>-Pool that will eventually become available to plants and is often called the Capacity. Such models continue to calculate the required amount of <span class="math inline">\(Pi\)</span> by starting with the expexted uptake of the planned crop, this uptake is often</p>
 </section>
 </section>
-<section id="method" class="level1">
-<h1>Method</h1>
+<section id="materials-and-methods" class="level1">
+<h1>Materials and Methods</h1>
+<section id="the-long-term-phosphorus-fertilization-experiment" class="level2">
+<h2 class="anchored" data-anchor-id="the-long-term-phosphorus-fertilization-experiment">The Long-Term Phosphorus Fertilization Experiment</h2>
+<p>The soil samples for this thesis originate from a set of six long-term field trials in Switzerland, established by Agroscope between 1989 and 1992. The primary objective of these experiments was to validate and re-evaluate Swiss phosphorus (P) fertilization guidelines by assessing long-term crop yield responses to varying P inputs across different pedoclimatic conditions. A detailed description of the experimental design and site characteristics can be found in Hirte et al.&nbsp;(2021).</p>
+<p>The experiment was set up as a <strong>completely randomized block design</strong> with four field replications at each site. The core of the experiment consists of six fixed-plot treatments representing different P fertilization levels, which were applied annually as superphosphate before tillage and sowing. These levels were based on percentages of the officially recommended P inputs: 0% (Zero), 33% (Deficit), 67% (Reduced), 100% (Norm), 133% (Elevated), and 167% (Surplus).</p>
+</section>
+<section id="experimental-sites" class="level2">
+<h2 class="anchored" data-anchor-id="experimental-sites">Experimental Sites</h2>
+<p>The six experimental sites are located in the main crop-growing regions of Switzerland: <strong>Rümlang-Altwi (ALT)</strong>, <strong>Cadenazzo (CAD)</strong>, <strong>Ellighausen (ELL)</strong>, <strong>Grabs (GRA)</strong>, <strong>Oensingen (OEN)</strong>, and <strong>Zurich-Reckenholz (REC)</strong>. The key soil properties are summarized below.</p>
+<div class="cell">
+<div id="tbl-sites-corrected" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-sites-corrected-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1: Soil characteristics of the six long-term experimental sites. Data adapted from Hirte et al.&nbsp;(2021).
+</figcaption>
+<div aria-describedby="tbl-sites-corrected-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 7%">
+<col style="width: 30%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 23%">
+<col style="width: 12%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Site</th>
+<th style="text-align: left;">Soil Type (WRB)</th>
+<th style="text-align: right;">Clay (%)</th>
+<th style="text-align: right;">Sand (%)</th>
+<th style="text-align: right;">Organic C (g/kg)</th>
+<th style="text-align: right;">pH (H2O)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">ALT</td>
+<td style="text-align: left;">Calcaric Cambisol</td>
+<td style="text-align: right;">22</td>
+<td style="text-align: right;">48</td>
+<td style="text-align: right;">21</td>
+<td style="text-align: right;">7.9</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">CAD</td>
+<td style="text-align: left;">Eutric Fluvisol</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">40</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">6.3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ELL</td>
+<td style="text-align: left;">Eutric Cambisol</td>
+<td style="text-align: right;">33</td>
+<td style="text-align: right;">31</td>
+<td style="text-align: right;">23</td>
+<td style="text-align: right;">6.6</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GRA</td>
+<td style="text-align: left;">Calcaric Fluvisol</td>
+<td style="text-align: right;">17</td>
+<td style="text-align: right;">34</td>
+<td style="text-align: right;">16</td>
+<td style="text-align: right;">8.3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">OEN</td>
+<td style="text-align: left;">Gleyic-calc. Cambisol</td>
+<td style="text-align: right;">37</td>
+<td style="text-align: right;">32</td>
+<td style="text-align: right;">24</td>
+<td style="text-align: right;">7.1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">REC</td>
+<td style="text-align: left;">Eutric Gleysol</td>
+<td style="text-align: right;">39</td>
+<td style="text-align: right;">25</td>
+<td style="text-align: right;">27</td>
+<td style="text-align: right;">7.4</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>Soil samples for this thesis were collected on [Your Sampling Date] from the topsoil layer (0-20 cm). [Add any further specific details about your sampling strategy here].</p>
+<hr>
+</section>
+<section id="phosphorus-desorption-kinetics" class="level2">
+<h2 class="anchored" data-anchor-id="phosphorus-desorption-kinetics">Phosphorus Desorption Kinetics</h2>
+<p>The analysis of phosphorus (P) desorption kinetics was based on the principles of sequential extraction established by Flossmann and Richter (1982). The original method is described below, followed by the specific protocol adapted for this study.</p>
+<section id="original-method-of-flossmann-and-richter-1982" class="level3">
+<h3 class="anchored" data-anchor-id="original-method-of-flossmann-and-richter-1982">Original Method of Flossmann and Richter (1982)</h3>
+<p>The foundational method aims to characterize the P replenishment capacity of the soil. The procedure is as follows:</p>
+<ol type="1">
+<li><strong>Removal of Soluble P</strong>: 17.5 g of air-dried soil is shaken with 350 ml of deionized water for one hour at 25 ± 1°C. The suspension is centrifuged and the supernatant is decanted to remove the readily soluble P fraction. This first extract is referred to as:
+<ul>
+<li><strong>Solution A</strong>: Contains easily soluble P, which is discarded.</li>
+</ul></li>
+<li><strong>Kinetic Extraction</strong>: The remaining soil pellet is resuspended with another 350 ml of deionized water. Subsamples of the suspension are taken at specific time intervals, yielding the following extracts for kinetic analysis:
+<ul>
+<li><strong>Solution B</strong>: Subsample taken after <strong>10 minutes</strong>.</li>
+<li><strong>Solution C</strong>: Subsample taken after <strong>30 minutes</strong>.</li>
+<li><strong>Solution D</strong>: Subsample taken after <strong>120 minutes</strong>.</li>
+</ul></li>
+<li><strong>Analysis</strong>: The P concentration in Solutions B, C, and D is determined colorimetrically using the molybdenum blue method according to Murphy and Riley (1962).</li>
+</ol>
+</section>
+<section id="adapted-kinetic-protocol-for-this-study" class="level3">
+<h3 class="anchored" data-anchor-id="adapted-kinetic-protocol-for-this-study">Adapted Kinetic Protocol for This Study</h3>
+<p>For this thesis, the original method was modified to capture the desorption process with a higher temporal resolution and using a different soil-to-solution ratio.</p>
+<ol type="1">
+<li><p><strong>Soil Suspension</strong>: 10 g of air-dried soil was suspended in 200 ml of deionized water. Unlike the original protocol, a pre-washing step to remove soluble P was not performed, meaning the measured desorption includes both the release of readily soluble P and the subsequent replenishment from the solid phase.</p></li>
+<li><p><strong>Kinetic Extraction</strong>: The suspension was shaken continuously, and subsamples were taken at eight time points to generate a detailed kinetic curve. The resulting extracts were:</p>
+<ul>
+<li><strong>Extract 1</strong>: Subsample taken after <strong>2 minutes</strong>.</li>
+<li><strong>Extract 2</strong>: Subsample taken after <strong>4 minutes</strong>.</li>
+<li><strong>Extract 3</strong>: Subsample taken after <strong>10 minutes</strong>.</li>
+<li><strong>Extract 4</strong>: Subsample taken after <strong>15 minutes</strong>.</li>
+<li><strong>Extract 5</strong>: Subsample taken after <strong>20 minutes</strong>.</li>
+<li><strong>Extract 6</strong>: Subsample taken after <strong>30 minutes</strong>.</li>
+<li><strong>Extract 7</strong>: Subsample taken after <strong>45 minutes</strong>.</li>
+<li><strong>Extract 8</strong>: Subsample taken after <strong>60 minutes</strong>.</li>
+</ul></li>
+<li><p><strong>Analysis</strong>: Each subsample was immediately filtered. The concentration of orthophosphate in the filtered extracts was determined colorimetrically using the <strong>malachite green method</strong>.</p></li>
+</ol>
+<hr>
+</section>
+</section>
+<section id="statistical-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="statistical-analysis">Statistical Analysis</h2>
+<p>The statistical analysis aimed to derive the kinetic parameters of phosphorus (P) desorption for each soil sample. A two-stage approach was employed, starting with a linearized model and progressing to a more robust non-linear mixed-effects model.</p>
+<section id="initial-approach-linearized-model" class="level3">
+<h3 class="anchored" data-anchor-id="initial-approach-linearized-model">Initial Approach: Linearized Model</h3>
+<p>[cite_start]Following the conceptual framework of Flossmann and Richter (1982), a first attempt was made to linearize the first-order kinetic model[cite: 2, 3]. The differential equation describing P release was solved and rearranged to yield a linear relationship:</p>
+<p><span class="math display">\[ \log\left(1 - \frac{P(t)}{P^S}\right) = -kt \]</span></p>
+<p>In this formulation, <span class="math inline">\(P(t)\)</span> is the concentration of desorbed P at time <span class="math inline">\(t\)</span>, <span class="math inline">\(k\)</span> is the rate constant, and <span class="math inline">\(P^S\)</span> is the maximum desorbable P, acting as the asymptote. [cite_start]For this initial model, the <span class="math inline">\(P^S\)</span> parameter was not estimated from the kinetic data itself but was calculated <em>a priori</em> for each sample as the difference between the phosphorus concentration measured by the Olsen method (<span class="math inline">\(P_\text{Olsen}\)</span>) and the initially water-soluble P concentration (<span class="math inline">\(P_{H_2O}\)</span>)[cite: 3, 7].</p>
+<p>While this approach allowed for the use of simple linear regression to estimate <span class="math inline">\(k\)</span>, the reliance on an externally calculated asymptote led to poor model fits and physically unrealistic results for several samples. Consequently, this method was discarded in favor of a more direct modeling approach.</p>
+</section>
+<section id="final-approach-non-linear-mixed-effects-model" class="level3">
+<h3 class="anchored" data-anchor-id="final-approach-non-linear-mixed-effects-model">Final Approach: Non-Linear Mixed-Effects Model</h3>
+<p>[cite_start]To overcome the limitations of the linearized model, a non-linear mixed-effects model (<code>nlme</code>) was implemented to estimate both the rate constant <span class="math inline">\(k\)</span> and the asymptote <span class="math inline">\(P^S\)</span> simultaneously and directly from the time-series data[cite: 29].</p>
+<p>The model was fitted to the exact solution of the first-order rate equation:</p>
+<p><span class="math display">\[ P(t) = P^S \times (1 - e^{-k \times t'}) \]</span></p>
+<p>Here, <span class="math inline">\(t'\)</span> represents the adjusted time. [cite_start]Based on preliminary analysis, it was observed that some P dissolves rapidly before the first measurement point[cite: 25]. [cite_start]To account for this, the measured time was adjusted by adding a 3-minute offset (<span class="math inline">\(t' = t_\text{min} + 3\)</span>)[cite: 7, 25].</p>
+<p>[cite_start]The model was implemented in R using the <code>nlme</code> package[cite: 29]. To account for the hierarchical structure of the data, where multiple time points are nested within each unique soil sample, the model was specified with both fixed and random effects. The overall population means for <span class="math inline">\(P^S\)</span> and <span class="math inline">\(k\)</span> were estimated as <strong>fixed effects</strong>. [cite_start]To capture the unique desorption characteristics of each individual soil sample (defined by its unique ID, <code>uid</code>), subject-specific deviations from the fixed effects for both <span class="math inline">\(P^S\)</span> and <span class="math inline">\(k\)</span> were modeled as <strong>random effects</strong>[cite: 29].</p>
+<p>This approach allowed for the robust estimation of individual kinetic parameters for each soil sample, providing the <code>k</code> and <code>P^S</code> coefficients used for all subsequent analyses in this thesis.</p>
+<p><em>[The subsequent part of your analysis, where these coefficients are merged with the long-term trial data, would be described next.]</em></p>
+</section>
+</section>
 </section>
 <section id="results" class="level1">
 <h1>Results</h1>
