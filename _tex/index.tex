@@ -256,13 +256,14 @@ soil-solution, where the exchange, particularly the uptake of water and
 nutrients happens. High-affinity phosphate transporters are mainly
 responsible for the transport of phosphate from the soil-solution into
 the cytosol. The momentary concentration of orthophosphate
-{[}\(H_nPO_4^{n-3}\){]} in the soil-solution is called the intensity. It
-is influenced by sinks such as biological uptake, precipitation,
-adsorption and leaching, sources are dissolution of phosphate-minerals,
+{[}\(H_nPO_4^{n-3}\){]} in the soil-solution is called the intensity,
+meaning the \(Pi\) that is immediately available to the plant. It is
+influenced by sinks such as biological uptake, precipitation, adsorption
+and leaching, sources are dissolution of phosphate-minerals,
 mineralization resp. enzymatic hydrolization of organic Phosphate-esters
 and -anhydrides. Since it is difficult and sometimes up to now
 impossible to accurately assess all these factors, it has been shown
-beneficial to use a more agnostic approach and regard the net-diffusion
+beneficial to use a more agnostic approach and regard the diffusion
 rates, as a black-box model. For the sake of simplicity and feasibility,
 all biological-uptake can be removed, such that only the interaction
 between soil-matrix and soil-solution can be observed. Such a model
@@ -288,17 +289,133 @@ ability of a soil to provide sufficient \(Pi\) by assessing the status
 of both soil and soil-solution is the basis for economically and
 ecologically sustainable fertilization practice. Several approaches and
 models exist and aim to connect estimations of the \(Pi\)-availability
-and the expected requirements of crops. The predominant of models in use
-try to measure the extractable \(Pi\) via different solvents, and
-depending on agressivity of the solvent to identify different pools of
-\(Pi\). The extraction of \(Pi\) with \(H_2O\) or weakly acidic aqueous
-solutions are generally identified as the immediately available \(Pi\)
-or the Intensity. Extractants with strong acids or chelators, able to
-dissolve and desorb strongly bound \(Pi\) are identified as the
-\(Pi\)-Pool that will eventually become available to plants and is often
-called the Capacity. Such models continue to calculate the required
-amount of \(Pi\) by starting with the expexted uptake of the planned
-crop, this uptake is often
+and the expected requirements of crops. The predominant group of models
+in use try to measure the extractable \(Pi\) via different extractants,
+and depending on agressivity of the extractant to identify different
+pools of \(Pi\). The extraction of \(Pi\) with \(H_2O\) or weakly
+extracting aqueous solutions are generally identified as the immediately
+available \(Pi\) or the Intensity. Extractants with strong acids or
+chelators, able to dissolve and desorb strongly bound \(Pi\) are
+identified as the \(Pi\)-Pool that will eventually become available to
+plants and is often called the Capacity. Such models continue to
+calculate the required amount of \(Pi\) by starting with the expexted
+uptake of the planned crop.
+
+\subsection{Current models in the
+DACH-region}\label{current-models-in-the-dach-region}
+
+P-models deployed by the VDLUFA as well as GRUD share basic concepts and
+mathematical form; they will serve as an example how estimations of
+P-availability from soil tests and fertilization recommendations can be
+connected. The explained goal of those models is to reach an
+ecologically adequate level of P-availability such that only the
+plant-uptake has to be provided via fertilizer and said level can be
+maintained. Soil tests with nationally different extractants are
+therefore performed to assess the current P-availability as mentioned
+above, obtaing different measures of soil-test-phosphorus (STP).
+Depending on the STP value and the covariates clay-content (sensory
+measurement) and \(C_{org}\)-content the tested soil is placed in a
+P-supply-class ranging from A, depleted to E, eutrophicated. The
+estimated P-export, meaning the P-uptake of the harvesting organs,
+obtained by long-term-trials, most often the national mean-value is then
+adjusted by the affinity of the root-system for P-uptake, notably this
+is done for only a few major crops, resulting in the uncorrected
+fertilizer norm. This uncorrected fertilizer norm is subsequently
+multiplied with the supply-class parameter. This parameter is 1.5 for
+class A, in order to increase the amount of \(Pi\) available, while it
+is 0 for class E, such that the soil can be depleted to reach class C,
+designating adequate P-availability. Switzerland currently uses three
+concurrent STP-methods, with increasing order of extraction strength:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  H2010-method: P is extracted using deionized \(H_2O\) for 10 minutes
+\item
+  CO2-method: P is extracted using deionized \(H_2O\) with 1M \(CO_2\)
+  for HOW MANY?? minutes
+\item
+  AAE10-method: P is extracted using edionized \(H_2O\) with ????M
+  \(NH_4CH_3COO\) and ???? \(Na_4EDTA\) for 10 minutes
+\end{enumerate}
+
+The three STP-methods shown above notably differed in their amount of
+isotopically recoverable \(Pi\), where P-H2010 and P-CO2 displayed 97\%
+of the \(Pi\) extracted being isotopically exchangeably, while AAE10 had
+below 25\% and so did not represent \(Pi\) that eventually would become
+available ((\textbf{demaria2005?}))\\
+A new approach from the VDLUFA published in 2018 () uses the
+coefficients obtained from following the approach of Flossmann \&
+Richter and using them as additional information to improve the
+supply-classification and modifying the correction term to the xpected
+P-export.
+
+\subsection{Requirements to model
+parameters}\label{requirements-to-model-parameters}
+
+Upon close inspection of the models in use, with particular focus on the
+established and known mode of P-transport, certain requirements have to
+be met, such that the models can work reliably across different types of
+soils, crops and weather scenarios. The assessed covariates in
+particular have to display certain correlations.
+
+\begin{itemize}
+\tightlist
+\item
+  Since the solubility of \(Pi\) in most soil-solutions, interfacing
+  real soils is limited by the presence of metallic cations and
+  adsorptive surfaces typically below 20 ppm per kg soil, plants usually
+  deplete the soil-solution, surrounding the rhizosphere of \(Pi\). The
+  intensity of a nutrient must not be changed much or at all, it is to
+  serve as a predictor for a reaction progress and equilibrium. Most of
+  the \(Pi\) uptaken by a plant was delivered by a diffusive
+  mass-transport.
+\item
+  The covariates used to adjust the fertilization amount, aiming to
+  reach a steady state, where fertilization equals export need to
+  correlate (moderatly strongly) to P-export, P-balance and in cases of
+  low P-levels to the yield of a crop.
+\item
+  At least one of the members of the parameter set used must correlate
+  positively with amount of P fertilized, such that it ``responds'' to
+  the treatment.
+\item
+  Given the known mode of transportation of P, being dependend on
+  diffusive mass-transport, the temporal reactivity of the soil-solution
+  to changes in P-concentration, so the P-desorption-kinetic must in
+  some form be present.
+\end{itemize}
+
+In this study soils from the STYCS-trial, under swiss management were
+used, a modified version of the Flossman \& Richter P-desorption-kinetic
+was used to test, whether the STP-methods P-CO2 and P-AAE10, and the new
+kinetic model parameters satisfy those requirements, and compare their
+performance:
+
+\subsection{Research Questions}\label{research-questions}
+
+\begin{itemize}
+\tightlist
+\item
+  I: Is the \textbf{method} presented by Flossmann and Richter (1982)
+  with the double extraction \textbf{replicable} with the soils from the
+  \textbf{STYCS-trial}?
+\item
+  II: How do GRUD-measurements of \textbf{STP} \textbf{correlate} to the
+  soil properties \(C_\text{org}\)\textbf{-content, clay-content,
+  silt-content and pH}?
+\item
+  III: Are the kinetic coefficients \(k\) \textbf{and} \(PS\)
+  \textbf{correlated to soil properties}?
+\item
+  IV: How well can current GRUD methods of \textbf{STP} (\(P-CO_2\) \&
+  \(P-AAE10\)) \textbf{predict} the \textbf{Yield-parameters, P-Export
+  and P-Balance}?
+\item
+  V: How well can the \textbf{kinetic parameters} \(k\) \& \(PS\)
+  \textbf{predict Yield-parameters, P-Export and P-Balance}?
+\end{itemize}
 
 \section{Materials and Methods}\label{materials-and-methods}
 
