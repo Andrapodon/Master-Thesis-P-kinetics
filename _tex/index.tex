@@ -4,9 +4,8 @@
 \PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
 %
 \documentclass[
-  letterpaper,
-  DIV=11,
-  numbers=noendperiod]{scrartcl}
+  a4paper,
+]{article}
 
 \usepackage{amsmath,amssymb}
 \usepackage{iftex}
@@ -22,6 +21,9 @@
 \usepackage{lmodern}
 \ifPDFTeX\else  
     % xetex/luatex font selection
+    \setmainfont[]{Latin Modern Roman}
+    \setsansfont[]{Latin Modern Sans}
+    \setmonofont[]{Latin Modern Mono}
 \fi
 % Use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
@@ -127,7 +129,13 @@
 \newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{\strut#1\strut}}
 \newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
 
-\KOMAoption{captions}{tableheading}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\nouppercase{\leftmark}}
+\fancyhead[R]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\usepackage[margin=2.5cm]{geometry}
 \makeatletter
 \@ifpackageloaded{caption}{}{\usepackage{caption}}
 \AtBeginDocument{%
@@ -476,16 +484,16 @@ Kinetics}\label{modeling-of-desorption-kinetics}
 To derive the kinetic parameters, a non-linear mixed-effects model
 (\texttt{nlme}) was implemented. This approach was chosen to
 simultaneously estimate the rate constant (\(k\)) and the maximum
-desorbable P (\(P^S\)) directly from the time-series data for each soil
-sample. The model was fitted to the exact solution of the first-order
-rate equation:
+desorbable P (\(P_{desorb}\)) directly from the time-series data for
+each soil sample. The model was fitted to the exact solution of the
+first-order rate equation:
 
-\[ P(t) = P^S \times (1 - e^{-k \times t'}) \]
+\[ P(t) = P_{desorb} \times (1 - e^{-k \times t'}) \]
 
 Where \(P(t)\) is the P concentration at time \(t\), and \(t'\) is an
 adjusted time (\(t_\text{min} + 3\) min) to account for rapid initial P
-dissolution. The overall means for \(P^S\) and \(k\) were modeled as
-\textbf{fixed effects}, while sample-specific deviations for both
+dissolution. The overall means for \(P_{desorb}\) and \(k\) were modeled
+as \textbf{fixed effects}, while sample-specific deviations for both
 parameters were modeled as \textbf{random effects} to capture the unique
 characteristics of each soil sample.
 
@@ -501,22 +509,24 @@ power of these parameters.
 Models}\label{variables-used-in-the-models}
 
 The response and predictor variables used in the linear mixed-effects
-models are defined in the table below. Several predictors were
-log-transformed to improve linearity and meet model assumptions.
+models are defined in the table below.
 
 \begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.1092}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.0575}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.8333}}@{}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.0855}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.1447}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.0658}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.7039}}@{}}
 
-\caption{\label{tbl-variables}Description of response and predictor
-variables used in the agronomic models.}
+\caption{\label{tbl-variables}Description of variables used in the
+agronomic models.}
 
 \tabularnewline
 
 \toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\raggedright
-Variable
+Abbreviation
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Full.Name
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 Role
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
@@ -526,23 +536,23 @@ Description
 \endhead
 \bottomrule\noalign{}
 \endlastfoot
-\texttt{Y\_norm} & Response & Normalized crop yield, calculated as the
-plot yield divided by the site-specific median yield of the highest P
-treatment for that year and crop. \\
-\texttt{annual\_P\_uptake} & Response & Total phosphorus taken up by the
-harvested crop biomass over a growing season (kg P ha⁻¹). \\
-\texttt{annual\_P\_balance} & Response & Net P budget, calculated as P
-inputs (fertilizer) minus P outputs (uptake by harvest) (kg P ha⁻¹). \\
-\texttt{k} & Predictor & First-order rate constant of P desorption,
-representing the speed of P release (min⁻¹). \\
-\texttt{PS} & Predictor & Maximum desorbable P, representing the size of
-the readily available P pool (mg P L⁻¹). \\
-\texttt{kPS} & Predictor & Product of \texttt{k} and \texttt{PS},
-representing the initial flux of P from the soil. \\
-\texttt{P\_CO2} & Predictor & Plant-available P measured by the
-CO₂-saturated water extraction method (mg P kg⁻¹). \\
-\texttt{P\_AAE10} & Predictor & Plant-available P measured by the
-ammonium-acetate-EDTA extraction method (mg P kg⁻¹). \\
+\(Y_{rel}\) & Relative Yield & Response & Plot yield normalized by the
+site-specific median yield of the highest P treatment for that year and
+crop. \\
+\(P_{up}\) & P Uptake & Response & Total P removed by the harvested crop
+biomass over a growing season (kg P ha⁻¹). \\
+\(P_{bal}\) & P Balance & Response & Net P budget, calculated as P
+inputs (fertilizer) minus P outputs (uptake) (kg P ha⁻¹). \\
+\(k\) & Rate Constant & Predictor & First-order rate constant of P
+desorption, representing the speed of P release (min⁻¹). \\
+\(P_{desorb}\) & Desorbable P & Predictor & Maximum desorbable P,
+representing the size of the readily available P pool (mg P L⁻¹). \\
+\(J_0\) & Initial P Flux & Predictor & Product of \(k\) and
+\(P_{desorb}\), representing the initial flux of P from the soil. \\
+\(P_w\) & Water-Soluble P & Predictor & Plant-available P measured by
+the CO₂-saturated water extraction method (mg P kg⁻¹). \\
+\(P_{AAE10}\) & Chelate-Extractable P & Predictor & Plant-available P
+measured by the ammonium-acetate-EDTA extraction method (mg P kg⁻¹). \\
 
 \end{longtable}
 
@@ -567,9 +577,9 @@ Random Effects)}
 \item
   \textbf{Fixed Effects}: These represent the main explanatory variables
   of interest whose effects we wanted to quantify. The fixed effects
-  included the kinetic parameters (\texttt{k}, \texttt{PS},
-  \texttt{kPS}) and the standard soil P tests (\texttt{P\_CO2},
-  \texttt{P\_AAE10}), along with their interactions.
+  included the kinetic parameters (\(k\), \(P_{desorb}\), \(J_0\)) and
+  the standard soil P tests (\(P_w\), \(P_{AAE10}\)), along with their
+  interactions.
 \item
   \textbf{Random Effects}: These were included to control for
   non-independence among observations. By including
