@@ -129,6 +129,20 @@
 \newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{\strut#1\strut}}
 \newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
 
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage[normalem]{ulem}
+\usepackage{makecell}
+\usepackage{xcolor}
 \usepackage{fancyhdr}
 \pagestyle{fancy}
 \fancyhf{}
@@ -232,8 +246,17 @@ often low due to these rapid immobilization processes, and P lost from
 agricultural fields can become an environmental pollutant, disturbing
 P-limited aquatic ecosystems.
 
-\subsection{From Static Measurements to Dynamic
-Understanding}\label{from-static-measurements-to-dynamic-understanding}
+\textbf{Soil organic matter (SOM) adds another layer of complexity to
+these interactions.} Organic acids released during the decomposition of
+SOM can compete with phosphate for the same adsorption sites on mineral
+surfaces, which can increase P concentrations in the soil solution.
+Furthermore, humic substances can form stable complexes with cations
+like Al³⁺ and Fe³⁺, preventing them from precipitating phosphate and
+thereby enhancing its availability. The efficacy of P fertilization is
+often low due to these rapid and competing immobilization processes, and
+P lost from agricultural fields can become an environmental pollutant,
+disturbing P-limited aquatic ecosystems. \#\# From Static Measurements
+to Dynamic Understanding
 
 To manage this challenge, traditional soil testing methods (e.g.,
 Olsen-P, AAE10, CO₂-water) were developed to quantify the \textbf{size
@@ -537,8 +560,10 @@ Description
 \bottomrule\noalign{}
 \endlastfoot
 \(Y_{rel}\) & Relative Yield & Response & Plot yield normalized by the
-site-specific median yield of the highest P treatment for that year and
-crop. \\
+national mean yield for that year and crop. \\
+\(Y_{norm}\) & Normalized Yield & Response & Plot yield normalized by
+the site-specific median yield of the highest P treatment for that year
+and crop. \\
 \(P_{up}\) & P Uptake & Response & Total P removed by the harvested crop
 biomass over a growing season (kg P ha⁻¹). \\
 \(P_{bal}\) & P Balance & Response & Net P budget, calculated as P
@@ -549,8 +574,8 @@ desorption, representing the speed of P release (min⁻¹). \\
 representing the size of the readily available P pool (mg P L⁻¹). \\
 \(J_0\) & Initial P Flux & Predictor & Product of \(k\) and
 \(P_{desorb}\), representing the initial flux of P from the soil. \\
-\(P_w\) & Water-Soluble P & Predictor & Plant-available P measured by
-the CO₂-saturated water extraction method (mg P kg⁻¹). \\
+\(P_{CO2}\) & Water-Soluble P & Predictor & Plant-available P measured
+by the CO₂-saturated water extraction method (mg P kg⁻¹). \\
 \(P_{AAE10}\) & Chelate-Extractable P & Predictor & Plant-available P
 measured by the ammonium-acetate-EDTA extraction method (mg P kg⁻¹). \\
 
@@ -602,6 +627,138 @@ the \texttt{nlme} package for kinetic modeling and the \texttt{lme4},
 modeling and feature selection.
 
 \section{Results}\label{results}
+
+The results of this study are presented in two main parts. First, the
+direct effects of the long-term phosphorus (P) fertilization treatments
+on both the agronomic outcomes and the soil P test parameters are
+explored visually. This descriptive analysis provides an overview of the
+main trends across the different experimental sites. Second, the
+relationships between the soil P predictors and the agronomic responses
+are formally evaluated using linear mixed-effects models.
+
+\subsection{Effects of Fertilization on Agronomic and Soil
+Parameters}\label{effects-of-fertilization-on-agronomic-and-soil-parameters}
+
+To visualize the primary effects of the long-term P fertilization
+treatments, the key response and predictor variables were plotted for
+each treatment level across all six experimental sites.
+
+\subsubsection{Agronomic Responses to P
+Fertilization}\label{agronomic-responses-to-p-fertilization}
+
+The long-term application of different P fertilization levels had a
+pronounced impact on the primary agronomic outcomes, including two
+different metrics for yield, P Uptake (\(P_{up}\)), and P Balance
+(\(P_{bal}\)). The response, however, varied considerably between the
+different sites (Figure X.1).
+
+\phantomsection\label{cell-fig-agronomic-responses}
+\begin{figure}[H]
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{index_files/figure-pdf/fig-agronomic-responses-1.pdf}}
+
+}
+
+\caption{\label{fig-agronomic-responses}Agronomic response variables
+across six P fertilization treatments and six experimental sites. Points
+represent the median of replicates for each crop and year from
+2017-2022.}
+
+\end{figure}%
+
+\textsubscript{Source:
+\href{https://Andrapodon.github.io/Master-Thesis-P-kinetics/index.qmd.html}{Article
+Notebook}}
+
+\emph{(Placeholder for Figure X.1)}
+
+\textbf{Yield Metrics (\(Y_{norm}\) and \(Y_{rel}\)):} Both yield
+metrics, now displayed as percentages, showed a generally positive
+response to P fertilization, especially at the lower treatment levels.
+The site-normalized yield (\(Y_{norm}\)) clearly shows the response
+relative to the site's potential for that year, with most yields
+plateauing around the Norm (100\%) treatment. The national-normalized
+yield (\(Y_{rel}\)) provides a broader context, showing how the yields
+at each site compare to the national average. At some high-productivity
+sites, even the zero-P treatment produced yields above the national
+average (i.e., \textgreater{} 100\%), while at others, yields remained
+below average even with high fertilization.
+
+\textbf{P Uptake (\(P_{up}\)):} Phosphorus uptake by crops followed a
+similar trend to yield, increasing with fertilization. However, unlike
+yield, P uptake often continued to increase at the highest fertilization
+levels. This suggests that at high P supply, plants engaged in ``luxury
+consumption,'' taking up more P than was required for additional biomass
+production.
+
+\textbf{P Balance (\(P_{bal}\)):} The P balance showed a strong, linear
+relationship with the fertilization treatment, which is expected by
+definition. The Zero and Deficit treatments consistently resulted in a
+negative P balance, indicating that crops were mining P from soil
+reserves. The Norm treatment was generally close to a neutral balance,
+while the Elevated and Surplus treatments led to a significant P
+surplus, contributing to the accumulation of legacy P in the soil.
+
+\subsubsection{Soil P Parameters as a Function of P
+Fertilization}\label{soil-p-parameters-as-a-function-of-p-fertilization}
+
+The different soil P test parameters, including the standard STP methods
+and the newly derived kinetic parameters, all responded to the long-term
+fertilization treatments (Figure X.2).
+
+\phantomsection\label{cell-fig-soil-parameters}
+\begin{figure}[H]
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{index_files/figure-pdf/fig-soil-parameters-1.pdf}}
+
+}
+
+\caption{\label{fig-soil-parameters}Soil P parameters across six P
+fertilization treatments and six experimental sites. Points represent
+the mean of replicates.}
+
+\end{figure}%
+
+\textsubscript{Source:
+\href{https://Andrapodon.github.io/Master-Thesis-P-kinetics/index.qmd.html}{Article
+Notebook}}
+
+\emph{(Placeholder for Figure X.2)}
+
+\textbf{Standard STPs (\(P_{CO_2}\) and \(P_{AAE10}\)):} Both standard
+soil P tests showed a clear and consistent increase with rising P
+fertilization levels across all sites. This confirms that both methods
+are sensitive to changes in the soil P status resulting from long-term
+management. The absolute values, however, differed significantly between
+sites, reflecting the influence of soil properties like clay content and
+pH on P retention.
+
+\textbf{Kinetic Parameters (\(k\), \(P_{desorb}\), and \(J_0\)):} *
+\textbf{Desorbable P (\(P_{desorb}\)):} This parameter, representing the
+size of the readily desorbable P pool, behaved very similarly to the
+standard STPs. It increased steadily with P fertilization, confirming
+its role as a ``capacity'' indicator. * \textbf{Rate Constant (\(k\)):}
+The rate constant, representing the speed of P release, showed a more
+complex pattern. At most sites, \(k\) did not show a strong, consistent
+trend with fertilization, or in some cases, it slightly decreased at
+very high P levels. This suggests that while fertilization increases the
+\emph{amount} of available P, it may not necessarily increase the
+intrinsic \emph{release rate} from the soil matrix. * \textbf{Initial P
+Flux (\(J_0\)):} As the product of \(P_{desorb}\) and \(k\), the initial
+P flux integrates both the size of the pool and its release rate. It
+showed a strong positive response to fertilization, driven primarily by
+the increase in \(P_{desorb}\). This parameter effectively captures the
+overall P-supplying power of the soil.
+
+These initial observations suggest that while all P metrics are
+sensitive to fertilization, the kinetic parameters, particularly the
+rate constant \(k\), may provide unique information about the soil's P
+dynamics that is not captured by static tests alone. The next section
+will use formal statistical models to test these relationships.
 
 \section{Discussion}\label{discussion}
 
