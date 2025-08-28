@@ -1,0 +1,33 @@
+@article{knuth84,
+  author = {Knuth, Donald E.},
+  title = {Literate Programming},
+  year = {1984},
+  issue_date = {May 1984},
+  publisher = {Oxford University Press, Inc.},
+  address = {USA},
+  volume = {27},
+  number = {2},
+  issn = {0010-4620},
+  url = {https://doi.org/10.1093/comjnl/27.2.97},
+  doi = {10.1093/comjnl/27.2.97},
+  journal = {Comput. J.},
+  month = may,
+  pages = {97–111},
+  numpages = {15}
+}
+
+
+
+@article{demaria2005,
+	title = {Exchangeability of phosphate extracted by four chemical methods},
+	author = {Demaria, Paolo and Flisch, {René} and Frossard, Emmanuel and Sinaj, Sokrat},
+	year = {2005},
+	date = {2005},
+	journal = {Journal of Plant Nutrition and Soil Science},
+	pages = {89--93},
+	volume = {168},
+	number = {1},
+	doi = {10.1002/jpln.200421463},
+	url = {https://onlinelibrary.wiley.com/doi/10.1002/jpln.200421463},
+	langid = {en}
+}
