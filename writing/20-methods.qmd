@@ -75,11 +75,11 @@ The statistical workflow involved two main stages: 1) estimating the P desorptio
 
 ### Modeling of Desorption Kinetics
 
-To derive the kinetic parameters, a non-linear mixed-effects model (`nlme`) was implemented. This approach was chosen to simultaneously estimate the rate constant ($k$) and the maximum desorbable P ($P^S$) directly from the time-series data for each soil sample. The model was fitted to the exact solution of the first-order rate equation:
+To derive the kinetic parameters, a non-linear mixed-effects model (`nlme`) was implemented. This approach was chosen to simultaneously estimate the rate constant ($k$) and the maximum desorbable P ($P_{desorb}$) directly from the time-series data for each soil sample. The model was fitted to the exact solution of the first-order rate equation:
 
-$$ P(t) = P^S \times (1 - e^{-k \times t'}) $$
+$$ P(t) = P_{desorb} \times (1 - e^{-k \times t'}) $$
 
-Where $P(t)$ is the P concentration at time $t$, and $t'$ is an adjusted time ($t_\text{min} + 3$ min) to account for rapid initial P dissolution. The overall means for $P^S$ and $k$ were modeled as **fixed effects**, while sample-specific deviations for both parameters were modeled as **random effects** to capture the unique characteristics of each soil sample.
+Where $P(t)$ is the P concentration at time $t$, and $t'$ is an adjusted time ($t_\text{min} + 3$ min) to account for rapid initial P dissolution. The overall means for $P_{desorb}$ and $k$ were modeled as **fixed effects**, while sample-specific deviations for both parameters were modeled as **random effects** to capture the unique characteristics of each soil sample.
 
 ### Modeling of Agronomic Responses
 
@@ -87,28 +87,29 @@ The estimated kinetic parameters were merged with the agronomic and soil chemist
 
 #### Variables Used in the Models
 
-The response and predictor variables used in the linear mixed-effects models are defined in the table below. Several predictors were log-transformed to improve linearity and meet model assumptions.
+The response and predictor variables used in the linear mixed-effects models are defined in the table below.
 
 ```{r}
 #| label: tbl-variables
-#| tbl-cap: "Description of response and predictor variables used in the agronomic models."
+#| tbl-cap: "Description of variables used in the agronomic models."
 
 variables_df <- data.frame(
-  Variable = c("`Y_norm`", "`annual_P_uptake`", "`annual_P_balance`", "`k`", "`PS`", "`kPS`", "`P_CO2`", "`P_AAE10`"),
+  Abbreviation = c("$Y_{rel}$", "$P_{up}$", "$P_{bal}$", "$k$", "$P_{desorb}$", "$J_0$", "$P_w$", "$P_{AAE10}$"),
+  `Full Name` = c("Relative Yield", "P Uptake", "P Balance", "Rate Constant", "Desorbable P", "Initial P Flux", "Water-Soluble P", "Chelate-Extractable P"),
   Role = c("Response", "Response", "Response", "Predictor", "Predictor", "Predictor", "Predictor", "Predictor"),
   Description = c(
-    "Normalized crop yield, calculated as the plot yield divided by the site-specific median yield of the highest P treatment for that year and crop.",
-    "Total phosphorus taken up by the harvested crop biomass over a growing season (kg P ha⁻¹).",
-    "Net P budget, calculated as P inputs (fertilizer) minus P outputs (uptake by harvest) (kg P ha⁻¹).",
+    "Plot yield normalized by the site-specific median yield of the highest P treatment for that year and crop.",
+    "Total P removed by the harvested crop biomass over a growing season (kg P ha⁻¹).",
+    "Net P budget, calculated as P inputs (fertilizer) minus P outputs (uptake) (kg P ha⁻¹).",
     "First-order rate constant of P desorption, representing the speed of P release (min⁻¹).",
     "Maximum desorbable P, representing the size of the readily available P pool (mg P L⁻¹).",
-    "Product of `k` and `PS`, representing the initial flux of P from the soil.",
+    "Product of $k$ and $P_{desorb}$, representing the initial flux of P from the soil.",
     "Plant-available P measured by the CO₂-saturated water extraction method (mg P kg⁻¹).",
     "Plant-available P measured by the ammonium-acetate-EDTA extraction method (mg P kg⁻¹)."
   )
 )
 
-knitr::kable(variables_df, col.names = c("Variable", "Role", "Description"))
+knitr::kable(variables_df)
 ```
 
 #### Linear Mixed-Effects Model Structure
@@ -117,7 +118,7 @@ Linear mixed-effects models (`lmer`) were used to test the relationships between
 
 *Response Variable ~ Fixed Effects + (1 | Random Effects)*
 
-* **Fixed Effects**: These represent the main explanatory variables of interest whose effects we wanted to quantify. The fixed effects included the kinetic parameters (`k`, `PS`, `kPS`) and the standard soil P tests (`P_CO2`, `P_AAE10`), along with their interactions.
+* **Fixed Effects**: These represent the main explanatory variables of interest whose effects we wanted to quantify. The fixed effects included the kinetic parameters ($k$, $P_{desorb}$, $J_0$) and the standard soil P tests ($P_w$, $P_{AAE10}$), along with their interactions.
 * **Random Effects**: These were included to control for non-independence among observations. By including `(1 | Site)`, `(1 | Year)`, and `(1 | Crop)` as random intercepts, the model accounts for baseline differences in the response variable that are attributable to the specific location, growing season, or crop type, allowing for a more accurate estimation of the fixed effects.
 
 To identify the most informative and parsimonious model, a systematic feature selection process was conducted using the `mlr3` machine learning framework. This involved training and evaluating different combinations of predictor variables using nested cross-validation to ensure the robustness of the final selected model.
