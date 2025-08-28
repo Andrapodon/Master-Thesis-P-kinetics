@@ -305,12 +305,9 @@ window.Quarto = {
   <li><a href="#abstract" id="toc-abstract" class="nav-link" data-scroll-target="#abstract">Abstract</a></li>
   <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a>
   <ul class="collapse">
-  <li><a href="#complexity-of-phosphorous" id="toc-complexity-of-phosphorous" class="nav-link" data-scroll-target="#complexity-of-phosphorous">Complexity of Phosphorous</a></li>
-  <li><a href="#principle-mechanism-of-p-transport-to-the-plant" id="toc-principle-mechanism-of-p-transport-to-the-plant" class="nav-link" data-scroll-target="#principle-mechanism-of-p-transport-to-the-plant">Principle Mechanism of P-transport to the Plant</a></li>
-  <li><a href="#prediction-of-biological-sinks" id="toc-prediction-of-biological-sinks" class="nav-link" data-scroll-target="#prediction-of-biological-sinks">Prediction of biological sinks</a></li>
-  <li><a href="#current-models-in-the-dach-region" id="toc-current-models-in-the-dach-region" class="nav-link" data-scroll-target="#current-models-in-the-dach-region">Current models in the DACH-region</a></li>
-  <li><a href="#requirements-to-model-parameters" id="toc-requirements-to-model-parameters" class="nav-link" data-scroll-target="#requirements-to-model-parameters">Requirements to model parameters</a></li>
-  <li><a href="#research-questions" id="toc-research-questions" class="nav-link" data-scroll-target="#research-questions">Research Questions</a></li>
+  <li><a href="#the-complexity-of-phosphorus" id="toc-the-complexity-of-phosphorus" class="nav-link" data-scroll-target="#the-complexity-of-phosphorus">The Complexity of Phosphorus</a></li>
+  <li><a href="#from-static-measurements-to-dynamic-understanding" id="toc-from-static-measurements-to-dynamic-understanding" class="nav-link" data-scroll-target="#from-static-measurements-to-dynamic-understanding">From Static Measurements to Dynamic Understanding</a></li>
+  <li><a href="#objectives-and-research-questions" id="toc-objectives-and-research-questions" class="nav-link" data-scroll-target="#objectives-and-research-questions">Objectives and Research Questions</a></li>
   </ul></li>
   <li><a href="#materials-and-methods" id="toc-materials-and-methods" class="nav-link" data-scroll-target="#materials-and-methods">Materials and Methods</a>
   <ul class="collapse">
@@ -323,8 +320,8 @@ window.Quarto = {
   </ul></li>
   <li><a href="#statistical-analysis" id="toc-statistical-analysis" class="nav-link" data-scroll-target="#statistical-analysis">Statistical Analysis</a>
   <ul class="collapse">
-  <li><a href="#initial-approach-linearized-model" id="toc-initial-approach-linearized-model" class="nav-link" data-scroll-target="#initial-approach-linearized-model">Initial Approach: Linearized Model</a></li>
-  <li><a href="#final-approach-non-linear-mixed-effects-model" id="toc-final-approach-non-linear-mixed-effects-model" class="nav-link" data-scroll-target="#final-approach-non-linear-mixed-effects-model">Final Approach: Non-Linear Mixed-Effects Model</a></li>
+  <li><a href="#modeling-of-desorption-kinetics" id="toc-modeling-of-desorption-kinetics" class="nav-link" data-scroll-target="#modeling-of-desorption-kinetics">Modeling of Desorption Kinetics</a></li>
+  <li><a href="#modeling-of-agronomic-responses" id="toc-modeling-of-agronomic-responses" class="nav-link" data-scroll-target="#modeling-of-agronomic-responses">Modeling of Agronomic Responses</a></li>
   </ul></li>
   </ul></li>
   <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a></li>
@@ -356,49 +353,25 @@ window.Quarto = {
 </section>
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
-<section id="complexity-of-phosphorous" class="level2">
-<h2 class="anchored" data-anchor-id="complexity-of-phosphorous">Complexity of Phosphorous</h2>
-<p>Phosphorous displays a wide range of behaviours in soils, in places where organic, mineral and aqueous phases interface. In phases that contain oxygen Phosphorous is almost exclusively present as several derivates of Orthophosphate <span class="math inline">\(PO_4^{3-}\)</span> It can be found as organic molecules as anhydric- and ester-groups, being needed by all known species as a constituent of DNA and energy transfer-processes. It can be present as anorganic Phosphate either as mono-orthophosphate <span class="math inline">\(PO_4^{3-}\)</span> or poly-orthophosphate <span class="math inline">\(HO-(PO_2)_n-OH\)</span>, where it can strongly interact with water, forming, depending on pH <span class="math inline">\(HPO_4^{2-}\)</span> or <span class="math inline">\(H_2PO_4^{-}\)</span>. The dissolved species of phosphate are subject to adsorption to clay- and oxide-surfaces of the solid soil-phase, they also form fallout-products such as Apatite, Vivianite etc. With the present metal-cations in the solution. While the solubility constant of most phosphate-salts are comparably low (Wert eingeben), meaning that the fallout and formation of minerals happens at low chemical activities of phosphate, phosphate often is leached from soil-surface-layers, heavily reducing the efficacy of P-fertilization and presenting a disturbance to P-limited ecosystems. Those phenomena, many of them being physicochemically controlled, are influenced by parameters such as pH, ionic-strength, clay-content, specific-surface of the solid phase, amorphous <span class="math inline">\(Fe(OH)_3\)</span>-content amorphous <span class="math inline">\(Al(OH)_3\)</span>-content, in short the phenomena depend heavily on the composition, distribution and geometry of the soil. Those properties are considered to be stable respectively long-term properties of a soil, when looked at it with the interest of modelling the transport processes of Phosphate in soils. Factors such as water-content, temperature, vegetation and precipitation are factors that temporally can vary fast and to a certain degree unpredictably. Organic forms of phosphates, prominently DNA or oligonucleotides and phytate are also subject to physicochemical reactions, mainly decomposition, but are foremost controlled in their presence by enzymatic processes, where i.e.&nbsp;plants form phytates in seeds to provide the embryo a compact and specific reserve of phosphate, but many bacteria possess via Phytases the ability to hydrolyse phytate and use it for their own means. To assess and cover those phenomena, models, dynamically describing the motion of Phosphorous in soils, differentiate several pools of Phosphorous, most prominently the organic-P, dissolved-P, adsorbed-P, mineral-P, where the difference in temporal behaviour, such as the mean-reside-time invite a differentiation between labile-P, semi-labile-P and so on.</p>
+<section id="the-complexity-of-phosphorus" class="level2">
+<h2 class="anchored" data-anchor-id="the-complexity-of-phosphorus">The Complexity of Phosphorus</h2>
+<p>Phosphorus (P) is an essential macronutrient for all known life, forming a critical part of DNA and energy-transfer molecules. In soils—where organic, mineral, and aqueous phases interface—its behavior is complex. In the presence of oxygen, P exists almost exclusively as orthophosphate (<span class="math inline">\(PO_4^{3-}\)</span>) and its protonated forms (<span class="math inline">\(HPO_4^{2-}\)</span> or <span class="math inline">\(H_2PO_4^{-}\)</span>), depending on the soil pH. These dissolved phosphate species are highly reactive; they are subject to adsorption onto the surfaces of clays and oxides and can precipitate with cations like calcium, iron, and aluminum to form minerals with low solubility. Consequently, while the total amount of P in a soil can be large, only a small fraction is in the soil solution at any given moment, posing a central challenge for agriculture. The efficacy of P fertilization is often low due to these rapid immobilization processes, and P lost from agricultural fields can become an environmental pollutant, disturbing P-limited aquatic ecosystems.</p>
 </section>
-<section id="principle-mechanism-of-p-transport-to-the-plant" class="level2">
-<h2 class="anchored" data-anchor-id="principle-mechanism-of-p-transport-to-the-plant">Principle Mechanism of P-transport to the Plant</h2>
-<p>Plants that live in ground, interface with their roots the soil-matrix, soil-solution and air-pockets. It is the interface between root and soil-solution, where the exchange, particularly the uptake of water and nutrients happens. High-affinity phosphate transporters are mainly responsible for the transport of phosphate from the soil-solution into the cytosol. The momentary concentration of orthophosphate [<span class="math inline">\(H_nPO_4^{n-3}\)</span>] in the soil-solution is called the intensity, meaning the <span class="math inline">\(Pi\)</span> that is immediately available to the plant. It is influenced by sinks such as biological uptake, precipitation, adsorption and leaching, sources are dissolution of phosphate-minerals, mineralization resp. enzymatic hydrolization of organic Phosphate-esters and -anhydrides. Since it is difficult and sometimes up to now impossible to accurately assess all these factors, it has been shown beneficial to use a more agnostic approach and regard the diffusion rates, as a black-box model. For the sake of simplicity and feasibility, all biological-uptake can be removed, such that only the interaction between soil-matrix and soil-solution can be observed. Such a model would consist of the soil-matrix, containing the adsorption-surfaces and the interfacing soil-solution that exchanges phosphates until an equilibrium is reached. There have been different approaches to capture the diffusion of Phosphate. The IEK method employs <span class="math inline">\(^{31}P\)</span> and assesses the amount of P, that is exchangeable between both phases and the temporal development of that amount. Flossmann &amp; Richter assessed the net-diffusion rate and equilibrium-concentration, modelling the diffusion-process as a first-order-kinetic. Whilst IEK observes the diffusion in a steady-state, the approach of Flossmann &amp; Richter did start with a system of dried fine soil and deionized water, and subsequently sampling at different time-points, observing the desorption-reaction-speed from start to equilibrium.</p>
+<section id="from-static-measurements-to-dynamic-understanding" class="level2">
+<h2 class="anchored" data-anchor-id="from-static-measurements-to-dynamic-understanding">From Static Measurements to Dynamic Understanding</h2>
+<p>To manage this challenge, traditional soil testing methods (e.g., Olsen-P, AAE10, CO₂-water) were developed to quantify the <strong>size of the readily available P pool</strong>. This static measurement is often referred to as the <strong>“capacity factor”</strong>. While these tests are invaluable for basic fertility assessment, they do not capture the dynamic nature of P supply. A crucial missing piece of information is the rate at which P is replenished into the soil solution from the solid phase after being taken up by plant roots. This replenishment rate, or <strong>“kinetic factor”</strong>, is vital for sustaining crop growth, especially during periods of high demand.</p>
+<p>The importance of these dynamics is not a new concept. As early as 1982, <strong>Flossmann and Richter</strong> argued that characterizing the kinetics of P release was essential for refining fertilizer recommendations beyond what static tests alone could offer. Modern research has reinforced this view, showing that fertilization strategies based solely on maintaining a critical soil test P (STP) concentration can be inefficient. In Switzerland, this has led to the accumulation of “legacy P” in many agricultural soils, and understanding the release kinetics of this legacy P is key to both improving nutrient efficiency and protecting water quality. Furthermore, critical STP levels are not constant; they are influenced by pedoclimatic factors like soil texture and temperature, making a “one-size-fits-all” approach to fertilization suboptimal.</p>
 </section>
-<section id="prediction-of-biological-sinks" class="level2">
-<h2 class="anchored" data-anchor-id="prediction-of-biological-sinks">Prediction of biological sinks</h2>
-<p>The prediction of biological sinks, particularly plant uptake is of great practical and academic interest. To adequately estimate the ability of a soil to provide sufficient <span class="math inline">\(Pi\)</span> by assessing the status of both soil and soil-solution is the basis for economically and ecologically sustainable fertilization practice. Several approaches and models exist and aim to connect estimations of the <span class="math inline">\(Pi\)</span>-availability and the expected requirements of crops. The predominant group of models in use try to measure the extractable <span class="math inline">\(Pi\)</span> via different extractants, and depending on agressivity of the extractant to identify different pools of <span class="math inline">\(Pi\)</span>. The extraction of <span class="math inline">\(Pi\)</span> with <span class="math inline">\(H_2O\)</span> or weakly extracting aqueous solutions are generally identified as the immediately available <span class="math inline">\(Pi\)</span> or the Intensity. Extractants with strong acids or chelators, able to dissolve and desorb strongly bound <span class="math inline">\(Pi\)</span> are identified as the <span class="math inline">\(Pi\)</span>-Pool that will eventually become available to plants and is often called the Capacity. Such models continue to calculate the required amount of <span class="math inline">\(Pi\)</span> by starting with the expexted uptake of the planned crop.</p>
-</section>
-<section id="current-models-in-the-dach-region" class="level2">
-<h2 class="anchored" data-anchor-id="current-models-in-the-dach-region">Current models in the DACH-region</h2>
-<p>P-models deployed by the VDLUFA as well as GRUD share basic concepts and mathematical form; they will serve as an example how estimations of P-availability from soil tests and fertilization recommendations can be connected. The explained goal of those models is to reach an ecologically adequate level of P-availability such that only the plant-uptake has to be provided via fertilizer and said level can be maintained. Soil tests with nationally different extractants are therefore performed to assess the current P-availability as mentioned above, obtaing different measures of soil-test-phosphorus (STP). Depending on the STP value and the covariates clay-content (sensory measurement) and <span class="math inline">\(C_{org}\)</span>-content the tested soil is placed in a P-supply-class ranging from A, depleted to E, eutrophicated. The estimated P-export, meaning the P-uptake of the harvesting organs, obtained by long-term-trials, most often the national mean-value is then adjusted by the affinity of the root-system for P-uptake, notably this is done for only a few major crops, resulting in the uncorrected fertilizer norm. This uncorrected fertilizer norm is subsequently multiplied with the supply-class parameter. This parameter is 1.5 for class A, in order to increase the amount of <span class="math inline">\(Pi\)</span> available, while it is 0 for class E, such that the soil can be depleted to reach class C, designating adequate P-availability. Switzerland currently uses three concurrent STP-methods, with increasing order of extraction strength:</p>
+<section id="objectives-and-research-questions" class="level2">
+<h2 class="anchored" data-anchor-id="objectives-and-research-questions">Objectives and Research Questions</h2>
+<p>An ideal set of parameters for P management should meet several criteria. The parameters should correlate strongly with P export and P balance in a steady-state system. They must also respond to fertilizer inputs and, most importantly, capture the diffusive, kinetic nature of P supply to plant roots.</p>
+<p>This thesis hypothesizes that <strong>kinetic parameters describing P desorption, derived from a simple laboratory extraction, can serve as effective predictors for agronomic outcomes.</strong> Using soils from the long-term STYCS experiment in Switzerland, this study employs a modified version of the Flossmann &amp; Richter kinetic test to derive the desorption rate (<span class="math inline">\(k\)</span>) and the desorbable P pool (<span class="math inline">\(P^S\)</span>). The performance of these new kinetic parameters will be compared against standard STP methods (<span class="math inline">\(P_{CO_2}\)</span> and <span class="math inline">\(P_{AAE10}\)</span>) by addressing the following research questions:</p>
 <ol type="1">
-<li>H2010-method: P is extracted using deionized <span class="math inline">\(H_2O\)</span> for 10 minutes</li>
-<li>CO2-method: P is extracted using deionized <span class="math inline">\(H_2O\)</span> with 1M <span class="math inline">\(CO_2\)</span> for HOW MANY?? minutes</li>
-<li>AAE10-method: P is extracted using edionized <span class="math inline">\(H_2O\)</span> with ????M <span class="math inline">\(NH_4CH_3COO\)</span> and ???? <span class="math inline">\(Na_4EDTA\)</span> for 10 minutes</li>
+<li>Is the P desorption kinetic method replicable and effective for the soils from the STYCS trial?</li>
+<li>How do the kinetic coefficients, <span class="math inline">\(k\)</span> and <span class="math inline">\(P^S\)</span>, correlate with key soil properties (organic carbon, clay content, pH)?</li>
+<li>How well do the standard STP methods (<span class="math inline">\(P_{CO_2}\)</span> &amp; <span class="math inline">\(P_{AAE10}\)</span>) predict crop yield, P export, and P balance?</li>
+<li>Can the kinetic parameters, <span class="math inline">\(k\)</span> and <span class="math inline">\(P^S\)</span>, improve the prediction of these agronomic outcomes compared to the standard static tests?</li>
 </ol>
-<p>The three STP-methods shown above notably differed in their amount of isotopically recoverable <span class="math inline">\(Pi\)</span>, where P-H2010 and P-CO2 displayed 97% of the <span class="math inline">\(Pi\)</span> extracted being isotopically exchangeably, while AAE10 had below 25% and so did not represent <span class="math inline">\(Pi\)</span> that eventually would become available (<span class="citation" data-cites="demaria2005">(<a href="#ref-demaria2005" role="doc-biblioref"><strong>demaria2005?</strong></a>)</span>)<br>
-A new approach from the VDLUFA published in 2018 () uses the coefficients obtained from following the approach of Flossmann &amp; Richter and using them as additional information to improve the supply-classification and modifying the correction term to the xpected P-export.</p>
-</section>
-<section id="requirements-to-model-parameters" class="level2">
-<h2 class="anchored" data-anchor-id="requirements-to-model-parameters">Requirements to model parameters</h2>
-<p>Upon close inspection of the models in use, with particular focus on the established and known mode of P-transport, certain requirements have to be met, such that the models can work reliably across different types of soils, crops and weather scenarios. The assessed covariates in particular have to display certain correlations.</p>
-<ul>
-<li>Since the solubility of <span class="math inline">\(Pi\)</span> in most soil-solutions, interfacing real soils is limited by the presence of metallic cations and adsorptive surfaces typically below 20 ppm per kg soil, plants usually deplete the soil-solution, surrounding the rhizosphere of <span class="math inline">\(Pi\)</span>. The intensity of a nutrient must not be changed much or at all, it is to serve as a predictor for a reaction progress and equilibrium. Most of the <span class="math inline">\(Pi\)</span> uptaken by a plant was delivered by a diffusive mass-transport.</li>
-<li>The covariates used to adjust the fertilization amount, aiming to reach a steady state, where fertilization equals export need to correlate (moderatly strongly) to P-export, P-balance and in cases of low P-levels to the yield of a crop.</li>
-<li>At least one of the members of the parameter set used must correlate positively with amount of P fertilized, such that it “responds” to the treatment.</li>
-<li>Given the known mode of transportation of P, being dependend on diffusive mass-transport, the temporal reactivity of the soil-solution to changes in P-concentration, so the P-desorption-kinetic must in some form be present.</li>
-</ul>
-<p>In this study soils from the STYCS-trial, under swiss management were used, a modified version of the Flossman &amp; Richter P-desorption-kinetic was used to test, whether the STP-methods P-CO2 and P-AAE10, and the new kinetic model parameters satisfy those requirements, and compare their performance:</p>
-</section>
-<section id="research-questions" class="level2">
-<h2 class="anchored" data-anchor-id="research-questions">Research Questions</h2>
-<ul>
-<li>I: Is the <strong>method</strong> presented by Flossmann and Richter (1982) with the double extraction <strong>replicable</strong> with the soils from the <strong>STYCS-trial</strong>?</li>
-<li>II: How do GRUD-measurements of <strong>STP</strong> <strong>correlate</strong> to the soil properties <span class="math inline">\(C_\text{org}\)</span><strong>-content, clay-content, silt-content and pH</strong>?</li>
-<li>III: Are the kinetic coefficients <span class="math inline">\(k\)</span> <strong>and</strong> <span class="math inline">\(PS\)</span> <strong>correlated to soil properties</strong>?</li>
-<li>IV: How well can current GRUD methods of <strong>STP</strong> (<span class="math inline">\(P-CO_2\)</span> &amp; <span class="math inline">\(P-AAE10\)</span>) <strong>predict</strong> the <strong>Yield-parameters, P-Export and P-Balance</strong>?</li>
-<li>V: How well can the <strong>kinetic parameters</strong> <span class="math inline">\(k\)</span> &amp; <span class="math inline">\(PS\)</span> <strong>predict Yield-parameters, P-Export and P-Balance</strong>?</li>
-</ul>
 </section>
 </section>
 <section id="materials-and-methods" class="level1">
@@ -540,23 +513,100 @@ Table&nbsp;1: Soil characteristics of the six long-term experimental sites. Data
 </section>
 <section id="statistical-analysis" class="level2">
 <h2 class="anchored" data-anchor-id="statistical-analysis">Statistical Analysis</h2>
-<p>The statistical analysis aimed to derive the kinetic parameters of phosphorus (P) desorption for each soil sample. A two-stage approach was employed, starting with a linearized model and progressing to a more robust non-linear mixed-effects model.</p>
-<section id="initial-approach-linearized-model" class="level3">
-<h3 class="anchored" data-anchor-id="initial-approach-linearized-model">Initial Approach: Linearized Model</h3>
-<p>[cite_start]Following the conceptual framework of Flossmann and Richter (1982), a first attempt was made to linearize the first-order kinetic model[cite: 2, 3]. The differential equation describing P release was solved and rearranged to yield a linear relationship:</p>
-<p><span class="math display">\[ \log\left(1 - \frac{P(t)}{P^S}\right) = -kt \]</span></p>
-<p>In this formulation, <span class="math inline">\(P(t)\)</span> is the concentration of desorbed P at time <span class="math inline">\(t\)</span>, <span class="math inline">\(k\)</span> is the rate constant, and <span class="math inline">\(P^S\)</span> is the maximum desorbable P, acting as the asymptote. [cite_start]For this initial model, the <span class="math inline">\(P^S\)</span> parameter was not estimated from the kinetic data itself but was calculated <em>a priori</em> for each sample as the difference between the phosphorus concentration measured by the Olsen method (<span class="math inline">\(P_\text{Olsen}\)</span>) and the initially water-soluble P concentration (<span class="math inline">\(P_{H_2O}\)</span>)[cite: 3, 7].</p>
-<p>While this approach allowed for the use of simple linear regression to estimate <span class="math inline">\(k\)</span>, the reliance on an externally calculated asymptote led to poor model fits and physically unrealistic results for several samples. Consequently, this method was discarded in favor of a more direct modeling approach.</p>
-</section>
-<section id="final-approach-non-linear-mixed-effects-model" class="level3">
-<h3 class="anchored" data-anchor-id="final-approach-non-linear-mixed-effects-model">Final Approach: Non-Linear Mixed-Effects Model</h3>
-<p>[cite_start]To overcome the limitations of the linearized model, a non-linear mixed-effects model (<code>nlme</code>) was implemented to estimate both the rate constant <span class="math inline">\(k\)</span> and the asymptote <span class="math inline">\(P^S\)</span> simultaneously and directly from the time-series data[cite: 29].</p>
-<p>The model was fitted to the exact solution of the first-order rate equation:</p>
+<p>The statistical workflow involved two main stages: 1) estimating the P desorption kinetic parameters from the laboratory data, and 2) using these parameters to model the agronomic outcomes from the long-term field experiment.</p>
+<section id="modeling-of-desorption-kinetics" class="level3">
+<h3 class="anchored" data-anchor-id="modeling-of-desorption-kinetics">Modeling of Desorption Kinetics</h3>
+<p>To derive the kinetic parameters, a non-linear mixed-effects model (<code>nlme</code>) was implemented. This approach was chosen to simultaneously estimate the rate constant (<span class="math inline">\(k\)</span>) and the maximum desorbable P (<span class="math inline">\(P^S\)</span>) directly from the time-series data for each soil sample. The model was fitted to the exact solution of the first-order rate equation:</p>
 <p><span class="math display">\[ P(t) = P^S \times (1 - e^{-k \times t'}) \]</span></p>
-<p>Here, <span class="math inline">\(t'\)</span> represents the adjusted time. [cite_start]Based on preliminary analysis, it was observed that some P dissolves rapidly before the first measurement point[cite: 25]. [cite_start]To account for this, the measured time was adjusted by adding a 3-minute offset (<span class="math inline">\(t' = t_\text{min} + 3\)</span>)[cite: 7, 25].</p>
-<p>[cite_start]The model was implemented in R using the <code>nlme</code> package[cite: 29]. To account for the hierarchical structure of the data, where multiple time points are nested within each unique soil sample, the model was specified with both fixed and random effects. The overall population means for <span class="math inline">\(P^S\)</span> and <span class="math inline">\(k\)</span> were estimated as <strong>fixed effects</strong>. [cite_start]To capture the unique desorption characteristics of each individual soil sample (defined by its unique ID, <code>uid</code>), subject-specific deviations from the fixed effects for both <span class="math inline">\(P^S\)</span> and <span class="math inline">\(k\)</span> were modeled as <strong>random effects</strong>[cite: 29].</p>
-<p>This approach allowed for the robust estimation of individual kinetic parameters for each soil sample, providing the <code>k</code> and <code>P^S</code> coefficients used for all subsequent analyses in this thesis.</p>
-<p><em>[The subsequent part of your analysis, where these coefficients are merged with the long-term trial data, would be described next.]</em></p>
+<p>Where <span class="math inline">\(P(t)\)</span> is the P concentration at time <span class="math inline">\(t\)</span>, and <span class="math inline">\(t'\)</span> is an adjusted time (<span class="math inline">\(t_\text{min} + 3\)</span> min) to account for rapid initial P dissolution. The overall means for <span class="math inline">\(P^S\)</span> and <span class="math inline">\(k\)</span> were modeled as <strong>fixed effects</strong>, while sample-specific deviations for both parameters were modeled as <strong>random effects</strong> to capture the unique characteristics of each soil sample.</p>
+</section>
+<section id="modeling-of-agronomic-responses" class="level3">
+<h3 class="anchored" data-anchor-id="modeling-of-agronomic-responses">Modeling of Agronomic Responses</h3>
+<p>The estimated kinetic parameters were merged with the agronomic and soil chemistry dataset from the years 2017-2022. A series of linear mixed-effects models were then constructed to evaluate the predictive power of these parameters.</p>
+<section id="variables-used-in-the-models" class="level4">
+<h4 class="anchored" data-anchor-id="variables-used-in-the-models">Variables Used in the Models</h4>
+<p>The response and predictor variables used in the linear mixed-effects models are defined in the table below. Several predictors were log-transformed to improve linearity and meet model assumptions.</p>
+<div class="cell">
+<div id="tbl-variables" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-variables-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;2: Description of response and predictor variables used in the agronomic models.
+</figcaption>
+<div aria-describedby="tbl-variables-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 10%">
+<col style="width: 5%">
+<col style="width: 83%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Variable</th>
+<th style="text-align: left;">Role</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>Y_norm</code></td>
+<td style="text-align: left;">Response</td>
+<td style="text-align: left;">Normalized crop yield, calculated as the plot yield divided by the site-specific median yield of the highest P treatment for that year and crop.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>annual_P_uptake</code></td>
+<td style="text-align: left;">Response</td>
+<td style="text-align: left;">Total phosphorus taken up by the harvested crop biomass over a growing season (kg P ha⁻¹).</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>annual_P_balance</code></td>
+<td style="text-align: left;">Response</td>
+<td style="text-align: left;">Net P budget, calculated as P inputs (fertilizer) minus P outputs (uptake by harvest) (kg P ha⁻¹).</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>k</code></td>
+<td style="text-align: left;">Predictor</td>
+<td style="text-align: left;">First-order rate constant of P desorption, representing the speed of P release (min⁻¹).</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>PS</code></td>
+<td style="text-align: left;">Predictor</td>
+<td style="text-align: left;">Maximum desorbable P, representing the size of the readily available P pool (mg P L⁻¹).</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>kPS</code></td>
+<td style="text-align: left;">Predictor</td>
+<td style="text-align: left;">Product of <code>k</code> and <code>PS</code>, representing the initial flux of P from the soil.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>P_CO2</code></td>
+<td style="text-align: left;">Predictor</td>
+<td style="text-align: left;">Plant-available P measured by the CO₂-saturated water extraction method (mg P kg⁻¹).</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>P_AAE10</code></td>
+<td style="text-align: left;">Predictor</td>
+<td style="text-align: left;">Plant-available P measured by the ammonium-acetate-EDTA extraction method (mg P kg⁻¹).</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+</section>
+<section id="linear-mixed-effects-model-structure" class="level4">
+<h4 class="anchored" data-anchor-id="linear-mixed-effects-model-structure">Linear Mixed-Effects Model Structure</h4>
+<p>Linear mixed-effects models (<code>lmer</code>) were used to test the relationships between the predictor variables and each of the three response variables. The structure of these models was designed to account for the nested nature of the long-term experiment. A general form of the model is:</p>
+<p><em>Response Variable ~ Fixed Effects + (1 | Random Effects)</em></p>
+<ul>
+<li><strong>Fixed Effects</strong>: These represent the main explanatory variables of interest whose effects we wanted to quantify. The fixed effects included the kinetic parameters (<code>k</code>, <code>PS</code>, <code>kPS</code>) and the standard soil P tests (<code>P_CO2</code>, <code>P_AAE10</code>), along with their interactions.</li>
+<li><strong>Random Effects</strong>: These were included to control for non-independence among observations. By including <code>(1 | Site)</code>, <code>(1 | Year)</code>, and <code>(1 | Crop)</code> as random intercepts, the model accounts for baseline differences in the response variable that are attributable to the specific location, growing season, or crop type, allowing for a more accurate estimation of the fixed effects.</li>
+</ul>
+<p>To identify the most informative and parsimonious model, a systematic feature selection process was conducted using the <code>mlr3</code> machine learning framework. This involved training and evaluating different combinations of predictor variables using nested cross-validation to ensure the robustness of the final selected model.</p>
+<p>All statistical analyses were performed in the R environment, utilizing the <code>nlme</code> package for kinetic modeling and the <code>lme4</code>, <code>lmerTest</code>, and <code>mlr3</code> packages for the final agronomic modeling and feature selection.</p>
+</section>
 </section>
 </section>
 </section>
