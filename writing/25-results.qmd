@@ -1,1 +1,159 @@
 # Results
+
+```{r setup}
+#| include: false
+suppressPackageStartupMessages({
+  library(multcomp)
+  library(car)
+  library(tidyr)
+  library(lme4)
+  library(ggplot2)
+  library(ggtext)
+  library(ggpmisc)
+  library(nlme)
+  library(latex2exp)
+  library(kableExtra)
+  library(broom)
+  library(dplyr)
+  library(MuMIn)
+  library(latex2exp)
+})
+
+options(warn = -1)
+RES <- readRDS("~/Documents/Master Thesis/Master-Thesis-P-kinetics/data/RES.rds")
+D <- RES$D
+d <- RES$data
+```
+
+The results of this study are presented in two main parts. First, the direct effects of the long-term phosphorus (P) fertilization treatments on both the agronomic outcomes and the soil P test parameters are explored visually. This descriptive analysis provides an overview of the main trends across the different experimental sites. Second, the relationships between the soil P predictors and the agronomic responses are formally evaluated using linear mixed-effects models.
+
+## Effects of Fertilization on Agronomic and Soil Parameters
+
+To visualize the primary effects of the long-term P fertilization treatments, the key response and predictor variables were plotted for each treatment level across all six experimental sites.
+
+### Agronomic Responses to P Fertilization
+
+The long-term application of different P fertilization levels had a pronounced impact on the primary agronomic outcomes, including two different metrics for yield, P Uptake ($P_{up}$), and P Balance ($P_{bal}$). The response, however, varied considerably between the different sites (Figure X.1).
+
+```{r}
+#| label: fig-agronomic-responses
+#| fig-cap: "Agronomic response variables across six P fertilization treatments and six experimental sites. Points represent the median of replicates for each crop and year from 2017-2022."
+#| echo: false
+#| warning: false
+#| message: false
+
+library(ggplot2)
+library(tidyr)
+library(dplyr)
+library(latex2exp)
+
+# Reshape the data and convert Ymain_norm to a percentage
+D_long_agronomic <- D %>%
+  select(Site, Treatment, Ymain_norm, Ymain_rel, annual_P_uptake, annual_P_balance) %>%
+  mutate(Ymain_norm = Ymain_norm * 100) %>% # Convert fraction to percentage
+  pivot_longer(
+    cols = c(Ymain_norm, Ymain_rel, annual_P_uptake, annual_P_balance),
+    names_to = "Variable",
+    values_to = "Value"
+  )
+
+# Manually replace script names with concise, TeX-processed strings
+D_long_agronomic <- D_long_agronomic %>%
+  mutate(Variable = case_when(
+    # **THE FIX:** Escape the % sign with a double backslash \\%
+    Variable == "Ymain_norm"       ~ as.character(TeX("$Y_{norm}$ (\\%)")),
+    Variable == "Ymain_rel"        ~ as.character(TeX("$Y_{rel}$ (\\%)")),
+    Variable == "annual_P_uptake"  ~ as.character(TeX("$P_{up}$ (kg ha$^{-1}$)")),
+    Variable == "annual_P_balance" ~ as.character(TeX("$P_{bal}$ (kg ha$^{-1}$)")),
+    TRUE                           ~ Variable
+  )) %>%
+  # Convert the new labels to a factor to control the plot order
+  mutate(Variable = factor(Variable, levels = c(
+    as.character(TeX("$Y_{norm}$ (\\%)")),
+    as.character(TeX("$Y_{rel}$ (\\%)")),
+    as.character(TeX("$P_{up}$ (kg ha$^{-1}$)")),
+    as.character(TeX("$P_{bal}$ (kg ha$^{-1}$)"))
+  )))
+
+# Generate the plot with labeller = label_parsed
+ggplot(D_long_agronomic, aes(x = Treatment, y = Value, fill = Treatment)) +
+  geom_boxplot(alpha = 0.7) +
+  facet_grid(Variable ~ Site, scales = "free_y", labeller = label_parsed) +
+  labs(x = "P Fertilization Treatment", y = "Value") +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        legend.position = "none")
+```
+
+*(Placeholder for Figure X.1)*
+
+**Yield Metrics ($Y_{norm}$ and $Y_{rel}$):** Both yield metrics, now displayed as percentages, showed a generally positive response to P fertilization, especially at the lower treatment levels. The site-normalized yield ($Y_{norm}$) clearly shows the response relative to the site's potential for that year, with most yields plateauing around the Norm (100%) treatment. The national-normalized yield ($Y_{rel}$) provides a broader context, showing how the yields at each site compare to the national average. At some high-productivity sites, even the zero-P treatment produced yields above the national average (i.e., > 100%), while at others, yields remained below average even with high fertilization.
+
+**P Uptake ($P_{up}$):** Phosphorus uptake by crops followed a similar trend to yield, increasing with fertilization. However, unlike yield, P uptake often continued to increase at the highest fertilization levels. This suggests that at high P supply, plants engaged in "luxury consumption," taking up more P than was required for additional biomass production.
+
+**P Balance ($P_{bal}$):** The P balance showed a strong, linear relationship with the fertilization treatment, which is expected by definition. The Zero and Deficit treatments consistently resulted in a negative P balance, indicating that crops were mining P from soil reserves. The Norm treatment was generally close to a neutral balance, while the Elevated and Surplus treatments led to a significant P surplus, contributing to the accumulation of legacy P in the soil.
+
+### Soil P Parameters as a Function of P Fertilization
+
+The different soil P test parameters, including the standard STP methods and the newly derived kinetic parameters, all responded to the long-term fertilization treatments (Figure X.2).
+
+```{r}
+#| label: fig-soil-parameters
+#| fig-cap: "Soil P parameters across six P fertilization treatments and six experimental sites. Points represent the mean of replicates."
+#| echo: false
+#| warning: false
+#| message: false
+
+library(ggplot2)
+library(tidyr)
+library(dplyr)
+library(latex2exp)
+
+# Reshape the data
+D_long_soil <- D %>%
+  select(Site, Treatment, k, PS, kPS, soil_0_20_P_CO2, soil_0_20_P_AAE10) %>%
+  pivot_longer(
+    cols = -c(Site, Treatment),
+    names_to = "Variable",
+    values_to = "Value"
+  )
+
+# Manually replace script names with concise, TeX-processed strings
+D_long_soil <- D_long_soil %>%
+  mutate(Variable = case_when(
+    Variable == "k"                   ~ as.character(TeX("$k$ (min$^{-1}$)")),
+    Variable == "PS"                  ~ as.character(TeX("$P_{desorb}$ (mg L$^{-1}$)")),
+    Variable == "kPS"                 ~ as.character(TeX("$J_0$ (mg L$^{-1}$ min$^{-1}$)")),
+    Variable == "soil_0_20_P_CO2"   ~ as.character(TeX("$P_{CO_2}$ (mg kg$^{-1}$)")),
+    Variable == "soil_0_20_P_AAE10" ~ as.character(TeX("$P_{AAE10}$ (mg kg$^{-1}$)")),
+    TRUE                              ~ Variable
+  )) %>%
+  # Convert the new labels to a factor to control the plot order
+  mutate(Variable = factor(Variable, levels = c(
+    as.character(TeX("$k$ (min$^{-1}$)")),
+    as.character(TeX("$P_{desorb}$ (mg L$^{-1}$)")),
+    as.character(TeX("$J_0$ (mg L$^{-1}$ min$^{-1}$)")),
+    as.character(TeX("$P_{CO_2}$ (mg kg$^{-1}$)")),
+    as.character(TeX("$P_{AAE10}$ (mg kg$^{-1}$)"))
+  )))
+
+# Generate the plot with labeller = label_parsed
+ggplot(D_long_soil, aes(x = Treatment, y = Value, fill = Treatment)) +
+  geom_boxplot(alpha = 0.7) +
+  facet_grid(Variable ~ Site, scales = "free_y", labeller = label_parsed) +
+  labs(x = "P Fertilization Treatment", y = "Parameter Value") +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        legend.position = "none")
+```
+
+*(Placeholder for Figure X.2)*
+
+**Standard STPs ($P_{CO_2}$ and $P_{AAE10}$):** Both standard soil P tests showed a clear and consistent increase with rising P fertilization levels across all sites. This confirms that both methods are sensitive to changes in the soil P status resulting from long-term management. The absolute values, however, differed significantly between sites, reflecting the influence of soil properties like clay content and pH on P retention.
+
+**Kinetic Parameters ($k$, $P_{desorb}$, and $J_0$):**
+* **Desorbable P ($P_{desorb}$):** This parameter, representing the size of the readily desorbable P pool, behaved very similarly to the standard STPs. It increased steadily with P fertilization, confirming its role as a "capacity" indicator.
+* **Rate Constant ($k$):** The rate constant, representing the speed of P release, showed a more complex pattern. At most sites, $k$ did not show a strong, consistent trend with fertilization, or in some cases, it slightly decreased at very high P levels. This suggests that while fertilization increases the *amount* of available P, it may not necessarily increase the intrinsic *release rate* from the soil matrix.
+* **Initial P Flux ($J_0$):** As the product of $P_{desorb}$ and $k$, the initial P flux integrates both the size of the pool and its release rate. It showed a strong positive response to fertilization, driven primarily by the increase in $P_{desorb}$. This parameter effectively captures the overall P-supplying power of the soil.
+
+These initial observations suggest that while all P metrics are sensitive to fertilization, the kinetic parameters, particularly the rate constant $k$, may provide unique information about the soil's P dynamics that is not captured by static tests alone. The next section will use formal statistical models to test these relationships.

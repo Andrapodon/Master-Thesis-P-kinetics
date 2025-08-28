@@ -94,10 +94,11 @@ The response and predictor variables used in the linear mixed-effects models are
 #| tbl-cap: "Description of variables used in the agronomic models."
 
 variables_df <- data.frame(
-  Abbreviation = c("$Y_{rel}$", "$P_{up}$", "$P_{bal}$", "$k$", "$P_{desorb}$", "$J_0$", "$P_w$", "$P_{AAE10}$"),
-  `Full Name` = c("Relative Yield", "P Uptake", "P Balance", "Rate Constant", "Desorbable P", "Initial P Flux", "Water-Soluble P", "Chelate-Extractable P"),
-  Role = c("Response", "Response", "Response", "Predictor", "Predictor", "Predictor", "Predictor", "Predictor"),
+  Abbreviation = c("$Y_{rel}$","$Y_{norm}$", "$P_{up}$", "$P_{bal}$", "$k$", "$P_{desorb}$", "$J_0$", "$P_{CO2}$", "$P_{AAE10}$"),
+  `Full Name` = c("Relative Yield","Normalized Yield", "P Uptake", "P Balance", "Rate Constant", "Desorbable P", "Initial P Flux", "Water-Soluble P", "Chelate-Extractable P"),
+  Role = c("Response","Response", "Response", "Response", "Predictor", "Predictor", "Predictor", "Predictor", "Predictor"),
   Description = c(
+    "Plot yield normalized by the national mean yield for that year and crop.",
     "Plot yield normalized by the site-specific median yield of the highest P treatment for that year and crop.",
     "Total P removed by the harvested crop biomass over a growing season (kg P ha⁻¹).",
     "Net P budget, calculated as P inputs (fertilizer) minus P outputs (uptake) (kg P ha⁻¹).",
