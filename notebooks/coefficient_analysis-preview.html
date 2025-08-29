@@ -429,8 +429,8 @@ Attaching package: 'lmerTest'</code></pre>
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">r.squaredGLMM</span>(fit.kin.Ynorm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>           R2m       R2c
-[1,] 0.2053782 0.3438158</code></pre>
+<pre><code>            R2m       R2c
+[1,] 0.01104564 0.3620402</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -444,8 +444,8 @@ Attaching package: 'lmerTest'</code></pre>
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">r.squaredGLMM</span>(fit.kin.Ynorm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>          R2m      R2c
-[1,] 0.235125 0.386079</code></pre>
+<pre><code>            R2m       R2c
+[1,] 0.01391747 0.3596733</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -453,8 +453,8 @@ Attaching package: 'lmerTest'</code></pre>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">r.squaredGLMM</span>(fit.kin.Ynorm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>           R2m       R2c
-[1,] 0.2211135 0.3097055</code></pre>
+<pre><code>            R2m       R2c
+[1,] 0.05114188 0.2399041</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -468,21 +468,27 @@ Attaching package: 'lmerTest'</code></pre>
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">r.squaredGLMM</span>(fit.kin.Ynorm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>           R2m       R2c
-[1,] 0.2523622 0.3433311</code></pre>
+<pre><code>            R2m       R2c
+[1,] 0.02721952 0.2448253</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>fit.kin.Ynorm    <span class="ot">&lt;-</span> <span class="fu">lmer</span>(Ymain_norm       <span class="sc">~</span> k <span class="sc">*</span> <span class="fu">log</span>(PS)  <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>year) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site)  <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>block), D, <span class="at">subset =</span> Treatment <span class="sc">==</span> <span class="st">"P0"</span>)</span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">r.squaredGLMM</span>(fit.kin.Ynorm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>fit.kin.Ynorm    <span class="ot">&lt;-</span> <span class="fu">lmer</span>(Ymain_norm       <span class="sc">~</span> k <span class="sc">*</span> <span class="fu">log</span>(PS)  <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>year) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site)  <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>block), D, <span class="at">subset =</span> Treatment <span class="sc">==</span> <span class="st">"P0"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>boundary (singular) fit: see help('isSingular')</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">r.squaredGLMM</span>(fit.kin.Ynorm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>            R2m       R2c
-[1,] 0.08179225 0.4333343</code></pre>
+<pre><code>            R2m      R2c
+[1,] 0.01708162 0.484134</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit.kin.Ynorm, <span class="at">ddf=</span><span class="st">"Kenward-Roger"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit.kin.Ynorm, <span class="at">ddf=</span><span class="st">"Kenward-Roger"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Linear mixed model fit by REML. t-tests use Kenward-Roger's method [
@@ -491,47 +497,43 @@ Formula: Ymain_norm ~ k * log(PS) + (1 | year) + (1 | Site) + (1 | Site:block)
    Data: D
  Subset: Treatment == "P0"
 
-REML criterion at convergence: -97.2
+REML criterion at convergence: 209.2
 
 Scaled residuals: 
-     Min       1Q   Median       3Q      Max 
--2.78836 -0.53761 -0.04547  0.50347  2.85490 
+    Min      1Q  Median      3Q     Max 
+-2.5723 -0.2209  0.0187  0.3483  3.8086 
 
 Random effects:
  Groups     Name        Variance Std.Dev.
- Site:block (Intercept) 0.001626 0.04033 
- year       (Intercept) 0.003921 0.06262 
- Site       (Intercept) 0.005720 0.07563 
- Residual               0.018163 0.13477 
-Number of obs: 104, groups:  Site:block, 16; year, 6; Site, 4
+ Site:block (Intercept) 0.0000   0.0000  
+ year       (Intercept) 0.1024   0.3200  
+ Site       (Intercept) 0.1634   0.4042  
+ Residual               0.2935   0.5418  
+Number of obs: 120, groups:  Site:block, 20; year, 6; Site, 5
 
 Fixed effects:
-            Estimate Std. Error      df t value Pr(&gt;|t|)
-(Intercept)   0.1623     0.7007  9.8198   0.232    0.822
-k             4.6186     3.6945  9.8503   1.250    0.240
-log(PS)      -0.2364     0.2027  9.7951  -1.166    0.271
-k:log(PS)     1.5675     1.0796 10.0055   1.452    0.177
+             Estimate Std. Error        df t value Pr(&gt;|t|)
+(Intercept)  1.738343   2.071122 12.765971   0.839    0.417
+k           -1.488991  11.262130 12.439272  -0.132    0.897
+log(PS)      0.104222   0.606923 12.181857   0.172    0.866
+k:log(PS)    0.006624   3.296268 12.185270   0.002    0.998
 
 Correlation of Fixed Effects:
           (Intr) k      lg(PS)
-k         -0.959              
-log(PS)    0.989 -0.955       
-k:log(PS) -0.946  0.992 -0.958</code></pre>
+k         -0.944              
+log(PS)    0.985 -0.943       
+k:log(PS) -0.932  0.992 -0.946
+optimizer (nloptwrap) convergence code: 0 (OK)
+boundary (singular) fit: see help('isSingular')</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>fit.kin.Ynorm    <span class="ot">&lt;-</span> <span class="fu">lmer</span>(Ymain_norm       <span class="sc">~</span> k <span class="sc">*</span> <span class="fu">log</span>(PS)  <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>year) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site)  <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>block), D, <span class="at">subset =</span> Treatment <span class="sc">==</span> <span class="st">"P100"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stderr">
-<pre><code>boundary (singular) fit: see help('isSingular')</code></pre>
-</div>
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">r.squaredGLMM</span>(fit.kin.Ynorm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>fit.kin.Ynorm    <span class="ot">&lt;-</span> <span class="fu">lmer</span>(Ymain_norm       <span class="sc">~</span> k <span class="sc">*</span> <span class="fu">log</span>(PS)  <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>year) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site)  <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>block), D, <span class="at">subset =</span> Treatment <span class="sc">==</span> <span class="st">"P100"</span>)</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="fu">r.squaredGLMM</span>(fit.kin.Ynorm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>            R2m        R2c
-[1,] 0.03459314 0.07997467</code></pre>
+<pre><code>            R2m       R2c
+[1,] 0.03937992 0.3521636</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -546,7 +548,7 @@ k:log(PS) -0.946  0.992 -0.958</code></pre>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>            R2m        R2c
-[1,] 0.05218996 0.09439205</code></pre>
+[1,] 0.03146939 0.08523712</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -588,8 +590,8 @@ k:log(PS) -0.946  0.992 -0.958</code></pre>
 <div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">r.squaredGLMM</span>(fit.kin.Ynorm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>          R2m      R2c
-[1,] 0.235125 0.386079</code></pre>
+<pre><code>            R2m       R2c
+[1,] 0.01391747 0.3596733</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -616,11 +618,11 @@ k:log(PS) -0.946  0.992 -0.958</code></pre>
 consider setting type = 'predictor'; see ?vif</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>               GVIF Df GVIF^(1/(2*Df))
-k         10.946397  1        3.308534
-log(PS)   15.324810  1        3.914692
-crop       1.001335  4        1.000167
-k:log(PS) 31.327404  1        5.597089</code></pre>
+<pre><code>              GVIF Df GVIF^(1/(2*Df))
+k         12.64859  1        3.556485
+log(PS)   12.32336  1        3.510465
+crop       1.05128  4        1.006271
+k:log(PS) 29.55436  1        5.436392</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -632,10 +634,10 @@ consider setting type = 'predictor'; see ?vif</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                            GVIF Df GVIF^(1/(2*Df))
-scale(k)                1.098955  1        1.048311
-scale(log(PS))          1.112618  1        1.054807
-crop                    1.001335  4        1.000167
-scale(k):scale(log(PS)) 1.080146  1        1.039301</code></pre>
+scale(k)                1.130309  1        1.063160
+scale(log(PS))          1.074904  1        1.036776
+crop                    1.051280  4        1.006271
+scale(k):scale(log(PS)) 1.019256  1        1.009582</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -643,9 +645,9 @@ scale(k):scale(log(PS)) 1.080146  1        1.039301</code></pre>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>            GVIF Df GVIF^(1/(2*Df))
-k       1.074464  1        1.036563
-log(PS) 1.073606  1        1.036150
-crop    1.001116  4        1.000139</code></pre>
+k       1.121012  1        1.058778
+log(PS) 1.069713  1        1.034270
+crop    1.050571  4        1.006186</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -653,10 +655,10 @@ crop    1.001116  4        1.000139</code></pre>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>                GVIF Df GVIF^(1/(2*Df))
-I(k * (PS)) 4.518544  1        2.125687
-k           1.645019  1        1.282583
-log(PS)     4.783178  1        2.187048
-crop        1.001142  4        1.000143</code></pre>
+I(k * (PS)) 4.642883  1        2.154735
+k           2.035796  1        1.426813
+log(PS)     4.711359  1        2.170567
+crop        1.052981  4        1.006474</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -685,8 +687,8 @@ crop        1.001142  4        1.000143</code></pre>
 <div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="fu">r.squaredGLMM</span>(fit.kin.Ynorm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>          R2m      R2c
-[1,] 0.235125 0.386079</code></pre>
+<pre><code>            R2m       R2c
+[1,] 0.01391747 0.3596733</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -695,10 +697,10 @@ crop        1.001142  4        1.000143</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>Type III Analysis of Variance Table with Satterthwaite's method
                   Sum Sq Mean Sq NumDF  DenDF F value   Pr(&gt;F)   
-soil_0_20_clay   0.05971 0.05971     1 60.276  1.7198 0.194695   
-soil_0_20_pH_H2O 0.00345 0.00345     1 70.953  0.0994 0.753472   
-soil_0_20_Corg   0.36612 0.36612     1 50.241 10.5444 0.002079 **
-soil_0_20_silt   0.01827 0.01827     1 82.723  0.5263 0.470228   
+soil_0_20_clay   0.05971 0.05971     1 60.276  1.7197 0.194699   
+soil_0_20_pH_H2O 0.00345 0.00345     1 70.953  0.0994 0.753451   
+soil_0_20_Corg   0.36611 0.36611     1 50.241 10.5443 0.002079 **
+soil_0_20_silt   0.01827 0.01827     1 82.724  0.5263 0.470225   
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
@@ -733,10 +735,10 @@ Fit: lmer(formula = k ~ soil_0_20_clay + soil_0_20_pH_H2O + soil_0_20_Corg +
 Linear Hypotheses:
                        Estimate Std. Error z value Pr(&gt;|z|)  
 (Intercept) == 0      -0.130397   0.140751  -0.926   0.8028  
-soil_0_20_clay == 0   -0.003849   0.002231  -1.726   0.2934  
-soil_0_20_pH_H2O == 0  0.032934   0.011512   2.861   0.0190 *
+soil_0_20_clay == 0   -0.003849   0.002231  -1.726   0.2924  
+soil_0_20_pH_H2O == 0  0.032934   0.011512   2.861   0.0188 *
 soil_0_20_Corg == 0   -0.006614   0.031508  -0.210   0.9990  
-soil_0_20_silt == 0    0.006743   0.002631   2.563   0.0438 *
+soil_0_20_silt == 0    0.006743   0.002631   2.563   0.0434 *
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
@@ -784,10 +786,10 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Type III Analysis of Variance Table with Satterthwaite's method
-           Sum Sq Mean Sq NumDF  DenDF F value  Pr(&gt;F)  
-k          950.33  950.33     1 201.84  4.6170 0.03285 *
-log(PS)    189.78  189.78     1 202.30  0.9220 0.33809  
-k:log(PS) 1303.51 1303.51     1 202.45  6.3329 0.01263 *
+           Sum Sq Mean Sq NumDF  DenDF F value   Pr(&gt;F)   
+k         10361.3 10361.3     1 243.49  7.0248 0.008566 **
+log(PS)    9132.5  9132.5     1 243.72  6.1918 0.013504 * 
+k:log(PS) 12026.0 12026.0     1 243.87  8.1535 0.004668 **
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
@@ -797,12 +799,10 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Type III Analysis of Variance Table with Satterthwaite's method
-            Sum Sq  Mean Sq NumDF  DenDF F value   Pr(&gt;F)   
-k         0.109336 0.109336     1 195.89  6.4740 0.011717 * 
-log(PS)   0.009683 0.009683     1 196.12  0.5734 0.449832   
-k:log(PS) 0.163652 0.163652     1 195.38  9.6901 0.002131 **
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+            Sum Sq  Mean Sq NumDF  DenDF F value Pr(&gt;F)
+k         0.182097 0.182097     1 229.90  0.6950 0.4053
+log(PS)   0.029224 0.029224     1 229.48  0.1115 0.7387
+k:log(PS) 0.232300 0.232300     1 229.46  0.8866 0.3474</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -851,8 +851,8 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <pre><code>Type III Analysis of Variance Table with Satterthwaite's method
            Sum Sq Mean Sq NumDF  DenDF F value    Pr(&gt;F)    
 k          411.53  411.53     1 228.31  2.6679    0.1038    
-log(PS)   2451.66 2451.66     1 236.98 15.8941 8.925e-05 ***
-k:log(PS)  335.80  335.80     1 232.66  2.1770    0.1414    
+log(PS)   2451.67 2451.67     1 236.98 15.8941 8.925e-05 ***
+k:log(PS)  335.79  335.79     1 232.66  2.1769    0.1414    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
@@ -875,15 +875,15 @@ Scaled residuals:
 
 Random effects:
  Groups     Name        Variance Std.Dev.
- Site:block (Intercept)  20.32    4.508  
- year       (Intercept)  59.33    7.703  
- Site       (Intercept)  23.96    4.895  
+ Site:block (Intercept)  20.33    4.508  
+ year       (Intercept)  59.32    7.702  
+ Site       (Intercept)  23.97    4.896  
  Residual               154.25   12.420  
 Number of obs: 274, groups:  Site:block, 16; year, 6; Site, 4
 
 Fixed effects:
             Estimate Std. Error      df t value Pr(&gt;|t|)    
-(Intercept)   43.833     10.402 146.527   4.214 4.37e-05 ***
+(Intercept)   43.833     10.402 146.531   4.214 4.37e-05 ***
 k             84.993     52.035 228.313   1.633    0.104    
 log(PS)       16.947      4.251 236.979   3.987 8.92e-05 ***
 k:log(PS)     33.029     22.386 232.660   1.475    0.141    
@@ -902,7 +902,7 @@ k:log(PS) -0.843  0.944 -0.971</code></pre>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>           R2m       R2c
-[1,] 0.5718128 0.7438723</code></pre>
+[1,] 0.5718185 0.7438699</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -918,15 +918,15 @@ k:log(PS) -0.843  0.944 -0.971</code></pre>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>            R2m       R2c
-[1,] 0.09057145 0.5941011</code></pre>
+[1,] 0.02182182 0.4385486</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb109"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb109-1"><a href="#cb109-1" aria-hidden="true" tabindex="-1"></a>fit.kin.Ynorm <span class="sc">|&gt;</span> <span class="fu">r.squaredGLMM</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>          R2m      R2c
-[1,] 0.235125 0.386079</code></pre>
+<pre><code>            R2m       R2c
+[1,] 0.01391747 0.3596733</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -1009,9 +1009,9 @@ Fit: lm(formula = log(PS) ~ log(soil_0_20_P_CO2) + log(soil_0_20_P_AAE10),
 
 Linear Hypotheses:
                             Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept) == 0            -0.61404    0.20562  -2.986  0.00515 ** 
-log(soil_0_20_P_CO2) == 0    1.30106    0.05963  21.819  &lt; 0.001 ***
-log(soil_0_20_P_AAE10) == 0 -0.24892    0.05163  -4.821  &lt; 0.001 ***
+(Intercept) == 0            -0.61404    0.20562  -2.986   0.0053 ** 
+log(soil_0_20_P_CO2) == 0    1.30106    0.05963  21.819   &lt;0.001 ***
+log(soil_0_20_P_AAE10) == 0 -0.24892    0.05163  -4.821   &lt;0.001 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
@@ -1029,7 +1029,7 @@ Fit: lm(formula = k ~ log(soil_0_20_P_CO2) + log(soil_0_20_P_AAE10),
 
 Linear Hypotheses:
                              Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept) == 0             0.074843   0.026807   2.792  0.00972 ** 
+(Intercept) == 0             0.074843   0.026807   2.792  0.00955 ** 
 log(soil_0_20_P_CO2) == 0   -0.031362   0.007774  -4.034  &lt; 0.001 ***
 log(soil_0_20_P_AAE10) == 0  0.029663   0.006731   4.407  &lt; 0.001 ***
 ---
@@ -1051,7 +1051,7 @@ Linear Hypotheses:
                             Estimate Std. Error t value Pr(&gt;|t|)    
 (Intercept) == 0            -2.89619    0.20538 -14.102   &lt;0.001 ***
 log(soil_0_20_P_CO2) == 0    1.12637    0.05956  18.912   &lt;0.001 ***
-log(soil_0_20_P_AAE10) == 0 -0.10426    0.05157  -2.022   0.0723 .  
+log(soil_0_20_P_AAE10) == 0 -0.10426    0.05157  -2.022   0.0725 .  
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
@@ -1126,7 +1126,7 @@ Site:block, 16; Site:Treatment, 12; year, 6; Site, 4
 Fixed effects:
                        Estimate Std. Error       df t value Pr(&gt;|t|)   
 (Intercept)             24.7259     8.5160  64.7088   2.903  0.00504 **
-log(soil_0_20_P_CO2)     4.5632     1.7896 205.5646   2.550  0.01151 * 
+log(soil_0_20_P_CO2)     4.5632     1.7896 205.5645   2.550  0.01151 * 
 log(soil_0_20_P_AAE10)   0.7243     1.8948 175.6048   0.382  0.70275   
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
@@ -1167,9 +1167,9 @@ Site:block, 16; Site:Treatment, 12; year, 6; Site, 4
 
 Fixed effects:
                        Estimate Std. Error       df t value Pr(&gt;|t|)
-(Intercept)              6.5755    15.3463 150.9194   0.428    0.669
-log(soil_0_20_P_CO2)    -0.4298     4.2050 260.9580  -0.102    0.919
-log(soil_0_20_P_AAE10)  -0.5459     3.4874 264.0266  -0.157    0.876
+(Intercept)              6.5755    15.3463 150.9193   0.428    0.669
+log(soil_0_20_P_CO2)    -0.4298     4.2050 260.9577  -0.102    0.919
+log(soil_0_20_P_AAE10)  -0.5459     3.4874 264.0262  -0.157    0.876
 
 Correlation of Fixed Effects:
             (Intr) l(_0_20_P_C
@@ -1423,10 +1423,10 @@ boundary (singular) fit: see help('isSingular')</code></pre>
 <span id="cb147-3"><a href="#cb147-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Yn-STP-AAE10"</span> <span class="ot">=</span> fit.grud.AAE10.Ynorm,</span>
 <span id="cb147-4"><a href="#cb147-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Yn-STP-GRUD"</span> <span class="ot">=</span> fit.grud.CO2.AAE10.Ynorm,</span>
 <span id="cb147-5"><a href="#cb147-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Yn-Kinetic"</span> <span class="ot">=</span> fit.kin.Ynorm,</span>
-<span id="cb147-6"><a href="#cb147-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Yn-STP-CO2"</span> <span class="ot">=</span> fit.grud.CO2.Yrel,</span>
-<span id="cb147-7"><a href="#cb147-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Yn-STP-AAE10"</span> <span class="ot">=</span> fit.grud.AAE10.Yrel,</span>
-<span id="cb147-8"><a href="#cb147-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Yn-STP-GRUD"</span> <span class="ot">=</span> fit.grud.Yrel,</span>
-<span id="cb147-9"><a href="#cb147-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Yn-Kinetic"</span> <span class="ot">=</span> fit.kin.Yrel</span>
+<span id="cb147-6"><a href="#cb147-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Yr-STP-CO2"</span> <span class="ot">=</span> fit.grud.CO2.Yrel,</span>
+<span id="cb147-7"><a href="#cb147-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Yr-STP-AAE10"</span> <span class="ot">=</span> fit.grud.AAE10.Yrel,</span>
+<span id="cb147-8"><a href="#cb147-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Yr-STP-GRUD"</span> <span class="ot">=</span> fit.grud.Yrel,</span>
+<span id="cb147-9"><a href="#cb147-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Yr-Kinetic"</span> <span class="ot">=</span> fit.kin.Yrel</span>
 <span id="cb147-10"><a href="#cb147-10" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb147-11"><a href="#cb147-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb147-12"><a href="#cb147-12" aria-hidden="true" tabindex="-1"></a>lmer_models_balance <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
@@ -1473,10 +1473,10 @@ boundary (singular) fit: see help('isSingular')</code></pre>
 <th style="text-align: right;">Yn-STP-AAE10</th>
 <th style="text-align: right;">Yn-STP-GRUD</th>
 <th style="text-align: right;">Yn-Kinetic</th>
-<th style="text-align: right;">Yn-STP-CO2</th>
-<th style="text-align: right;">Yn-STP-AAE10</th>
-<th style="text-align: right;">Yn-STP-GRUD</th>
-<th style="text-align: right;">Yn-Kinetic</th>
+<th style="text-align: right;">Yr-STP-CO2</th>
+<th style="text-align: right;">Yr-STP-AAE10</th>
+<th style="text-align: right;">Yr-STP-GRUD</th>
+<th style="text-align: right;">Yr-Kinetic</th>
 </tr>
 </thead>
 <tbody>
@@ -1485,44 +1485,44 @@ boundary (singular) fit: see help('isSingular')</code></pre>
 <td style="text-align: right;">***1.059</td>
 <td style="text-align: right;">***0.532</td>
 <td style="text-align: right;">***1.096</td>
-<td style="text-align: right;">***0.874</td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
+<td style="text-align: right;">0.980</td>
+<td style="text-align: right;">***104.862</td>
+<td style="text-align: right;">***75.343</td>
+<td style="text-align: right;">***108.494</td>
+<td style="text-align: right;">56.375</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">k</td>
 <td style="text-align: right;"></td>
 <td style="text-align: right;"></td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">* 1.781</td>
+<td style="text-align: right;">2.262</td>
 <td style="text-align: right;"></td>
 <td style="text-align: right;"></td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
+<td style="text-align: right;">** 377.498</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">k:log(PS)</td>
 <td style="text-align: right;"></td>
 <td style="text-align: right;"></td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">** 0.795</td>
+<td style="text-align: right;">0.931</td>
 <td style="text-align: right;"></td>
 <td style="text-align: right;"></td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
+<td style="text-align: right;">** 171.507</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">log(PS)</td>
 <td style="text-align: right;"></td>
 <td style="text-align: right;"></td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">-0.037</td>
+<td style="text-align: right;">-0.063</td>
 <td style="text-align: right;"></td>
 <td style="text-align: right;"></td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
+<td style="text-align: right;">* -27.486</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">log(soil_0_20_P_AAE10)</td>
@@ -1531,8 +1531,8 @@ boundary (singular) fit: see help('isSingular')</code></pre>
 <td style="text-align: right;">-0.006</td>
 <td style="text-align: right;"></td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
+<td style="text-align: right;">** 7.111</td>
+<td style="text-align: right;">-0.933</td>
 <td style="text-align: right;"></td>
 </tr>
 <tr class="even">
@@ -1541,9 +1541,9 @@ boundary (singular) fit: see help('isSingular')</code></pre>
 <td style="text-align: right;"></td>
 <td style="text-align: right;">0.137</td>
 <td style="text-align: right;"></td>
+<td style="text-align: right;">** 8.853</td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
+<td style="text-align: right;">* 9.692</td>
 <td style="text-align: right;"></td>
 </tr>
 <tr class="odd">
@@ -1562,22 +1562,22 @@ boundary (singular) fit: see help('isSingular')</code></pre>
 <td style="text-align: right;">0.218</td>
 <td style="text-align: right;">0.198</td>
 <td style="text-align: right;">0.220</td>
-<td style="text-align: right;">0.235</td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
+<td style="text-align: right;">0.014</td>
+<td style="text-align: right;">0.074</td>
+<td style="text-align: right;">0.063</td>
+<td style="text-align: right;">0.073</td>
+<td style="text-align: right;">0.022</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">R2c</td>
 <td style="text-align: right;">0.358</td>
 <td style="text-align: right;">0.474</td>
 <td style="text-align: right;">0.365</td>
-<td style="text-align: right;">0.386</td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
+<td style="text-align: right;">0.360</td>
+<td style="text-align: right;">0.569</td>
+<td style="text-align: right;">0.537</td>
+<td style="text-align: right;">0.577</td>
+<td style="text-align: right;">0.439</td>
 </tr>
 </tbody>
 </table>

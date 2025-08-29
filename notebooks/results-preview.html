@@ -386,6 +386,9 @@ Attaching package: 'dplyr'</code></pre>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sjmisc) <span class="co"># sample data</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
+<pre><code>Learn more about sjmisc with 'browseVignettes("sjmisc")'.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
 <pre><code>
 Attaching package: 'sjmisc'</code></pre>
 </div>
@@ -396,11 +399,11 @@ Attaching package: 'sjmisc'</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lme4) <span class="co"># fitting models</span></span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(report)</span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(performance)</span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"~/Documents/Master Thesis/Master-Thesis-P-kinetics/data/results_coefficient_analysis"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lme4) <span class="co"># fitting models</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(report)</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(performance)</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"~/Documents/Master Thesis/Master-Thesis-P-kinetics/data/results_coefficient_analysis"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div></div>
 <!-- ## Struktur -->
@@ -420,19 +423,19 @@ Attaching package: 'sjmisc'</code></pre>
 <div class="cell-container code-fold"><div class="cell-decorator"><pre>In [2]:</pre></div><div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(D[D<span class="sc">$</span>soil_0_20_P_CO2<span class="sc">!=</span><span class="dv">0</span>,],<span class="fu">aes</span>(<span class="at">y=</span>Ymain_norm, <span class="at">x=</span>soil_0_20_P_CO2, <span class="at">col=</span>Site, <span class="at">size =</span> Treatment)) <span class="sc">+</span></span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">7</span>) <span class="sc">+</span> </span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span> <span class="fu">scale_y_log10</span>() <span class="sc">+</span></span>
-<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="fu">TeX</span>(<span class="st">"$P_{CO_{2}}(mg/kg Soil)$"</span>),</span>
-<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">y=</span><span class="st">"relative Yield (%)"</span>) <span class="sc">+</span></span>
-<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>( <span class="sc">~</span> Site, <span class="at">nrow =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(D[D<span class="sc">$</span>soil_0_20_P_CO2<span class="sc">!=</span><span class="dv">0</span>,],<span class="fu">aes</span>(<span class="at">y=</span>Ymain_norm, <span class="at">x=</span>soil_0_20_P_CO2, <span class="at">col=</span>Site, <span class="at">size =</span> Treatment)) <span class="sc">+</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">7</span>) <span class="sc">+</span> </span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span> <span class="fu">scale_y_log10</span>() <span class="sc">+</span></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="fu">TeX</span>(<span class="st">"$P_{CO_{2}}(mg/kg Soil)$"</span>),</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">y=</span><span class="st">"relative Yield (%)"</span>) <span class="sc">+</span></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>( <span class="sc">~</span> Site, <span class="at">nrow =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: Using size for a discrete variable is not advised.</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 23 rows containing missing values or values outside the scale range
+<pre><code>Warning: Removed 77 rows containing missing values or values outside the scale range
 (`geom_point()`).</code></pre>
 </div>
 <div class="cell-output-display">
@@ -444,16 +447,16 @@ Attaching package: 'sjmisc'</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(D[D<span class="sc">$</span>soil_0_20_P_AAE10<span class="sc">!=</span><span class="dv">0</span>,],<span class="fu">aes</span>(<span class="at">y=</span>Ymain_norm, <span class="at">x=</span>soil_0_20_P_AAE10, <span class="at">col=</span>Site, <span class="at">size =</span> Treatment)) <span class="sc">+</span></span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">7</span>) <span class="sc">+</span> </span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span> <span class="fu">scale_y_log10</span>() <span class="sc">+</span></span>
-<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="fu">TeX</span>(<span class="st">"$P_{AAE10}(mg/kg Soil)$"</span>),</span>
-<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">y=</span><span class="st">"relative Yield (%)"</span>) <span class="sc">+</span></span>
-<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>( <span class="sc">~</span> Site, <span class="at">nrow =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(D[D<span class="sc">$</span>soil_0_20_P_AAE10<span class="sc">!=</span><span class="dv">0</span>,],<span class="fu">aes</span>(<span class="at">y=</span>Ymain_norm, <span class="at">x=</span>soil_0_20_P_AAE10, <span class="at">col=</span>Site, <span class="at">size =</span> Treatment)) <span class="sc">+</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">7</span>) <span class="sc">+</span> </span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span> <span class="fu">scale_y_log10</span>() <span class="sc">+</span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="fu">TeX</span>(<span class="st">"$P_{AAE10}(mg/kg Soil)$"</span>),</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">y=</span><span class="st">"relative Yield (%)"</span>) <span class="sc">+</span></span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>( <span class="sc">~</span> Site, <span class="at">nrow =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: Using size for a discrete variable is not advised.
-Removed 23 rows containing missing values or values outside the scale range
+Removed 77 rows containing missing values or values outside the scale range
 (`geom_point()`).</code></pre>
 </div>
 <div class="cell-output-display">
@@ -465,18 +468,18 @@ Removed 23 rows containing missing values or values outside the scale range
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(D[D<span class="sc">$</span>soil_0_20_P_CO2<span class="sc">!=</span><span class="dv">0</span><span class="sc">&amp;</span>D<span class="sc">$</span>annual_P_uptake<span class="sc">!=</span><span class="dv">0</span>,],<span class="fu">aes</span>(<span class="at">y=</span>annual_P_uptake, <span class="at">x=</span>soil_0_20_P_CO2, <span class="at">col=</span>Site, <span class="at">size =</span> Treatment)) <span class="sc">+</span></span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">7</span>) <span class="sc">+</span> </span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span> <span class="fu">scale_y_log10</span>() <span class="sc">+</span></span>
-<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="fu">TeX</span>(<span class="st">"$P_{CO_{2}}(mg/kg Soil)$"</span>),</span>
-<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">y=</span><span class="fu">TeX</span>(<span class="st">"Annual P-Uptake $kg~P/ha$"</span>)) <span class="sc">+</span></span>
-<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>( <span class="sc">~</span> Site, <span class="at">nrow =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(D[D<span class="sc">$</span>soil_0_20_P_CO2<span class="sc">!=</span><span class="dv">0</span><span class="sc">&amp;</span>D<span class="sc">$</span>annual_P_uptake<span class="sc">!=</span><span class="dv">0</span>,],<span class="fu">aes</span>(<span class="at">y=</span>annual_P_uptake, <span class="at">x=</span>soil_0_20_P_CO2, <span class="at">col=</span>Site, <span class="at">size =</span> Treatment)) <span class="sc">+</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">7</span>) <span class="sc">+</span> </span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span> <span class="fu">scale_y_log10</span>() <span class="sc">+</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="fu">TeX</span>(<span class="st">"$P_{CO_{2}}(mg/kg Soil)$"</span>),</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">y=</span><span class="fu">TeX</span>(<span class="st">"Annual P-Uptake $kg~P/ha$"</span>)) <span class="sc">+</span></span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>( <span class="sc">~</span> Site, <span class="at">nrow =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: Using size for a discrete variable is not advised.</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 70 rows containing missing values or values outside the scale range
+<pre><code>Warning: Removed 124 rows containing missing values or values outside the scale range
 (`geom_point()`).</code></pre>
 </div>
 <div class="cell-output-display">
@@ -488,16 +491,16 @@ Removed 23 rows containing missing values or values outside the scale range
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(D[D<span class="sc">$</span>soil_0_20_P_AAE10<span class="sc">!=</span><span class="dv">0</span><span class="sc">&amp;</span>D<span class="sc">$</span>annual_P_uptake<span class="sc">!=</span><span class="dv">0</span>,],<span class="fu">aes</span>(<span class="at">y=</span>annual_P_uptake, <span class="at">x=</span>soil_0_20_P_AAE10, <span class="at">col=</span>Site, <span class="at">size =</span> Treatment)) <span class="sc">+</span></span>
-<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">7</span>) <span class="sc">+</span> </span>
-<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span> <span class="fu">scale_y_log10</span>() <span class="sc">+</span></span>
-<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="fu">TeX</span>(<span class="st">"$P_{AAE10}(mg/kg Soil)$"</span>),</span>
-<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">y=</span><span class="fu">TeX</span>(<span class="st">"Annual P-Uptake $kg~P/ha$"</span>)) <span class="sc">+</span></span>
-<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>( <span class="sc">~</span> Site, <span class="at">nrow =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(D[D<span class="sc">$</span>soil_0_20_P_AAE10<span class="sc">!=</span><span class="dv">0</span><span class="sc">&amp;</span>D<span class="sc">$</span>annual_P_uptake<span class="sc">!=</span><span class="dv">0</span>,],<span class="fu">aes</span>(<span class="at">y=</span>annual_P_uptake, <span class="at">x=</span>soil_0_20_P_AAE10, <span class="at">col=</span>Site, <span class="at">size =</span> Treatment)) <span class="sc">+</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">7</span>) <span class="sc">+</span> </span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span> <span class="fu">scale_y_log10</span>() <span class="sc">+</span></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="fu">TeX</span>(<span class="st">"$P_{AAE10}(mg/kg Soil)$"</span>),</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">y=</span><span class="fu">TeX</span>(<span class="st">"Annual P-Uptake $kg~P/ha$"</span>)) <span class="sc">+</span></span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>( <span class="sc">~</span> Site, <span class="at">nrow =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: Using size for a discrete variable is not advised.
-Removed 70 rows containing missing values or values outside the scale range
+Removed 124 rows containing missing values or values outside the scale range
 (`geom_point()`).</code></pre>
 </div>
 <div class="cell-output-display">
@@ -509,12 +512,12 @@ Removed 70 rows containing missing values or values outside the scale range
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(D[D<span class="sc">$</span>soil_0_20_P_CO2<span class="sc">!=</span><span class="dv">0</span><span class="sc">&amp;</span>D<span class="sc">$</span>annual_P_balance<span class="sc">!=</span><span class="dv">0</span>,],<span class="fu">aes</span>(<span class="at">y=</span>annual_P_balance, <span class="at">x=</span>soil_0_20_P_CO2, <span class="at">col=</span>Site, <span class="at">size =</span> Treatment)) <span class="sc">+</span></span>
-<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">7</span>) <span class="sc">+</span> </span>
-<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span> <span class="fu">scale_y_log10</span>() <span class="sc">+</span></span>
-<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="fu">TeX</span>(<span class="st">"$P_{CO_{2}}(mg/kg Soil)$"</span>),</span>
-<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">y=</span><span class="fu">TeX</span>(<span class="st">"Annual P-Balance $kg~P/ha$"</span>)) <span class="sc">+</span></span>
-<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>( <span class="sc">~</span> Site, <span class="at">nrow =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(D[D<span class="sc">$</span>soil_0_20_P_CO2<span class="sc">!=</span><span class="dv">0</span><span class="sc">&amp;</span>D<span class="sc">$</span>annual_P_balance<span class="sc">!=</span><span class="dv">0</span>,],<span class="fu">aes</span>(<span class="at">y=</span>annual_P_balance, <span class="at">x=</span>soil_0_20_P_CO2, <span class="at">col=</span>Site, <span class="at">size =</span> Treatment)) <span class="sc">+</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">7</span>) <span class="sc">+</span> </span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span> <span class="fu">scale_y_log10</span>() <span class="sc">+</span></span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="fu">TeX</span>(<span class="st">"$P_{CO_{2}}(mg/kg Soil)$"</span>),</span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">y=</span><span class="fu">TeX</span>(<span class="st">"Annual P-Balance $kg~P/ha$"</span>)) <span class="sc">+</span></span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>( <span class="sc">~</span> Site, <span class="at">nrow =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: Using size for a discrete variable is not advised.</code></pre>
@@ -526,7 +529,7 @@ Removed 70 rows containing missing values or values outside the scale range
 <pre><code>Warning in scale_y_log10(): log-10 transformation introduced infinite values.</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 162 rows containing missing values or values outside the scale range
+<pre><code>Warning: Removed 216 rows containing missing values or values outside the scale range
 (`geom_point()`).</code></pre>
 </div>
 <div class="cell-output-display">
@@ -538,12 +541,12 @@ Removed 70 rows containing missing values or values outside the scale range
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(D[D<span class="sc">$</span>soil_0_20_P_AAE10<span class="sc">!=</span><span class="dv">0</span><span class="sc">&amp;</span>D<span class="sc">$</span>annual_P_balance<span class="sc">!=</span><span class="dv">0</span>,],<span class="fu">aes</span>(<span class="at">y=</span>annual_P_balance, <span class="at">x=</span>soil_0_20_P_AAE10, <span class="at">col=</span>Site, <span class="at">size =</span> Treatment)) <span class="sc">+</span></span>
-<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">7</span>) <span class="sc">+</span> </span>
-<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span> <span class="fu">scale_y_log10</span>() <span class="sc">+</span></span>
-<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="fu">TeX</span>(<span class="st">"$P_{AAE10}(mg/kg Soil)$"</span>),</span>
-<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">y=</span><span class="fu">TeX</span>(<span class="st">"Annual P-Balance $kg~P/ha$"</span>)) <span class="sc">+</span></span>
-<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>( <span class="sc">~</span> Site, <span class="at">nrow =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(D[D<span class="sc">$</span>soil_0_20_P_AAE10<span class="sc">!=</span><span class="dv">0</span><span class="sc">&amp;</span>D<span class="sc">$</span>annual_P_balance<span class="sc">!=</span><span class="dv">0</span>,],<span class="fu">aes</span>(<span class="at">y=</span>annual_P_balance, <span class="at">x=</span>soil_0_20_P_AAE10, <span class="at">col=</span>Site, <span class="at">size =</span> Treatment)) <span class="sc">+</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">7</span>) <span class="sc">+</span> </span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span> <span class="fu">scale_y_log10</span>() <span class="sc">+</span></span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="fu">TeX</span>(<span class="st">"$P_{AAE10}(mg/kg Soil)$"</span>),</span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">y=</span><span class="fu">TeX</span>(<span class="st">"Annual P-Balance $kg~P/ha$"</span>)) <span class="sc">+</span></span>
+<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>( <span class="sc">~</span> Site, <span class="at">nrow =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: Using size for a discrete variable is not advised.</code></pre>
@@ -555,7 +558,7 @@ Removed 70 rows containing missing values or values outside the scale range
 <pre><code>Warning in scale_y_log10(): log-10 transformation introduced infinite values.</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 162 rows containing missing values or values outside the scale range
+<pre><code>Warning: Removed 216 rows containing missing values or values outside the scale range
 (`geom_point()`).</code></pre>
 </div>
 <div class="cell-output-display">
@@ -570,18 +573,26 @@ Removed 70 rows containing missing values or values outside the scale range
 <div class="cell-container code-fold"><div class="cell-decorator"><pre>In [3]:</pre></div><div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="co">#tab_model(fit.grud.Yrel,fit.grud.Puptake,fit.grud.Pbalance)</span></span>
-<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a><span class="fu">report</span>(fit.grud.Yrel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="co">#tab_model(fit.grud.Yrel,fit.grud.Puptake,fit.grud.Pbalance)</span></span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a><span class="fu">report</span>(fit.grud.Yrel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>Loading required namespace: lmerTest</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Formula contains log- or sqrt-terms.
-  See help("standardize") for how such terms are standardized.
-Formula contains log- or sqrt-terms.
   See help("standardize") for how such terms are standardized.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>boundary (singular) fit: see help('isSingular')</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Formula contains log- or sqrt-terms.
+  See help("standardize") for how such terms are standardized.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>boundary (singular) fit: see help('isSingular')</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>We fitted a linear mixed model (estimated using REML and nloptwrap optimizer)
@@ -607,14 +618,12 @@ computed using a Wald t-distribution approximation.</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">report</span>(fit.grud.Pexport)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">report</span>(fit.grud.Pexport)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>Formula contains log- or sqrt-terms.
-  See help("standardize") for how such terms are standardized.</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>boundary (singular) fit: see help('isSingular')</code></pre>
+  See help("standardize") for how such terms are standardized.
+boundary (singular) fit: see help('isSingular')</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Random effect variances not available. Returned R2 does not account for random effects.</code></pre>
@@ -650,7 +659,7 @@ computed using a Wald t-distribution approximation.</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="fu">report</span>(fit.grud.Pbalance)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="fu">report</span>(fit.grud.Pbalance)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>Formula contains log- or sqrt-terms.
@@ -694,31 +703,31 @@ computed using a Wald t-distribution approximation.</code></pre>
 <div class="cell-container code-fold"><div class="cell-decorator"><pre>In [4]:</pre></div><div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
-<span id="cb73-4"><a href="#cb73-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb73-5"><a href="#cb73-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Make sure grouping variables are factors</span></span>
-<span id="cb73-6"><a href="#cb73-6" aria-hidden="true" tabindex="-1"></a>D<span class="sc">$</span>year  <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(D<span class="sc">$</span>year)</span>
-<span id="cb73-7"><a href="#cb73-7" aria-hidden="true" tabindex="-1"></a>D<span class="sc">$</span>Site  <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(D<span class="sc">$</span>Site)</span>
-<span id="cb73-8"><a href="#cb73-8" aria-hidden="true" tabindex="-1"></a>D<span class="sc">$</span>block <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(D<span class="sc">$</span>block)</span>
-<span id="cb73-9"><a href="#cb73-9" aria-hidden="true" tabindex="-1"></a>D<span class="sc">$</span>crop <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(D<span class="sc">$</span>crop)</span>
-<span id="cb73-10"><a href="#cb73-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit the model</span></span>
-<span id="cb73-11"><a href="#cb73-11" aria-hidden="true" tabindex="-1"></a>fit.mitscherlich.CO2.Yrel <span class="ot">&lt;-</span> <span class="fu">nlme</span>(</span>
-<span id="cb73-12"><a href="#cb73-12" aria-hidden="true" tabindex="-1"></a>  Ymain_rel <span class="sc">~</span> A <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">exp</span>(<span class="sc">-</span>k <span class="sc">*</span> soil_0_20_P_CO2 <span class="sc">+</span> E)),                </span>
-<span id="cb73-13"><a href="#cb73-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">fixed =</span> A <span class="sc">+</span> k <span class="sc">+</span> E <span class="sc">~</span> soil_0_20_clay <span class="sc">+</span> soil_0_20_pH_H2O <span class="sc">+</span> ansum_sun <span class="sc">+</span> ansum_prec,</span>
-<span id="cb73-14"><a href="#cb73-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">random =</span> A <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> year<span class="sc">/</span>Site<span class="sc">/</span>block,</span>
-<span id="cb73-15"><a href="#cb73-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> D,</span>
-<span id="cb73-16"><a href="#cb73-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">start =</span> <span class="fu">c</span>(</span>
-<span id="cb73-17"><a href="#cb73-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">A =</span> <span class="dv">220</span>, <span class="at">A1 =</span> <span class="dv">0</span>, <span class="at">A2 =</span> <span class="dv">0</span>, <span class="at">A3 =</span> <span class="dv">0</span>, <span class="at">A4 =</span> <span class="dv">0</span>,</span>
-<span id="cb73-18"><a href="#cb73-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">k =</span> <span class="fl">0.05</span>, <span class="at">k1 =</span> <span class="dv">0</span>, <span class="at">k2 =</span> <span class="dv">0</span>, <span class="at">k3 =</span> <span class="dv">0</span>, <span class="at">k4 =</span> <span class="dv">0</span>,</span>
-<span id="cb73-19"><a href="#cb73-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">E =</span> <span class="sc">-</span><span class="dv">3</span>, <span class="at">E1 =</span> <span class="dv">0</span>, <span class="at">E2 =</span> <span class="dv">0</span>, <span class="at">E3 =</span> <span class="dv">0</span>, <span class="at">E4 =</span> <span class="dv">0</span></span>
-<span id="cb73-20"><a href="#cb73-20" aria-hidden="true" tabindex="-1"></a>  ),</span>
-<span id="cb73-21"><a href="#cb73-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">nlmeControl</span>(<span class="at">maxIter =</span> <span class="dv">500</span>),</span>
-<span id="cb73-22"><a href="#cb73-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">na.action =</span> na.omit</span>
-<span id="cb73-23"><a href="#cb73-23" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb73-24"><a href="#cb73-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb73-25"><a href="#cb73-25" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit.mitscherlich.CO2.Yrel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb76-3"><a href="#cb76-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
+<span id="cb76-4"><a href="#cb76-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb76-5"><a href="#cb76-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Make sure grouping variables are factors</span></span>
+<span id="cb76-6"><a href="#cb76-6" aria-hidden="true" tabindex="-1"></a>D<span class="sc">$</span>year  <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(D<span class="sc">$</span>year)</span>
+<span id="cb76-7"><a href="#cb76-7" aria-hidden="true" tabindex="-1"></a>D<span class="sc">$</span>Site  <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(D<span class="sc">$</span>Site)</span>
+<span id="cb76-8"><a href="#cb76-8" aria-hidden="true" tabindex="-1"></a>D<span class="sc">$</span>block <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(D<span class="sc">$</span>block)</span>
+<span id="cb76-9"><a href="#cb76-9" aria-hidden="true" tabindex="-1"></a>D<span class="sc">$</span>crop <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(D<span class="sc">$</span>crop)</span>
+<span id="cb76-10"><a href="#cb76-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit the model</span></span>
+<span id="cb76-11"><a href="#cb76-11" aria-hidden="true" tabindex="-1"></a>fit.mitscherlich.CO2.Yrel <span class="ot">&lt;-</span> <span class="fu">nlme</span>(</span>
+<span id="cb76-12"><a href="#cb76-12" aria-hidden="true" tabindex="-1"></a>  Ymain_rel <span class="sc">~</span> A <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">exp</span>(<span class="sc">-</span>k <span class="sc">*</span> soil_0_20_P_CO2 <span class="sc">+</span> E)),                </span>
+<span id="cb76-13"><a href="#cb76-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">fixed =</span> A <span class="sc">+</span> k <span class="sc">+</span> E <span class="sc">~</span> soil_0_20_clay <span class="sc">+</span> soil_0_20_pH_H2O <span class="sc">+</span> ansum_sun <span class="sc">+</span> ansum_prec,</span>
+<span id="cb76-14"><a href="#cb76-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">random =</span> A <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> year<span class="sc">/</span>Site<span class="sc">/</span>block,</span>
+<span id="cb76-15"><a href="#cb76-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> D,</span>
+<span id="cb76-16"><a href="#cb76-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">start =</span> <span class="fu">c</span>(</span>
+<span id="cb76-17"><a href="#cb76-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">A =</span> <span class="dv">220</span>, <span class="at">A1 =</span> <span class="dv">0</span>, <span class="at">A2 =</span> <span class="dv">0</span>, <span class="at">A3 =</span> <span class="dv">0</span>, <span class="at">A4 =</span> <span class="dv">0</span>,</span>
+<span id="cb76-18"><a href="#cb76-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">k =</span> <span class="fl">0.05</span>, <span class="at">k1 =</span> <span class="dv">0</span>, <span class="at">k2 =</span> <span class="dv">0</span>, <span class="at">k3 =</span> <span class="dv">0</span>, <span class="at">k4 =</span> <span class="dv">0</span>,</span>
+<span id="cb76-19"><a href="#cb76-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">E =</span> <span class="sc">-</span><span class="dv">3</span>, <span class="at">E1 =</span> <span class="dv">0</span>, <span class="at">E2 =</span> <span class="dv">0</span>, <span class="at">E3 =</span> <span class="dv">0</span>, <span class="at">E4 =</span> <span class="dv">0</span></span>
+<span id="cb76-20"><a href="#cb76-20" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb76-21"><a href="#cb76-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">nlmeControl</span>(<span class="at">maxIter =</span> <span class="dv">500</span>),</span>
+<span id="cb76-22"><a href="#cb76-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">na.action =</span> na.omit</span>
+<span id="cb76-23"><a href="#cb76-23" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb76-24"><a href="#cb76-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb76-25"><a href="#cb76-25" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit.mitscherlich.CO2.Yrel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Nonlinear mixed-effects model fit by maximum likelihood
@@ -800,7 +809,7 @@ Number of Groups:
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit.mitscherlich.CO2.Yrel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit.mitscherlich.CO2.Yrel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>                   numDF denDF   F-value p-value
@@ -822,7 +831,7 @@ E.ansum_prec           1    48    0.7173  0.4012</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="fu">model_performance</span>(fit.mitscherlich.CO2.Yrel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="fu">model_performance</span>(fit.mitscherlich.CO2.Yrel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># Indices of model performance
@@ -833,10 +842,10 @@ AIC     |    AICc |     BIC |   RMSE |  Sigma
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>r.square.CO2 <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">-</span><span class="fu">sum</span>(<span class="fu">residuals</span>(fit.mitscherlich.CO2.Yrel)<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span><span class="fu">sum</span>((D<span class="sc">$</span>Ymain_rel<span class="sc">-</span><span class="fu">mean</span>(D<span class="sc">$</span>Ymain_rel,<span class="at">na.rm=</span><span class="cn">TRUE</span>))<span class="sc">^</span><span class="dv">2</span>,<span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a>r.square.CO2 <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">-</span><span class="fu">sum</span>(<span class="fu">residuals</span>(fit.mitscherlich.CO2.Yrel)<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span><span class="fu">sum</span>((D<span class="sc">$</span>Ymain_rel<span class="sc">-</span><span class="fu">mean</span>(D<span class="sc">$</span>Ymain_rel,<span class="at">na.rm=</span><span class="cn">TRUE</span>))<span class="sc">^</span><span class="dv">2</span>,<span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div></div>
-<p>With the covariate and random effect used as by Juliane Hirte we obtain <span class="math inline">\(R^2=\)</span> 0.8760268, I don’t know how to interpret that, I fear that the model is overfitting data.</p>
+<p>With the covariate and random effect used as by Juliane Hirte we obtain <span class="math inline">\(R^2=\)</span> 0.9806056, I don’t know how to interpret that, I fear that the model is overfitting data.</p>
 </section>
 <section id="how-do-grud-measurements-of-c_p-relate-to-the-soil-properties-c_textorg-content-clay-content-silt-content-and-ph" class="level3">
 <h3 class="anchored" data-anchor-id="how-do-grud-measurements-of-c_p-relate-to-the-soil-properties-c_textorg-content-clay-content-silt-content-and-ph">How do GRUD-measurements of <span class="math inline">\(C_P\)</span> relate to the soil properties <span class="math inline">\(C_\text{org}\)</span>-content, clay-content, silt-content and pH?</h3>
@@ -846,9 +855,9 @@ AIC     |    AICc |     BIC |   RMSE |  Sigma
 <div class="cell-container code-fold"><div class="cell-decorator"><pre>In [5]:</pre></div><div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb80-3"><a href="#cb80-3" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit.soil.CO2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb83-3"><a href="#cb83-3" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit.soil.CO2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Type III Analysis of Variance Table with Satterthwaite's method
@@ -862,7 +871,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a>fit.soil.CO2 <span class="sc">|&gt;</span> <span class="fu">r.squaredGLMM</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a>fit.soil.CO2 <span class="sc">|&gt;</span> <span class="fu">r.squaredGLMM</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>            R2m       R2c
@@ -870,7 +879,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit.soil.AAE10)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit.soil.AAE10)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Type III Analysis of Variance Table with Satterthwaite's method
@@ -884,11 +893,11 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a>fit.soil.AAE10 <span class="sc">|&gt;</span> <span class="fu">r.squaredGLMM</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb89"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a>fit.soil.AAE10 <span class="sc">|&gt;</span> <span class="fu">r.squaredGLMM</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>            R2m      R2c
-[1,] 0.09051181 0.931398</code></pre>
+<pre><code>           R2m      R2c
+[1,] 0.0905118 0.931398</code></pre>
 </div>
 </div></div>
 </section>
@@ -900,22 +909,22 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <div class="cell-container code-fold"><div class="cell-decorator"><pre>In [6]:</pre></div><div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb88"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb88-2"><a href="#cb88-2" aria-hidden="true" tabindex="-1"></a>fit.mitscherlich.PS.Yrel <span class="ot">&lt;-</span> <span class="fu">nlme</span>(</span>
-<span id="cb88-3"><a href="#cb88-3" aria-hidden="true" tabindex="-1"></a>  Ymain_rel <span class="sc">~</span> A <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">exp</span>(<span class="sc">-</span>r <span class="sc">*</span> PS <span class="sc">+</span> E)),                </span>
-<span id="cb88-4"><a href="#cb88-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">fixed =</span> A <span class="sc">+</span> r <span class="sc">+</span> E <span class="sc">~</span> k <span class="sc">+</span> soil_0_20_clay <span class="sc">+</span> soil_0_20_pH_H2O <span class="sc">+</span> ansum_sun <span class="sc">+</span> ansum_prec,</span>
-<span id="cb88-5"><a href="#cb88-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">random =</span> A <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> year<span class="sc">/</span>Site<span class="sc">/</span>block,</span>
-<span id="cb88-6"><a href="#cb88-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> D,</span>
-<span id="cb88-7"><a href="#cb88-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">start =</span> <span class="fu">c</span>(</span>
-<span id="cb88-8"><a href="#cb88-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">A =</span> <span class="dv">220</span>, <span class="at">A1 =</span> <span class="dv">0</span>, <span class="at">A2 =</span> <span class="dv">0</span>, <span class="at">A3 =</span> <span class="dv">0</span>, <span class="at">A4 =</span> <span class="dv">0</span>, <span class="at">A5 =</span> <span class="dv">0</span>,</span>
-<span id="cb88-9"><a href="#cb88-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">r =</span> <span class="dv">1</span>, <span class="at">r1 =</span> <span class="dv">0</span>, <span class="at">r2 =</span> <span class="dv">0</span>, <span class="at">r3 =</span> <span class="dv">0</span>, <span class="at">r4 =</span> <span class="dv">0</span>, <span class="at">r5 =</span> <span class="dv">0</span>,</span>
-<span id="cb88-10"><a href="#cb88-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">E =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="at">E1 =</span> <span class="dv">0</span>, <span class="at">E2 =</span> <span class="dv">0</span>, <span class="at">E3 =</span> <span class="dv">0</span>, <span class="at">E4 =</span> <span class="dv">0</span>, <span class="at">E5 =</span> <span class="dv">0</span></span>
-<span id="cb88-11"><a href="#cb88-11" aria-hidden="true" tabindex="-1"></a>  ),</span>
-<span id="cb88-12"><a href="#cb88-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">nlmeControl</span>(<span class="at">maxIter =</span> <span class="dv">500</span>),</span>
-<span id="cb88-13"><a href="#cb88-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">na.action =</span> na.omit</span>
-<span id="cb88-14"><a href="#cb88-14" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb88-15"><a href="#cb88-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb88-16"><a href="#cb88-16" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit.mitscherlich.PS.Yrel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb91"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb91-2"><a href="#cb91-2" aria-hidden="true" tabindex="-1"></a>fit.mitscherlich.PS.Yrel <span class="ot">&lt;-</span> <span class="fu">nlme</span>(</span>
+<span id="cb91-3"><a href="#cb91-3" aria-hidden="true" tabindex="-1"></a>  Ymain_rel <span class="sc">~</span> A <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">exp</span>(<span class="sc">-</span>r <span class="sc">*</span> PS <span class="sc">+</span> E)),                </span>
+<span id="cb91-4"><a href="#cb91-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">fixed =</span> A <span class="sc">+</span> r <span class="sc">+</span> E <span class="sc">~</span> k <span class="sc">+</span> soil_0_20_clay <span class="sc">+</span> soil_0_20_pH_H2O <span class="sc">+</span> ansum_sun <span class="sc">+</span> ansum_prec,</span>
+<span id="cb91-5"><a href="#cb91-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">random =</span> A <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> year<span class="sc">/</span>Site<span class="sc">/</span>block,</span>
+<span id="cb91-6"><a href="#cb91-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> D,</span>
+<span id="cb91-7"><a href="#cb91-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">start =</span> <span class="fu">c</span>(</span>
+<span id="cb91-8"><a href="#cb91-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">A =</span> <span class="dv">220</span>, <span class="at">A1 =</span> <span class="dv">0</span>, <span class="at">A2 =</span> <span class="dv">0</span>, <span class="at">A3 =</span> <span class="dv">0</span>, <span class="at">A4 =</span> <span class="dv">0</span>, <span class="at">A5 =</span> <span class="dv">0</span>,</span>
+<span id="cb91-9"><a href="#cb91-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">r =</span> <span class="dv">1</span>, <span class="at">r1 =</span> <span class="dv">0</span>, <span class="at">r2 =</span> <span class="dv">0</span>, <span class="at">r3 =</span> <span class="dv">0</span>, <span class="at">r4 =</span> <span class="dv">0</span>, <span class="at">r5 =</span> <span class="dv">0</span>,</span>
+<span id="cb91-10"><a href="#cb91-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">E =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="at">E1 =</span> <span class="dv">0</span>, <span class="at">E2 =</span> <span class="dv">0</span>, <span class="at">E3 =</span> <span class="dv">0</span>, <span class="at">E4 =</span> <span class="dv">0</span>, <span class="at">E5 =</span> <span class="dv">0</span></span>
+<span id="cb91-11"><a href="#cb91-11" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb91-12"><a href="#cb91-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">nlmeControl</span>(<span class="at">maxIter =</span> <span class="dv">500</span>),</span>
+<span id="cb91-13"><a href="#cb91-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">na.action =</span> na.omit</span>
+<span id="cb91-14"><a href="#cb91-14" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb91-15"><a href="#cb91-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb91-16"><a href="#cb91-16" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit.mitscherlich.PS.Yrel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Nonlinear mixed-effects model fit by maximum likelihood
@@ -1024,7 +1033,7 @@ Number of Groups:
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb90"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit.mitscherlich.PS.Yrel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb93"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit.mitscherlich.PS.Yrel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>                   numDF denDF   F-value p-value
@@ -1049,7 +1058,7 @@ E.ansum_prec           1    45    2.0530  0.1588</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb92"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="fu">model_performance</span>(fit.mitscherlich.PS.Yrel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb95"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a><span class="fu">model_performance</span>(fit.mitscherlich.PS.Yrel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># Indices of model performance
@@ -1060,22 +1069,22 @@ AIC     |    AICc |     BIC |  RMSE |  Sigma
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb94"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a>r.square.PS <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">-</span><span class="fu">sum</span>(<span class="fu">residuals</span>(fit.mitscherlich.PS.Yrel)<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span><span class="fu">sum</span>((D<span class="sc">$</span>Ymain_rel<span class="sc">-</span><span class="fu">mean</span>(D<span class="sc">$</span>Ymain_rel,<span class="at">na.rm=</span><span class="cn">TRUE</span>))<span class="sc">^</span><span class="dv">2</span>,<span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb94-2"><a href="#cb94-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb94-3"><a href="#cb94-3" aria-hidden="true" tabindex="-1"></a>fit.mitscherlich.kPS.Yrel <span class="ot">&lt;-</span> <span class="fu">nlme</span>(</span>
-<span id="cb94-4"><a href="#cb94-4" aria-hidden="true" tabindex="-1"></a>  Ymain_rel <span class="sc">~</span> A <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">exp</span>(<span class="sc">-</span>k <span class="sc">*</span> PS <span class="sc">+</span> E)),                </span>
-<span id="cb94-5"><a href="#cb94-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">fixed =</span> A <span class="sc">+</span> E <span class="sc">~</span> soil_0_20_clay <span class="sc">+</span> soil_0_20_pH_H2O <span class="sc">+</span> ansum_sun <span class="sc">+</span> ansum_prec,</span>
-<span id="cb94-6"><a href="#cb94-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">random =</span> A <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> year<span class="sc">/</span>Site<span class="sc">/</span>block,</span>
-<span id="cb94-7"><a href="#cb94-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> D,</span>
-<span id="cb94-8"><a href="#cb94-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">start =</span> <span class="fu">c</span>(</span>
-<span id="cb94-9"><a href="#cb94-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">A =</span> <span class="dv">220</span>, <span class="at">A1 =</span> <span class="dv">0</span>, <span class="at">A2 =</span> <span class="dv">0</span>, <span class="at">A3 =</span> <span class="dv">0</span>, <span class="at">A4 =</span> <span class="dv">0</span>,</span>
-<span id="cb94-10"><a href="#cb94-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">E =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="at">E1 =</span> <span class="dv">0</span>, <span class="at">E2 =</span> <span class="dv">0</span>, <span class="at">E3 =</span> <span class="dv">0</span>, <span class="at">E4 =</span> <span class="dv">0</span></span>
-<span id="cb94-11"><a href="#cb94-11" aria-hidden="true" tabindex="-1"></a>  ),</span>
-<span id="cb94-12"><a href="#cb94-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">nlmeControl</span>(<span class="at">maxIter =</span> <span class="dv">500</span>),</span>
-<span id="cb94-13"><a href="#cb94-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">na.action =</span> na.omit</span>
-<span id="cb94-14"><a href="#cb94-14" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb94-15"><a href="#cb94-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb94-16"><a href="#cb94-16" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit.mitscherlich.kPS.Yrel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb97"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a>r.square.PS <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">-</span><span class="fu">sum</span>(<span class="fu">residuals</span>(fit.mitscherlich.PS.Yrel)<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span><span class="fu">sum</span>((D<span class="sc">$</span>Ymain_rel<span class="sc">-</span><span class="fu">mean</span>(D<span class="sc">$</span>Ymain_rel,<span class="at">na.rm=</span><span class="cn">TRUE</span>))<span class="sc">^</span><span class="dv">2</span>,<span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb97-2"><a href="#cb97-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-3"><a href="#cb97-3" aria-hidden="true" tabindex="-1"></a>fit.mitscherlich.kPS.Yrel <span class="ot">&lt;-</span> <span class="fu">nlme</span>(</span>
+<span id="cb97-4"><a href="#cb97-4" aria-hidden="true" tabindex="-1"></a>  Ymain_rel <span class="sc">~</span> A <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">exp</span>(<span class="sc">-</span>k <span class="sc">*</span> PS <span class="sc">+</span> E)),                </span>
+<span id="cb97-5"><a href="#cb97-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">fixed =</span> A <span class="sc">+</span> E <span class="sc">~</span> soil_0_20_clay <span class="sc">+</span> soil_0_20_pH_H2O <span class="sc">+</span> ansum_sun <span class="sc">+</span> ansum_prec,</span>
+<span id="cb97-6"><a href="#cb97-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">random =</span> A <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> year<span class="sc">/</span>Site<span class="sc">/</span>block,</span>
+<span id="cb97-7"><a href="#cb97-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> D,</span>
+<span id="cb97-8"><a href="#cb97-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">start =</span> <span class="fu">c</span>(</span>
+<span id="cb97-9"><a href="#cb97-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">A =</span> <span class="dv">220</span>, <span class="at">A1 =</span> <span class="dv">0</span>, <span class="at">A2 =</span> <span class="dv">0</span>, <span class="at">A3 =</span> <span class="dv">0</span>, <span class="at">A4 =</span> <span class="dv">0</span>,</span>
+<span id="cb97-10"><a href="#cb97-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">E =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="at">E1 =</span> <span class="dv">0</span>, <span class="at">E2 =</span> <span class="dv">0</span>, <span class="at">E3 =</span> <span class="dv">0</span>, <span class="at">E4 =</span> <span class="dv">0</span></span>
+<span id="cb97-11"><a href="#cb97-11" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb97-12"><a href="#cb97-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">nlmeControl</span>(<span class="at">maxIter =</span> <span class="dv">500</span>),</span>
+<span id="cb97-13"><a href="#cb97-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">na.action =</span> na.omit</span>
+<span id="cb97-14"><a href="#cb97-14" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb97-15"><a href="#cb97-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-16"><a href="#cb97-16" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit.mitscherlich.kPS.Yrel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Nonlinear mixed-effects model fit by maximum likelihood
@@ -1142,7 +1151,7 @@ Number of Groups:
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb96"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit.mitscherlich.kPS.Yrel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb99"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit.mitscherlich.kPS.Yrel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>                   numDF denDF   F-value p-value
@@ -1159,7 +1168,7 @@ E.ansum_prec           1    53     2.038  0.1593</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb98"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a><span class="fu">model_performance</span>(fit.mitscherlich.kPS.Yrel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb101"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a><span class="fu">model_performance</span>(fit.mitscherlich.kPS.Yrel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># Indices of model performance
@@ -1170,30 +1179,30 @@ AIC     |    AICc |     BIC |   RMSE |  Sigma
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb100"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a>r.square.kPS <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">-</span><span class="fu">sum</span>(<span class="fu">residuals</span>(fit.mitscherlich.kPS.Yrel)<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span><span class="fu">sum</span>((D<span class="sc">$</span>Ymain_rel<span class="sc">-</span><span class="fu">mean</span>(D<span class="sc">$</span>Ymain_rel,<span class="at">na.rm=</span><span class="cn">TRUE</span>))<span class="sc">^</span><span class="dv">2</span>,<span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb103"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a>r.square.kPS <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">-</span><span class="fu">sum</span>(<span class="fu">residuals</span>(fit.mitscherlich.kPS.Yrel)<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span><span class="fu">sum</span>((D<span class="sc">$</span>Ymain_rel<span class="sc">-</span><span class="fu">mean</span>(D<span class="sc">$</span>Ymain_rel,<span class="at">na.rm=</span><span class="cn">TRUE</span>))<span class="sc">^</span><span class="dv">2</span>,<span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div></div>
-<p>With the covariate and random effect used as by Juliane Hirte we obtain <span class="math inline">\(R^2=\)</span> 0.8873534, I don’t know how to interpret that, I fear that the model is overfitting data, the same might be true for the model that used <span class="math inline">\(k\times PS\)</span> as a predictor with <span class="math inline">\(R^2=\)</span> 0.8444393.</p>
+<p>With the covariate and random effect used as by Juliane Hirte we obtain <span class="math inline">\(R^2=\)</span> 0.9823775, I don’t know how to interpret that, I fear that the model is overfitting data, the same might be true for the model that used <span class="math inline">\(k\times PS\)</span> as a predictor with <span class="math inline">\(R^2=\)</span> 0.975664.</p>
 <p>I also tried more conservative models, where I log-transformed the concentrations and PS, also I was more cautious with random effects. This resulted in coefficients that were not as straight-forward as the mitscherlich coefficients to interpret.</p>
 <div class="cell-container code-fold"><div class="cell-decorator"><pre>In [7]:</pre></div><div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb101"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb101-2"><a href="#cb101-2" aria-hidden="true" tabindex="-1"></a><span class="co"># relative Yield</span></span>
-<span id="cb101-3"><a href="#cb101-3" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit.kin.Yrel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb104"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb104-2"><a href="#cb104-2" aria-hidden="true" tabindex="-1"></a><span class="co"># relative Yield</span></span>
+<span id="cb104-3"><a href="#cb104-3" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit.kin.Yrel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Type III Analysis of Variance Table with Satterthwaite's method
-           Sum Sq Mean Sq NumDF  DenDF F value  Pr(&gt;F)  
-k          950.33  950.33     1 201.84  4.6170 0.03285 *
-log(PS)    189.78  189.78     1 202.30  0.9220 0.33809  
-k:log(PS) 1303.51 1303.51     1 202.45  6.3329 0.01263 *
+           Sum Sq Mean Sq NumDF  DenDF F value   Pr(&gt;F)   
+k         10361.3 10361.3     1 243.49  7.0248 0.008566 **
+log(PS)    9132.5  9132.5     1 243.72  6.1918 0.013504 * 
+k:log(PS) 12026.0 12026.0     1 243.87  8.1535 0.004668 **
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb103"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit.kin.Yrel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb106"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit.kin.Yrel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite's method [
@@ -1201,49 +1210,49 @@ lmerModLmerTest]
 Formula: Ymain_rel ~ k * log(PS) + (1 | year) + (1 | Site) + (1 | Site:block)
    Data: D
 
-REML criterion at convergence: 1730.2
+REML criterion at convergence: 2566.8
 
 Scaled residuals: 
     Min      1Q  Median      3Q     Max 
--3.1869 -0.5926 -0.0312  0.5711  2.9028 
+-3.5325 -0.3160 -0.0669  0.3200  3.8807 
 
 Random effects:
  Groups     Name        Variance Std.Dev.
- Site:block (Intercept)   0.0     0.000  
- year       (Intercept) 160.1    12.655  
- Site       (Intercept)  95.2     9.757  
- Residual               205.8    14.347  
-Number of obs: 212, groups:  Site:block, 16; year, 5; Site, 4
+ Site:block (Intercept)    0.0    0.00   
+ year       (Intercept)  840.6   28.99   
+ Site       (Intercept)  254.1   15.94   
+ Residual               1474.9   38.41   
+Number of obs: 254, groups:  Site:block, 20; year, 6; Site, 5
 
 Fixed effects:
-            Estimate Std. Error      df t value Pr(&gt;|t|)    
-(Intercept)   92.654     13.428  57.374   6.900 4.53e-09 ***
-k            129.815     60.415 201.842   2.149   0.0328 *  
-log(PS)       -4.729      4.925 202.300  -0.960   0.3381    
-k:log(PS)     65.007     25.832 202.453   2.517   0.0126 *  
+            Estimate Std. Error     df t value Pr(&gt;|t|)   
+(Intercept)    56.38      28.72  90.88   1.963  0.05268 . 
+k             377.50     142.43 243.49   2.650  0.00857 **
+log(PS)       -27.49      11.05 243.72  -2.488  0.01350 * 
+k:log(PS)     171.51      60.06 243.87   2.855  0.00467 **
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 Correlation of Fixed Effects:
           (Intr) k      lg(PS)
-k         -0.797              
-log(PS)    0.777 -0.897       
-k:log(PS) -0.758  0.945 -0.965
+k         -0.830              
+log(PS)    0.816 -0.871       
+k:log(PS) -0.790  0.934 -0.955
 optimizer (nloptwrap) convergence code: 0 (OK)
 boundary (singular) fit: see help('isSingular')</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb105"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a>fit.kin.Yrel <span class="sc">|&gt;</span> <span class="fu">r.squaredGLMM</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb108"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a>fit.kin.Yrel <span class="sc">|&gt;</span> <span class="fu">r.squaredGLMM</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>            R2m       R2c
-[1,] 0.09057145 0.5941011</code></pre>
+[1,] 0.02182182 0.4385486</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb107"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb107-1"><a href="#cb107-1" aria-hidden="true" tabindex="-1"></a><span class="co"># P-Uptake</span></span>
-<span id="cb107-2"><a href="#cb107-2" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit.kin.Pexport)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb110"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a><span class="co"># P-Uptake</span></span>
+<span id="cb110-2"><a href="#cb110-2" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit.kin.Pexport)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Type III Analysis of Variance Table with Satterthwaite's method
@@ -1254,7 +1263,7 @@ k:log(PS) 53.624  53.624     1 248.29  0.7978 0.3726</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb109"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb109-1"><a href="#cb109-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit.kin.Pexport)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb112"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit.kin.Pexport)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite's method [
@@ -1296,7 +1305,7 @@ boundary (singular) fit: see help('isSingular')</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb111"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb111-1"><a href="#cb111-1" aria-hidden="true" tabindex="-1"></a>fit.kin.Pexport <span class="sc">|&gt;</span> <span class="fu">r.squaredGLMM</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb114"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb114-1"><a href="#cb114-1" aria-hidden="true" tabindex="-1"></a>fit.kin.Pexport <span class="sc">|&gt;</span> <span class="fu">r.squaredGLMM</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>            R2m       R2c
@@ -1304,20 +1313,20 @@ boundary (singular) fit: see help('isSingular')</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb113"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb113-1"><a href="#cb113-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit.kin.Pbalance)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb116"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb116-1"><a href="#cb116-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit.kin.Pbalance)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Type III Analysis of Variance Table with Satterthwaite's method
            Sum Sq Mean Sq NumDF  DenDF F value    Pr(&gt;F)    
 k          411.53  411.53     1 228.31  2.6679    0.1038    
-log(PS)   2451.66 2451.66     1 236.98 15.8941 8.925e-05 ***
-k:log(PS)  335.80  335.80     1 232.66  2.1770    0.1414    
+log(PS)   2451.67 2451.67     1 236.98 15.8941 8.925e-05 ***
+k:log(PS)  335.79  335.79     1 232.66  2.1769    0.1414    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb115"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb115-1"><a href="#cb115-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit.kin.Pbalance)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb118"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb118-1"><a href="#cb118-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit.kin.Pbalance)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite's method [
@@ -1334,15 +1343,15 @@ Scaled residuals:
 
 Random effects:
  Groups     Name        Variance Std.Dev.
- Site:block (Intercept)  20.32    4.508  
- year       (Intercept)  59.33    7.703  
- Site       (Intercept)  23.96    4.895  
+ Site:block (Intercept)  20.33    4.508  
+ year       (Intercept)  59.32    7.702  
+ Site       (Intercept)  23.97    4.896  
  Residual               154.25   12.420  
 Number of obs: 274, groups:  Site:block, 16; year, 6; Site, 4
 
 Fixed effects:
             Estimate Std. Error      df t value Pr(&gt;|t|)    
-(Intercept)   43.833     10.402 146.527   4.214 4.37e-05 ***
+(Intercept)   43.833     10.402 146.531   4.214 4.37e-05 ***
 k             84.993     52.035 228.313   1.633    0.104    
 log(PS)       16.947      4.251 236.979   3.987 8.92e-05 ***
 k:log(PS)     33.029     22.386 232.660   1.475    0.141    
@@ -1357,11 +1366,11 @@ k:log(PS) -0.843  0.944 -0.971</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb117"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb117-1"><a href="#cb117-1" aria-hidden="true" tabindex="-1"></a>fit.kin.Pbalance <span class="sc">|&gt;</span> <span class="fu">r.squaredGLMM</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb120"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb120-1"><a href="#cb120-1" aria-hidden="true" tabindex="-1"></a>fit.kin.Pbalance <span class="sc">|&gt;</span> <span class="fu">r.squaredGLMM</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>           R2m       R2c
-[1,] 0.5718128 0.7438723</code></pre>
+[1,] 0.5718185 0.7438699</code></pre>
 </div>
 </div></div>
 </section>
@@ -1373,22 +1382,22 @@ k:log(PS) -0.843  0.944 -0.971</code></pre>
 <div class="cell-container code-fold"><div class="cell-decorator"><pre>In [8]:</pre></div><div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb119"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb119-1"><a href="#cb119-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb119-2"><a href="#cb119-2" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit.soil.PS)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb122"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb122-1"><a href="#cb122-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb122-2"><a href="#cb122-2" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit.soil.PS)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Type III Analysis of Variance Table with Satterthwaite's method
                   Sum Sq Mean Sq NumDF  DenDF F value   Pr(&gt;F)   
-soil_0_20_clay   0.05971 0.05971     1 60.276  1.7198 0.194695   
-soil_0_20_pH_H2O 0.00345 0.00345     1 70.953  0.0994 0.753472   
-soil_0_20_Corg   0.36612 0.36612     1 50.241 10.5444 0.002079 **
-soil_0_20_silt   0.01827 0.01827     1 82.723  0.5263 0.470228   
+soil_0_20_clay   0.05971 0.05971     1 60.276  1.7197 0.194699   
+soil_0_20_pH_H2O 0.00345 0.00345     1 70.953  0.0994 0.753451   
+soil_0_20_Corg   0.36611 0.36611     1 50.241 10.5443 0.002079 **
+soil_0_20_silt   0.01827 0.01827     1 82.724  0.5263 0.470225   
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb121"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb121-1"><a href="#cb121-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">glht</span>(fit.soil.PS))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb124"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb124-1"><a href="#cb124-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">glht</span>(fit.soil.PS))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -1400,20 +1409,20 @@ Fit: lmer(formula = log(PS) ~ soil_0_20_clay + soil_0_20_pH_H2O +
 
 Linear Hypotheses:
                       Estimate Std. Error z value Pr(&gt;|z|)    
-(Intercept) == 0      -3.80650    0.91035  -4.181  &lt; 0.001 ***
-soil_0_20_clay == 0    0.01761    0.01343   1.311  0.57325    
+(Intercept) == 0      -3.80651    0.91035  -4.181  &lt; 0.001 ***
+soil_0_20_clay == 0    0.01761    0.01343   1.311  0.57287    
 soil_0_20_pH_H2O == 0  0.02053    0.06511   0.315  0.99681    
-soil_0_20_Corg == 0    0.50725    0.15621   3.247  0.00539 ** 
-soil_0_20_silt == 0   -0.01284    0.01770  -0.725  0.91913    
+soil_0_20_Corg == 0    0.50726    0.15621   3.247  0.00486 ** 
+soil_0_20_silt == 0   -0.01284    0.01770  -0.725  0.91900    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb123"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb123-1"><a href="#cb123-1" aria-hidden="true" tabindex="-1"></a><span class="co">#summary(glht(fit.PS))</span></span>
-<span id="cb123-2"><a href="#cb123-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Fazit: PS wird von treatment stark beeinfluss, k eher nicht (dafür von site)</span></span>
-<span id="cb123-3"><a href="#cb123-3" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit.soil.k)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb126"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb126-1"><a href="#cb126-1" aria-hidden="true" tabindex="-1"></a><span class="co">#summary(glht(fit.PS))</span></span>
+<span id="cb126-2"><a href="#cb126-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Fazit: PS wird von treatment stark beeinfluss, k eher nicht (dafür von site)</span></span>
+<span id="cb126-3"><a href="#cb126-3" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit.soil.k)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Type III Analysis of Variance Table with Satterthwaite's method
@@ -1427,10 +1436,11 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb125"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb125-1"><a href="#cb125-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">glht</span>(fit.soil.k))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb128"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb128-1"><a href="#cb128-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">glht</span>(fit.soil.k))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning in RET$pfunction("adjusted", ...): Completion with error &gt; abseps
+Warning in RET$pfunction("adjusted", ...): Completion with error &gt; abseps
 Warning in RET$pfunction("adjusted", ...): Completion with error &gt; abseps</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
@@ -1443,18 +1453,18 @@ Fit: lmer(formula = k ~ soil_0_20_clay + soil_0_20_pH_H2O + soil_0_20_Corg +
 
 Linear Hypotheses:
                        Estimate Std. Error z value Pr(&gt;|z|)  
-(Intercept) == 0      -0.130397   0.140751  -0.926   0.8028  
+(Intercept) == 0      -0.130397   0.140751  -0.926   0.8027  
 soil_0_20_clay == 0   -0.003849   0.002231  -1.726   0.2928  
-soil_0_20_pH_H2O == 0  0.032934   0.011512   2.861   0.0180 *
+soil_0_20_pH_H2O == 0  0.032934   0.011512   2.861   0.0188 *
 soil_0_20_Corg == 0   -0.006614   0.031508  -0.210   0.9990  
-soil_0_20_silt == 0    0.006743   0.002631   2.563   0.0444 *
+soil_0_20_silt == 0    0.006743   0.002631   2.563   0.0445 *
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb128"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb128-1"><a href="#cb128-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit.soil.kPS)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb131"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb131-1"><a href="#cb131-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit.soil.kPS)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Type III Analysis of Variance Table with Satterthwaite's method
@@ -1468,7 +1478,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb130"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb130-1"><a href="#cb130-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">glht</span>(fit.soil.kPS))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb133"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb133-1"><a href="#cb133-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">glht</span>(fit.soil.kPS))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning in RET$pfunction("adjusted", ...): Completion with error &gt; abseps</code></pre>
@@ -1502,8 +1512,8 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 <div class="cell-container code-fold"><div class="cell-decorator"><pre>In [9]:</pre></div><div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb133"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb133-1"><a href="#cb133-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb133-2"><a href="#cb133-2" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">lmList</span>(Y1 <span class="sc">~</span> t.min. <span class="sc">|</span> uid, d[d<span class="sc">$</span>Repetition<span class="sc">==</span><span class="dv">1</span><span class="sc">|</span>d<span class="sc">$</span>Repetition<span class="sc">==</span><span class="dv">2</span>,],<span class="at">na.action =</span> na.pass)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb136"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb136-1"><a href="#cb136-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb136-2"><a href="#cb136-2" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">lmList</span>(Y1 <span class="sc">~</span> t.min. <span class="sc">|</span> uid, d[d<span class="sc">$</span>Repetition<span class="sc">==</span><span class="dv">1</span><span class="sc">|</span>d<span class="sc">$</span>Repetition<span class="sc">==</span><span class="dv">2</span>,],<span class="at">na.action =</span> na.pass)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: 12 times caught the same error in lm.fit(x, y, offset = offset,
@@ -1511,7 +1521,7 @@ singular.ok = singular.ok, ...): NA/NaN/Inf in 'y'</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb135"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb135-1"><a href="#cb135-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(res)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb138"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb138-1"><a href="#cb138-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(res)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning in summary.lm(el): essentially perfect fit: summary may be unreliable</code></pre>
@@ -1589,12 +1599,12 @@ Residual standard error: 0.02119011 on 68 degrees of freedom</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb138"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb138-1"><a href="#cb138-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(d, <span class="fu">aes</span>(<span class="at">y=</span>Y1, <span class="at">x=</span>t.min., <span class="at">col =</span> Repetition)) <span class="sc">+</span></span>
-<span id="cb138-2"><a href="#cb138-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb138-3"><a href="#cb138-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(Site <span class="sc">~</span> Treatment) <span class="sc">+</span> </span>
-<span id="cb138-4"><a href="#cb138-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="fu">TeX</span>(<span class="st">"$Time (min)$"</span>),</span>
-<span id="cb138-5"><a href="#cb138-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">y=</span><span class="fu">TeX</span>(<span class="st">"$ln(1-</span><span class="sc">\\</span><span class="st">frac{P}{P_S})$"</span>)) <span class="sc">+</span></span>
-<span id="cb138-6"><a href="#cb138-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">"lm"</span>, <span class="at">alpha =</span> <span class="fl">0.3</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb141"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb141-1"><a href="#cb141-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(d, <span class="fu">aes</span>(<span class="at">y=</span>Y1, <span class="at">x=</span>t.min., <span class="at">col =</span> Repetition)) <span class="sc">+</span></span>
+<span id="cb141-2"><a href="#cb141-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb141-3"><a href="#cb141-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(Site <span class="sc">~</span> Treatment) <span class="sc">+</span> </span>
+<span id="cb141-4"><a href="#cb141-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="fu">TeX</span>(<span class="st">"$Time (min)$"</span>),</span>
+<span id="cb141-5"><a href="#cb141-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">y=</span><span class="fu">TeX</span>(<span class="st">"$ln(1-</span><span class="sc">\\</span><span class="st">frac{P}{P_S})$"</span>)) <span class="sc">+</span></span>
+<span id="cb141-6"><a href="#cb141-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">"lm"</span>, <span class="at">alpha =</span> <span class="fl">0.3</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
@@ -1619,8 +1629,8 @@ Residual standard error: 0.02119011 on 68 degrees of freedom</code></pre>
 <div class="cell-container code-fold"><div class="cell-decorator"><pre>In [10]:</pre></div><div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb142"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb142-1"><a href="#cb142-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb142-2"><a href="#cb142-2" aria-hidden="true" tabindex="-1"></a>Res <span class="ot">&lt;-</span> <span class="fu">nlsList</span>(Pv.mg.L. <span class="sc">~</span> PS <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">exp</span>(<span class="sc">-</span>k <span class="sc">*</span> (t.dt))) <span class="sc">|</span> uid, d[, <span class="fu">c</span>(<span class="st">"Pv.mg.L."</span>, <span class="st">"uid"</span>, <span class="st">"t.dt"</span>)],  <span class="at">start=</span><span class="fu">list</span>(<span class="at">PS=</span><span class="fl">0.1</span>,<span class="at">k=</span><span class="fl">0.2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb145"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb145-1"><a href="#cb145-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb145-2"><a href="#cb145-2" aria-hidden="true" tabindex="-1"></a>Res <span class="ot">&lt;-</span> <span class="fu">nlsList</span>(Pv.mg.L. <span class="sc">~</span> PS <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">exp</span>(<span class="sc">-</span>k <span class="sc">*</span> (t.dt))) <span class="sc">|</span> uid, d[, <span class="fu">c</span>(<span class="st">"Pv.mg.L."</span>, <span class="st">"uid"</span>, <span class="st">"t.dt"</span>)],  <span class="at">start=</span><span class="fu">list</span>(<span class="at">PS=</span><span class="fl">0.1</span>,<span class="at">k=</span><span class="fl">0.2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: 1 error caught in nls(model, data = data, control = controlvals, start
@@ -1628,33 +1638,33 @@ Residual standard error: 0.02119011 on 68 degrees of freedom</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb144"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb144-1"><a href="#cb144-1" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(Res)</span></span>
-<span id="cb144-2"><a href="#cb144-2" aria-hidden="true" tabindex="-1"></a><span class="co"># d$nls_pred &lt;- predict(Res)</span></span>
-<span id="cb144-3"><a href="#cb144-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb144-4"><a href="#cb144-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract coefficients from the nlsList results</span></span>
-<span id="cb144-5"><a href="#cb144-5" aria-hidden="true" tabindex="-1"></a>nls_coefs <span class="ot">&lt;-</span> <span class="fu">coef</span>(Res)</span>
-<span id="cb144-6"><a href="#cb144-6" aria-hidden="true" tabindex="-1"></a>nls_coefs<span class="sc">$</span>uid <span class="ot">&lt;-</span> <span class="fu">rownames</span>(nls_coefs)</span>
-<span id="cb144-7"><a href="#cb144-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb144-8"><a href="#cb144-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Merge coefficients back to the main dataset</span></span>
-<span id="cb144-9"><a href="#cb144-9" aria-hidden="true" tabindex="-1"></a>d_plot <span class="ot">&lt;-</span> <span class="fu">merge</span>(d, nls_coefs, <span class="at">by =</span> <span class="st">"uid"</span>)</span>
-<span id="cb144-10"><a href="#cb144-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb144-11"><a href="#cb144-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Most straightforward approach - create curves manually</span></span>
-<span id="cb144-12"><a href="#cb144-12" aria-hidden="true" tabindex="-1"></a>time_seq <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fu">min</span>(d<span class="sc">$</span>t.dt, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="fu">max</span>(d<span class="sc">$</span>t.dt, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">length.out =</span> <span class="dv">100</span>)</span>
-<span id="cb144-13"><a href="#cb144-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb144-14"><a href="#cb144-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Create prediction data</span></span>
-<span id="cb144-15"><a href="#cb144-15" aria-hidden="true" tabindex="-1"></a>pred_data <span class="ot">&lt;-</span> d_plot <span class="sc">%&gt;%</span></span>
-<span id="cb144-16"><a href="#cb144-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(uid, Site, Treatment, Repetition, PS, k) <span class="sc">%&gt;%</span></span>
-<span id="cb144-17"><a href="#cb144-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb144-18"><a href="#cb144-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">crossing</span>(<span class="at">t.dt =</span> time_seq) <span class="sc">%&gt;%</span></span>
-<span id="cb144-19"><a href="#cb144-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pred_Pv =</span> PS <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">exp</span>(<span class="sc">-</span>k <span class="sc">*</span> (t.dt))))</span>
-<span id="cb144-20"><a href="#cb144-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb144-21"><a href="#cb144-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Final plot</span></span>
-<span id="cb144-22"><a href="#cb144-22" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb144-23"><a href="#cb144-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> d_plot, <span class="fu">aes</span>(<span class="at">y =</span> Pv.mg.L., <span class="at">x =</span> t.dt, <span class="at">col =</span> Repetition)) <span class="sc">+</span></span>
-<span id="cb144-24"><a href="#cb144-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> pred_data, <span class="fu">aes</span>(<span class="at">x =</span> t.dt, <span class="at">y =</span> pred_Pv, <span class="at">col =</span> Repetition), <span class="at">size =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb144-25"><a href="#cb144-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(Treatment <span class="sc">~</span> Site) <span class="sc">+</span></span>
-<span id="cb144-26"><a href="#cb144-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">TeX</span>(<span class="st">"$Time (min)$"</span>),</span>
-<span id="cb144-27"><a href="#cb144-27" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="fu">TeX</span>(<span class="st">"$P_{V}(</span><span class="sc">\\</span><span class="st">frac{mg}{L})$"</span>)); <span class="fu">suppressWarnings</span>(<span class="fu">print</span>(p1))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb147"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb147-1"><a href="#cb147-1" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(Res)</span></span>
+<span id="cb147-2"><a href="#cb147-2" aria-hidden="true" tabindex="-1"></a><span class="co"># d$nls_pred &lt;- predict(Res)</span></span>
+<span id="cb147-3"><a href="#cb147-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb147-4"><a href="#cb147-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract coefficients from the nlsList results</span></span>
+<span id="cb147-5"><a href="#cb147-5" aria-hidden="true" tabindex="-1"></a>nls_coefs <span class="ot">&lt;-</span> <span class="fu">coef</span>(Res)</span>
+<span id="cb147-6"><a href="#cb147-6" aria-hidden="true" tabindex="-1"></a>nls_coefs<span class="sc">$</span>uid <span class="ot">&lt;-</span> <span class="fu">rownames</span>(nls_coefs)</span>
+<span id="cb147-7"><a href="#cb147-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb147-8"><a href="#cb147-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Merge coefficients back to the main dataset</span></span>
+<span id="cb147-9"><a href="#cb147-9" aria-hidden="true" tabindex="-1"></a>d_plot <span class="ot">&lt;-</span> <span class="fu">merge</span>(d, nls_coefs, <span class="at">by =</span> <span class="st">"uid"</span>)</span>
+<span id="cb147-10"><a href="#cb147-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb147-11"><a href="#cb147-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Most straightforward approach - create curves manually</span></span>
+<span id="cb147-12"><a href="#cb147-12" aria-hidden="true" tabindex="-1"></a>time_seq <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fu">min</span>(d<span class="sc">$</span>t.dt, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="fu">max</span>(d<span class="sc">$</span>t.dt, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">length.out =</span> <span class="dv">100</span>)</span>
+<span id="cb147-13"><a href="#cb147-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb147-14"><a href="#cb147-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Create prediction data</span></span>
+<span id="cb147-15"><a href="#cb147-15" aria-hidden="true" tabindex="-1"></a>pred_data <span class="ot">&lt;-</span> d_plot <span class="sc">%&gt;%</span></span>
+<span id="cb147-16"><a href="#cb147-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(uid, Site, Treatment, Repetition, PS, k) <span class="sc">%&gt;%</span></span>
+<span id="cb147-17"><a href="#cb147-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb147-18"><a href="#cb147-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">crossing</span>(<span class="at">t.dt =</span> time_seq) <span class="sc">%&gt;%</span></span>
+<span id="cb147-19"><a href="#cb147-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pred_Pv =</span> PS <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">exp</span>(<span class="sc">-</span>k <span class="sc">*</span> (t.dt))))</span>
+<span id="cb147-20"><a href="#cb147-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb147-21"><a href="#cb147-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Final plot</span></span>
+<span id="cb147-22"><a href="#cb147-22" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb147-23"><a href="#cb147-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> d_plot, <span class="fu">aes</span>(<span class="at">y =</span> Pv.mg.L., <span class="at">x =</span> t.dt, <span class="at">col =</span> Repetition)) <span class="sc">+</span></span>
+<span id="cb147-24"><a href="#cb147-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> pred_data, <span class="fu">aes</span>(<span class="at">x =</span> t.dt, <span class="at">y =</span> pred_Pv, <span class="at">col =</span> Repetition), <span class="at">size =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb147-25"><a href="#cb147-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(Treatment <span class="sc">~</span> Site) <span class="sc">+</span></span>
+<span id="cb147-26"><a href="#cb147-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">TeX</span>(<span class="st">"$Time (min)$"</span>),</span>
+<span id="cb147-27"><a href="#cb147-27" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="fu">TeX</span>(<span class="st">"$P_{V}(</span><span class="sc">\\</span><span class="st">frac{mg}{L})$"</span>)); <span class="fu">suppressWarnings</span>(<span class="fu">print</span>(p1))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
@@ -1672,34 +1682,34 @@ Residual standard error: 0.02119011 on 68 degrees of freedom</code></pre>
 <div class="cell-container code-fold"><div class="cell-decorator"><pre>In [11]:</pre></div><div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb146"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb146-1"><a href="#cb146-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb146-2"><a href="#cb146-2" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>ui <span class="ot">&lt;-</span> <span class="fu">interaction</span>(d<span class="sc">$</span>Site, d<span class="sc">$</span>Treatment)</span>
-<span id="cb146-3"><a href="#cb146-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb146-4"><a href="#cb146-4" aria-hidden="true" tabindex="-1"></a>nlme.coef.avg <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb146-5"><a href="#cb146-5" aria-hidden="true" tabindex="-1"></a>nlme.coef <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb146-6"><a href="#cb146-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (lvl <span class="cf">in</span> <span class="fu">levels</span>(d<span class="sc">$</span>ui)){</span>
-<span id="cb146-7"><a href="#cb146-7" aria-hidden="true" tabindex="-1"></a>  d.tmp <span class="ot">&lt;-</span> <span class="fu">subset</span>(d, ui <span class="sc">==</span> lvl)</span>
-<span id="cb146-8"><a href="#cb146-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># first get nlsList coefs for comparison only (unused)</span></span>
-<span id="cb146-9"><a href="#cb146-9" aria-hidden="true" tabindex="-1"></a>  temp_nls <span class="ot">&lt;-</span> <span class="fu">coef</span>(<span class="fu">nlsList</span>(Pv.mg.L. <span class="sc">~</span> PS <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">exp</span>(<span class="sc">-</span>k <span class="sc">*</span> t.dt)) <span class="sc">|</span> uid, </span>
-<span id="cb146-10"><a href="#cb146-10" aria-hidden="true" tabindex="-1"></a>                    d.tmp[, <span class="fu">c</span>(<span class="st">"Pv.mg.L."</span>, <span class="st">"uid"</span>, <span class="st">"t.dt"</span>)], </span>
-<span id="cb146-11"><a href="#cb146-11" aria-hidden="true" tabindex="-1"></a>                    <span class="at">start =</span> <span class="fu">list</span>(<span class="at">PS =</span> <span class="fl">0.1</span>, <span class="at">k =</span> <span class="fl">0.2</span>)))</span>
-<span id="cb146-12"><a href="#cb146-12" aria-hidden="true" tabindex="-1"></a>  nlsList_coefs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">apply</span>(temp_nls, <span class="dv">2</span>, \(x) <span class="fu">c</span>(<span class="at">mean=</span><span class="fu">mean</span>(x), <span class="at">sd=</span><span class="fu">sd</span>(x))))</span>
-<span id="cb146-13"><a href="#cb146-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>(nlsList_coefs) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"PS.mean"</span>, <span class="st">"PS.sd"</span>, <span class="st">"k.mean"</span>, <span class="st">"k.sd"</span>)</span>
-<span id="cb146-14"><a href="#cb146-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb146-15"><a href="#cb146-15" aria-hidden="true" tabindex="-1"></a>  <span class="co"># now do the real thing</span></span>
-<span id="cb146-16"><a href="#cb146-16" aria-hidden="true" tabindex="-1"></a>  model4 <span class="ot">&lt;-</span> <span class="fu">nlme</span>(Pv.mg.L. <span class="sc">~</span> PS <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">exp</span>(<span class="sc">-</span>k <span class="sc">*</span> t.dt)),</span>
-<span id="cb146-17"><a href="#cb146-17" aria-hidden="true" tabindex="-1"></a>                <span class="at">fixed =</span> PS <span class="sc">+</span> k <span class="sc">~</span> <span class="dv">1</span>,</span>
-<span id="cb146-18"><a href="#cb146-18" aria-hidden="true" tabindex="-1"></a>                <span class="at">random =</span> PS <span class="sc">+</span> k  <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> uid,</span>
-<span id="cb146-19"><a href="#cb146-19" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> d.tmp[, <span class="fu">c</span>(<span class="st">"Pv.mg.L."</span>, <span class="st">"uid"</span>, <span class="st">"t.dt"</span>)],</span>
-<span id="cb146-20"><a href="#cb146-20" aria-hidden="true" tabindex="-1"></a>                <span class="at">start =</span> <span class="fu">c</span>(<span class="at">PS =</span> <span class="fl">0.05</span>, <span class="at">k =</span> <span class="fl">0.12</span>),</span>
-<span id="cb146-21"><a href="#cb146-21" aria-hidden="true" tabindex="-1"></a>                <span class="at">control =</span> <span class="fu">nlmeControl</span>(<span class="at">maxIter =</span> <span class="dv">200</span>))</span>
-<span id="cb146-22"><a href="#cb146-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coef</span>(model4)</span>
-<span id="cb146-23"><a href="#cb146-23" aria-hidden="true" tabindex="-1"></a>  fixef <span class="ot">&lt;-</span> model4<span class="sc">$</span>coefficients<span class="sc">$</span>fixed</span>
-<span id="cb146-24"><a href="#cb146-24" aria-hidden="true" tabindex="-1"></a>  ranefs <span class="ot">&lt;-</span> <span class="fu">ranef</span>(model4)</span>
-<span id="cb146-25"><a href="#cb146-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colnames</span>(ranefs) <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"ranef_"</span>,<span class="fu">colnames</span>(ranefs))</span>
-<span id="cb146-26"><a href="#cb146-26" aria-hidden="true" tabindex="-1"></a>  nlme.coef[[lvl]]  <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">coef</span>(model4), ranefs, <span class="at">Rep=</span><span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(<span class="fu">ranef</span>(model4)), <span class="at">ui=</span>lvl, <span class="at">Site=</span>d.tmp[<span class="dv">1</span>, <span class="st">"Site"</span>], <span class="at">Treatment=</span>d.tmp[<span class="dv">1</span>, <span class="st">"Treatment"</span>], <span class="at">uid =</span> <span class="fu">rownames</span>(<span class="fu">coef</span>(model4)))</span>
-<span id="cb146-27"><a href="#cb146-27" aria-hidden="true" tabindex="-1"></a>  nlme.coef.avg[[lvl]] <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">PS=</span>fixef[<span class="st">"PS"</span>], <span class="at">k=</span>fixef[<span class="st">"k"</span>], <span class="at">ui=</span>lvl, <span class="at">Site=</span>d.tmp[<span class="dv">1</span>, <span class="st">"Site"</span>], <span class="at">Treatment=</span>d.tmp[<span class="dv">1</span>, <span class="st">"Treatment"</span>], <span class="at">uid =</span> d.tmp<span class="sc">$</span>uid)</span>
-<span id="cb146-28"><a href="#cb146-28" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb149"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb149-1"><a href="#cb149-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb149-2"><a href="#cb149-2" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>ui <span class="ot">&lt;-</span> <span class="fu">interaction</span>(d<span class="sc">$</span>Site, d<span class="sc">$</span>Treatment)</span>
+<span id="cb149-3"><a href="#cb149-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb149-4"><a href="#cb149-4" aria-hidden="true" tabindex="-1"></a>nlme.coef.avg <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb149-5"><a href="#cb149-5" aria-hidden="true" tabindex="-1"></a>nlme.coef <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb149-6"><a href="#cb149-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (lvl <span class="cf">in</span> <span class="fu">levels</span>(d<span class="sc">$</span>ui)){</span>
+<span id="cb149-7"><a href="#cb149-7" aria-hidden="true" tabindex="-1"></a>  d.tmp <span class="ot">&lt;-</span> <span class="fu">subset</span>(d, ui <span class="sc">==</span> lvl)</span>
+<span id="cb149-8"><a href="#cb149-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># first get nlsList coefs for comparison only (unused)</span></span>
+<span id="cb149-9"><a href="#cb149-9" aria-hidden="true" tabindex="-1"></a>  temp_nls <span class="ot">&lt;-</span> <span class="fu">coef</span>(<span class="fu">nlsList</span>(Pv.mg.L. <span class="sc">~</span> PS <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">exp</span>(<span class="sc">-</span>k <span class="sc">*</span> t.dt)) <span class="sc">|</span> uid, </span>
+<span id="cb149-10"><a href="#cb149-10" aria-hidden="true" tabindex="-1"></a>                    d.tmp[, <span class="fu">c</span>(<span class="st">"Pv.mg.L."</span>, <span class="st">"uid"</span>, <span class="st">"t.dt"</span>)], </span>
+<span id="cb149-11"><a href="#cb149-11" aria-hidden="true" tabindex="-1"></a>                    <span class="at">start =</span> <span class="fu">list</span>(<span class="at">PS =</span> <span class="fl">0.1</span>, <span class="at">k =</span> <span class="fl">0.2</span>)))</span>
+<span id="cb149-12"><a href="#cb149-12" aria-hidden="true" tabindex="-1"></a>  nlsList_coefs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">apply</span>(temp_nls, <span class="dv">2</span>, \(x) <span class="fu">c</span>(<span class="at">mean=</span><span class="fu">mean</span>(x), <span class="at">sd=</span><span class="fu">sd</span>(x))))</span>
+<span id="cb149-13"><a href="#cb149-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>(nlsList_coefs) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"PS.mean"</span>, <span class="st">"PS.sd"</span>, <span class="st">"k.mean"</span>, <span class="st">"k.sd"</span>)</span>
+<span id="cb149-14"><a href="#cb149-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb149-15"><a href="#cb149-15" aria-hidden="true" tabindex="-1"></a>  <span class="co"># now do the real thing</span></span>
+<span id="cb149-16"><a href="#cb149-16" aria-hidden="true" tabindex="-1"></a>  model4 <span class="ot">&lt;-</span> <span class="fu">nlme</span>(Pv.mg.L. <span class="sc">~</span> PS <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">exp</span>(<span class="sc">-</span>k <span class="sc">*</span> t.dt)),</span>
+<span id="cb149-17"><a href="#cb149-17" aria-hidden="true" tabindex="-1"></a>                <span class="at">fixed =</span> PS <span class="sc">+</span> k <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb149-18"><a href="#cb149-18" aria-hidden="true" tabindex="-1"></a>                <span class="at">random =</span> PS <span class="sc">+</span> k  <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> uid,</span>
+<span id="cb149-19"><a href="#cb149-19" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> d.tmp[, <span class="fu">c</span>(<span class="st">"Pv.mg.L."</span>, <span class="st">"uid"</span>, <span class="st">"t.dt"</span>)],</span>
+<span id="cb149-20"><a href="#cb149-20" aria-hidden="true" tabindex="-1"></a>                <span class="at">start =</span> <span class="fu">c</span>(<span class="at">PS =</span> <span class="fl">0.05</span>, <span class="at">k =</span> <span class="fl">0.12</span>),</span>
+<span id="cb149-21"><a href="#cb149-21" aria-hidden="true" tabindex="-1"></a>                <span class="at">control =</span> <span class="fu">nlmeControl</span>(<span class="at">maxIter =</span> <span class="dv">200</span>))</span>
+<span id="cb149-22"><a href="#cb149-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coef</span>(model4)</span>
+<span id="cb149-23"><a href="#cb149-23" aria-hidden="true" tabindex="-1"></a>  fixef <span class="ot">&lt;-</span> model4<span class="sc">$</span>coefficients<span class="sc">$</span>fixed</span>
+<span id="cb149-24"><a href="#cb149-24" aria-hidden="true" tabindex="-1"></a>  ranefs <span class="ot">&lt;-</span> <span class="fu">ranef</span>(model4)</span>
+<span id="cb149-25"><a href="#cb149-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colnames</span>(ranefs) <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"ranef_"</span>,<span class="fu">colnames</span>(ranefs))</span>
+<span id="cb149-26"><a href="#cb149-26" aria-hidden="true" tabindex="-1"></a>  nlme.coef[[lvl]]  <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">coef</span>(model4), ranefs, <span class="at">Rep=</span><span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(<span class="fu">ranef</span>(model4)), <span class="at">ui=</span>lvl, <span class="at">Site=</span>d.tmp[<span class="dv">1</span>, <span class="st">"Site"</span>], <span class="at">Treatment=</span>d.tmp[<span class="dv">1</span>, <span class="st">"Treatment"</span>], <span class="at">uid =</span> <span class="fu">rownames</span>(<span class="fu">coef</span>(model4)))</span>
+<span id="cb149-27"><a href="#cb149-27" aria-hidden="true" tabindex="-1"></a>  nlme.coef.avg[[lvl]] <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">PS=</span>fixef[<span class="st">"PS"</span>], <span class="at">k=</span>fixef[<span class="st">"k"</span>], <span class="at">ui=</span>lvl, <span class="at">Site=</span>d.tmp[<span class="dv">1</span>, <span class="st">"Site"</span>], <span class="at">Treatment=</span>d.tmp[<span class="dv">1</span>, <span class="st">"Treatment"</span>], <span class="at">uid =</span> d.tmp<span class="sc">$</span>uid)</span>
+<span id="cb149-28"><a href="#cb149-28" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning in nlme.formula(Pv.mg.L. ~ PS * (1 - exp(-k * t.dt)), fixed = PS + :
@@ -1799,12 +1809,12 @@ d.tmp[1, : row names were found from a short variable and have been discarded</c
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb166"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb166-1"><a href="#cb166-1" aria-hidden="true" tabindex="-1"></a>nlme.coef.avg <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, nlme.coef.avg)</span>
-<span id="cb166-2"><a href="#cb166-2" aria-hidden="true" tabindex="-1"></a><span class="co"># folgendes datenset wollen wir benutzen um ihn mit dem Boden zu kombinieren</span></span>
-<span id="cb166-3"><a href="#cb166-3" aria-hidden="true" tabindex="-1"></a>nlme.coef <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, nlme.coef)</span>
-<span id="cb166-4"><a href="#cb166-4" aria-hidden="true" tabindex="-1"></a>points <span class="ot">&lt;-</span> <span class="fu">geom_point</span>(<span class="at">position=</span><span class="fu">position_dodge</span>(<span class="at">width=</span><span class="fl">0.5</span>), <span class="at">size =</span> <span class="dv">3</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>)</span>
-<span id="cb166-5"><a href="#cb166-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb166-6"><a href="#cb166-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(nlme.coef, <span class="fu">aes</span>(<span class="at">y=</span>PS  , <span class="at">x=</span>Treatment, <span class="at">col=</span>Site, <span class="at">pch=</span>Treatment)) <span class="sc">+</span> points <span class="sc">+</span> <span class="fu">scale_y_log10</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb169"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb169-1"><a href="#cb169-1" aria-hidden="true" tabindex="-1"></a>nlme.coef.avg <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, nlme.coef.avg)</span>
+<span id="cb169-2"><a href="#cb169-2" aria-hidden="true" tabindex="-1"></a><span class="co"># folgendes datenset wollen wir benutzen um ihn mit dem Boden zu kombinieren</span></span>
+<span id="cb169-3"><a href="#cb169-3" aria-hidden="true" tabindex="-1"></a>nlme.coef <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, nlme.coef)</span>
+<span id="cb169-4"><a href="#cb169-4" aria-hidden="true" tabindex="-1"></a>points <span class="ot">&lt;-</span> <span class="fu">geom_point</span>(<span class="at">position=</span><span class="fu">position_dodge</span>(<span class="at">width=</span><span class="fl">0.5</span>), <span class="at">size =</span> <span class="dv">3</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>)</span>
+<span id="cb169-5"><a href="#cb169-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb169-6"><a href="#cb169-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(nlme.coef, <span class="fu">aes</span>(<span class="at">y=</span>PS  , <span class="at">x=</span>Treatment, <span class="at">col=</span>Site, <span class="at">pch=</span>Treatment)) <span class="sc">+</span> points <span class="sc">+</span> <span class="fu">scale_y_log10</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -1815,7 +1825,7 @@ d.tmp[1, : row names were found from a short variable and have been discarded</c
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb167"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb167-1"><a href="#cb167-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(nlme.coef, <span class="fu">aes</span>(<span class="at">y=</span>k   , <span class="at">x=</span>Treatment, <span class="at">col=</span>Site, <span class="at">pch=</span>Treatment)) <span class="sc">+</span> points</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb170"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb170-1"><a href="#cb170-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(nlme.coef, <span class="fu">aes</span>(<span class="at">y=</span>k   , <span class="at">x=</span>Treatment, <span class="at">col=</span>Site, <span class="at">pch=</span>Treatment)) <span class="sc">+</span> points</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -1826,7 +1836,7 @@ d.tmp[1, : row names were found from a short variable and have been discarded</c
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb168"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb168-1"><a href="#cb168-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(nlme.coef, <span class="fu">aes</span>(<span class="at">y=</span>k<span class="sc">*</span>PS, <span class="at">x=</span>Treatment, <span class="at">col=</span>Site, <span class="at">pch=</span>Treatment)) <span class="sc">+</span> points <span class="sc">+</span> <span class="fu">scale_y_log10</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb171"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb171-1"><a href="#cb171-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(nlme.coef, <span class="fu">aes</span>(<span class="at">y=</span>k<span class="sc">*</span>PS, <span class="at">x=</span>Treatment, <span class="at">col=</span>Site, <span class="at">pch=</span>Treatment)) <span class="sc">+</span> points <span class="sc">+</span> <span class="fu">scale_y_log10</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -1837,7 +1847,7 @@ d.tmp[1, : row names were found from a short variable and have been discarded</c
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb169"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb169-1"><a href="#cb169-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(nlme.coef, <span class="fu">aes</span>(<span class="at">y=</span>PS  , <span class="at">x=</span>Site, <span class="at">col=</span>Treatment)) <span class="sc">+</span> points <span class="sc">+</span> <span class="fu">scale_y_log10</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb172"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb172-1"><a href="#cb172-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(nlme.coef, <span class="fu">aes</span>(<span class="at">y=</span>PS  , <span class="at">x=</span>Site, <span class="at">col=</span>Treatment)) <span class="sc">+</span> points <span class="sc">+</span> <span class="fu">scale_y_log10</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -1848,7 +1858,7 @@ d.tmp[1, : row names were found from a short variable and have been discarded</c
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb170"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb170-1"><a href="#cb170-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(nlme.coef, <span class="fu">aes</span>(<span class="at">y=</span>k   , <span class="at">x=</span>Site, <span class="at">col=</span>Treatment)) <span class="sc">+</span> points</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb173"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb173-1"><a href="#cb173-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(nlme.coef, <span class="fu">aes</span>(<span class="at">y=</span>k   , <span class="at">x=</span>Site, <span class="at">col=</span>Treatment)) <span class="sc">+</span> points</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -1859,7 +1869,7 @@ d.tmp[1, : row names were found from a short variable and have been discarded</c
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb171"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb171-1"><a href="#cb171-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(nlme.coef, <span class="fu">aes</span>(<span class="at">y=</span>k<span class="sc">*</span>PS, <span class="at">x=</span>Site, <span class="at">col=</span>Treatment)) <span class="sc">+</span> points <span class="sc">+</span> <span class="fu">scale_y_log10</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb174"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb174-1"><a href="#cb174-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(nlme.coef, <span class="fu">aes</span>(<span class="at">y=</span>k<span class="sc">*</span>PS, <span class="at">x=</span>Site, <span class="at">col=</span>Treatment)) <span class="sc">+</span> points <span class="sc">+</span> <span class="fu">scale_y_log10</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -1870,16 +1880,16 @@ d.tmp[1, : row names were found from a short variable and have been discarded</c
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb172"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb172-1"><a href="#cb172-1" aria-hidden="true" tabindex="-1"></a><span class="co"># k PS macht von der interpretation her Sinn</span></span>
-<span id="cb172-2"><a href="#cb172-2" aria-hidden="true" tabindex="-1"></a><span class="co"># aber PS ist log-normal verteilt</span></span>
-<span id="cb172-3"><a href="#cb172-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb172-4"><a href="#cb172-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb172-5"><a href="#cb172-5" aria-hidden="true" tabindex="-1"></a>fit.PS   <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">log</span>(PS)      <span class="sc">~</span> Treatment <span class="sc">+</span> Site, nlme.coef)</span>
-<span id="cb172-6"><a href="#cb172-6" aria-hidden="true" tabindex="-1"></a>fit.k    <span class="ot">&lt;-</span> <span class="fu">lm</span>(k            <span class="sc">~</span> Treatment <span class="sc">+</span> Site, nlme.coef)</span>
-<span id="cb172-7"><a href="#cb172-7" aria-hidden="true" tabindex="-1"></a>fit.kPS  <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">I</span>(<span class="fu">log</span>(k<span class="sc">*</span>PS)) <span class="sc">~</span> Treatment <span class="sc">+</span> Site, nlme.coef)</span>
-<span id="cb172-8"><a href="#cb172-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb172-9"><a href="#cb172-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb172-10"><a href="#cb172-10" aria-hidden="true" tabindex="-1"></a><span class="fu">Anova</span>(fit.PS)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb175"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb175-1"><a href="#cb175-1" aria-hidden="true" tabindex="-1"></a><span class="co"># k PS macht von der interpretation her Sinn</span></span>
+<span id="cb175-2"><a href="#cb175-2" aria-hidden="true" tabindex="-1"></a><span class="co"># aber PS ist log-normal verteilt</span></span>
+<span id="cb175-3"><a href="#cb175-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb175-4"><a href="#cb175-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb175-5"><a href="#cb175-5" aria-hidden="true" tabindex="-1"></a>fit.PS   <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">log</span>(PS)      <span class="sc">~</span> Treatment <span class="sc">+</span> Site, nlme.coef)</span>
+<span id="cb175-6"><a href="#cb175-6" aria-hidden="true" tabindex="-1"></a>fit.k    <span class="ot">&lt;-</span> <span class="fu">lm</span>(k            <span class="sc">~</span> Treatment <span class="sc">+</span> Site, nlme.coef)</span>
+<span id="cb175-7"><a href="#cb175-7" aria-hidden="true" tabindex="-1"></a>fit.kPS  <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">I</span>(<span class="fu">log</span>(k<span class="sc">*</span>PS)) <span class="sc">~</span> Treatment <span class="sc">+</span> Site, nlme.coef)</span>
+<span id="cb175-8"><a href="#cb175-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb175-9"><a href="#cb175-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb175-10"><a href="#cb175-10" aria-hidden="true" tabindex="-1"></a><span class="fu">Anova</span>(fit.PS)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Anova Table (Type II tests)
@@ -1894,7 +1904,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb174"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb174-1"><a href="#cb174-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">glht</span>(fit.PS, <span class="fu">mcp</span>(<span class="at">Treatment =</span> <span class="st">"Tukey"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb177"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb177-1"><a href="#cb177-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">glht</span>(fit.PS, <span class="fu">mcp</span>(<span class="at">Treatment =</span> <span class="st">"Tukey"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -1907,17 +1917,17 @@ Fit: lm(formula = log(PS) ~ Treatment + Site, data = nlme.coef)
 
 Linear Hypotheses:
                  Estimate Std. Error t value Pr(&gt;|t|)    
-P100 - P0 == 0    0.91948    0.09447   9.733  &lt; 1e-10 ***
-P166 - P0 == 0    1.68127    0.09580  17.550  &lt; 1e-10 ***
-P166 - P100 == 0  0.76179    0.09580   7.952 1.02e-10 ***
+P100 - P0 == 0    0.91948    0.09447   9.733   &lt;1e-09 ***
+P166 - P0 == 0    1.68127    0.09580  17.550   &lt;1e-09 ***
+P166 - P100 == 0  0.76179    0.09580   7.952   &lt;1e-09 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb176"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb176-1"><a href="#cb176-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fazit: PS wird von treatment stark beeinfluss, k eher nicht (dafür von site)</span></span>
-<span id="cb176-2"><a href="#cb176-2" aria-hidden="true" tabindex="-1"></a><span class="fu">Anova</span>(fit.k)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb179"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb179-1"><a href="#cb179-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fazit: PS wird von treatment stark beeinfluss, k eher nicht (dafür von site)</span></span>
+<span id="cb179-2"><a href="#cb179-2" aria-hidden="true" tabindex="-1"></a><span class="fu">Anova</span>(fit.k)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Anova Table (Type II tests)
@@ -1932,7 +1942,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb178"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb178-1"><a href="#cb178-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">glht</span>(fit.k, <span class="fu">mcp</span>(<span class="at">Treatment =</span> <span class="st">"Tukey"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb181"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb181-1"><a href="#cb181-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">glht</span>(fit.k, <span class="fu">mcp</span>(<span class="at">Treatment =</span> <span class="st">"Tukey"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -1952,7 +1962,7 @@ P166 - P100 == 0 -0.025354   0.015334  -1.653    0.233
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb180"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb180-1"><a href="#cb180-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Anova</span>(fit.kPS)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb183"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb183-1"><a href="#cb183-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Anova</span>(fit.kPS)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Anova Table (Type II tests)
@@ -1967,7 +1977,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb182"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb182-1"><a href="#cb182-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">glht</span>(fit.kPS, <span class="fu">mcp</span>(<span class="at">Treatment =</span> <span class="st">"Tukey"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb185"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb185-1"><a href="#cb185-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">glht</span>(fit.kPS, <span class="fu">mcp</span>(<span class="at">Treatment =</span> <span class="st">"Tukey"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -1980,32 +1990,32 @@ Fit: lm(formula = I(log(k * PS)) ~ Treatment + Site, data = nlme.coef)
 
 Linear Hypotheses:
                  Estimate Std. Error t value Pr(&gt;|t|)    
-P100 - P0 == 0     0.9127     0.1278   7.140  &lt; 1e-05 ***
-P166 - P0 == 0     1.5035     0.1296  11.599  &lt; 1e-05 ***
-P166 - P100 == 0   0.5908     0.1296   4.558 8.21e-05 ***
+P100 - P0 == 0     0.9127     0.1278   7.140   &lt;1e-04 ***
+P166 - P0 == 0     1.5035     0.1296  11.599   &lt;1e-04 ***
+P166 - P100 == 0   0.5908     0.1296   4.558   &lt;1e-04 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb184"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb184-1"><a href="#cb184-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit.soil.PS)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb187"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb187-1"><a href="#cb187-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit.soil.PS)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Type III Analysis of Variance Table with Satterthwaite's method
                   Sum Sq Mean Sq NumDF  DenDF F value   Pr(&gt;F)   
-soil_0_20_clay   0.05971 0.05971     1 60.276  1.7198 0.194695   
-soil_0_20_pH_H2O 0.00345 0.00345     1 70.953  0.0994 0.753472   
-soil_0_20_Corg   0.36612 0.36612     1 50.241 10.5444 0.002079 **
-soil_0_20_silt   0.01827 0.01827     1 82.723  0.5263 0.470228   
+soil_0_20_clay   0.05971 0.05971     1 60.276  1.7197 0.194699   
+soil_0_20_pH_H2O 0.00345 0.00345     1 70.953  0.0994 0.753451   
+soil_0_20_Corg   0.36611 0.36611     1 50.241 10.5443 0.002079 **
+soil_0_20_silt   0.01827 0.01827     1 82.724  0.5263 0.470225   
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb186"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb186-1"><a href="#cb186-1" aria-hidden="true" tabindex="-1"></a><span class="co">#summary(glht(fit.PS))</span></span>
-<span id="cb186-2"><a href="#cb186-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Fazit: PS wird von treatment stark beeinfluss, k eher nicht (dafür von site)</span></span>
-<span id="cb186-3"><a href="#cb186-3" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit.soil.k)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb189"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb189-1"><a href="#cb189-1" aria-hidden="true" tabindex="-1"></a><span class="co">#summary(glht(fit.PS))</span></span>
+<span id="cb189-2"><a href="#cb189-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Fazit: PS wird von treatment stark beeinfluss, k eher nicht (dafür von site)</span></span>
+<span id="cb189-3"><a href="#cb189-3" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit.soil.k)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Type III Analysis of Variance Table with Satterthwaite's method
@@ -2019,14 +2029,13 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb188"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb188-1"><a href="#cb188-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">glht</span>(fit.soil.k))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb191"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb191-1"><a href="#cb191-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">glht</span>(fit.soil.k))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning in RET$pfunction("adjusted", ...): Completion with error &gt; abseps</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning in RET$pfunction("adjusted", ...): Completion with error &gt; abseps
-Warning in RET$pfunction("adjusted", ...): Completion with error &gt; abseps</code></pre>
+<pre><code>Warning in RET$pfunction("adjusted", ...): Completion with error &gt; abseps</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -2038,18 +2047,18 @@ Fit: lmer(formula = k ~ soil_0_20_clay + soil_0_20_pH_H2O + soil_0_20_Corg +
 
 Linear Hypotheses:
                        Estimate Std. Error z value Pr(&gt;|z|)  
-(Intercept) == 0      -0.130397   0.140751  -0.926   0.8029  
-soil_0_20_clay == 0   -0.003849   0.002231  -1.726   0.2925  
-soil_0_20_pH_H2O == 0  0.032934   0.011512   2.861   0.0186 *
+(Intercept) == 0      -0.130397   0.140751  -0.926   0.8028  
+soil_0_20_clay == 0   -0.003849   0.002231  -1.726   0.2921  
+soil_0_20_pH_H2O == 0  0.032934   0.011512   2.861   0.0162 *
 soil_0_20_Corg == 0   -0.006614   0.031508  -0.210   0.9990  
-soil_0_20_silt == 0    0.006743   0.002631   2.563   0.0434 *
+soil_0_20_silt == 0    0.006743   0.002631   2.563   0.0441 *
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb192"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb192-1"><a href="#cb192-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit.soil.kPS)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb195"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb195-1"><a href="#cb195-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit.soil.kPS)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Type III Analysis of Variance Table with Satterthwaite's method
@@ -2063,7 +2072,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb194"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb194-1"><a href="#cb194-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">glht</span>(fit.soil.kPS))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb197"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb197-1"><a href="#cb197-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">glht</span>(fit.soil.kPS))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning in RET$pfunction("adjusted", ...): Completion with error &gt; abseps</code></pre>
@@ -2080,7 +2089,7 @@ Linear Hypotheses:
                       Estimate Std. Error z value Pr(&gt;|z|)    
 (Intercept) == 0      -6.10829    1.31189  -4.656   &lt;0.001 ***
 soil_0_20_clay == 0   -0.00606    0.02001  -0.303    0.997    
-soil_0_20_pH_H2O == 0  0.19127    0.09601   1.992    0.184    
+soil_0_20_pH_H2O == 0  0.19127    0.09601   1.992    0.185    
 soil_0_20_Corg == 0    0.12779    0.24319   0.525    0.974    
 soil_0_20_silt == 0    0.01849    0.02487   0.743    0.911    
 ---
@@ -2091,29 +2100,29 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 <div class="cell-container code-fold"><div class="cell-decorator"><pre>In [12]:</pre></div><div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb197"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb197-1"><a href="#cb197-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
-<span id="cb197-2"><a href="#cb197-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra)</span>
-<span id="cb197-3"><a href="#cb197-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb197-4"><a href="#cb197-4" aria-hidden="true" tabindex="-1"></a>benchmark_results <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"cache/benchmark-tables.rds"</span>)</span>
-<span id="cb197-5"><a href="#cb197-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb197-6"><a href="#cb197-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract individual tables</span></span>
-<span id="cb197-7"><a href="#cb197-7" aria-hidden="true" tabindex="-1"></a>Tables_yield <span class="ot">&lt;-</span> benchmark_results<span class="sc">$</span>Tables_yield</span>
-<span id="cb197-8"><a href="#cb197-8" aria-hidden="true" tabindex="-1"></a>Tables_yield_weather <span class="ot">&lt;-</span> benchmark_results<span class="sc">$</span>Tables_yield_weather</span>
-<span id="cb197-9"><a href="#cb197-9" aria-hidden="true" tabindex="-1"></a>Tables_earth_treatment <span class="ot">&lt;-</span> benchmark_results<span class="sc">$</span>Tables_earth_treatment</span>
-<span id="cb197-10"><a href="#cb197-10" aria-hidden="true" tabindex="-1"></a>Tables_earth_notreatment <span class="ot">&lt;-</span> benchmark_results<span class="sc">$</span>Tables_earth_notreatment</span>
-<span id="cb197-11"><a href="#cb197-11" aria-hidden="true" tabindex="-1"></a>Tables_yield_lm <span class="ot">&lt;-</span> benchmark_results<span class="sc">$</span>Tables_yield_lm</span>
-<span id="cb197-12"><a href="#cb197-12" aria-hidden="true" tabindex="-1"></a>Tables_yield_weather_lm <span class="ot">&lt;-</span> benchmark_results<span class="sc">$</span>Tables_yield_weather_lm</span>
-<span id="cb197-13"><a href="#cb197-13" aria-hidden="true" tabindex="-1"></a>Tables_earth_lm <span class="ot">&lt;-</span> benchmark_results<span class="sc">$</span>Tables_earth_lm</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb200"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb200-1"><a href="#cb200-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb200-2"><a href="#cb200-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra)</span>
+<span id="cb200-3"><a href="#cb200-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb200-4"><a href="#cb200-4" aria-hidden="true" tabindex="-1"></a>benchmark_results <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"cache/benchmark-tables.rds"</span>)</span>
+<span id="cb200-5"><a href="#cb200-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb200-6"><a href="#cb200-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract individual tables</span></span>
+<span id="cb200-7"><a href="#cb200-7" aria-hidden="true" tabindex="-1"></a>Tables_yield <span class="ot">&lt;-</span> benchmark_results<span class="sc">$</span>Tables_yield</span>
+<span id="cb200-8"><a href="#cb200-8" aria-hidden="true" tabindex="-1"></a>Tables_yield_weather <span class="ot">&lt;-</span> benchmark_results<span class="sc">$</span>Tables_yield_weather</span>
+<span id="cb200-9"><a href="#cb200-9" aria-hidden="true" tabindex="-1"></a>Tables_earth_treatment <span class="ot">&lt;-</span> benchmark_results<span class="sc">$</span>Tables_earth_treatment</span>
+<span id="cb200-10"><a href="#cb200-10" aria-hidden="true" tabindex="-1"></a>Tables_earth_notreatment <span class="ot">&lt;-</span> benchmark_results<span class="sc">$</span>Tables_earth_notreatment</span>
+<span id="cb200-11"><a href="#cb200-11" aria-hidden="true" tabindex="-1"></a>Tables_yield_lm <span class="ot">&lt;-</span> benchmark_results<span class="sc">$</span>Tables_yield_lm</span>
+<span id="cb200-12"><a href="#cb200-12" aria-hidden="true" tabindex="-1"></a>Tables_yield_weather_lm <span class="ot">&lt;-</span> benchmark_results<span class="sc">$</span>Tables_yield_weather_lm</span>
+<span id="cb200-13"><a href="#cb200-13" aria-hidden="true" tabindex="-1"></a>Tables_earth_lm <span class="ot">&lt;-</span> benchmark_results<span class="sc">$</span>Tables_earth_lm</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div></div>
 <div class="cell-container code-fold"><div class="cell-decorator"><pre>In [13]:</pre></div><div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb198"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb198-1"><a href="#cb198-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(Tables_yield_lm, </span>
-<span id="cb198-2"><a href="#cb198-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">caption =</span> <span class="st">"Linear model performance for predicting yield and P-balance variables using different P-dynamics variable sets (without weather data). Rows represent different predictor variable sets: 'k' uses only the release rate constant; 'PS' uses only log-transformed semi-labile P; 'kPS' uses both k and log-transformed PS plus their interaction; 'AAE10' uses only log-transformed AAE10-extractable P; 'CO2' uses only log-transformed CO2-extractable P; 'AAE10_CO2' uses both log-transformed AAE10 and CO2 extractable P plus their log-log interaction; 'AAE10_CO2_kPS' combines AAE10, CO2, k, and PS variables with interactions; 'CO2_kPS' combines CO2, k, and PS variables with interactions. Columns show explained variance for different target variables."</span>,</span>
-<span id="cb198-3"><a href="#cb198-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">digits =</span> <span class="dv">3</span>) <span class="sc">|&gt;</span></span>
-<span id="cb198-4"><a href="#cb198-4" aria-hidden="true" tabindex="-1"></a> <span class="fu">kable_styling</span>(<span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">"striped"</span>, <span class="st">"hover"</span>, <span class="st">"condensed"</span>), </span>
-<span id="cb198-5"><a href="#cb198-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">full_width =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb201"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb201-1"><a href="#cb201-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(Tables_yield_lm, </span>
+<span id="cb201-2"><a href="#cb201-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">caption =</span> <span class="st">"Linear model performance for predicting yield and P-balance variables using different P-dynamics variable sets (without weather data). Rows represent different predictor variable sets: 'k' uses only the release rate constant; 'PS' uses only log-transformed semi-labile P; 'kPS' uses both k and log-transformed PS plus their interaction; 'AAE10' uses only log-transformed AAE10-extractable P; 'CO2' uses only log-transformed CO2-extractable P; 'AAE10_CO2' uses both log-transformed AAE10 and CO2 extractable P plus their log-log interaction; 'AAE10_CO2_kPS' combines AAE10, CO2, k, and PS variables with interactions; 'CO2_kPS' combines CO2, k, and PS variables with interactions. Columns show explained variance for different target variables."</span>,</span>
+<span id="cb201-3"><a href="#cb201-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">digits =</span> <span class="dv">3</span>) <span class="sc">|&gt;</span></span>
+<span id="cb201-4"><a href="#cb201-4" aria-hidden="true" tabindex="-1"></a> <span class="fu">kable_styling</span>(<span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">"striped"</span>, <span class="st">"hover"</span>, <span class="st">"condensed"</span>), </span>
+<span id="cb201-5"><a href="#cb201-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">full_width =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <table class="table table-striped table-hover table-condensed caption-top table-sm small" data-quarto-postprocess="true">
@@ -2130,59 +2139,59 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">k</td>
-<td style="text-align: right;">0.020</td>
-<td style="text-align: right;">-0.011</td>
-<td style="text-align: right;">0.000</td>
-<td style="text-align: right;">0.012</td>
+<td style="text-align: right;">0.021</td>
+<td style="text-align: right;">-0.009</td>
+<td style="text-align: right;">-0.005</td>
+<td style="text-align: right;">0.018</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">PS</td>
-<td style="text-align: right;">0.229</td>
-<td style="text-align: right;">0.061</td>
-<td style="text-align: right;">0.038</td>
-<td style="text-align: right;">0.551</td>
+<td style="text-align: right;">0.223</td>
+<td style="text-align: right;">0.051</td>
+<td style="text-align: right;">0.034</td>
+<td style="text-align: right;">0.553</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">kPS</td>
-<td style="text-align: right;">0.213</td>
-<td style="text-align: right;">0.069</td>
-<td style="text-align: right;">0.061</td>
-<td style="text-align: right;">0.548</td>
+<td style="text-align: right;">0.215</td>
+<td style="text-align: right;">0.036</td>
+<td style="text-align: right;">0.030</td>
+<td style="text-align: right;">0.540</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">AAE10</td>
-<td style="text-align: right;">0.119</td>
-<td style="text-align: right;">0.151</td>
-<td style="text-align: right;">0.098</td>
+<td style="text-align: right;">0.109</td>
+<td style="text-align: right;">0.152</td>
+<td style="text-align: right;">0.095</td>
 <td style="text-align: right;">0.277</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">CO2</td>
-<td style="text-align: right;">0.222</td>
-<td style="text-align: right;">0.106</td>
-<td style="text-align: right;">0.077</td>
+<td style="text-align: right;">0.228</td>
+<td style="text-align: right;">0.105</td>
+<td style="text-align: right;">0.075</td>
 <td style="text-align: right;">0.500</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">AAE10_CO2</td>
-<td style="text-align: right;">0.224</td>
-<td style="text-align: right;">0.131</td>
-<td style="text-align: right;">0.099</td>
-<td style="text-align: right;">0.496</td>
+<td style="text-align: right;">0.232</td>
+<td style="text-align: right;">0.129</td>
+<td style="text-align: right;">0.097</td>
+<td style="text-align: right;">0.491</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">AAE10_CO2_kPS</td>
-<td style="text-align: right;">0.240</td>
-<td style="text-align: right;">0.124</td>
-<td style="text-align: right;">0.043</td>
-<td style="text-align: right;">0.558</td>
+<td style="text-align: right;">0.233</td>
+<td style="text-align: right;">0.139</td>
+<td style="text-align: right;">0.049</td>
+<td style="text-align: right;">0.562</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">CO2_kPS</td>
-<td style="text-align: right;">0.238</td>
-<td style="text-align: right;">0.090</td>
-<td style="text-align: right;">0.040</td>
-<td style="text-align: right;">0.562</td>
+<td style="text-align: right;">0.232</td>
+<td style="text-align: right;">0.094</td>
+<td style="text-align: right;">0.046</td>
+<td style="text-align: right;">0.561</td>
 </tr>
 </tbody>
 </table>
@@ -2193,11 +2202,11 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 <div class="cell-container code-fold"><div class="cell-decorator"><pre>In [14]:</pre></div><div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb199"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb199-1"><a href="#cb199-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(Tables_yield_weather_lm, </span>
-<span id="cb199-2"><a href="#cb199-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">"Linear model performance for predicting yield and P-balance variables including weather data. Rows represent different predictor variable sets: 'onlyweather' uses only weather variables (annual average temperature, annual sum precipitation, juvenile deviation precipitation/sun/temperature, annual sum sun, plus NA weather indicator); 'k' combines weather variables with release rate constant; 'PS' combines weather variables with log-transformed semi-labile P; 'kPS' combines weather variables with k, log-transformed PS, and their interaction; 'AAE10' combines weather variables with log-transformed AAE10-extractable P; 'CO2' combines weather variables with log-transformed CO2-extractable P; 'AAE10_CO2' combines weather variables with both extractable P measures and their interaction; 'AAE10_CO2_kPS' combines weather variables with all P-dynamics parameters; 'CO2_kPS' combines weather variables with CO2, k, and PS parameters."</span>,</span>
-<span id="cb199-3"><a href="#cb199-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">digits =</span> <span class="dv">3</span>) <span class="sc">|&gt;</span></span>
-<span id="cb199-4"><a href="#cb199-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(<span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">"striped"</span>, <span class="st">"hover"</span>, <span class="st">"condensed"</span>), </span>
-<span id="cb199-5"><a href="#cb199-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">full_width =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb202"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb202-1"><a href="#cb202-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(Tables_yield_weather_lm, </span>
+<span id="cb202-2"><a href="#cb202-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">"Linear model performance for predicting yield and P-balance variables including weather data. Rows represent different predictor variable sets: 'onlyweather' uses only weather variables (annual average temperature, annual sum precipitation, juvenile deviation precipitation/sun/temperature, annual sum sun, plus NA weather indicator); 'k' combines weather variables with release rate constant; 'PS' combines weather variables with log-transformed semi-labile P; 'kPS' combines weather variables with k, log-transformed PS, and their interaction; 'AAE10' combines weather variables with log-transformed AAE10-extractable P; 'CO2' combines weather variables with log-transformed CO2-extractable P; 'AAE10_CO2' combines weather variables with both extractable P measures and their interaction; 'AAE10_CO2_kPS' combines weather variables with all P-dynamics parameters; 'CO2_kPS' combines weather variables with CO2, k, and PS parameters."</span>,</span>
+<span id="cb202-3"><a href="#cb202-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">digits =</span> <span class="dv">3</span>) <span class="sc">|&gt;</span></span>
+<span id="cb202-4"><a href="#cb202-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(<span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">"striped"</span>, <span class="st">"hover"</span>, <span class="st">"condensed"</span>), </span>
+<span id="cb202-5"><a href="#cb202-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">full_width =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <table class="table table-striped table-hover table-condensed caption-top table-sm small" data-quarto-postprocess="true">
@@ -2214,65 +2223,65 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">onlyweather</td>
-<td style="text-align: right;">-0.012</td>
-<td style="text-align: right;">0.093</td>
-<td style="text-align: right;">0.380</td>
-<td style="text-align: right;">0.087</td>
+<td style="text-align: right;">-0.018</td>
+<td style="text-align: right;">0.132</td>
+<td style="text-align: right;">0.391</td>
+<td style="text-align: right;">0.113</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">k</td>
-<td style="text-align: right;">0.029</td>
-<td style="text-align: right;">0.079</td>
-<td style="text-align: right;">0.382</td>
-<td style="text-align: right;">0.117</td>
+<td style="text-align: right;">0.023</td>
+<td style="text-align: right;">0.105</td>
+<td style="text-align: right;">0.353</td>
+<td style="text-align: right;">0.077</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">PS</td>
-<td style="text-align: right;">0.223</td>
-<td style="text-align: right;">0.212</td>
-<td style="text-align: right;">0.433</td>
-<td style="text-align: right;">0.630</td>
+<td style="text-align: right;">0.204</td>
+<td style="text-align: right;">0.184</td>
+<td style="text-align: right;">0.446</td>
+<td style="text-align: right;">0.627</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">kPS</td>
-<td style="text-align: right;">0.210</td>
-<td style="text-align: right;">0.170</td>
-<td style="text-align: right;">0.432</td>
-<td style="text-align: right;">0.622</td>
+<td style="text-align: right;">0.203</td>
+<td style="text-align: right;">0.189</td>
+<td style="text-align: right;">0.415</td>
+<td style="text-align: right;">0.632</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">AAE10</td>
-<td style="text-align: right;">0.130</td>
-<td style="text-align: right;">0.235</td>
-<td style="text-align: right;">0.508</td>
-<td style="text-align: right;">0.428</td>
+<td style="text-align: right;">0.147</td>
+<td style="text-align: right;">0.222</td>
+<td style="text-align: right;">0.496</td>
+<td style="text-align: right;">0.432</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">CO2</td>
-<td style="text-align: right;">0.222</td>
-<td style="text-align: right;">0.228</td>
-<td style="text-align: right;">0.460</td>
-<td style="text-align: right;">0.596</td>
+<td style="text-align: right;">0.231</td>
+<td style="text-align: right;">0.210</td>
+<td style="text-align: right;">0.463</td>
+<td style="text-align: right;">0.594</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">AAE10_CO2</td>
-<td style="text-align: right;">0.241</td>
-<td style="text-align: right;">0.208</td>
-<td style="text-align: right;">0.483</td>
+<td style="text-align: right;">0.235</td>
+<td style="text-align: right;">0.245</td>
+<td style="text-align: right;">0.491</td>
 <td style="text-align: right;">0.591</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">AAE10_CO2_kPS</td>
-<td style="text-align: right;">0.216</td>
-<td style="text-align: right;">0.222</td>
-<td style="text-align: right;">0.472</td>
-<td style="text-align: right;">0.649</td>
+<td style="text-align: right;">0.220</td>
+<td style="text-align: right;">0.238</td>
+<td style="text-align: right;">0.463</td>
+<td style="text-align: right;">0.652</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">CO2_kPS</td>
-<td style="text-align: right;">0.266</td>
-<td style="text-align: right;">0.184</td>
-<td style="text-align: right;">0.411</td>
+<td style="text-align: right;">0.246</td>
+<td style="text-align: right;">0.157</td>
+<td style="text-align: right;">0.449</td>
 <td style="text-align: right;">0.644</td>
 </tr>
 </tbody>
@@ -2284,11 +2293,11 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 <div class="cell-container code-fold"><div class="cell-decorator"><pre>In [15]:</pre></div><div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb200"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb200-1"><a href="#cb200-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(Tables_earth_lm, </span>
-<span id="cb200-2"><a href="#cb200-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">"Linear model performance comparison for predicting P-dynamics parameters from soil properties. Rows represent different target P-dynamics variables: 'PS_log' is log-transformed semi-labile phosphorus; 'k' is the phosphorus release rate constant; 'kPS_log' is log-transformed product of release rate and semi-labile P; 'P_AAE10_log' is log-transformed AAE10-extractable phosphorus; 'P_CO2_log' is log-transformed CO2-extractable phosphorus. The 'with_treatment' column uses soil variables (clay content, pH, organic carbon, silt content) plus treatment (P0 P100 P166), while 'without_treatment' uses only the soil variables."</span>,</span>
-<span id="cb200-3"><a href="#cb200-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">digits =</span> <span class="dv">3</span>) <span class="sc">|&gt;</span></span>
-<span id="cb200-4"><a href="#cb200-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(<span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">"striped"</span>, <span class="st">"hover"</span>, <span class="st">"condensed"</span>), </span>
-<span id="cb200-5"><a href="#cb200-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">full_width =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb203"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb203-1"><a href="#cb203-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(Tables_earth_lm, </span>
+<span id="cb203-2"><a href="#cb203-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">"Linear model performance comparison for predicting P-dynamics parameters from soil properties. Rows represent different target P-dynamics variables: 'PS_log' is log-transformed semi-labile phosphorus; 'k' is the phosphorus release rate constant; 'kPS_log' is log-transformed product of release rate and semi-labile P; 'P_AAE10_log' is log-transformed AAE10-extractable phosphorus; 'P_CO2_log' is log-transformed CO2-extractable phosphorus. The 'with_treatment' column uses soil variables (clay content, pH, organic carbon, silt content) plus treatment (P0 P100 P166), while 'without_treatment' uses only the soil variables."</span>,</span>
+<span id="cb203-3"><a href="#cb203-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">digits =</span> <span class="dv">3</span>) <span class="sc">|&gt;</span></span>
+<span id="cb203-4"><a href="#cb203-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(<span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">"striped"</span>, <span class="st">"hover"</span>, <span class="st">"condensed"</span>), </span>
+<span id="cb203-5"><a href="#cb203-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">full_width =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <table class="table table-striped table-hover table-condensed caption-top table-sm small" data-quarto-postprocess="true">
@@ -2306,19 +2315,19 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">soil + treatment</td>
-<td style="text-align: right;">0.887</td>
-<td style="text-align: right;">0.332</td>
-<td style="text-align: right;">0.747</td>
-<td style="text-align: right;">0.823</td>
-<td style="text-align: right;">0.795</td>
+<td style="text-align: right;">0.885</td>
+<td style="text-align: right;">0.328</td>
+<td style="text-align: right;">0.752</td>
+<td style="text-align: right;">0.824</td>
+<td style="text-align: right;">0.792</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">only soil</td>
-<td style="text-align: right;">0.043</td>
-<td style="text-align: right;">0.269</td>
-<td style="text-align: right;">0.012</td>
-<td style="text-align: right;">0.367</td>
-<td style="text-align: right;">0.028</td>
+<td style="text-align: right;">0.042</td>
+<td style="text-align: right;">0.267</td>
+<td style="text-align: right;">0.023</td>
+<td style="text-align: right;">0.365</td>
+<td style="text-align: right;">0.025</td>
 </tr>
 </tbody>
 </table>

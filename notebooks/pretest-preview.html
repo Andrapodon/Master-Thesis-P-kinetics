@@ -776,9 +776,9 @@ Fit: lm(formula = log(PS) ~ Treatment + Site, data = nlme.coef)
 
 Linear Hypotheses:
                  Estimate Std. Error t value Pr(&gt;|t|)    
-P100 - P0 == 0    0.91948    0.09447   9.733   &lt;1e-10 ***
-P166 - P0 == 0    1.68127    0.09580  17.550   &lt;1e-10 ***
-P166 - P100 == 0  0.76179    0.09580   7.952   &lt;1e-10 ***
+P100 - P0 == 0    0.91948    0.09447   9.733   &lt;1e-09 ***
+P166 - P0 == 0    1.68127    0.09580  17.550   &lt;1e-09 ***
+P166 - P100 == 0  0.76179    0.09580   7.952   &lt;1e-09 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
@@ -849,9 +849,9 @@ Fit: lm(formula = I(log(k * PS)) ~ Treatment + Site, data = nlme.coef)
 
 Linear Hypotheses:
                  Estimate Std. Error t value Pr(&gt;|t|)    
-P100 - P0 == 0     0.9127     0.1278   7.140   &lt;1e-04 ***
-P166 - P0 == 0     1.5035     0.1296  11.599   &lt;1e-04 ***
-P166 - P100 == 0   0.5908     0.1296   4.558   &lt;1e-04 ***
+P100 - P0 == 0     0.9127     0.1278   7.140  &lt; 1e-05 ***
+P166 - P0 == 0     1.5035     0.1296  11.599  &lt; 1e-05 ***
+P166 - P100 == 0   0.5908     0.1296   4.558 8.17e-05 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
@@ -941,7 +941,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 <span id="cb58-62"><a href="#cb58-62" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(tmp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 329</code></pre>
+<pre><code>[1] 383</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -996,7 +996,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 <span id="cb60-49"><a href="#cb60-49" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(tmp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 447</code></pre>
+<pre><code>[1] 501</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>

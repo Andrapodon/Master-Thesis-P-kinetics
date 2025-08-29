@@ -410,10 +410,10 @@ lmer_models_yield <- list(
   "Yn-STP-AAE10" = fit.grud.AAE10.Ynorm,
   "Yn-STP-GRUD" = fit.grud.CO2.AAE10.Ynorm,
   "Yn-Kinetic" = fit.kin.Ynorm,
-  "Yn-STP-CO2" = fit.grud.CO2.Yrel,
-  "Yn-STP-AAE10" = fit.grud.AAE10.Yrel,
-  "Yn-STP-GRUD" = fit.grud.Yrel,
-  "Yn-Kinetic" = fit.kin.Yrel
+  "Yr-STP-CO2" = fit.grud.CO2.Yrel,
+  "Yr-STP-AAE10" = fit.grud.AAE10.Yrel,
+  "Yr-STP-GRUD" = fit.grud.Yrel,
+  "Yr-Kinetic" = fit.kin.Yrel
 )
 
 lmer_models_balance <- list(
