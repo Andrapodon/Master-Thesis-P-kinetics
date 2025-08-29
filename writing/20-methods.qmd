@@ -27,9 +27,9 @@ sites_df_corrected <- data.frame(
 knitr::kable(sites_df_corrected)
 ```
 
-Soil samples for this thesis were collected on [Your Sampling Date] from the topsoil layer (0-20 cm). [Add any further specific details about your sampling strategy here].
+Soil samples for this thesis were collected on \[Your Sampling Date\] from the topsoil layer (0-20 cm). \[Add any further specific details about your sampling strategy here\].
 
----
+------------------------------------------------------------------------
 
 ## Phosphorus Desorption Kinetics
 
@@ -40,13 +40,11 @@ The analysis of phosphorus (P) desorption kinetics was based on the principles o
 The foundational method aims to characterize the P replenishment capacity of the soil. The procedure is as follows:
 
 1.  **Removal of Soluble P**: 17.5 g of air-dried soil is shaken with 350 ml of deionized water for one hour at 25 ± 1°C. The suspension is centrifuged and the supernatant is decanted to remove the readily soluble P fraction. This first extract is referred to as:
-    * **Solution A**: Contains easily soluble P, which is discarded.
-
+    -   **Solution A**: Contains easily soluble P, which is discarded.
 2.  **Kinetic Extraction**: The remaining soil pellet is resuspended with another 350 ml of deionized water. Subsamples of the suspension are taken at specific time intervals, yielding the following extracts for kinetic analysis:
-    * **Solution B**: Subsample taken after **10 minutes**.
-    * **Solution C**: Subsample taken after **30 minutes**.
-    * **Solution D**: Subsample taken after **120 minutes**.
-
+    -   **Solution B**: Subsample taken after **10 minutes**.
+    -   **Solution C**: Subsample taken after **30 minutes**.
+    -   **Solution D**: Subsample taken after **120 minutes**.
 3.  **Analysis**: The P concentration in Solutions B, C, and D is determined colorimetrically using the molybdenum blue method according to Murphy and Riley (1962).
 
 ### Adapted Kinetic Protocol for This Study
@@ -56,20 +54,21 @@ For this thesis, the original method was modified to capture the desorption proc
 1.  **Soil Suspension**: 10 g of air-dried soil was suspended in 200 ml of deionized water. Unlike the original protocol, a pre-washing step to remove soluble P was not performed, meaning the measured desorption includes both the release of readily soluble P and the subsequent replenishment from the solid phase.
 
 2.  **Kinetic Extraction**: The suspension was shaken continuously, and subsamples were taken at eight time points to generate a detailed kinetic curve. The resulting extracts were:
-    * **Extract 1**: Subsample taken after **2 minutes**.
-    * **Extract 2**: Subsample taken after **4 minutes**.
-    * **Extract 3**: Subsample taken after **10 minutes**.
-    * **Extract 4**: Subsample taken after **15 minutes**.
-    * **Extract 5**: Subsample taken after **20 minutes**.
-    * **Extract 6**: Subsample taken after **30 minutes**.
-    * **Extract 7**: Subsample taken after **45 minutes**.
-    * **Extract 8**: Subsample taken after **60 minutes**.
+
+    -   **Extract 1**: Subsample taken after **2 minutes**.
+    -   **Extract 2**: Subsample taken after **4 minutes**.
+    -   **Extract 3**: Subsample taken after **10 minutes**.
+    -   **Extract 4**: Subsample taken after **15 minutes**.
+    -   **Extract 5**: Subsample taken after **20 minutes**.
+    -   **Extract 6**: Subsample taken after **30 minutes**.
+    -   **Extract 7**: Subsample taken after **45 minutes**.
+    -   **Extract 8**: Subsample taken after **60 minutes**.
 
 3.  **Analysis**: Each subsample was immediately filtered. The concentration of orthophosphate in the filtered extracts was determined colorimetrically using the **malachite green method**.
 
----
+------------------------------------------------------------------------
 
-## Statistical Analysis
+## ![Flow-chart of the adapted Kinetik-experiment after Flossmann & Richter.](figures/experiment-flow.png)Statistical Analysis
 
 The statistical workflow involved two main stages: 1) estimating the P desorption kinetic parameters from the laboratory data, and 2) using these parameters to model the agronomic outcomes from the long-term field experiment.
 
@@ -117,10 +116,10 @@ knitr::kable(variables_df)
 
 Linear mixed-effects models (`lmer`) were used to test the relationships between the predictor variables and each of the three response variables. The structure of these models was designed to account for the nested nature of the long-term experiment. A general form of the model is:
 
-*Response Variable ~ Fixed Effects + (1 | Random Effects)*
+*Response Variable \~ Fixed Effects + (1 \| Random Effects)*
 
-* **Fixed Effects**: These represent the main explanatory variables of interest whose effects we wanted to quantify. The fixed effects included the kinetic parameters ($k$, $P_{desorb}$, $J_0$) and the standard soil P tests ($P_w$, $P_{AAE10}$), along with their interactions.
-* **Random Effects**: These were included to control for non-independence among observations. By including `(1 | Site)`, `(1 | Year)`, and `(1 | Crop)` as random intercepts, the model accounts for baseline differences in the response variable that are attributable to the specific location, growing season, or crop type, allowing for a more accurate estimation of the fixed effects.
+-   **Fixed Effects**: These represent the main explanatory variables of interest whose effects we wanted to quantify. The fixed effects included the kinetic parameters ($k$, $P_{desorb}$, $J_0$) and the standard soil P tests ($P_w$, $P_{AAE10}$), along with their interactions.
+-   **Random Effects**: These were included to control for non-independence among observations. By including `(1 | Site)`, `(1 | Year)`, and `(1 | Crop)` as random intercepts, the model accounts for baseline differences in the response variable that are attributable to the specific location, growing season, or crop type, allowing for a more accurate estimation of the fixed effects.
 
 To identify the most informative and parsimonious model, a systematic feature selection process was conducted using the `mlr3` machine learning framework. This involved training and evaluating different combinations of predictor variables using nested cross-validation to ensure the robustness of the final selected model.
 
