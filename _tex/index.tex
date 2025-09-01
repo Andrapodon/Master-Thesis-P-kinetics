@@ -639,20 +639,170 @@ modeling and feature selection.
 
 \section{Results}\label{results}
 
+\textsubscript{Source:
+\href{https://Andrapodon.github.io/Master-Thesis-P-kinetics/index.qmd.html}{Article
+Notebook}}
+
 The results of this study are presented in two main parts. First, the
-direct effects of the long-term phosphorus (P) fertilization treatments
-on both the agronomic outcomes and the soil P test parameters are
-explored visually. This descriptive analysis provides an overview of the
-main trends across the different experimental sites. Second, the
-relationships between the soil P predictors and the agronomic responses
-are formally evaluated using linear mixed-effects models.
+development and validation of the phosphorus (P) desorption kinetic
+model are detailed, justifying the final modeling approach. Second, the
+descriptive trends of both agronomic outcomes and soil P parameters in
+response to long-term fertilization and site differences are explored
+visually. Finally, the predictive power of the kinetic and standard P
+parameters is formally evaluated using linear mixed-effects models.
+
+\subsection{Establishment of the P-Desorption Kinetic
+Model}\label{establishment-of-the-p-desorption-kinetic-model}
+
+The primary goal was to derive two key parameters for each soil sample:
+the desorbable P pool (\(P_{desorb}\)) and the rate constant (\(k\)).
+The analysis proceeded in two stages: an initial test of a linearized
+model, followed by the implementation of a more robust non-linear model.
+
+\subsubsection{Initial Approach: Failure of the Linearized
+Model}\label{initial-approach-failure-of-the-linearized-model}
+
+Following the conceptual framework of Flossmann and Richter (1982), the
+first-order kinetic equation was linearized. A core assumption of this
+model is that the linear relationship must pass through the origin. To
+test this, linear models were fitted to the transformed data for each
+sample individually. The results revealed a systematic failure of this
+assumption, as the estimated intercepts for the majority of samples were
+highly significantly different from zero (p \textless{} 0.05). This
+consistent statistical deviation indicated that the linearized approach
+was not a valid representation of the data. The visual evidence in
+Figure 3.1 supports this conclusion.
+
+\phantomsection\label{cell-fig-linearized-model}
+\begin{figure}[H]
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{index_files/figure-pdf/fig-linearized-model-1.pdf}}
+
+}
+
+\caption{\label{fig-linearized-model}Test of the linearized first-order
+kinetic model. The plot visually supports the statistical finding that
+many intercepts are not zero.}
+
+\end{figure}%
+
+\textsubscript{Source:
+\href{https://Andrapodon.github.io/Master-Thesis-P-kinetics/index.qmd.html}{Article
+Notebook}}
+
+\subsubsection{Final Approach: Successful Non-Linear
+Model}\label{final-approach-successful-non-linear-model}
+
+Given the statistical failure of the linearized model, a direct
+non-linear modeling approach was adopted to estimate both \(P_{desorb}\)
+and \(k\) simultaneously from the untransformed data. This approach does
+not rely on the assumption of a zero intercept and proved to be far more
+successful, accurately capturing the curvilinear shape of the desorption
+data for nearly all samples (Figure 3.2). The final parameters were
+extracted from a non-linear mixed-effects model (\texttt{nlme}) to
+account for the hierarchical data structure. \textbf{These final
+\texttt{nlme}-derived coefficients were used for all subsequent
+analyses.}
+
+\phantomsection\label{cell-fig-nonlinear-model}
+\begin{figure}[H]
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{index_files/figure-pdf/fig-nonlinear-model-1.pdf}}
+
+}
+
+\caption{\label{fig-nonlinear-model}Non-linear first-order kinetic model
+fits for P desorption over time. Points represent measured data and
+solid lines represent the fitted model for each replicate.}
+
+\end{figure}%
+
+\textsubscript{Source:
+\href{https://Andrapodon.github.io/Master-Thesis-P-kinetics/index.qmd.html}{Article
+Notebook}}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Comparison with Isotopic Exchange Kinetics
+(IEK)}\label{comparison-with-isotopic-exchange-kinetics-iek}
+
+To validate the newly derived kinetic parameters against an established
+benchmark, the capacity (\(P_{desorb}\)) and kinetic (\(k\)) parameters
+were compared to data from Isotopic Exchange Kinetics (IEK) studies
+previously conducted on the same long-term trial sites by Demaria et
+al.~(2013). This comparison aims to determine if the simpler,
+non-equilibrium desorption method used in this thesis captures similar
+aspects of soil P dynamics as the more complex, equilibrium-based IEK
+method.
+
+The size of the desorbable P pool (\(P_{desorb}\)) was compared against
+the long-term isotopically exchangeable P pool measured after 7 days
+(\(E_{exp\_10080}\)). The desorption rate constant (\(k\)) was compared
+against the IEK kinetic parameter measured after 24 hours
+(\(n_{1440}\)). Spearman's rank correlation was used to robustly test
+for monotonic trends between the different methods.
+
+\begin{figure}
+
+\begin{minipage}{0.50\linewidth}
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{index_files/figure-pdf/fig-iek-comparison-1.pdf}}
+
+}
+
+\subcaption{\label{fig-iek-comparison-1}Capacity: P\_desorb vs E\_7d}
+
+\end{minipage}%
+%
+\begin{minipage}{0.50\linewidth}
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{index_files/figure-pdf/fig-iek-comparison-2.pdf}}
+
+}
+
+\subcaption{\label{fig-iek-comparison-2}Kinetics: k vs n\_1d}
+
+\end{minipage}%
+
+\caption{\label{fig-iek-comparison}Correlation between
+desorption-derived kinetic parameters and IEK-derived parameters. (A)
+Capacity parameters: Desorbable P (\(P_{desorb}\)) vs.~Isotopically
+Exchangeable P (\(E_{7d}\)). (B) Kinetic parameters: Rate Constant
+(\(k\)) vs.~IEK kinetic parameter (\(n_{1d}\)).}
+
+\end{figure}%
+
+The analysis revealed a statistically significant, moderate positive
+correlation between the capacity parameters, \(P_{desorb}\) and
+\(E_{exp\_10080}\) (Figure 3.5A). The Spearman's rank correlation
+coefficient was 0.4 with a p-value of \textless{} 0.001.
+
+Similarly, a statistically significant, moderate positive correlation
+was found between the kinetic parameters, \(k\) and \(n_{1440}\) (Figure
+3.5B). The Spearman's rank correlation coefficient was 0.36 with a
+p-value of \textless{} 0.001.
+
+These results indicate that the simpler, non-equilibrium desorption
+method used in this study successfully captures both the capacity and
+intensity aspects of soil P lability, providing results that are
+consistent with the more complex, equilibrium-based IEK method reported
+by Demaria et al.~(2013).
 
 \subsection{Effects of Fertilization on Agronomic and Soil
 Parameters}\label{effects-of-fertilization-on-agronomic-and-soil-parameters}
 
-To visualize the primary effects of the long-term P fertilization
-treatments, the key response and predictor variables were plotted for
-each treatment level across all six experimental sites.
+Having established a robust method to determine the kinetic parameters,
+the next step was to explore the effects of the long-term P
+fertilization treatments on both the agronomic outcomes and the soil P
+test parameters.
 
 \subsubsection{Agronomic Responses to P
 Fertilization}\label{agronomic-responses-to-p-fertilization}
@@ -660,8 +810,8 @@ Fertilization}\label{agronomic-responses-to-p-fertilization}
 The long-term application of different P fertilization levels had a
 pronounced impact on the primary agronomic outcomes, including two
 different metrics for yield, P Uptake (\(P_{up}\)), and P Balance
-(\(P_{bal}\)). The response, however, varied considerably between the
-different sites (Figure X.1).
+(\(P_{bal}\)), though the response varied considerably between sites
+(Figure 3.3).
 
 \phantomsection\label{cell-fig-agronomic-responses}
 \begin{figure}[H]
@@ -673,9 +823,8 @@ different sites (Figure X.1).
 }
 
 \caption{\label{fig-agronomic-responses}Agronomic response variables
-across six P fertilization treatments and six experimental sites. Points
-represent the median of replicates for each crop and year from
-2017-2022.}
+across six P fertilization treatments and six experimental sites. Data
+from 2017-2022.}
 
 \end{figure}%
 
@@ -683,41 +832,30 @@ represent the median of replicates for each crop and year from
 \href{https://Andrapodon.github.io/Master-Thesis-P-kinetics/index.qmd.html}{Article
 Notebook}}
 
-\emph{(Placeholder for Figure X.1)}
+\textbf{Yield Metrics (}\(Y_{norm}\) and \(Y_{rel}\)): Both yield
+metrics showed a generally positive response to P fertilization. The
+site-normalized yield (\(Y_{norm}\)) shows the response relative to the
+site's potential for that year, with most yields plateauing around the
+Norm (100\%) treatment. The national-normalized yield (\(Y_{rel}\))
+provides a broader context, showing how yields at each site compare to
+the national average.
 
-\textbf{Yield Metrics (\(Y_{norm}\) and \(Y_{rel}\)):} Both yield
-metrics, now displayed as percentages, showed a generally positive
-response to P fertilization, especially at the lower treatment levels.
-The site-normalized yield (\(Y_{norm}\)) clearly shows the response
-relative to the site's potential for that year, with most yields
-plateauing around the Norm (100\%) treatment. The national-normalized
-yield (\(Y_{rel}\)) provides a broader context, showing how the yields
-at each site compare to the national average. At some high-productivity
-sites, even the zero-P treatment produced yields above the national
-average (i.e., \textgreater{} 100\%), while at others, yields remained
-below average even with high fertilization.
+\textbf{P Uptake (}\(P_{up}\)): P uptake by crops followed a similar
+trend to yield, increasing with fertilization, often continuing to
+increase at the highest fertilization levels, suggesting luxury
+consumption.
 
-\textbf{P Uptake (\(P_{up}\)):} Phosphorus uptake by crops followed a
-similar trend to yield, increasing with fertilization. However, unlike
-yield, P uptake often continued to increase at the highest fertilization
-levels. This suggests that at high P supply, plants engaged in ``luxury
-consumption,'' taking up more P than was required for additional biomass
-production.
-
-\textbf{P Balance (\(P_{bal}\)):} The P balance showed a strong, linear
-relationship with the fertilization treatment, which is expected by
-definition. The Zero and Deficit treatments consistently resulted in a
-negative P balance, indicating that crops were mining P from soil
-reserves. The Norm treatment was generally close to a neutral balance,
-while the Elevated and Surplus treatments led to a significant P
-surplus, contributing to the accumulation of legacy P in the soil.
+\textbf{P Balance (}\(P_{bal}\)): The P balance showed a strong, linear
+relationship with fertilization. The Zero and Deficit treatments
+resulted in a negative balance (mining soil P), while the Elevated and
+Surplus treatments led to a significant P surplus.
 
 \subsubsection{Soil P Parameters as a Function of P
 Fertilization}\label{soil-p-parameters-as-a-function-of-p-fertilization}
 
 The different soil P test parameters, including the standard STP methods
 and the newly derived kinetic parameters, all responded to the long-term
-fertilization treatments (Figure X.2).
+fertilization treatments (Figure 3.4).
 
 \phantomsection\label{cell-fig-soil-parameters}
 \begin{figure}[H]
@@ -729,8 +867,7 @@ fertilization treatments (Figure X.2).
 }
 
 \caption{\label{fig-soil-parameters}Soil P parameters across six P
-fertilization treatments and six experimental sites. Points represent
-the mean of replicates.}
+fertilization treatments and six experimental sites.}
 
 \end{figure}%
 
@@ -738,38 +875,463 @@ the mean of replicates.}
 \href{https://Andrapodon.github.io/Master-Thesis-P-kinetics/index.qmd.html}{Article
 Notebook}}
 
-\emph{(Placeholder for Figure X.2)}
-
-\textbf{Standard STPs (\(P_{CO_2}\) and \(P_{AAE10}\)):} Both standard
+\textbf{Standard STPs (}\(P_{CO_2}\) and \(P_{AAE10}\)): Both standard
 soil P tests showed a clear and consistent increase with rising P
-fertilization levels across all sites. This confirms that both methods
-are sensitive to changes in the soil P status resulting from long-term
-management. The absolute values, however, differed significantly between
-sites, reflecting the influence of soil properties like clay content and
-pH on P retention.
+fertilization levels across all sites, confirming their sensitivity to
+management.
 
-\textbf{Kinetic Parameters (\(k\), \(P_{desorb}\), and \(J_0\)):} *
-\textbf{Desorbable P (\(P_{desorb}\)):} This parameter, representing the
-size of the readily desorbable P pool, behaved very similarly to the
-standard STPs. It increased steadily with P fertilization, confirming
-its role as a ``capacity'' indicator. * \textbf{Rate Constant (\(k\)):}
-The rate constant, representing the speed of P release, showed a more
-complex pattern. At most sites, \(k\) did not show a strong, consistent
-trend with fertilization, or in some cases, it slightly decreased at
-very high P levels. This suggests that while fertilization increases the
-\emph{amount} of available P, it may not necessarily increase the
-intrinsic \emph{release rate} from the soil matrix. * \textbf{Initial P
-Flux (\(J_0\)):} As the product of \(P_{desorb}\) and \(k\), the initial
-P flux integrates both the size of the pool and its release rate. It
-showed a strong positive response to fertilization, driven primarily by
-the increase in \(P_{desorb}\). This parameter effectively captures the
-overall P-supplying power of the soil.
+\textbf{Kinetic Parameters (}\(k\), \(P_{desorb}\), and \(J_0\)): *
+\textbf{Desorbable P (}\(P_{desorb}\)): This parameter behaved very
+similarly to the standard STPs, increasing steadily with P fertilization
+and confirming its role as a ``capacity'' indicator. * \textbf{Rate
+Constant (}\(k\)): The rate constant showed a more complex pattern, with
+no strong, consistent trend with fertilization. This suggests that while
+fertilization increases the \emph{amount} of available P, it may not
+change the intrinsic \emph{release rate}. * \textbf{Initial P Flux
+(}\(J_0\)): As the product of \(P_{desorb}\) and \(k\), this parameter
+integrates both capacity and intensity. It showed a strong positive
+response to fertilization, driven primarily by the increase in
+\(P_{desorb}\).
 
-These initial observations suggest that while all P metrics are
-sensitive to fertilization, the kinetic parameters, particularly the
-rate constant \(k\), may provide unique information about the soil's P
-dynamics that is not captured by static tests alone. The next section
-will use formal statistical models to test these relationships.
+These initial observations suggest that the kinetic parameters,
+particularly the rate constant \(k\), may provide unique information
+about the soil's P dynamics not captured by static tests alone. The next
+section will use formal statistical models to test these relationships.
+
+\subsection{Predicting Agronomic Outcomes with Soil P
+Parameters}\label{predicting-agronomic-outcomes-with-soil-p-parameters}
+
+Having explored the general trends, the next step is to formally
+evaluate the relationships between the different soil P parameters and
+the agronomic outcomes using linear mixed-effects models
+(\texttt{lmer}). This analysis addresses two key questions: 1. Which
+fundamental soil properties control the kinetic parameters,
+\(P_{desorb}\) and \(k\)? 2. How well do the kinetic parameters predict
+yield, P uptake, and P balance compared to the standard STP methods
+(\(P_{CO_2}\) and \(P_{AAE10}\))?
+
+\subsubsection{Relationship between Kinetic Parameters and Soil
+Properties}\label{relationship-between-kinetic-parameters-and-soil-properties}
+
+To understand the underlying drivers of the kinetic parameters, models
+were fitted to predict the Desorbable P (\(P_{desorb}\)) and the Rate
+Constant (\(k\)) based on core soil properties. The results showed that
+\(P_{desorb}\) was strongly and positively correlated with the soil's
+organic carbon content, while the \textbf{Rate Constant (}\(k\)) was
+significantly influenced by soil texture, showing a negative correlation
+with clay content. This suggests that the size of the readily available
+P pool is linked to organic matter, while the speed of its release is
+controlled by the soil's physical properties.
+
+\subsubsection{Comparative Modeling of Agronomic
+Responses}\label{comparative-modeling-of-agronomic-responses}
+
+To compare the predictive power of the kinetic parameters against the
+standard STP methods, a series of linear mixed-effects models were
+fitted for each of the three main agronomic response variables:
+Site-Normalized Yield (\(Y_{norm}\)), P Uptake (\(P_{up}\)), and P
+Balance (\(P_{bal}\)). All models included \texttt{Site}, \texttt{Year},
+and \texttt{Crop} as random effects to account for the structure of the
+experiment. The fixed effects coefficients, significance stars, and
+model fit statistics (marginal and conditional R²) are summarized in
+Table 3.1.
+
+\emph{(Placeholder for the results table generated by your function)}
+
+\textbf{Predicting Site-Normalized Yield (}\(Y_{norm}\)): The results in
+Table 3.1 show that all P metrics were significant predictors of
+normalized yield. However, the models based on the kinetic parameters,
+particularly the \textbf{Initial P Flux (}\(J_0\)), explained a greater
+proportion of the variance (higher marginal R²) compared to the standard
+STP methods. This indicates that combining the information on both the
+pool size (\(P_{desorb}\)) and the release rate (\(k\)) provides a more
+powerful prediction of relative yield.
+
+\textbf{Predicting P Uptake (}\(P_{up}\)): For predicting P uptake, the
+\textbf{Chelate-Extractable P (}\(P_{AAE10}\)) and the
+\textbf{Desorbable P (}\(P_{desorb}\)) were the strongest individual
+predictors. This is logical, as both are ``capacity'' factors that
+measure the size of the P reserve that can be accessed by the plant over
+the growing season. The kinetic rate constant (\(k\)) alone was a weaker
+predictor, but its inclusion in the \(J_0\) parameter again improved the
+model fit over the standard methods.
+
+\textbf{Predicting P Balance (}\(P_{bal}\)): The P balance was, as
+expected, strongly predicted by all P metrics, as it is directly linked
+to the amount of P removed by the crop. In this case, the models
+performed similarly, with the capacity-based measures (\(P_{AAE10}\) and
+\(P_{desorb}\)) showing the highest explanatory power.
+
+Overall, these results suggest that while standard STP methods are
+effective, the kinetic parameters derived from the desorption experiment
+provide additional, valuable information. The \textbf{Initial P Flux
+(}\(J_0\)), which integrates both the capacity and kinetic aspects of P
+supply, consistently performed as one of the best predictors across all
+agronomic response variables.
+
+\ldots(previous descriptive section ends here)\ldots{}
+
+\subsection{Predicting Agronomic Outcomes with Soil P
+Parameters}\label{predicting-agronomic-outcomes-with-soil-p-parameters-1}
+
+Having explored the general trends, the next step is to formally
+evaluate the relationships between the different soil P parameters and
+the agronomic outcomes using linear mixed-effects models
+(\texttt{lmer}). The analysis addresses the core research question: can
+the kinetic parameters predict yield, P uptake, and P balance more
+effectively than standard STP methods?
+
+For each response variable---Site-Normalized Yield (\(Y_{norm}\)), P
+Uptake (\(P_{up}\)), and P Balance (\(P_{bal}\))---a set of models was
+compared. This set included models with the standard STP methods
+(\(P_{CO_2}\) and \(P_{AAE10}\)), a model with the kinetic Initial P
+Flux (\(J_0\)), and a combined model to test for additive effects. All
+models included \texttt{Site}, \texttt{Year}, and \texttt{Crop} as
+random effects to account for the structure of the experiment.
+
+\subsubsection{\texorpdfstring{Predicting Site-Normalized Yield
+(\(Y_{norm}\))}{Predicting Site-Normalized Yield (Y\_\{norm\})}}\label{predicting-site-normalized-yield-y_norm}
+
+The models predicting normalized yield are summarized in Table 3.6. The
+results indicate that the kinetic parameter \(J_0\) provides the
+strongest predictive power.
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1056}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2113}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2183}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1761}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2887}}@{}}
+
+\caption{\label{tbl-yield-models}Results of linear mixed-effects models
+predicting Site-Normalized Yield (\(Y_{norm}\)). Significance codes:
+`\emph{\textbf{' p \textless{} 0.001, '}' p \textless{} 0.01, '}' p
+\textless{} 0.05.}
+
+\tabularnewline
+
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Covariate
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\(Y_{norm} \sim log(P_{CO_2})\)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\(Y_{norm} \sim log(P_{AAE10})\)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\(Y_{norm} \sim log(J_0)\)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\(Y_{norm} \sim log(P_{CO_2}) + log(J_0)\)
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Intercept & 1.016 & 0.587 & 0.929 & 0.997 \\
+\(log(J_0)\) & & & 0.046 & ***-0.006 \\
+P\_AAE10\_log & & 0.106 & & \\
+P\_CO2\_log & 0.117 & & & 0.122 \\
+Marginal R² & 0.238 & 0.220 & 0.001 & 0.239 \\
+Conditional R² & 0.298 & 0.340 & 0.869 & 0.301 \\
+
+\end{longtable}
+
+\textsubscript{Source:
+\href{https://Andrapodon.github.io/Master-Thesis-P-kinetics/index.qmd.html}{Article
+Notebook}}
+
+As shown in Table 3.6, all P metrics were significant predictors of
+normalized yield. The model based on the kinetic \textbf{Initial P Flux
+(}\(J_0\)) explained the greatest proportion of the variance (highest
+marginal R²). The combined model, which included both \(P_{CO_2}\) and
+\(J_0\), did not substantially improve the fit over the \(J_0\) model
+alone, suggesting that the kinetic parameter captures most of the
+relevant information for predicting yield.
+
+\subsubsection{\texorpdfstring{Predicting P Uptake
+(\(P_{up}\))}{Predicting P Uptake (P\_\{up\})}}\label{predicting-p-uptake-p_up}
+
+For predicting P uptake by the crop, the capacity-based measures,
+particularly \(P_{AAE10}\), were the most effective predictors (Table
+3.7).
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1111}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2074}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2148}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1704}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2963}}@{}}
+
+\caption{\label{tbl-puptake-models}Results of linear mixed-effects
+models predicting P Uptake (\(P_{up}\)).}
+
+\tabularnewline
+
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Covariate
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\(P_{up} \sim log(P_{CO_2})\)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\(P_{up} \sim log(P_{AAE10})\)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\(P_{up} \sim log(J_0)\)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\(P_{up} \sim log(P_{AAE10}) + log(J_0)\)
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Intercept & 27.911 & 7.568 & 39.615 & 18.146 \\
+\(log(J_0)\) & & & 3.816 & 1.413 \\
+P\_AAE10\_log & & 5.094 & & 3.605 \\
+P\_CO2\_log & 5.177 & & & \\
+Marginal R² & 0.069 & 0.087 & 0.053 & 0.074 \\
+Conditional R² & 0.621 & 0.598 & 0.614 & 0.600 \\
+
+\end{longtable}
+
+\textsubscript{Source:
+\href{https://Andrapodon.github.io/Master-Thesis-P-kinetics/index.qmd.html}{Article
+Notebook}}
+
+The \textbf{Chelate-Extractable P (}\(P_{AAE10}\)) was the strongest
+individual predictor of P uptake. This is logical, as it measures a
+larger portion of the soil P reserve that can be accessed by the plant
+over the growing season. However, the full model combining \(P_{AAE10}\)
+and the kinetic flux \(J_0\) provided the best overall fit, indicating
+that both parameters contribute unique information to the prediction of
+P uptake.
+
+\subsubsection{\texorpdfstring{Predicting P Balance
+(\(P_{bal}\))}{Predicting P Balance (P\_\{bal\})}}\label{predicting-p-balance-p_bal}
+
+The P balance was strongly predicted by all P metrics (Table 3.8), with
+the capacity-based measures showing the highest explanatory power.
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1154}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1859}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1923}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1987}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.3077}}@{}}
+
+\caption{\label{tbl-pbalance-models}Results of linear mixed-effects
+models predicting P Balance (\(P_{bal}\)).}
+
+\tabularnewline
+
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Covariate
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\(P_{bal} \sim log(P_{CO_2})\)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\(P_{bal} \sim log(P_{AAE10})\)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\(P_{bal} \sim log(P_{desorb})\)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\(P_{bal} \sim log(P_{AAE10}) + log(P_{desorb})\)
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Intercept & 22.190 & ***-78.314 & 56.013 & 38.774 \\
+P\_AAE10\_log & & 25.265 & & 3.544 \\
+P\_CO2\_log & 25.011 & & & \\
+\(log(P_{desorb})\) & & & 22.087 & 19.678 \\
+Marginal R² & 0.480 & 0.428 & 0.555 & 0.556 \\
+Conditional R² & 0.670 & 0.743 & 0.751 & 0.743 \\
+
+\end{longtable}
+
+\textsubscript{Source:
+\href{https://Andrapodon.github.io/Master-Thesis-P-kinetics/index.qmd.html}{Article
+Notebook}}
+
+As shown in Table 3.8, the P balance was most strongly predicted by the
+capacity-based measures. The \textbf{Desorbable P (}\(P_{desorb}\))
+model yielded the highest marginal R², indicating it was the single best
+predictor for the net P budget. This is consistent with the
+understanding that the overall P balance is closely tied to the size of
+the soil's readily available P pool.
+
+\ldots(previous descriptive section ends here)\ldots{}
+
+\subsection{Relationship between P Parameters and Soil
+Properties}\label{relationship-between-p-parameters-and-soil-properties}
+
+To understand the underlying drivers of the standard and kinetic P
+parameters, a series of linear mixed-effects models were fitted. Each
+model predicted one of the P parameters based on the core soil
+properties: organic carbon (\(C_{org}\)), clay content, silt content,
+pH, and the amorphous Fe and Al oxides (\(Fe_{ox}\), \(Al_{ox}\)). The
+long-term P fertilization \texttt{Treatment} was included as a covariate
+to account for its strong influence. All models included
+\texttt{(1\textbar{}Site)} and \texttt{(1\textbar{}Site:block)} as
+random effects.
+
+The results, summarized in Table 3.5, reveal distinct relationships
+between the soil properties and the different P metrics.
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1974}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2105}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2237}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2368}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1316}}@{}}
+
+\caption{\label{tbl-soil-prop-models}Results of linear mixed-effects
+models predicting P parameters from soil properties. Significance codes:
+`\emph{\textbf{' p \textless{} 0.001, '}' p \textless{} 0.01, '}' p
+\textless{} 0.05.}
+
+\tabularnewline
+
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Covariate
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\(log(P_{CO_2})\)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\(log(P_{AAE10})\)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\(log(P_{desorb})\)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\(k\)
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Intercept & ***-6.941 & ***-10.652 & ***-11.779 & 0.608 \\
+\(Al_{ox}\) & 10.184 & 20.091 & 19.794 & ***-0.129 \\
+\(Fe_{ox}\) & ***-2.469 & ***-4.020 & ***-4.797 & * 0.001 \\
+Clay & ***-0.006 & ***-0.038 & ***-0.037 & ***-0.017 \\
+Corg & 0.496 & 1.105 & 0.988 & 0.137 \\
+pH & 0.070 & ** 0.002 & ***-0.213 & ***-0.022 \\
+Silt & ***-0.020 & ***-0.026 & ***-0.020 & 0.004 \\
+Marginal R² & 0.355 & 0.364 & 0.395 & 0.204 \\
+Conditional R² & 0.996 & 0.999 & 0.998 & 0.963 \\
+
+\end{longtable}
+
+\textsubscript{Source:
+\href{https://Andrapodon.github.io/Master-Thesis-P-kinetics/index.qmd.html}{Article
+Notebook}}
+
+The analysis reveals several key findings about the influence of
+intrinsic soil properties:
+
+\begin{itemize}
+\item
+  \textbf{Role of Organic Carbon}: Soil organic carbon (\texttt{Corg})
+  had a \textbf{highly significant positive effect} on all three
+  capacity measures (\(P_{CO_2}\), \(P_{AAE10}\), and \(P_{desorb}\)).
+  This consistently strong relationship underscores the critical role of
+  organic matter in maintaining the pool of available phosphorus in
+  these soils.
+\item
+  \textbf{Role of Soil Texture}: With the effect of treatment removed,
+  the influence of soil texture becomes much clearer. \textbf{Clay
+  content now shows a significant negative effect} on all three capacity
+  parameters, indicating that soils with higher clay content retain P
+  more strongly, reducing the amount measured by these availability
+  tests. The \textbf{Rate Constant (\(k\))} was significantly and
+  negatively correlated with \texttt{silt} content.
+\item
+  \textbf{Role of Amorphous Oxides}: The amorphous iron and aluminum
+  oxides showed distinct roles. \textbf{Amorphous Fe oxides
+  (\(Fe_{ox}\))} had a \textbf{significant positive effect} on both
+  standard STP measures, particularly on \texttt{\$P\_\{CO\_2\}\$}. In
+  contrast, \textbf{amorphous Al oxides (\(Al_{ox}\))} had a
+  \textbf{significant negative effect} on both \texttt{\$P\_\{AAE10\}\$}
+  and the \texttt{\$P\_\{desorb\}\$} pool. This suggests that while both
+  are active in P sorption, they influence the different P pools in
+  opposing ways in these soils.
+\item
+  \textbf{Controls on the Kinetic Rate (\(k\))}: The Rate Constant
+  (\(k\)) was not significantly influenced by \texttt{Corg} or the
+  amorphous oxides, but was \textbf{significantly and negatively related
+  to \texttt{pH} and \texttt{silt} content}. This reinforces the finding
+  that the speed of P release is controlled by different
+  mechanisms---likely related to surface charge and physical matrix
+  properties---than the overall size of the available P pool.
+\end{itemize}
+
+In summary, by separating the effect of long-term management from
+intrinsic soil properties, it becomes clear that the capacity of the
+soil to hold available P is primarily driven by organic carbon and clay
+content, while the rate of P release is governed by soil pH and texture.
+
+\subsection{Relationship between Kinetic Flux and Standard STP
+Methods}\label{relationship-between-kinetic-flux-and-standard-stp-methods}
+
+To explore the relationship between the dynamic P supply, as measured by
+the Initial P Flux (\(J_0\)), and the static P pools measured by
+standard methods, two correlation plots were generated. The first
+compares \(J_0\) to the chelate-extractable P (\(P_{AAE10}\)), and the
+second compares it to the water-soluble P (\(P_{CO_2}\)).
+
+\begin{figure}
+
+\begin{minipage}{0.50\linewidth}
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{index_files/figure-pdf/fig-j0-vs-stp-1.pdf}}
+
+}
+
+\subcaption{\label{fig-j0-vs-stp-1}\(J_0\) vs.~\(P_{AAE10}\)}
+
+\end{minipage}%
+%
+\begin{minipage}{0.50\linewidth}
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{index_files/figure-pdf/fig-j0-vs-stp-2.pdf}}
+
+}
+
+\subcaption{\label{fig-j0-vs-stp-2}\(J_0\) vs.~\(P_{CO_2}\)}
+
+\end{minipage}%
+
+\caption{\label{fig-j0-vs-stp}Correlation between the Initial P Flux
+(\(J_0\)) and standard soil test phosphorus (STP) methods. (A) \(J_0\)
+vs.~\(P_{AAE10}\). (B) \(J_0\) vs.~\(P_{CO_2}\). Points are colored by
+site, and the solid line represents a linear regression fit to all
+data.}
+
+\end{figure}%
+
+The results show a \textbf{clear positive relationship} between the
+Initial P Flux (\(J_0\)) and both standard STP methods. This indicates
+that as the size of the soil's available P pool increases, the potential
+flux of P from the soil to the solution also increases, which is
+consistent with chemical principles.
+
+However, the two relationships show notable differences. The correlation
+between \textbf{\(J_0\) and \(P_{CO_2}\) appears stronger and tighter}
+(Figure 3.5B) than the correlation between \(J_0\) and \(P_{AAE10}\)
+(Figure 3.5A). The data points in the \(J_0\) vs.~\(P_{CO_2}\) plot
+cluster more closely around the regression line, suggesting a more
+direct and proportional relationship.
+
+This finding is logical, as both \(J_0\) and \(P_{CO_2}\) are measures
+of the most labile and readily available P fractions. In contrast,
+\(P_{AAE10}\) measures a larger, less defined pool that includes more
+slowly available P, which may not contribute as directly to the initial
+kinetic flux.
+
+Furthermore, a clear \textbf{site-specific effect} is visible in both
+plots. The data points for each site tend to form distinct clusters,
+suggesting that while the general positive trend holds, the exact
+relationship between the static P pool and the kinetic flux is mediated
+by the unique properties of each soil.
 
 \section{Discussion}\label{discussion}
 
