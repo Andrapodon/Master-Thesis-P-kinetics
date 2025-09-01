@@ -68,7 +68,9 @@ For this thesis, the original method was modified to capture the desorption proc
 
 ------------------------------------------------------------------------
 
-## ![Flow-chart of the adapted Kinetik-experiment after Flossmann & Richter.](figures/experiment-flow.png)Statistical Analysis
+![Flow-chart of the adapted Kinetik-experiment after Flossmann & Richter.](/experiment-flow.png)
+
+## Statistical Analysis
 
 The statistical workflow involved two main stages: 1) estimating the P desorption kinetic parameters from the laboratory data, and 2) using these parameters to model the agronomic outcomes from the long-term field experiment.
 

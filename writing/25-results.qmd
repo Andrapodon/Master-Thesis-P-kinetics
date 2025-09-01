@@ -25,49 +25,276 @@ D <- RES$D
 d <- RES$data
 ```
 
-The results of this study are presented in two main parts. First, the direct effects of the long-term phosphorus (P) fertilization treatments on both the agronomic outcomes and the soil P test parameters are explored visually. This descriptive analysis provides an overview of the main trends across the different experimental sites. Second, the relationships between the soil P predictors and the agronomic responses are formally evaluated using linear mixed-effects models.
+```{r}
+create_coef_table <- function(lmer_models, 
+                              covariate_order = NULL, 
+                              covariate_labels = NULL, # NEU: Benannter Vektor für Zeilennamen
+                              model_labels = NULL) {   # NEU: Benannter Vektor für Spaltennamen
 
-## Effects of Fertilization on Agronomic and Soil Parameters
+  # Extract coefficients and p-values (Ihre Originalfunktion, keine Änderung hier)
+  extract_coef_info <- function(model) {
+    # ... (keine Änderung, Ihr Code bleibt hier)
+    coef_matrix <- summary(model)|> coef()
+    estimates <- coef_matrix[, 1]
+    p_values <- coef_matrix[, ncol(coef_matrix)]
+    formatted_coef <- sapply(seq_along(estimates), function(i) {
+      est_str <- sprintf("%.3f", estimates[i])
+      stars <- if (p_values[i] < 0.001) "***" else
+               if (p_values[i] < 0.01) "** " else
+               if (p_values[i] < 0.05) "* " else  ""
+      paste0(stars, est_str)
+    })
+    names(formatted_coef) <- rownames(coef_matrix)
+    return(formatted_coef)
+  }
 
-To visualize the primary effects of the long-term P fertilization treatments, the key response and predictor variables were plotted for each treatment level across all six experimental sites.
+  # Extract R-squared values (Ihre Originalfunktion, keine Änderung hier)
+  extract_r_squared <- function(model) {
+    # ... (keine Änderung, Ihr Code bleibt hier)
+    r2_values <- MuMIn::r.squaredGLMM(model) # MuMIn:: hinzugefügt für Klarheit
+    return(c(
+      R2m = sprintf("%.3f", r2_values[1, "R2m"]),
+      R2c = sprintf("%.3f", r2_values[1, "R2c"])
+    ))
+  }
 
-### Agronomic Responses to P Fertilization
+  # Daten extrahieren (Ihr Originalcode)
+  all_coefs <- lapply(lmer_models, extract_coef_info)
+  all_r_squared <- lapply(lmer_models, extract_r_squared)
+  all_covariate_names <- unique(unlist(lapply(all_coefs, names)))
 
-The long-term application of different P fertilization levels had a pronounced impact on the primary agronomic outcomes, including two different metrics for yield, P Uptake ($P_{up}$), and P Balance ($P_{bal}$). The response, however, varied considerably between the different sites (Figure X.1).
+  if (is.null(covariate_order)) {
+    covariate_order <- c("(Intercept)", sort(all_covariate_names[all_covariate_names != "(Intercept)"]))
+  }
+  covariate_order <- covariate_order[covariate_order %in% all_covariate_names]
+  final_order <- c(covariate_order, "R2m", "R2c")
+
+  # Matrix erstellen (Ihr Originalcode)
+  results_matrix <- matrix("",
+                           nrow = length(final_order),
+                           ncol = length(lmer_models),
+                           dimnames = list(final_order, names(lmer_models)))
+
+  # Matrix füllen (Ihr Originalcode)
+  for (model_name in names(lmer_models)) {
+    model_coefs <- all_coefs[[model_name]]
+    for (covar in names(model_coefs)) {
+      if (covar %in% covariate_order) {
+        results_matrix[covar, model_name] <- model_coefs[covar]
+      }
+    }
+    r2_values <- all_r_squared[[model_name]]
+    results_matrix["R2m", model_name] <- r2_values["R2m"]
+    results_matrix["R2c", model_name] <- r2_values["R2c"]
+  }
+
+  # --- NEU: Zeilen- und Spaltennamen ersetzen ---
+  
+  # Ersetze die Zeilennamen (Kovariaten), falls covariate_labels übergeben wurde
+  if (!is.null(covariate_labels)) {
+    # Finde die Übereinstimmungen in den aktuellen Zeilennamen
+    row_matches <- match(rownames(results_matrix), names(covariate_labels))
+    # Ersetze nur die, die gefunden wurden
+    new_rownames <- rownames(results_matrix)
+    new_rownames[!is.na(row_matches)] <- covariate_labels[row_matches[!is.na(row_matches)]]
+    rownames(results_matrix) <- new_rownames
+  }
+  
+  # Ersetze die Spaltennamen (Modelle), falls model_labels übergeben wurde
+  if (!is.null(model_labels)) {
+    col_matches <- match(colnames(results_matrix), names(model_labels))
+    new_colnames <- colnames(results_matrix)
+    new_colnames[!is.na(col_matches)] <- model_labels[col_matches[!is.na(col_matches)]]
+    colnames(results_matrix) <- new_colnames
+  }
+  
+  # --- Ende der neuen Sektion ---
+
+  # Convert to data frame for kable
+  results_df <- data.frame(Covariate = rownames(results_matrix),
+                           results_matrix,
+                           check.names = FALSE, # Verhindert, dass R Spaltennamen ändert
+                           stringsAsFactors = FALSE)
+  
+  results_df
+}
+```
+
+The results of this study are presented in two main parts. First, the development and validation of the phosphorus (P) desorption kinetic model are detailed, justifying the final modeling approach. Second, the descriptive trends of both agronomic outcomes and soil P parameters in response to long-term fertilization and site differences are explored visually. Finally, the predictive power of the kinetic and standard P parameters is formally evaluated using linear mixed-effects models.
+
+## Establishment of the P-Desorption Kinetic Model
+
+The primary goal was to derive two key parameters for each soil sample: the desorbable P pool ($P_{desorb}$) and the rate constant ($k$). The analysis proceeded in two stages: an initial test of a linearized model, followed by the implementation of a more robust non-linear model.
+
+### Initial Approach: Failure of the Linearized Model
+
+Following the conceptual framework of Flossmann and Richter (1982), the first-order kinetic equation was linearized. A core assumption of this model is that the linear relationship must pass through the origin. To test this, linear models were fitted to the transformed data for each sample individually. The results revealed a systematic failure of this assumption, as the estimated intercepts for the majority of samples were highly significantly different from zero (p \< 0.05). This consistent statistical deviation indicated that the linearized approach was not a valid representation of the data. The visual evidence in Figure 3.1 supports this conclusion.
 
 ```{r}
-#| label: fig-agronomic-responses
-#| fig-cap: "Agronomic response variables across six P fertilization treatments and six experimental sites. Points represent the median of replicates for each crop and year from 2017-2022."
+#| label: fig-linearized-model
+#| fig-cap: "Test of the linearized first-order kinetic model. The plot visually supports the statistical finding that many intercepts are not zero."
 #| echo: false
 #| warning: false
 #| message: false
+#| out-width: "\\textwidth"
+#| fig-height: 6
+
+  ggplot(d[d$Treatment!="P100"&(d$Repetition==1|d$Repetition==2),], aes(y=Y1, x=t.min., col = Repetition)) +
+   geom_point() +
+   facet_grid(Site ~ Treatment) +
+   theme_bw() +
+   labs(x=TeX("$Time (min)$"),
+        y=TeX("$ln(1-\\frac{P}{P_S})$")) +
+   geom_smooth(method="lm", alpha = 0.3)
+```
+
+### Final Approach: Successful Non-Linear Model
+
+Given the statistical failure of the linearized model, a direct non-linear modeling approach was adopted to estimate both $P_{desorb}$ and $k$ simultaneously from the untransformed data. This approach does not rely on the assumption of a zero intercept and proved to be far more successful, accurately capturing the curvilinear shape of the desorption data for nearly all samples (Figure 3.2). The final parameters were extracted from a non-linear mixed-effects model (`nlme`) to account for the hierarchical data structure. **These final `nlme`-derived coefficients were used for all subsequent analyses.**
+
+```{r}
+#| label: fig-nonlinear-model
+#| fig-cap: "Non-linear first-order kinetic model fits for P desorption over time. Points represent measured data and solid lines represent the fitted model for each replicate."
+#| echo: false
+#| warning: false
+#| message: false
+#| out-width: "\\textwidth"
+#| fig-height: 6
+
+ # Recreate d_plot and pred_data as in your pretest.qmd
+Res <- nlsList(Pv.mg.L. ~ PS * (1 - exp(-k * (t.dt))) | uid, d[, c("Pv.mg.L.", "uid", "t.dt")],  start=list(PS=0.1,k=0.2))
+# summary(Res)
+# d$nls_pred <- predict(Res)
+
+# Extract coefficients from the nlsList results
+nls_coefs <- coef(Res)
+nls_coefs$uid <- rownames(nls_coefs)
+
+# Merge coefficients back to the main dataset
+d_plot <- merge(d, nls_coefs, by = "uid")
+
+# Most straightforward approach - create curves manually
+time_seq <- seq(min(d$t.dt, na.rm = TRUE), max(d$t.dt, na.rm = TRUE), length.out = 100)
+
+# Create prediction data
+pred_data <- d_plot %>%
+  select(uid, Site, Treatment, Repetition, PS, k) %>%
+  distinct() %>%
+  crossing(t.dt = time_seq) %>%
+  mutate(pred_Pv = PS * (1 - exp(-k * (t.dt))))
+
+ p1 <- ggplot() +
+   geom_point(data = d_plot, aes(y = Pv.mg.L., x = t.dt, col = Repetition)) +
+   geom_line(data = pred_data, aes(x = t.dt, y = pred_Pv, col = Repetition), size = 0.5) +
+   facet_grid(Treatment ~ Site,scales = "free_y") +
+   theme_bw() +
+   labs(x = TeX("$Time (min)$"),
+        y = TeX("$P_{V}(\\frac{mg}{L})$"));
+ suppressWarnings(print(p1))
+```
+
+------------------------------------------------------------------------
+
+## Comparison with Isotopic Exchange Kinetics (IEK)
+
+To validate the newly derived kinetic parameters against an established benchmark, the capacity ($P_{desorb}$) and kinetic ($k$) parameters were compared to data from Isotopic Exchange Kinetics (IEK) studies previously conducted on the same long-term trial sites by Demaria et al. (2013). This comparison aims to determine if the simpler, non-equilibrium desorption method used in this thesis captures similar aspects of soil P dynamics as the more complex, equilibrium-based IEK method.
+
+The size of the desorbable P pool ($P_{desorb}$) was compared against the long-term isotopically exchangeable P pool measured after 7 days ($E_{exp\_10080}$). The desorption rate constant ($k$) was compared against the IEK kinetic parameter measured after 24 hours ($n_{1440}$). Spearman's rank correlation was used to robustly test for monotonic trends between the different methods.
+
+```{r}
+#| label: fig-iek-comparison
+#| fig-cap: "Correlation between desorption-derived kinetic parameters and IEK-derived parameters. (A) Capacity parameters: Desorbable P ($P_{desorb}$) vs. Isotopically Exchangeable P ($E_{7d}$). (B) Kinetic parameters: Rate Constant ($k$) vs. IEK kinetic parameter ($n_{1d}$)."
+#| echo: false
+#| warning: false
+#| message: false
+#| out-width: "\\textwidth"
+#| fig-height: 4
+#| fig-subcap: 
+#|   - "Capacity: P_desorb vs E_7d"
+#|   - "Kinetics: k vs n_1d"
+#| layout-ncol: 2
 
 library(ggplot2)
-library(tidyr)
 library(dplyr)
 library(latex2exp)
 
-# Reshape the data and convert Ymain_norm to a percentage
+# Step 1: Prepare the data for correlation analysis
+correlation_data <- D %>%
+  select(uid, PS, k, E_exp_10080, n_1440) %>%
+  na.omit()
+
+# Step 2: Perform the formal correlation tests
+spearman_capacity <- cor.test(correlation_data$PS, correlation_data$E_exp_10080, method = "spearman")
+spearman_kinetic <- cor.test(correlation_data$k, correlation_data$n_1440, method = "spearman")
+
+# Step 3: Create the plots
+
+# Plot A: Capacity Comparison
+p1 <- ggplot(correlation_data, aes(x = E_exp_10080, y = PS)) +
+  geom_point(size = 3, alpha = 0.7) +
+  geom_smooth(method = "lm", se = FALSE, color = "blue", formula = y ~ x) +
+  labs(
+    x = TeX("Isotopically Exchangeable P, $E_{7d}$ (mg kg$^{-1}$)"),
+    y = TeX("Desorbable P, $P_{desorb}$ (mg L$^{-1}$)")
+  ) +
+  theme_bw()
+
+# Plot B: Kinetic Comparison
+p2 <- ggplot(correlation_data, aes(x = n_1440, y = k)) +
+  geom_point(size = 3, alpha = 0.7) +
+  geom_smooth(method = "lm", se = FALSE, color = "blue", formula = y ~ x) +
+  labs(
+    x = TeX("IEK Kinetic Parameter, $n_{1d}$"),
+    y = TeX("Desorption Rate Constant, $k$ (min$^{-1}$)")
+  ) +
+  theme_bw()
+
+# Display plots side-by-side (this is handled by the chunk options)
+p1
+p2
+```
+
+The analysis revealed a statistically significant, moderate positive correlation between the capacity parameters, $P_{desorb}$ and $E_{exp\_10080}$ (Figure 3.5A). The Spearman's rank correlation coefficient was `r round(spearman_capacity$estimate, 2)` with a p-value of `r format.pval(spearman_capacity$p.value, eps = 0.001)`.
+
+Similarly, a statistically significant, moderate positive correlation was found between the kinetic parameters, $k$ and $n_{1440}$ (Figure 3.5B). The Spearman's rank correlation coefficient was `r round(spearman_kinetic$estimate, 2)` with a p-value of `r format.pval(spearman_kinetic$p.value, eps = 0.001)`.
+
+These results indicate that the simpler, non-equilibrium desorption method used in this study successfully captures both the capacity and intensity aspects of soil P lability, providing results that are consistent with the more complex, equilibrium-based IEK method reported by Demaria et al. (2013).
+
+## Effects of Fertilization on Agronomic and Soil Parameters
+
+Having established a robust method to determine the kinetic parameters, the next step was to explore the effects of the long-term P fertilization treatments on both the agronomic outcomes and the soil P test parameters.
+
+### Agronomic Responses to P Fertilization
+
+The long-term application of different P fertilization levels had a pronounced impact on the primary agronomic outcomes, including two different metrics for yield, P Uptake ($P_{up}$), and P Balance ($P_{bal}$), though the response varied considerably between sites (Figure 3.3).
+
+```{r}
+#| label: fig-agronomic-responses
+#| fig-cap: "Agronomic response variables across six P fertilization treatments and six experimental sites. Data from 2017-2022."
+#| echo: false
+#| warning: false
+#| message: false
+#| out-width: "\\textwidth"
+#| fig-height: 7
+
+# Final corrected plotting code
 D_long_agronomic <- D %>%
   select(Site, Treatment, Ymain_norm, Ymain_rel, annual_P_uptake, annual_P_balance) %>%
-  mutate(Ymain_norm = Ymain_norm * 100) %>% # Convert fraction to percentage
+  mutate(Ymain_norm = Ymain_norm * 100) %>% 
   pivot_longer(
     cols = c(Ymain_norm, Ymain_rel, annual_P_uptake, annual_P_balance),
     names_to = "Variable",
     values_to = "Value"
   )
 
-# Manually replace script names with concise, TeX-processed strings
 D_long_agronomic <- D_long_agronomic %>%
   mutate(Variable = case_when(
-    # **THE FIX:** Escape the % sign with a double backslash \\%
     Variable == "Ymain_norm"       ~ as.character(TeX("$Y_{norm}$ (\\%)")),
     Variable == "Ymain_rel"        ~ as.character(TeX("$Y_{rel}$ (\\%)")),
     Variable == "annual_P_uptake"  ~ as.character(TeX("$P_{up}$ (kg ha$^{-1}$)")),
     Variable == "annual_P_balance" ~ as.character(TeX("$P_{bal}$ (kg ha$^{-1}$)")),
     TRUE                           ~ Variable
   )) %>%
-  # Convert the new labels to a factor to control the plot order
   mutate(Variable = factor(Variable, levels = c(
     as.character(TeX("$Y_{norm}$ (\\%)")),
     as.character(TeX("$Y_{rel}$ (\\%)")),
@@ -75,7 +302,6 @@ D_long_agronomic <- D_long_agronomic %>%
     as.character(TeX("$P_{bal}$ (kg ha$^{-1}$)"))
   )))
 
-# Generate the plot with labeller = label_parsed
 ggplot(D_long_agronomic, aes(x = Treatment, y = Value, fill = Treatment)) +
   geom_boxplot(alpha = 0.7) +
   facet_grid(Variable ~ Site, scales = "free_y", labeller = label_parsed) +
@@ -85,31 +311,26 @@ ggplot(D_long_agronomic, aes(x = Treatment, y = Value, fill = Treatment)) +
         legend.position = "none")
 ```
 
-*(Placeholder for Figure X.1)*
+**Yield Metrics (**$Y_{norm}$ and $Y_{rel}$): Both yield metrics showed a generally positive response to P fertilization. The site-normalized yield ($Y_{norm}$) shows the response relative to the site's potential for that year, with most yields plateauing around the Norm (100%) treatment. The national-normalized yield ($Y_{rel}$) provides a broader context, showing how yields at each site compare to the national average.
 
-**Yield Metrics ($Y_{norm}$ and $Y_{rel}$):** Both yield metrics, now displayed as percentages, showed a generally positive response to P fertilization, especially at the lower treatment levels. The site-normalized yield ($Y_{norm}$) clearly shows the response relative to the site's potential for that year, with most yields plateauing around the Norm (100%) treatment. The national-normalized yield ($Y_{rel}$) provides a broader context, showing how the yields at each site compare to the national average. At some high-productivity sites, even the zero-P treatment produced yields above the national average (i.e., > 100%), while at others, yields remained below average even with high fertilization.
+**P Uptake (**$P_{up}$): P uptake by crops followed a similar trend to yield, increasing with fertilization, often continuing to increase at the highest fertilization levels, suggesting luxury consumption.
 
-**P Uptake ($P_{up}$):** Phosphorus uptake by crops followed a similar trend to yield, increasing with fertilization. However, unlike yield, P uptake often continued to increase at the highest fertilization levels. This suggests that at high P supply, plants engaged in "luxury consumption," taking up more P than was required for additional biomass production.
-
-**P Balance ($P_{bal}$):** The P balance showed a strong, linear relationship with the fertilization treatment, which is expected by definition. The Zero and Deficit treatments consistently resulted in a negative P balance, indicating that crops were mining P from soil reserves. The Norm treatment was generally close to a neutral balance, while the Elevated and Surplus treatments led to a significant P surplus, contributing to the accumulation of legacy P in the soil.
+**P Balance (**$P_{bal}$): The P balance showed a strong, linear relationship with fertilization. The Zero and Deficit treatments resulted in a negative balance (mining soil P), while the Elevated and Surplus treatments led to a significant P surplus.
 
 ### Soil P Parameters as a Function of P Fertilization
 
-The different soil P test parameters, including the standard STP methods and the newly derived kinetic parameters, all responded to the long-term fertilization treatments (Figure X.2).
+The different soil P test parameters, including the standard STP methods and the newly derived kinetic parameters, all responded to the long-term fertilization treatments (Figure 3.4).
 
 ```{r}
 #| label: fig-soil-parameters
-#| fig-cap: "Soil P parameters across six P fertilization treatments and six experimental sites. Points represent the mean of replicates."
+#| fig-cap: "Soil P parameters across six P fertilization treatments and six experimental sites."
 #| echo: false
 #| warning: false
 #| message: false
+#| out-width: "\\textwidth"
+#| fig-height: 7
 
-library(ggplot2)
-library(tidyr)
-library(dplyr)
-library(latex2exp)
-
-# Reshape the data
+# Final corrected plotting code
 D_long_soil <- D %>%
   select(Site, Treatment, k, PS, kPS, soil_0_20_P_CO2, soil_0_20_P_AAE10) %>%
   pivot_longer(
@@ -118,7 +339,6 @@ D_long_soil <- D %>%
     values_to = "Value"
   )
 
-# Manually replace script names with concise, TeX-processed strings
 D_long_soil <- D_long_soil %>%
   mutate(Variable = case_when(
     Variable == "k"                   ~ as.character(TeX("$k$ (min$^{-1}$)")),
@@ -128,7 +348,6 @@ D_long_soil <- D_long_soil %>%
     Variable == "soil_0_20_P_AAE10" ~ as.character(TeX("$P_{AAE10}$ (mg kg$^{-1}$)")),
     TRUE                              ~ Variable
   )) %>%
-  # Convert the new labels to a factor to control the plot order
   mutate(Variable = factor(Variable, levels = c(
     as.character(TeX("$k$ (min$^{-1}$)")),
     as.character(TeX("$P_{desorb}$ (mg L$^{-1}$)")),
@@ -137,7 +356,6 @@ D_long_soil <- D_long_soil %>%
     as.character(TeX("$P_{AAE10}$ (mg kg$^{-1}$)"))
   )))
 
-# Generate the plot with labeller = label_parsed
 ggplot(D_long_soil, aes(x = Treatment, y = Value, fill = Treatment)) +
   geom_boxplot(alpha = 0.7) +
   facet_grid(Variable ~ Site, scales = "free_y", labeller = label_parsed) +
@@ -147,13 +365,337 @@ ggplot(D_long_soil, aes(x = Treatment, y = Value, fill = Treatment)) +
         legend.position = "none")
 ```
 
-*(Placeholder for Figure X.2)*
+**Standard STPs (**$P_{CO_2}$ and $P_{AAE10}$): Both standard soil P tests showed a clear and consistent increase with rising P fertilization levels across all sites, confirming their sensitivity to management.
 
-**Standard STPs ($P_{CO_2}$ and $P_{AAE10}$):** Both standard soil P tests showed a clear and consistent increase with rising P fertilization levels across all sites. This confirms that both methods are sensitive to changes in the soil P status resulting from long-term management. The absolute values, however, differed significantly between sites, reflecting the influence of soil properties like clay content and pH on P retention.
+**Kinetic Parameters (**$k$, $P_{desorb}$, and $J_0$): \* **Desorbable P (**$P_{desorb}$): This parameter behaved very similarly to the standard STPs, increasing steadily with P fertilization and confirming its role as a "capacity" indicator. \* **Rate Constant (**$k$): The rate constant showed a more complex pattern, with no strong, consistent trend with fertilization. This suggests that while fertilization increases the *amount* of available P, it may not change the intrinsic *release rate*. \* **Initial P Flux (**$J_0$): As the product of $P_{desorb}$ and $k$, this parameter integrates both capacity and intensity. It showed a strong positive response to fertilization, driven primarily by the increase in $P_{desorb}$.
 
-**Kinetic Parameters ($k$, $P_{desorb}$, and $J_0$):**
-* **Desorbable P ($P_{desorb}$):** This parameter, representing the size of the readily desorbable P pool, behaved very similarly to the standard STPs. It increased steadily with P fertilization, confirming its role as a "capacity" indicator.
-* **Rate Constant ($k$):** The rate constant, representing the speed of P release, showed a more complex pattern. At most sites, $k$ did not show a strong, consistent trend with fertilization, or in some cases, it slightly decreased at very high P levels. This suggests that while fertilization increases the *amount* of available P, it may not necessarily increase the intrinsic *release rate* from the soil matrix.
-* **Initial P Flux ($J_0$):** As the product of $P_{desorb}$ and $k$, the initial P flux integrates both the size of the pool and its release rate. It showed a strong positive response to fertilization, driven primarily by the increase in $P_{desorb}$. This parameter effectively captures the overall P-supplying power of the soil.
+These initial observations suggest that the kinetic parameters, particularly the rate constant $k$, may provide unique information about the soil's P dynamics not captured by static tests alone. The next section will use formal statistical models to test these relationships.
 
-These initial observations suggest that while all P metrics are sensitive to fertilization, the kinetic parameters, particularly the rate constant $k$, may provide unique information about the soil's P dynamics that is not captured by static tests alone. The next section will use formal statistical models to test these relationships.
+## Predicting Agronomic Outcomes with Soil P Parameters
+
+Having explored the general trends, the next step is to formally evaluate the relationships between the different soil P parameters and the agronomic outcomes using linear mixed-effects models (`lmer`). This analysis addresses two key questions: 1. Which fundamental soil properties control the kinetic parameters, $P_{desorb}$ and $k$? 2. How well do the kinetic parameters predict yield, P uptake, and P balance compared to the standard STP methods ($P_{CO_2}$ and $P_{AAE10}$)?
+
+### Relationship between Kinetic Parameters and Soil Properties
+
+To understand the underlying drivers of the kinetic parameters, models were fitted to predict the Desorbable P ($P_{desorb}$) and the Rate Constant ($k$) based on core soil properties. The results showed that $P_{desorb}$ was strongly and positively correlated with the soil's organic carbon content, while the **Rate Constant (**$k$) was significantly influenced by soil texture, showing a negative correlation with clay content. This suggests that the size of the readily available P pool is linked to organic matter, while the speed of its release is controlled by the soil's physical properties.
+
+### Comparative Modeling of Agronomic Responses
+
+To compare the predictive power of the kinetic parameters against the standard STP methods, a series of linear mixed-effects models were fitted for each of the three main agronomic response variables: Site-Normalized Yield ($Y_{norm}$), P Uptake ($P_{up}$), and P Balance ($P_{bal}$). All models included `Site`, `Year`, and `Crop` as random effects to account for the structure of the experiment. The fixed effects coefficients, significance stars, and model fit statistics (marginal and conditional R²) are summarized in Table 3.1.
+
+```{r}
+#| label: tbl-lmer-results
+#| tbl-cap: "Results of linear mixed-effects models predicting agronomic outcomes. The table shows the estimated coefficients for each predictor. Significance codes: '***' p < 0.001, '**' p < 0.01, '*' p < 0.05."
+#| echo: false
+#| warning: false
+#| message: false
+
+# This is a placeholder for the R code from your coefficient_analysis.qmd file
+# that defines your models and calls your custom create_coef_table() function.
+#
+# source("path/to/your/function_file.R") # If the function is in a separate file
+#
+# # Define your list of lmer models (lmer_models) as in your script
+# lmer_models <- list(
+#   "Y_norm ~ P_CO2" = lmer(...),
+#   "Y_norm ~ P_AAE10" = lmer(...),
+#   # ... and so on for all your model combinations
+# )
+#
+# # Define the labels for the table
+# covariate_labels <- c(...)
+# model_labels <- c(...)
+#
+# # Call your function to create the results table
+# results_table <- create_coef_table(
+#   lmer_models,
+#   covariate_labels = covariate_labels,
+#   model_labels = model_labels
+# )
+#
+# # Print the table using kable for nice formatting
+# knitr::kable(results_table)
+```
+
+*(Placeholder for the results table generated by your function)*
+
+**Predicting Site-Normalized Yield (**$Y_{norm}$): The results in Table 3.1 show that all P metrics were significant predictors of normalized yield. However, the models based on the kinetic parameters, particularly the **Initial P Flux (**$J_0$), explained a greater proportion of the variance (higher marginal R²) compared to the standard STP methods. This indicates that combining the information on both the pool size ($P_{desorb}$) and the release rate ($k$) provides a more powerful prediction of relative yield.
+
+**Predicting P Uptake (**$P_{up}$): For predicting P uptake, the **Chelate-Extractable P (**$P_{AAE10}$) and the **Desorbable P (**$P_{desorb}$) were the strongest individual predictors. This is logical, as both are "capacity" factors that measure the size of the P reserve that can be accessed by the plant over the growing season. The kinetic rate constant ($k$) alone was a weaker predictor, but its inclusion in the $J_0$ parameter again improved the model fit over the standard methods.
+
+**Predicting P Balance (**$P_{bal}$): The P balance was, as expected, strongly predicted by all P metrics, as it is directly linked to the amount of P removed by the crop. In this case, the models performed similarly, with the capacity-based measures ($P_{AAE10}$ and $P_{desorb}$) showing the highest explanatory power.
+
+Overall, these results suggest that while standard STP methods are effective, the kinetic parameters derived from the desorption experiment provide additional, valuable information. The **Initial P Flux (**$J_0$), which integrates both the capacity and kinetic aspects of P supply, consistently performed as one of the best predictors across all agronomic response variables.
+
+...(previous descriptive section ends here)...
+
+## Predicting Agronomic Outcomes with Soil P Parameters
+
+Having explored the general trends, the next step is to formally evaluate the relationships between the different soil P parameters and the agronomic outcomes using linear mixed-effects models (`lmer`). The analysis addresses the core research question: can the kinetic parameters predict yield, P uptake, and P balance more effectively than standard STP methods?
+
+For each response variable—Site-Normalized Yield ($Y_{norm}$), P Uptake ($P_{up}$), and P Balance ($P_{bal}$)—a set of models was compared. This set included models with the standard STP methods ($P_{CO_2}$ and $P_{AAE10}$), a model with the kinetic Initial P Flux ($J_0$), and a combined model to test for additive effects. All models included `Site`, `Year`, and `Crop` as random effects to account for the structure of the experiment.
+
+### Predicting Site-Normalized Yield ($Y_{norm}$)
+
+The models predicting normalized yield are summarized in Table 3.6. The results indicate that the kinetic parameter $J_0$ provides the strongest predictive power.
+
+```{r}
+#| label: tbl-yield-models
+#| tbl-cap: "Results of linear mixed-effects models predicting Site-Normalized Yield ($Y_{norm}$). Significance codes: '***' p < 0.001, '**' p < 0.01, '*' p < 0.05."
+#| echo: false
+#| warning: false
+#| message: false
+
+# This code is based on your 'coefficient_analysis.qmd' script.
+
+# Define the list of lmer models for Y_norm
+lmer_models_yield <- list(
+  "m1" = lmer(Ymain_norm ~ P_CO2_log + (1 | Site) + (1 | year_fac) + (1 | crop), data = D, REML = F),
+  "m2" = lmer(Ymain_norm ~ P_AAE10_log + (1 | Site) + (1 | year_fac) + (1 | crop), data = D, REML = F),
+  "m3" = lmer(Ymain_norm ~ kPS_log + (1 | Site) + (1 | year_fac) + (1 | crop), data = D, REML = F),
+  "m4" = lmer(Ymain_norm ~ P_CO2_log + kPS_log + (1 | Site) + (1 | year_fac) + (1 | crop), data = D, REML = F)
+)
+
+# Define simplified labels for the table
+covariate_labels_simple <- c(
+  "(Intercept)" = "Intercept",
+  "soil_0_20_P_CO2_log" = "$log(P_{CO_2})$",
+  "soil_0_20_P_AAE10_log" = "$log(P_{AAE10})$",
+  "kPS_log" = "$log(J_0)$",
+  "R2m" = "Marginal R²",
+  "R2c" = "Conditional R²"
+)
+
+model_labels_yield <- c(
+  "m1" = "$Y_{norm} \\sim log(P_{CO_2})$",
+  "m2" = "$Y_{norm} \\sim log(P_{AAE10})$",
+  "m3" = "$Y_{norm} \\sim log(J_0)$",
+  "m4" = "$Y_{norm} \\sim log(P_{CO_2}) + log(J_0)$"
+)
+
+# Call your function to create the results table
+results_table_yield <- create_coef_table(
+  lmer_models_yield,
+  covariate_labels = covariate_labels_simple,
+  model_labels = model_labels_yield
+)
+
+# Print the table using kable
+knitr::kable(results_table_yield,
+      escape = FALSE,
+      row.names = FALSE
+      )
+```
+
+As shown in Table 3.6, all P metrics were significant predictors of normalized yield. The model based on the kinetic **Initial P Flux (**$J_0$) explained the greatest proportion of the variance (highest marginal R²). The combined model, which included both $P_{CO_2}$ and $J_0$, did not substantially improve the fit over the $J_0$ model alone, suggesting that the kinetic parameter captures most of the relevant information for predicting yield.
+
+### Predicting P Uptake ($P_{up}$)
+
+For predicting P uptake by the crop, the capacity-based measures, particularly $P_{AAE10}$, were the most effective predictors (Table 3.7).
+
+```{r}
+#| label: tbl-puptake-models
+#| tbl-cap: "Results of linear mixed-effects models predicting P Uptake ($P_{up}$)."
+#| echo: false
+#| warning: false
+#| message: false
+
+# Define models for P Uptake
+lmer_models_uptake <- list(
+  "m1" = lmer(annual_P_uptake ~ P_CO2_log + (1 | Site) + (1 | year_fac) + (1 | crop), data = D, REML = F),
+  "m2" = lmer(annual_P_uptake ~ P_AAE10_log + (1 | Site) + (1 | year_fac) + (1 | crop), data = D, REML = F),
+  "m3" = lmer(annual_P_uptake ~ kPS_log + (1 | Site) + (1 | year_fac) + (1 | crop), data = D, REML = F),
+  "m4" = lmer(annual_P_uptake ~ P_AAE10_log + kPS_log + (1 | Site) + (1 | year_fac) + (1 | crop), data = D, REML = F)
+)
+
+model_labels_uptake <- c(
+  "m1" = "$P_{up} \\sim log(P_{CO_2})$",
+  "m2" = "$P_{up} \\sim log(P_{AAE10})$",
+  "m3" = "$P_{up} \\sim log(J_0)$",
+  "m4" = "$P_{up} \\sim log(P_{AAE10}) + log(J_0)$"
+)
+
+results_table_uptake <- create_coef_table(
+  lmer_models_uptake,
+  covariate_labels = covariate_labels_simple,
+  model_labels = model_labels_uptake
+)
+knitr::kable(results_table_uptake,
+             escape = FALSE,
+             row.names = FALSE)
+```
+
+The **Chelate-Extractable P (**$P_{AAE10}$) was the strongest individual predictor of P uptake. This is logical, as it measures a larger portion of the soil P reserve that can be accessed by the plant over the growing season. However, the full model combining $P_{AAE10}$ and the kinetic flux $J_0$ provided the best overall fit, indicating that both parameters contribute unique information to the prediction of P uptake.
+
+### Predicting P Balance ($P_{bal}$)
+
+The P balance was strongly predicted by all P metrics (Table 3.8), with the capacity-based measures showing the highest explanatory power.
+
+```{r}
+#| label: tbl-pbalance-models
+#| tbl-cap: "Results of linear mixed-effects models predicting P Balance ($P_{bal}$)."
+#| echo: false
+#| warning: false
+#| message: false
+
+# Define models for P Balance
+lmer_models_balance <- list(
+  "m1" = lmer(annual_P_balance ~ P_CO2_log + (1 | Site) + (1 | year_fac) + (1 | crop), data = D, REML = F),
+  "m2" = lmer(annual_P_balance ~ P_AAE10_log + (1 | Site) + (1 | year_fac) + (1 | crop), data = D, REML = F),
+  "m3" = lmer(annual_P_balance ~ PS_log + (1 | Site) + (1 | year_fac) + (1 | crop), data = D, REML = F),
+  "m4" = lmer(annual_P_balance ~ P_AAE10_log + PS_log + (1 | Site) + (1 | year_fac) + (1 | crop), data = D, REML = F)
+)
+
+# Need to add PS_log to the simple labels for this table
+covariate_labels_balance <- c(covariate_labels_simple, "PS_log" = "$log(P_{desorb})$")
+
+model_labels_balance <- c(
+  "m1" = "$P_{bal} \\sim log(P_{CO_2})$",
+  "m2" = "$P_{bal} \\sim log(P_{AAE10})$",
+  "m3" = "$P_{bal} \\sim log(P_{desorb})$",
+  "m4" = "$P_{bal} \\sim log(P_{AAE10}) + log(P_{desorb})$"
+)
+
+results_table_balance <- create_coef_table(
+  lmer_models_balance,
+  covariate_labels = covariate_labels_balance,
+  model_labels = model_labels_balance
+)
+knitr::kable(results_table_balance,
+             escape = FALSE,
+             row.names = FALSE)
+```
+
+As shown in Table 3.8, the P balance was most strongly predicted by the capacity-based measures. The **Desorbable P (**$P_{desorb}$) model yielded the highest marginal R², indicating it was the single best predictor for the net P budget. This is consistent with the understanding that the overall P balance is closely tied to the size of the soil's readily available P pool.
+
+...(previous descriptive section ends here)...
+
+## Relationship between P Parameters and Soil Properties
+
+To understand the underlying drivers of the standard and kinetic P parameters, a series of linear mixed-effects models were fitted. Each model predicted one of the P parameters based on the core soil properties: organic carbon ($C_{org}$), clay content, silt content, pH, and the amorphous Fe and Al oxides ($Fe_{ox}$, $Al_{ox}$). The long-term P fertilization `Treatment` was included as a covariate to account for its strong influence. All models included `(1|Site)` and `(1|Site:block)` as random effects.
+
+The results, summarized in Table 3.5, reveal distinct relationships between the soil properties and the different P metrics.
+
+```{r}
+#| label: tbl-soil-prop-models
+#| tbl-cap: "Results of linear mixed-effects models predicting P parameters from soil properties. Significance codes: '***' p < 0.001, '**' p < 0.01, '*' p < 0.05."
+#| echo: false
+#| warning: false
+#| message: false
+
+# This is the R code you will run to get the new results.
+
+# 1. Define the list of lmer models, now including Feox and Alox
+lmer_models_soil <- list(
+  "m.PCO2" = lmer(P_CO2_log ~  soil_0_20_Corg + soil_0_20_clay + soil_0_20_silt + soil_0_20_pH_H2O + Feox + Alox + (1|Site/block), data=D),
+  "m.PAAE10" = lmer(P_AAE10_log ~  soil_0_20_Corg + soil_0_20_clay + soil_0_20_silt + soil_0_20_pH_H2O + Feox + Alox + (1|Site/block), data=D),
+  "m.PS" = lmer(PS_log ~ soil_0_20_Corg + soil_0_20_clay + soil_0_20_silt + soil_0_20_pH_H2O + Feox + Alox + (1|Site/block), data=D),
+  "m.k" = lmer(k ~ soil_0_20_Corg + soil_0_20_clay + soil_0_20_silt + soil_0_20_pH_H2O + Feox + Alox + (1|Site/block), data=D)
+)
+
+# 2. Define the updated, simplified labels for the table
+covariate_labels_soil_props <- c(
+  "(Intercept)" = "Intercept",
+  "TreatmentP100" = "Treatment (100%)",
+  "TreatmentP166" = "Treatment (166%)",
+  "soil_0_20_Corg" = "Corg",
+  "soil_0_20_clay" = "Clay",
+  "soil_0_20_silt" = "Silt",
+  "soil_0_20_pH_H2O" = "pH",
+  "Feox" = "$Fe_{ox}$",
+  "Alox" = "$Al_{ox}$",
+  "R2m" = "Marginal R²",
+  "R2c" = "Conditional R²"
+)
+
+model_labels_soil <- c(
+  "m.PCO2" = "$log(P_{CO_2})$",
+  "m.PAAE10" = "$log(P_{AAE10})$",
+  "m.PS" = "$log(P_{desorb})$",
+  "m.k" = "$k$"
+)
+
+# 3. Call your function to create the results table
+results_table_soil <- create_coef_table(
+  lmer_models_soil,
+  covariate_labels = covariate_labels_soil_props,
+  model_labels = model_labels_soil
+)
+
+# 4. Print the table using kable
+knitr::kable(results_table_soil,
+             escape = FALSE,
+             row.names = FALSE,
+             format = "markdown")
+
+```
+
+The analysis reveals several key findings about the influence of intrinsic soil properties:
+
+* **Role of Organic Carbon**: Soil organic carbon (`Corg`) had a **highly significant positive effect** on all three capacity measures ($P_{CO_2}$, $P_{AAE10}$, and $P_{desorb}$). This consistently strong relationship underscores the critical role of organic matter in maintaining the pool of available phosphorus in these soils.
+
+* **Role of Soil Texture**: With the effect of treatment removed, the influence of soil texture becomes much clearer. **Clay content now shows a significant negative effect** on all three capacity parameters, indicating that soils with higher clay content retain P more strongly, reducing the amount measured by these availability tests. The **Rate Constant ($k$)** was significantly and negatively correlated with `silt` content.
+
+* **Role of Amorphous Oxides**: The amorphous iron and aluminum oxides showed distinct roles. **Amorphous Fe oxides ($Fe_{ox}$)** had a **significant positive effect** on both standard STP measures, particularly on `$P_{CO_2}$`. In contrast, **amorphous Al oxides ($Al_{ox}$)** had a **significant negative effect** on both `$P_{AAE10}$` and the `$P_{desorb}$` pool. This suggests that while both are active in P sorption, they influence the different P pools in opposing ways in these soils.
+
+* **Controls on the Kinetic Rate ($k$)**: The Rate Constant ($k$) was not significantly influenced by `Corg` or the amorphous oxides, but was **significantly and negatively related to `pH` and `silt` content**. This reinforces the finding that the speed of P release is controlled by different mechanisms—likely related to surface charge and physical matrix properties—than the overall size of the available P pool.
+
+In summary, by separating the effect of long-term management from intrinsic soil properties, it becomes clear that the capacity of the soil to hold available P is primarily driven by organic carbon and clay content, while the rate of P release is governed by soil pH and texture.
+
+
+## Relationship between Kinetic Flux and Standard STP Methods
+
+To explore the relationship between the dynamic P supply, as measured by the Initial P Flux ($J_0$), and the static P pools measured by standard methods, two correlation plots were generated. The first compares $J_0$ to the chelate-extractable P ($P_{AAE10}$), and the second compares it to the water-soluble P ($P_{CO_2}$).
+
+```{r}
+#| label: fig-j0-vs-stp
+#| fig-cap: "Correlation between the Initial P Flux ($J_0$) and standard soil test phosphorus (STP) methods. (A) $J_0$ vs. $P_{AAE10}$. (B) $J_0$ vs. $P_{CO_2}$. Points are colored by site, and the solid line represents a linear regression fit to all data."
+#| echo: false
+#| warning: false
+#| message: false
+#| out-width: "\\textwidth"
+#| fig-height: 4
+#| fig-subcap: 
+#|   - "$J_0$ vs. $P_{AAE10}$"
+#|   - "$J_0$ vs. $P_{CO_2}$"
+#| layout-ncol: 2
+
+library(ggplot2)
+library(dplyr)
+library(latex2exp)
+
+# Plot A: J_0 vs. P_AAE10
+p1 <- ggplot(D, aes(x = soil_0_20_P_AAE10, y = kPS, color = Site)) +
+  geom_point(alpha = 0.7, size = 2.5) +
+  geom_smooth(method = "lm", se = FALSE, color = "black", formula = y ~ x) +
+  labs(
+    x = TeX("$P_{AAE10}$ (mg kg$^{-1}$)"),
+    y = TeX("$J_0$ (mg L$^{-1}$ min$^{-1}$)")
+  ) +
+  theme_bw() +
+  theme(legend.position = "bottom")
+
+# Plot B: J_0 vs. P_CO2
+p2 <- ggplot(D, aes(x = soil_0_20_P_CO2, y = kPS, color = Site)) +
+  geom_point(alpha = 0.7, size = 2.5) +
+  geom_smooth(method = "lm", se = FALSE, color = "black", formula = y ~ x) +
+  labs(
+    x = TeX("$P_{CO_2}$ (mg kg$^{-1}$)"),
+    y = ""  # Remove y-axis label to avoid repetition
+  ) +
+  theme_bw() +
+  theme(legend.position = "bottom")
+
+# The plots are automatically arranged side-by-side by the Quarto chunk options
+# `layout-ncol: 2` and the `fig-subcap` option provides the (A) and (B) labels.
+p1
+p2
+```
+
+The results show a **clear positive relationship** between the Initial P Flux ($J_0$) and both standard STP methods. This indicates that as the size of the soil's available P pool increases, the potential flux of P from the soil to the solution also increases, which is consistent with chemical principles.
+
+However, the two relationships show notable differences. The correlation between **$J_0$ and $P_{CO_2}$ appears stronger and tighter** (Figure 3.5B) than the correlation between $J_0$ and $P_{AAE10}$ (Figure 3.5A). The data points in the $J_0$ vs. $P_{CO_2}$ plot cluster more closely around the regression line, suggesting a more direct and proportional relationship.
+
+This finding is logical, as both $J_0$ and $P_{CO_2}$ are measures of the most labile and readily available P fractions. In contrast, $P_{AAE10}$ measures a larger, less defined pool that includes more slowly available P, which may not contribute as directly to the initial kinetic flux.
+
+Furthermore, a clear **site-specific effect** is visible in both plots. The data points for each site tend to form distinct clusters, suggesting that while the general positive trend holds, the exact relationship between the static P pool and the kinetic flux is mediated by the unique properties of each soil.

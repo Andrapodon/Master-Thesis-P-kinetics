@@ -146,13 +146,13 @@ wir sind abe nicht an einem Treatment effekt interesseiert. drum verwerfen wir T
 
 library(lmerTest)
 
-fit.soil.PS  <- lmer(log(PS)     ~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt  + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.soil.PS  <- lmer(log(PS)     ~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Fed + Ald  + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
 # fit.soil.PS2 <- lmer(log(PS)     ~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt  + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
-fit.soil.k   <- lmer(k           ~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt  + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
-fit.soil.kPS <- lmer(I(log(k*PS))~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt  + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
-fit.soil.kPS2<- lmer(I(k*log(PS))~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt  + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
-fit.soil.CO2 <- lmer(log(soil_0_20_P_CO2)~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt  + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
-fit.soil.AAE10<-lmer(log(soil_0_20_P_AAE10)~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt  + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.soil.k   <- lmer(k           ~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Fed + Ald + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.soil.kPS <- lmer(I(log(k*PS))~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Fed + Ald + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.soil.kPS2<- lmer(I(k*log(PS))~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Fed + Ald + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.soil.CO2 <- lmer(log(soil_0_20_P_CO2)~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Fed + Ald + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.soil.AAE10<-lmer(log(soil_0_20_P_AAE10)~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Fed + Ald + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
 
 
 
@@ -184,8 +184,6 @@ summary(fit.kin.Ynorm, ddf="Kenward-Roger")
 fit.kin.Ynorm    <- lmer(Ymain_norm       ~ k * log(PS)  + (1|year) + (1|Site)  + (1|Site:block), D, subset = Treatment == "P100")
 r.squaredGLMM(fit.kin.Ynorm)
 
-fit.kin.Ynorm    <- lmer(Ymain_norm       ~ k * log(PS)  + (1|year) + (1|Site)  + (1|Site:block), D, subset = Treatment == "P166")
-r.squaredGLMM(fit.kin.Ynorm)
 
 
 
@@ -214,7 +212,7 @@ with(D, hist(log(PS)))
 r.squaredGLMM(fit.kin.Ynorm)
 
 anova(fit.soil.PS)
-#summary(glht(fit.PS))
+summary(glht(fit.soil.PS))
 # Fazit: PS wird von treatment stark beeinfluss, k eher nicht (dafür von site)
 anova(fit.soil.k)
 summary(glht(fit.soil.k))
@@ -410,10 +408,10 @@ lmer_models_yield <- list(
   "Yn-STP-AAE10" = fit.grud.AAE10.Ynorm,
   "Yn-STP-GRUD" = fit.grud.CO2.AAE10.Ynorm,
   "Yn-Kinetic" = fit.kin.Ynorm,
-  "Yn-STP-CO2" = fit.grud.CO2.Yrel,
-  "Yn-STP-AAE10" = fit.grud.AAE10.Yrel,
-  "Yn-STP-GRUD" = fit.grud.Yrel,
-  "Yn-Kinetic" = fit.kin.Yrel
+  "Yr-STP-CO2" = fit.grud.CO2.Yrel,
+  "Yr-STP-AAE10" = fit.grud.AAE10.Yrel,
+  "Yr-STP-GRUD" = fit.grud.Yrel,
+  "Yr-Kinetic" = fit.kin.Yrel
 )
 
 lmer_models_balance <- list(
@@ -441,7 +439,49 @@ Significant codes:  0 '\\*\\*\\*' 0.001 '\\*\\*' 0.01 '\\*' 0.05")
 
 
 
+# Step 1: Prepare the data for correlation analysis
+# Create a new dataframe containing only the necessary columns and remove rows with NAs
+correlation_data <- D %>%
+  select(uid, PS, k,E_mod_10080, E_exp_10080,E_exp_1440, n_1440) %>%
+  na.omit()
 
+# --- Capacity Comparison (PS vs. E-value) ---
+
+# Step 2: Visualize the relationship
+ggplot(correlation_data, aes(x = E_mod_10080, y = PS)) +
+  geom_point(size = 3, alpha = 0.7) +
+  geom_smooth(method = "lm", se = FALSE, color = "blue") +
+  labs(
+    title = TeX("Relationship between Desorbable P and Exchangeable P"),
+    x = TeX("Isotopically Exchangeable P, $E_{10080}$ (mg kg$^{-1}$)"),
+    y = TeX("Desorbable P, $P_{desorb}$ (mg L$^{-1}$)")
+  ) +
+  theme_bw()
+
+# Step 3: Perform the formal correlation test
+# Using Spearman's rank correlation is a robust choice
+spearman_capacity <- cor.test(correlation_data$PS, correlation_data$E_exp_10080, method = "spearman")
+print("Spearman correlation between PS and E_exp_10080:")
+print(spearman_capacity)
+
+
+# --- Kinetic Comparison (k vs. n-value) ---
+
+# Step 2: Visualize the relationship
+ggplot(correlation_data, aes(x = n_1440, y = k)) +
+  geom_point(size = 3, alpha = 0.7) +
+  geom_smooth(method = "lm", se = FALSE, color = "blue") +
+  labs(
+    title = TeX("Relationship between Desorption Rate and Exchange Rate"),
+    x = TeX("IEK Kinetic Parameter, $n_{60}$"),
+    y = TeX("Desorption Rate Constant, $k$ (min$^{-1}$)")
+  ) +
+  theme_bw()
+
+# Step 3: Perform the formal correlation test
+spearman_kinetic <- cor.test(correlation_data$k, correlation_data$n_1440, method = "spearman")
+print("Spearman correlation between k and n_60:")
+print(spearman_kinetic)
 
 
 

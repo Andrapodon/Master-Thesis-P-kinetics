@@ -2,7 +2,7 @@
 title: "Model Validation and coefficient calculation"
 format: 
   html:
-  math: mathjax
+    math: mathjax
 pdf: default
 docx: default
 author: Marc Pérez
@@ -51,6 +51,77 @@ load("~/Documents/Master Thesis/Master-Thesis-P-kinetics/data/results_coefficien
 <!-- ## Warum Bodentest -->
 
 <!-- ## Warum kinetischer Bodentest -->
+
+# Results
+
+The results are presented in three main parts. First, the development and validation of the phosphorus (P) desorption kinetic model are detailed, justifying the final modeling approach. Second, the descriptive trends of both agronomic outcomes and soil P parameters in response to long-term fertilization and site differences are explored visually. Finally, the predictive power of the kinetic and standard P parameters is formally evaluated using linear mixed-effects models.
+
+## Establishment of the P-Desorption Kinetic Model
+
+The primary goal was to derive two key parameters for each soil sample: the desorbable P pool ($P_{desorb}$) and the rate constant ($k$). The analysis proceeded in two stages: an initial test of a linearized model, followed by the implementation of a more robust non-linear model.
+
+### Initial Approach: Linearized Model
+
+Following the conceptual framework of Flossmann and Richter (1982), the first-order kinetic equation was linearized to the form $ln(1 - P/P_{desorb}) = -kt$. For this approach, the asymptote ($P_{desorb}$) was not fitted but was calculated beforehand as the difference between Olsen-P and water-soluble P. A linear model was then fitted to the transformed data for each sample.
+
+```{r}
+#| label: fig-linearized-model
+#| fig-cap: "Test of the linearized first-order kinetic model. Data is faceted by Site and P fertilization Treatment. The solid line represents a linear model fit."
+#| echo: false
+#| warning: false
+#| message: false
+
+# This is a placeholder for your code from pretest.qmd
+ ggplot(d[d$Treatment!="P100"&(d$Repetition==1|d$Repetition==2),], aes(y=Y1, x=t.min., col = Repetition)) +
+   geom_point() +
+   facet_grid(Site ~ Treatment) +
+   labs(x=TeX("$Time (min)$"),
+        y=TeX("$ln(1-\\frac{P}{P_S})$")) +
+   geom_smooth(method="lm", alpha = 0.3)
+```
+
+*(Placeholder for the linearized model plot)*
+
+The results of this linearized approach were inconsistent (Figure X.1). While some samples showed a reasonable linear trend, many exhibited significant deviations, particularly a curvilinear pattern. Furthermore, the model required the intercept to be fixed at zero, but the statistical summary of the fitted models (`lmList`) showed that the estimated intercepts were often significantly different from zero (p < 0.05). For example, the sample `Cadenazzo_P166_1` had a highly significant intercept of -0.27 (p < 0.001). This systematic deviation from the model's core assumption indicated that this linearized approach, which relied on an externally estimated asymptote, was not robust for this dataset.
+
+### Final Approach: Non-Linear Model
+
+Given the limitations of the linearized method, a direct non-linear modeling approach was adopted to estimate both $P_{desorb}$ and $k$ simultaneously from the untransformed data. The model $P(t) = P_{desorb} \times (1 - e^{-k \times t'})$ was fitted to each sample's desorption curve.
+
+```{r}
+#| label: fig-nonlinear-model
+#| fig-cap: "Non-linear first-order kinetic model fits for P desorption over time. Points represent measured data and solid lines represent the fitted model for each replicate."
+#| echo: false
+#| warning: false
+#| message: false
+
+# This is a placeholder for your code from pretest.qmd
+ p1 <- ggplot() +
+   geom_point(data = d_plot, aes(y = Pv.mg.L., x = t.dt, col = Repetition)) +
+   geom_line(data = pred_data, aes(x = t.dt, y = pred_Pv, col = Repetition), size = 0.5) +
+   facet_grid(Treatment ~ Site,scales = "free_y") +
+   labs(x = TeX("$Time (min)$"),
+        y = TeX("$P_{V}(\\frac{mg}{L})$"));
+ suppressWarnings(print(p1))
+```
+
+*(Placeholder for the non-linear model plot)*
+
+This approach proved to be far more successful (Figure X.2). The non-linear model was able to accurately capture the curvilinear shape of the desorption data for nearly all samples. The successful convergence of the models for each unique sample (`uid`) provided robust, sample-specific estimates for both the desorbable P pool ($P_{desorb}$) and the rate constant ($k$). For example, for the sample `Cadenazzo_P166_1`, the model estimated a $P_{desorb}$ of 0.27 mg/L and a $k$ of 0.086 min⁻¹, both with high statistical significance (p < 0.01).
+
+To account for the hierarchical data structure and obtain the most reliable estimates, the final parameters were extracted from a non-linear mixed-effects model (`nlme`), which models the overall fixed effects for $k$ and $P_{desorb}$ while allowing for random variation among individual samples. These final `nlme`-derived coefficients were used for all subsequent analyses.
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## Research Questions:
 
@@ -142,8 +213,9 @@ fit.mitscherlich.CO2.Yrel <- nlme(
   fixed = A + k + E ~ soil_0_20_clay + soil_0_20_pH_H2O + ansum_sun + ansum_prec,
   random = A ~ 1 | year/Site/block,
   data = D,
+  subset = Treatment != "P166",
   start = c(
-    A = 220, A1 = 0, A2 = 0, A3 = 0, A4 = 0,
+    A = 1100, A1 = 0, A2 = 0, A3 = 0, A4 = 0,
     k = 0.05, k1 = 0, k2 = 0, k3 = 0, k4 = 0,
     E = -3, E1 = 0, E2 = 0, E3 = 0, E4 = 0
   ),
@@ -157,6 +229,80 @@ anova(fit.mitscherlich.CO2.Yrel)
 model_performance(fit.mitscherlich.CO2.Yrel)
 
 r.square.CO2 <- 1-sum(residuals(fit.mitscherlich.CO2.Yrel)^2)/sum((D$Ymain_rel-mean(D$Ymain_rel,na.rm=TRUE))^2,na.rm = TRUE)
+
+# Fit the model
+fit.mitscherlich.CO2.Yrel <- nlme(
+  Ymain_rel ~ A * (1 - exp(-k * kPS + E)),                
+  fixed = A + k + E ~ soil_0_20_clay + soil_0_20_pH_H2O + ansum_sun + ansum_prec,
+  random = A ~ 1 | year/Site/block,
+  data = D,
+  subset = Treatment != "P166",
+  start = c(
+    A = 600, A1 = 0, A2 = 0, A3 = 0, A4 = 0,
+    k = 3, k1 = 0, k2 = 0, k3 = 0, k4 = 0,
+    E = -3, E1 = 0, E2 = 0, E3 = 0, E4 = 0
+  ),
+  control = nlmeControl(maxIter = 1500),
+  na.action = na.omit
+)
+
+summary(fit.mitscherlich.CO2.Yrel)
+anova(fit.mitscherlich.CO2.Yrel)
+
+model_performance(fit.mitscherlich.CO2.Yrel)
+
+r.square.CO2 <- 1-sum(residuals(fit.mitscherlich.CO2.Yrel)^2)/sum((D$Ymain_rel-mean(D$Ymain_rel,na.rm=TRUE))^2,na.rm = TRUE)
+
+
+
+fit.mitscherlich.CO2.Ynorm <- nlme(
+  Ymain_norm ~ A * (1 - exp(-k * kPS + E)),                
+  fixed = A + k + E ~ soil_0_20_clay + soil_0_20_pH_H2O + ansum_sun + ansum_prec,
+  random = A ~ 1 | year/Site/block,
+  data = D,
+  subset = Treatment != "P166",
+  start = c(
+    A = 6, A1 = 0, A2 = 0, A3 = 0, A4 = 0,
+    k = 3, k1 = 0, k2 = 0, k3 = 0, k4 = 0,
+    E = -3, E1 = 0, E2 = 0, E3 = 0, E4 = 0
+  ),
+  control = nlmeControl(maxIter = 1500),
+  na.action = na.omit
+)
+
+summary(fit.mitscherlich.CO2.Yrel)
+anova(fit.mitscherlich.CO2.Yrel)
+
+model_performance(fit.mitscherlich.CO2.Yrel)
+
+r.square.CO2 <- 1-sum(residuals(fit.mitscherlich.CO2.Yrel)^2)/sum((D$Ymain_rel-mean(D$Ymain_rel,na.rm=TRUE))^2,na.rm = TRUE)
+
+# Fit the model
+fit.mitscherlich.CO2.Yrel <- nlme(
+  Ymain_norm ~ A * (1 - exp(-k * soil_0_20_P_CO2 + E)),                
+  fixed = A + k + E ~ soil_0_20_clay + soil_0_20_pH_H2O + ansum_sun + ansum_prec,
+  random = A ~ 1 | year/Site/block,
+  data = D,
+  subset = Treatment != "P166",
+  start = c(
+    A = 1100, A1 = 0, A2 = 0, A3 = 0, A4 = 0,
+    k = 0.05, k1 = 0, k2 = 0, k3 = 0, k4 = 0,
+    E = -3, E1 = 0, E2 = 0, E3 = 0, E4 = 0
+  ),
+  control = nlmeControl(maxIter = 500),
+  na.action = na.omit
+)
+
+summary(fit.mitscherlich.CO2.Yrel)
+anova(fit.mitscherlich.CO2.Yrel)
+
+model_performance(fit.mitscherlich.CO2.Yrel)
+
+r.square.CO2 <- 1-sum(residuals(fit.mitscherlich.CO2.Yrel)^2)/sum((D$Ymain_rel-mean(D$Ymain_rel,na.rm=TRUE))^2,na.rm = TRUE)
+
+
+
+
 ```
 
 With the covariate and random effect used as by Juliane Hirte we obtain  $R^2=$ `{r} r.square.CO2`, I don't know how to interpret that, I fear that the model is overfitting data.
