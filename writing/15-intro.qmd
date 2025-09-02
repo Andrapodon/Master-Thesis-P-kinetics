@@ -15,7 +15,7 @@ The importance of these dynamics is not a new concept. As early as 1982, **Floss
 
 An ideal set of parameters for P management should meet several criteria. The parameters should correlate strongly with P export and P balance in a steady-state system. They must also respond to fertilizer inputs and, most importantly, capture the diffusive, kinetic nature of P supply to plant roots.
 
-This thesis hypothesizes that **kinetic parameters describing P desorption, derived from a simple laboratory extraction, can serve as effective predictors for agronomic outcomes.** Using soils from the long-term STYCS experiment in Switzerland, this study employs a modified version of the Flossmann & Richter kinetic test to derive the desorption rate ($k$) and the desorbable P pool ($P^S$). The performance of these new kinetic parameters will be compared against standard STP methods ($P_{CO_2}$ and $P_{AAE10}$) by addressing the following research questions:
+This thesis hypothesizes that **kinetic parameters describing P desorption, derived from a simple laboratory extraction, can serve as effective predictors for agronomic outcomes.** Using soils from the long-term STYCS experiment in Switzerland, this study employs a modified version of the Flossmann & Richter kinetic test to derive the desorption rate ($k$) and the desorbable P pool ($P_{desorb}$). The performance of these new kinetic parameters will be compared against standard STP methods ($P_{CO_2}$ and $P_{AAE10}$) by addressing the following research questions:
 
 1.  Is the P desorption kinetic method replicable and effective for the soils from the STYCS trial?
 2.  How do the kinetic coefficients, $k$ and $P^S$, correlate with key soil properties (organic carbon, clay content, pH)?

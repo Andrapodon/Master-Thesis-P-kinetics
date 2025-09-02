@@ -42,7 +42,7 @@ create_coef_table <- function(lmer_models,
       stars <- if (p_values[i] < 0.001) "***" else
                if (p_values[i] < 0.01) "** " else
                if (p_values[i] < 0.05) "* " else  ""
-      paste0(stars, est_str)
+      paste0(est_str,stars)
     })
     names(formatted_coef) <- rownames(coef_matrix)
     return(formatted_coef)
@@ -452,25 +452,25 @@ The models predicting normalized yield are summarized in Table 3.6. The results 
 lmer_models_yield <- list(
   "m1" = lmer(Ymain_norm ~ P_CO2_log + (1 | Site) + (1 | year_fac) + (1 | crop), data = D, REML = F),
   "m2" = lmer(Ymain_norm ~ P_AAE10_log + (1 | Site) + (1 | year_fac) + (1 | crop), data = D, REML = F),
-  "m3" = lmer(Ymain_norm ~ kPS_log + (1 | Site) + (1 | year_fac) + (1 | crop), data = D, REML = F),
-  "m4" = lmer(Ymain_norm ~ P_CO2_log + kPS_log + (1 | Site) + (1 | year_fac) + (1 | crop), data = D, REML = F)
+  "m3" = lmer(Ymain_norm ~ k*PS_log + (1 | Site) + (1 | year_fac) + (1 | crop), data = D, REML = F),
+  "m4" = lmer(Ymain_norm ~ P_CO2_log + k*PS_log + (1 | Site) + (1 | year_fac) + (1 | crop), data = D, REML = F)
 )
 
 # Define simplified labels for the table
 covariate_labels_simple <- c(
   "(Intercept)" = "Intercept",
-  "soil_0_20_P_CO2_log" = "$log(P_{CO_2})$",
-  "soil_0_20_P_AAE10_log" = "$log(P_{AAE10})$",
+  "P_CO2_log" = "$log(P_{CO_2})$",
+  "P_AAE10_log" = "$log(P_{AAE10})$",
   "kPS_log" = "$log(J_0)$",
-  "R2m" = "Marginal R²",
-  "R2c" = "Conditional R²"
+  "R2m" = "R^2_m",
+  "R2c" = "R^2_c"
 )
 
 model_labels_yield <- c(
-  "m1" = "$Y_{norm} \\sim log(P_{CO_2})$",
-  "m2" = "$Y_{norm} \\sim log(P_{AAE10})$",
-  "m3" = "$Y_{norm} \\sim log(J_0)$",
-  "m4" = "$Y_{norm} \\sim log(P_{CO_2}) + log(J_0)$"
+  "m1" = "$Y_n \\sim P_{CO_2}$",
+  "m2" = "$Y_n \\sim P_{AAE10}$",
+  "m3" = "$Y_n \\sim k*P_{desorb}$",
+  "m4" = "$Y_n \\sim P_{CO_2} + k*P_{desorb}$"
 )
 
 # Call your function to create the results table
@@ -504,8 +504,8 @@ For predicting P uptake by the crop, the capacity-based measures, particularly $
 lmer_models_uptake <- list(
   "m1" = lmer(annual_P_uptake ~ P_CO2_log + (1 | Site) + (1 | year_fac) + (1 | crop), data = D, REML = F),
   "m2" = lmer(annual_P_uptake ~ P_AAE10_log + (1 | Site) + (1 | year_fac) + (1 | crop), data = D, REML = F),
-  "m3" = lmer(annual_P_uptake ~ kPS_log + (1 | Site) + (1 | year_fac) + (1 | crop), data = D, REML = F),
-  "m4" = lmer(annual_P_uptake ~ P_AAE10_log + kPS_log + (1 | Site) + (1 | year_fac) + (1 | crop), data = D, REML = F)
+  "m3" = lmer(annual_P_uptake ~ k*PS_log + (1 | Site) + (1 | year_fac) + (1 | crop), data = D, REML = F),
+  "m4" = lmer(annual_P_uptake ~ P_AAE10_log + k*PS_log + (1 | Site) + (1 | year_fac) + (1 | crop), data = D, REML = F)
 )
 
 model_labels_uptake <- c(
@@ -542,18 +542,18 @@ The P balance was strongly predicted by all P metrics (Table 3.8), with the capa
 lmer_models_balance <- list(
   "m1" = lmer(annual_P_balance ~ P_CO2_log + (1 | Site) + (1 | year_fac) + (1 | crop), data = D, REML = F),
   "m2" = lmer(annual_P_balance ~ P_AAE10_log + (1 | Site) + (1 | year_fac) + (1 | crop), data = D, REML = F),
-  "m3" = lmer(annual_P_balance ~ PS_log + (1 | Site) + (1 | year_fac) + (1 | crop), data = D, REML = F),
-  "m4" = lmer(annual_P_balance ~ P_AAE10_log + PS_log + (1 | Site) + (1 | year_fac) + (1 | crop), data = D, REML = F)
+  "m3" = lmer(annual_P_balance ~ k*PS_log + (1 | Site) + (1 | year_fac) + (1 | crop), data = D, REML = F),
+  "m4" = lmer(annual_P_balance ~ P_AAE10_log + k*PS_log + (1 | Site) + (1 | year_fac) + (1 | crop), data = D, REML = F)
 )
 
 # Need to add PS_log to the simple labels for this table
 covariate_labels_balance <- c(covariate_labels_simple, "PS_log" = "$log(P_{desorb})$")
 
 model_labels_balance <- c(
-  "m1" = "$P_{bal} \\sim log(P_{CO_2})$",
-  "m2" = "$P_{bal} \\sim log(P_{AAE10})$",
-  "m3" = "$P_{bal} \\sim log(P_{desorb})$",
-  "m4" = "$P_{bal} \\sim log(P_{AAE10}) + log(P_{desorb})$"
+  "m1" = "$P_{bal} \\sim P_{CO_2}$",
+  "m2" = "$P_{bal} \\sim P_{AAE10}$",
+  "m3" = "$P_{bal} \\sim P_{desorb}$",
+  "m4" = "$P_{bal} \\sim P_{AAE10} + P_{desorb}$"
 )
 
 results_table_balance <- create_coef_table(
@@ -604,14 +604,14 @@ covariate_labels_soil_props <- c(
   "soil_0_20_pH_H2O" = "pH",
   "Feox" = "$Fe_{ox}$",
   "Alox" = "$Al_{ox}$",
-  "R2m" = "Marginal R²",
-  "R2c" = "Conditional R²"
+  "R2m" = "R^2_m",
+  "R2c" = "R^2_m"
 )
 
 model_labels_soil <- c(
-  "m.PCO2" = "$log(P_{CO_2})$",
-  "m.PAAE10" = "$log(P_{AAE10})$",
-  "m.PS" = "$log(P_{desorb})$",
+  "m.PCO2" = "$P_{CO_2}$",
+  "m.PAAE10" = "$P_{AAE10}$",
+  "m.PS" = "$P_{desorb}$",
   "m.k" = "$k$"
 )
 
