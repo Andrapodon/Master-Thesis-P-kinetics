@@ -43,7 +43,7 @@
 \makeatother
 \usepackage{xcolor}
 \setlength{\emergencystretch}{3em} % prevent overfull lines
-\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\setcounter{secnumdepth}{5}
 % Make \paragraph and \subparagraph free-standing
 \makeatletter
 \ifx\paragraph\undefined\else
@@ -297,7 +297,7 @@ desorption, derived from a simple laboratory extraction, can serve as
 effective predictors for agronomic outcomes.} Using soils from the
 long-term STYCS experiment in Switzerland, this study employs a modified
 version of the Flossmann \& Richter kinetic test to derive the
-desorption rate (\(k\)) and the desorbable P pool (\(P^S\)). The
+desorption rate (\(k\)) and the desorbable P pool (\(P_{desorb}\)). The
 performance of these new kinetic parameters will be compared against
 standard STP methods (\(P_{CO_2}\) and \(P_{AAE10}\)) by addressing the
 following research questions:
@@ -997,11 +997,11 @@ results indicate that the kinetic parameter \(J_0\) provides the
 strongest predictive power.
 
 \begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1056}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2113}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2183}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1761}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2887}}@{}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1453}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1709}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1795}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2051}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2991}}@{}}
 
 \caption{\label{tbl-yield-models}Results of linear mixed-effects models
 predicting Site-Normalized Yield (\(Y_{norm}\)). Significance codes:
@@ -1014,24 +1014,26 @@ predicting Site-Normalized Yield (\(Y_{norm}\)). Significance codes:
 \begin{minipage}[b]{\linewidth}\raggedright
 Covariate
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-\(Y_{norm} \sim log(P_{CO_2})\)
+\(Y_n \sim P_{CO_2}\)
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-\(Y_{norm} \sim log(P_{AAE10})\)
+\(Y_n \sim P_{AAE10}\)
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-\(Y_{norm} \sim log(J_0)\)
+\(Y_n \sim k*P_{desorb}\)
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-\(Y_{norm} \sim log(P_{CO_2}) + log(J_0)\)
+\(Y_n \sim P_{CO_2} + k*P_{desorb}\)
 \end{minipage} \\
 \midrule\noalign{}
 \endhead
 \bottomrule\noalign{}
 \endlastfoot
-Intercept & 1.016 & 0.587 & 0.929 & 0.997 \\
-\(log(J_0)\) & & & 0.046 & ***-0.006 \\
-P\_AAE10\_log & & 0.106 & & \\
-P\_CO2\_log & 0.117 & & & 0.122 \\
-Marginal R² & 0.238 & 0.220 & 0.001 & 0.239 \\
-Conditional R² & 0.298 & 0.340 & 0.869 & 0.301 \\
+Intercept & 1.016 & 0.587 & 0.211 & 0.969 \\
+k & & & 3.677 & 0.535 \\
+k:PS\_log & & & 1.719 & 0.367 \\
+\(log(P_{AAE10})\) & & 0.106 & & \\
+\(log(P_{CO_2})\) & 0.117 & & & 0.080 \\
+PS\_log & & & -0.261*** & -0.038*** \\
+R\^{}2\_m & 0.238 & 0.220 & 0.006 & 0.264 \\
+R\^{}2\_c & 0.298 & 0.340 & 0.871 & 0.324 \\
 
 \end{longtable}
 
@@ -1055,11 +1057,11 @@ particularly \(P_{AAE10}\), were the most effective predictors (Table
 3.7).
 
 \begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1111}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2074}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2148}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1704}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2963}}@{}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1241}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2044}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2117}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1679}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2920}}@{}}
 
 \caption{\label{tbl-puptake-models}Results of linear mixed-effects
 models predicting P Uptake (\(P_{up}\)).}
@@ -1082,12 +1084,14 @@ Covariate
 \endhead
 \bottomrule\noalign{}
 \endlastfoot
-Intercept & 27.911 & 7.568 & 39.615 & 18.146 \\
-\(log(J_0)\) & & & 3.816 & 1.413 \\
-P\_AAE10\_log & & 5.094 & & 3.605 \\
-P\_CO2\_log & 5.177 & & & \\
-Marginal R² & 0.069 & 0.087 & 0.053 & 0.074 \\
-Conditional R² & 0.621 & 0.598 & 0.614 & 0.600 \\
+Intercept & 27.911 & 7.568 & 29.995 & 22.934 \\
+k & & & 22.547 & 13.465 \\
+k:PS\_log & & & 11.860 & 8.578 \\
+\(log(P_{AAE10})\) & & 5.094 & & 1.782 \\
+\(log(P_{CO_2})\) & 5.177 & & & \\
+PS\_log & & & 1.965 & 1.336 \\
+R\^{}2\_m & 0.069 & 0.087 & 0.069 & 0.069 \\
+R\^{}2\_c & 0.621 & 0.598 & 0.645 & 0.626 \\
 
 \end{longtable}
 
@@ -1110,11 +1114,11 @@ The P balance was strongly predicted by all P metrics (Table 3.8), with
 the capacity-based measures showing the highest explanatory power.
 
 \begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1154}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1859}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1923}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1987}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.3077}}@{}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1374}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1832}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1908}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1985}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2901}}@{}}
 
 \caption{\label{tbl-pbalance-models}Results of linear mixed-effects
 models predicting P Balance (\(P_{bal}\)).}
@@ -1125,24 +1129,26 @@ models predicting P Balance (\(P_{bal}\)).}
 \begin{minipage}[b]{\linewidth}\raggedright
 Covariate
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-\(P_{bal} \sim log(P_{CO_2})\)
+\(P_{bal} \sim P_{CO_2}\)
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-\(P_{bal} \sim log(P_{AAE10})\)
+\(P_{bal} \sim P_{AAE10}\)
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-\(P_{bal} \sim log(P_{desorb})\)
+\(P_{bal} \sim P_{desorb}\)
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-\(P_{bal} \sim log(P_{AAE10}) + log(P_{desorb})\)
+\(P_{bal} \sim P_{AAE10} + P_{desorb}\)
 \end{minipage} \\
 \midrule\noalign{}
 \endhead
 \bottomrule\noalign{}
 \endlastfoot
-Intercept & 22.190 & ***-78.314 & 56.013 & 38.774 \\
-P\_AAE10\_log & & 25.265 & & 3.544 \\
-P\_CO2\_log & 25.011 & & & \\
-\(log(P_{desorb})\) & & & 22.087 & 19.678 \\
-Marginal R² & 0.480 & 0.428 & 0.555 & 0.556 \\
-Conditional R² & 0.670 & 0.743 & 0.751 & 0.743 \\
+Intercept & 22.190 & -78.314*** & 43.892 & 31.749 \\
+k & & & 68.429 & 55.653 \\
+k:PS\_log & & & 27.107 & 23.015 \\
+\(log(P_{AAE10})\) & & 25.265 & & 2.954 \\
+\(log(P_{CO_2})\) & 25.011 & & & \\
+\(log(P_{desorb})\) & & & 17.187 & 15.885 \\
+R\^{}2\_m & 0.480 & 0.428 & 0.558 & 0.559 \\
+R\^{}2\_c & 0.670 & 0.743 & 0.752 & 0.744 \\
 
 \end{longtable}
 
@@ -1175,12 +1181,7 @@ random effects.
 The results, summarized in Table 3.5, reveal distinct relationships
 between the soil properties and the different P metrics.
 
-\begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1974}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2105}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2237}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2368}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1316}}@{}}
+\begin{longtable}[]{@{}lllll@{}}
 
 \caption{\label{tbl-soil-prop-models}Results of linear mixed-effects
 models predicting P parameters from soil properties. Significance codes:
@@ -1190,30 +1191,20 @@ models predicting P parameters from soil properties. Significance codes:
 \tabularnewline
 
 \toprule\noalign{}
-\begin{minipage}[b]{\linewidth}\raggedright
-Covariate
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-\(log(P_{CO_2})\)
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-\(log(P_{AAE10})\)
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-\(log(P_{desorb})\)
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-\(k\)
-\end{minipage} \\
+Covariate & \(P_{CO_2}\) & \(P_{AAE10}\) & \(P_{desorb}\) & \(k\) \\
 \midrule\noalign{}
 \endhead
 \bottomrule\noalign{}
 \endlastfoot
-Intercept & ***-6.941 & ***-10.652 & ***-11.779 & 0.608 \\
-\(Al_{ox}\) & 10.184 & 20.091 & 19.794 & ***-0.129 \\
-\(Fe_{ox}\) & ***-2.469 & ***-4.020 & ***-4.797 & * 0.001 \\
-Clay & ***-0.006 & ***-0.038 & ***-0.037 & ***-0.017 \\
+Intercept & -6.941*** & -10.652*** & -11.779*** & 0.608 \\
+\(Al_{ox}\) & 10.184 & 20.091 & 19.794 & -0.129*** \\
+\(Fe_{ox}\) & -2.469*** & -4.020*** & -4.797*** & 0.001* \\
+Clay & -0.006*** & -0.038*** & -0.037*** & -0.017*** \\
 Corg & 0.496 & 1.105 & 0.988 & 0.137 \\
-pH & 0.070 & ** 0.002 & ***-0.213 & ***-0.022 \\
-Silt & ***-0.020 & ***-0.026 & ***-0.020 & 0.004 \\
-Marginal R² & 0.355 & 0.364 & 0.395 & 0.204 \\
-Conditional R² & 0.996 & 0.999 & 0.998 & 0.963 \\
+pH & 0.070 & 0.002** & -0.213*** & -0.022*** \\
+Silt & -0.020*** & -0.026*** & -0.020*** & 0.004 \\
+R\^{}2\_m & 0.355 & 0.364 & 0.395 & 0.204 \\
+R\^{}2\_m & 0.996 & 0.999 & 0.998 & 0.963 \\
 
 \end{longtable}
 
