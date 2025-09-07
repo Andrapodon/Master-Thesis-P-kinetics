@@ -1,12 +1,12 @@
-# Materials and Methods
+# Materials and Methods {#sec-materials-and-methods}
 
-## The Long-Term Phosphorus Fertilization Experiment
+## The Long-Term Phosphorus Fertilization Experiment {#sec-the-long-term-phosphorus-fertilization-experiment}
 
-The soil samples for this thesis originate from a set of six long-term field trials in Switzerland, established by Agroscope between 1989 and 1992. The primary objective of these experiments was to validate and re-evaluate Swiss phosphorus (P) fertilization guidelines by assessing long-term crop yield responses to varying P inputs across different pedoclimatic conditions. A detailed description of the experimental design and site characteristics can be found in Hirte et al. (2021).
+The soil samples for this thesis originate from a set of six long-term field trials in Switzerland, established by Agroscope between 1989 and 1992. The primary objective of these experiments was to validate and re-evaluate Swiss phosphorus (P) fertilization guidelines by assessing long-term crop yield responses to varying P inputs across different pedoclimatic conditions. A detailed description of the experimental design and site characteristics can be found in [@hirte_yield_2021]
 
 The experiment was set up as a **completely randomized block design** with four field replications at each site. The core of the experiment consists of six fixed-plot treatments representing different P fertilization levels, which were applied annually as superphosphate before tillage and sowing. These levels were based on percentages of the officially recommended P inputs: 0% (Zero), 33% (Deficit), 67% (Reduced), 100% (Norm), 133% (Elevated), and 167% (Surplus).
 
-## Experimental Sites
+## Experimental Sites {#sec-experimental-sites}
 
 The six experimental sites are located in the main crop-growing regions of Switzerland: **Rümlang-Altwi (ALT)**, **Cadenazzo (CAD)**, **Ellighausen (ELL)**, **Grabs (GRA)**, **Oensingen (OEN)**, and **Zurich-Reckenholz (REC)**. The key soil properties are summarized below.
 
@@ -31,11 +31,11 @@ Soil samples for this thesis were collected on \[Your Sampling Date\] from the t
 
 ------------------------------------------------------------------------
 
-## Phosphorus Desorption Kinetics
+## Phosphorus Desorption Kinetics {#sec-phosphorus-desorption-kinetics}
 
 The analysis of phosphorus (P) desorption kinetics was based on the principles of sequential extraction established by Flossmann and Richter (1982). The original method is described below, followed by the specific protocol adapted for this study.
 
-### Original Method of Flossmann and Richter (1982)
+### Original Method of Flossmann and Richter (1982) {#sec-original-method-of-flossmann-and-richter-(1982}
 
 The foundational method aims to characterize the P replenishment capacity of the soil. The procedure is as follows:
 
@@ -47,7 +47,7 @@ The foundational method aims to characterize the P replenishment capacity of the
     -   **Solution D**: Subsample taken after **120 minutes**.
 3.  **Analysis**: The P concentration in Solutions B, C, and D is determined colorimetrically using the molybdenum blue method according to Murphy and Riley (1962).
 
-### Adapted Kinetic Protocol for This Study
+### Adapted Kinetic Protocol for This Study {#sec-adapted-kinetic-protocol-for-this-study}
 
 For this thesis, the original method was modified to capture the desorption process with a higher temporal resolution and using a different soil-to-solution ratio.
 
@@ -70,11 +70,11 @@ For this thesis, the original method was modified to capture the desorption proc
 
 ![Flow-chart of the adapted Kinetik-experiment after Flossmann & Richter.](/experiment-flow.png)
 
-## Statistical Analysis
+## Statistical Analysis {#sec-statistical-analysis}
 
 The statistical workflow involved two main stages: 1) estimating the P desorption kinetic parameters from the laboratory data, and 2) using these parameters to model the agronomic outcomes from the long-term field experiment.
 
-### Modeling of Desorption Kinetics
+### Modeling of Desorption Kinetics {#sec-modeling-of-desorption-kinetics}
 
 To derive the kinetic parameters, a non-linear mixed-effects model (`nlme`) was implemented. This approach was chosen to simultaneously estimate the rate constant ($k$) and the maximum desorbable P ($P_{desorb}$) directly from the time-series data for each soil sample. The model was fitted to the exact solution of the first-order rate equation:
 
@@ -82,11 +82,11 @@ $$ P(t) = P_{desorb} \times (1 - e^{-k \times t'}) $$
 
 Where $P(t)$ is the P concentration at time $t$, and $t'$ is an adjusted time ($t_\text{min} + 3$ min) to account for rapid initial P dissolution. The overall means for $P_{desorb}$ and $k$ were modeled as **fixed effects**, while sample-specific deviations for both parameters were modeled as **random effects** to capture the unique characteristics of each soil sample.
 
-### Modeling of Agronomic Responses
+### Modeling of Agronomic Responses {#sec-modeling-of-agronomic-responses}
 
 The estimated kinetic parameters were merged with the agronomic and soil chemistry dataset from the years 2017-2022. A series of linear mixed-effects models were then constructed to evaluate the predictive power of these parameters.
 
-#### Variables Used in the Models
+#### Variables Used in the Models {#sec-variables-used-in-the-models}
 
 The response and predictor variables used in the linear mixed-effects models are defined in the table below.
 
@@ -114,7 +114,7 @@ variables_df <- data.frame(
 knitr::kable(variables_df)
 ```
 
-#### Linear Mixed-Effects Model Structure
+#### Linear Mixed-Effects Model Structure {#sec-linear-mixed-effects-model-structure}
 
 Linear mixed-effects models (`lmer`) were used to test the relationships between the predictor variables and each of the three response variables. The structure of these models was designed to account for the nested nature of the long-term experiment. A general form of the model is:
 

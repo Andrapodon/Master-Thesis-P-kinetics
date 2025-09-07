@@ -95,6 +95,27 @@ Given the limitations of the linearized method, a direct non-linear modeling app
 #| warning: false
 #| message: false
 
+Res <- nlsList(Pv.mg.L. ~ PS * (1 - exp(-k * (t.dt))) | uid, d[, c("Pv.mg.L.", "uid", "t.dt")],  start=list(PS=0.1,k=0.2))
+# summary(Res)
+# d$nls_pred <- predict(Res)
+
+# Extract coefficients from the nlsList results
+nls_coefs <- coef(Res)
+nls_coefs$uid <- rownames(nls_coefs)
+
+# Merge coefficients back to the main dataset
+d_plot <- merge(d, nls_coefs, by = "uid")
+
+# Most straightforward approach - create curves manually
+time_seq <- seq(min(d$t.dt, na.rm = TRUE), max(d$t.dt, na.rm = TRUE), length.out = 100)
+
+# Create prediction data
+pred_data <- d_plot %>%
+  select(uid, Site, Treatment, Repetition, PS, k) %>%
+  distinct() %>%
+  crossing(t.dt = time_seq) %>%
+  mutate(pred_Pv = PS * (1 - exp(-k * (t.dt))))
+
 # This is a placeholder for your code from pretest.qmd
  p1 <- ggplot() +
    geom_point(data = d_plot, aes(y = Pv.mg.L., x = t.dt, col = Repetition)) +

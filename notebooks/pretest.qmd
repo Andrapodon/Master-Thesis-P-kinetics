@@ -14,10 +14,11 @@ date: 2025-05-22
 To explore, whether the proposed mechanisms and experiments to assess their dynamic, in a first step the Treatment levels $0P$ and $166P$ for all sites were analyzed. The experiments were conducted as displayed in the original paper of Flossmann & Richter with adjustments according to developments in technique and available equipment of the soil laboratory. Instead of the CAL-method, the Olsen-method was used to measure and estimate the quantity of P.
 
 ## Model of P-release after Flossman & Richter
-$$\frac{dP}{dt}=k\times(P^S-P)$$
-The constant $P^S$ denotes the amount of semi-labile P and was originally estimated as $P_\text{Olsen}-P_{H_2O}$. Subsequently the DE is solved exactly, since the soil is as $t=0$ mixed with deionized water, it was assumed that $P(0)=0$
+
+$$\frac{dP}{dt}=k\times(P^S-P)$$ The constant $P^S$ denotes the amount of semi-labile P and was originally estimated as $P_\text{Olsen}-P_{H_2O}$. Subsequently the DE is solved exactly, since the soil is as $t=0$ mixed with deionized water, it was assumed that $P(0)=0$
 
 ## Exact Solution
+
 $$P(t)=P^{\text{S}}-C\times e^{-kt}$$
 
 for $P(0)=P_0$ we receive:
@@ -29,6 +30,7 @@ If we set $P(0)=0$ we receive:
 $$P(t)=P^S\times(1-e^{-kt})q$$
 
 ## Linearization
+
 Now we linearize the DE, so that a linear model can be employed to test the relation and estimate the parameters of interest:
 
 $$P(t)=P^S-(P^S-P_0)\times e^{-kt}$$
@@ -44,7 +46,6 @@ Given $P_0=0$,
 $$log(1-\frac{P(t)}{P^S})=-kt$$
 
 ## Setup and preparation of dataset
-
 
 ```{r setup}
 #| include: false
@@ -205,15 +206,14 @@ nlme.coef <- do.call(rbind, nlme.coef)
 
 ```
 
-
 LG: hier machen wir folgendes:
 
-1. Visualisiere Daten
-2. for k*PS use sqrt-scale
-3. Erkenne, dass keine offenslichtichen verletzuungen für ein lineares modell vorhanden sind
-4. fitte ordinary linear squares model, with Treatment as the factor of interest and Site as covariate (analougous to paired t-test and equivalent to anova with Site as block factor)
-5. Perform a classical Type II anova (using the car::Anova function)
-6. Perform (post-hoc) TukeyHSD test (using multcomp package)
+1.  Visualisiere Daten
+2.  for k\*PS use sqrt-scale
+3.  Erkenne, dass keine offenslichtichen verletzuungen für ein lineares modell vorhanden sind
+4.  fitte ordinary linear squares model, with Treatment as the factor of interest and Site as covariate (analougous to paired t-test and equivalent to anova with Site as block factor)
+5.  Perform a classical Type II anova (using the car::Anova function)
+6.  Perform (post-hoc) TukeyHSD test (using multcomp package)
 
 ```{r}
 
@@ -249,10 +249,8 @@ summary(glht(fit.kPS, mcp(Treatment = "Tukey")))
 
 Results:
 
-1. for PS Treatment explains a lot, and site not so much. c.f. plot for a monotonous relationship
-2. for k, the Treatment seems to be little relevant
-
-
+1.  for PS Treatment explains a lot, and site not so much. c.f. plot for a monotonous relationship
+2.  for k, the Treatment seems to be little relevant
 
 ```{r}
 # new Data set, that gives info about Soil
@@ -263,7 +261,6 @@ if (inherits(d, "try-error")){
 allP$rep <- allP$rep %>% as.roman() %>% as.integer()
 allP$uid <- paste(allP$location,allP$treatment_ID,as.character(allP$rep),sep = "_")
 ```
-
 
 ```{r}
 # 1. merge this with nlme.coef
@@ -419,8 +416,6 @@ RES$data <- d
 saveRDS(RES, file = "./data/RES.rds")
 ```
 
-
 ```{r}
 
 ```
-
