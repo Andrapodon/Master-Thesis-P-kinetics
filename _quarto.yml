@@ -2,44 +2,37 @@ project:
   type: manuscript
   execute-dir: project
 
+# --- Top-level settings ---
+bibliography: references.bib
+csl: apa.csl
+  
 manuscript:
   article: index.qmd
   notebooks:
-    # - notebook: notebooks/cars-plot.qmd
-    #   title: CarsPlot
     - notebook: notebooks/pretest.qmd
-      title: pretest
+      title: Model Setup
     - notebook: notebooks/coefficient_analysis.qmd
-      title: coefficient_analysis
+      title: Coefficient Analysis
     - notebook: notebooks/mlr3.qmd
       title: mlr3
-    # - notebook: notebooks/presentation.qmd
-    #   title: presentation
-  # code-links:
-  #   - text: CarsPlot Code
-  #     icon: file-code
-  #     href: notebooks/cars-plot.qmd
+    - notebook: notebooks/results.qmd
+      title: Preliminary Results
   resources:
-    # - data/cars.csv
     - presentation/index.html
 
-
-# website:
-#   title: "My Project"
-#   navbar:
-#     left:
-#       - text: "Article"
-#         href: index.qmd
-#       - text: "Master Thesis Defense"
-#         href: notebooks/presentation.qmd
-#       - text: "Model Setup"
-#         href: notebooks/pretest.qmd
-#       - text: "Analysis of kinetic parameters and STP"
-#         href: notebooks/coefficient_analysis.qmd
-#       - text: "ML-approach to evaluate predictive power STP vs. kinetic parameters"
-
+# --- Format-specific settings ---
 format:
+  # HTML output settings
   html:
+    lof: true
+    lot: true
+    number-sections: true
+    code-fold: true
+    comments:
+      hypothesis: true
+    other-links:
+    - text: Presentation
+      href: presentation/index.html
     include-in-header:
       - text: |
           <style>
@@ -47,21 +40,54 @@ format:
             display: none;
           }
           </style>
-    comments:
-      hypothesis: true
-    # embed-resources: true
-    other-links:
-    - text: Presentation
-      href: presentation/index.html
-    code-fold: true
-    # math: mathjax
-  # docx: default
-  # pdf: default
 
+  # DOCX output settings
+  docx:
+    number-sections: true
+    lof: true
+    lot: true
+
+  # PDF output settings
+  pdf:
+    # --- Basic PDF setup ---
+    code-link: false
+    documentclass: article
+    papersize: a4
+    pdf-engine: lualatex # Corrected typo from lualateg
+    number-sections: true
+    # Use classic LaTeX fonts
+    mainfont: "Latin Modern Roman"
+    sansfont: "Latin Modern Sans"
+    monofont: "Latin Modern Mono"
+    
+    # --- Add Lists of Figures and Tables ---
+    lof: true
+    lot: true
+    
+    # --- Custom LaTeX integration ---
+    # 1. Load packages and define metadata for your .sty file
+    include-in-header:
+      - text: |
+          \usepackage{fancyhdr}
+          \pagestyle{fancy}
+          \fancyhf{}
+          \fancyhead[L]{\nouppercase{\leftmark}}
+          \fancyhead[R]{\thepage}
+          \renewcommand{\headrulewidth}{0.4pt}
+          \usepackage[english,mt]{ethidsc}
+          \studentA{Marc Jerónimo Pérez y Ropero}
+          \ethidA{13-938-311}
+          \emailA{marcpe@ethz.ch}
+          \supervision{Prof. Dr. Emmanuel Frossard \\ Dr. Frank Liebisch}
+          \declaration
+          \infopage
+
+    # 2. Add content at the beginning of the document body
+    include-before-body:
+      - text: |
+          \maketitle
+          \tableofcontents
+
+# --- Execution settings ---
 execute:
-  freeze: auto
-
-
-
-
-
+  freeze: true
