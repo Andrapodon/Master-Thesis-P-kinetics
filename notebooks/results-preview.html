@@ -1969,7 +1969,7 @@ Fit: lmer(formula = log(PS) ~ soil_0_20_clay + soil_0_20_pH_H2O +
 
 Linear Hypotheses:
                        Estimate Std. Error z value Pr(&gt;|z|)
-(Intercept) == 0      -4.315860   2.020856  -2.136    0.176
+(Intercept) == 0      -4.315860   2.020856  -2.136    0.175
 soil_0_20_clay == 0   -0.007323   0.030690  -0.239    1.000
 soil_0_20_pH_H2O == 0 -0.007811   0.129128  -0.060    1.000
 soil_0_20_Corg == 0    0.635283   0.302698   2.099    0.189
@@ -2014,13 +2014,13 @@ Fit: lmer(formula = k ~ soil_0_20_clay + soil_0_20_pH_H2O + soil_0_20_Corg +
 
 Linear Hypotheses:
                        Estimate Std. Error z value Pr(&gt;|z|)   
-(Intercept) == 0       0.608405   0.351212   1.732  0.37883   
-soil_0_20_clay == 0   -0.016659   0.005088  -3.274  0.00672 **
-soil_0_20_pH_H2O == 0 -0.022256   0.021526  -1.034  0.84763   
-soil_0_20_Corg == 0    0.137353   0.048014   2.861  0.02618 * 
-soil_0_20_silt == 0    0.004093   0.003818   1.072  0.82655   
+(Intercept) == 0       0.608405   0.351212   1.732  0.37859   
+soil_0_20_clay == 0   -0.016659   0.005088  -3.274  0.00677 **
+soil_0_20_pH_H2O == 0 -0.022256   0.021526  -1.034  0.84757   
+soil_0_20_Corg == 0    0.137353   0.048014   2.861  0.02573 * 
+soil_0_20_silt == 0    0.004093   0.003818   1.072  0.82603   
 Feox == 0              0.001024   0.054815   0.019  1.00000   
-Alox == 0             -0.128860   0.196235  -0.657  0.97805   
+Alox == 0             -0.128860   0.196235  -0.657  0.97802   
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
@@ -2047,6 +2047,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning in RET$pfunction("adjusted", ...): Completion with error &gt; abseps
+Warning in RET$pfunction("adjusted", ...): Completion with error &gt; abseps
 Warning in RET$pfunction("adjusted", ...): Completion with error &gt; abseps</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
@@ -2059,13 +2060,13 @@ Fit: lmer(formula = I(log(k * PS)) ~ soil_0_20_clay + soil_0_20_pH_H2O +
 
 Linear Hypotheses:
                       Estimate Std. Error z value Pr(&gt;|z|)  
-(Intercept) == 0      -5.22226    2.66516  -1.959    0.248  
-soil_0_20_clay == 0   -0.08506    0.04708  -1.807    0.330  
-soil_0_20_pH_H2O == 0 -0.06835    0.19908  -0.343    0.999  
-soil_0_20_Corg == 0    1.29049    0.47040   2.743    0.036 *
-soil_0_20_silt == 0   -0.01141    0.04296  -0.266    1.000  
-Feox == 0              0.24847    0.34319   0.724    0.965  
-Alox == 0              0.36678    1.12170   0.327    0.999  
+(Intercept) == 0      -5.22226    2.66516  -1.959   0.2476  
+soil_0_20_clay == 0   -0.08506    0.04708  -1.807   0.3310  
+soil_0_20_pH_H2O == 0 -0.06835    0.19908  -0.343   0.9993  
+soil_0_20_Corg == 0    1.29049    0.47040   2.743   0.0363 *
+soil_0_20_silt == 0   -0.01141    0.04296  -0.266   0.9998  
+Feox == 0              0.24847    0.34319   0.724   0.9652  
+Alox == 0              0.36678    1.12170   0.327   0.9995  
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
@@ -2481,9 +2482,9 @@ Fit: lm(formula = log(PS) ~ Treatment + Site, data = nlme.coef)
 
 Linear Hypotheses:
                  Estimate Std. Error t value Pr(&gt;|t|)    
-P100 - P0 == 0    0.91948    0.09447   9.733  &lt; 1e-10 ***
-P166 - P0 == 0    1.68127    0.09580  17.550  &lt; 1e-10 ***
-P166 - P100 == 0  0.76179    0.09580   7.952 1.15e-10 ***
+P100 - P0 == 0    0.91948    0.09447   9.733   &lt;1e-10 ***
+P166 - P0 == 0    1.68127    0.09580  17.550   &lt;1e-10 ***
+P166 - P100 == 0  0.76179    0.09580   7.952   &lt;1e-10 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
@@ -2612,13 +2613,13 @@ Fit: lmer(formula = k ~ soil_0_20_clay + soil_0_20_pH_H2O + soil_0_20_Corg +
 
 Linear Hypotheses:
                        Estimate Std. Error z value Pr(&gt;|z|)   
-(Intercept) == 0       0.608405   0.351212   1.732  0.37818   
-soil_0_20_clay == 0   -0.016659   0.005088  -3.274  0.00677 **
-soil_0_20_pH_H2O == 0 -0.022256   0.021526  -1.034  0.84734   
-soil_0_20_Corg == 0    0.137353   0.048014   2.861  0.02653 * 
-soil_0_20_silt == 0    0.004093   0.003818   1.072  0.82637   
-Feox == 0              0.001024   0.054815   0.019  1.00000   
-Alox == 0             -0.128860   0.196235  -0.657  0.97804   
+(Intercept) == 0       0.608405   0.351212   1.732   0.3774   
+soil_0_20_clay == 0   -0.016659   0.005088  -3.274   0.0065 **
+soil_0_20_pH_H2O == 0 -0.022256   0.021526  -1.034   0.8472   
+soil_0_20_Corg == 0    0.137353   0.048014   2.861   0.0255 * 
+soil_0_20_silt == 0    0.004093   0.003818   1.072   0.8261   
+Feox == 0              0.001024   0.054815   0.019   1.0000   
+Alox == 0             -0.128860   0.196235  -0.657   0.9780   
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
@@ -2647,8 +2648,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <pre><code>Warning in RET$pfunction("adjusted", ...): Completion with error &gt; abseps</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning in RET$pfunction("adjusted", ...): Completion with error &gt; abseps
-Warning in RET$pfunction("adjusted", ...): Completion with error &gt; abseps</code></pre>
+<pre><code>Warning in RET$pfunction("adjusted", ...): Completion with error &gt; abseps</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -2660,12 +2660,12 @@ Fit: lmer(formula = I(log(k * PS)) ~ soil_0_20_clay + soil_0_20_pH_H2O +
 
 Linear Hypotheses:
                       Estimate Std. Error z value Pr(&gt;|z|)  
-(Intercept) == 0      -5.22226    2.66516  -1.959   0.2489  
+(Intercept) == 0      -5.22226    2.66516  -1.959   0.2483  
 soil_0_20_clay == 0   -0.08506    0.04708  -1.807   0.3305  
 soil_0_20_pH_H2O == 0 -0.06835    0.19908  -0.343   0.9993  
-soil_0_20_Corg == 0    1.29049    0.47040   2.743   0.0361 *
+soil_0_20_Corg == 0    1.29049    0.47040   2.743   0.0363 *
 soil_0_20_silt == 0   -0.01141    0.04296  -0.266   0.9998  
-Feox == 0              0.24847    0.34319   0.724   0.9653  
+Feox == 0              0.24847    0.34319   0.724   0.9652  
 Alox == 0              0.36678    1.12170   0.327   0.9995  
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
