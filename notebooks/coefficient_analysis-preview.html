@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
     <meta charset="utf-8">
-    <meta name="generator" content="quarto-1.6.42">
+    <meta name="generator" content="quarto-1.7.34">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -22,8 +22,9 @@
         vertical-align: middle;
       }
       /* CSS for syntax highlighting */
+      html { -webkit-text-size-adjust: 100%; }
       pre > code.sourceCode { white-space: pre; position: relative; }
-      pre > code.sourceCode > span { line-height: 1.25; }
+      pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
       pre > code.sourceCode > span:empty { height: 1.2em; }
       .sourceCode { overflow: visible; }
       code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -34,7 +35,7 @@
       }
       @media print {
       pre > code.sourceCode { white-space: pre-wrap; }
-      pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+      pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
       }
       pre.numberSource code
         { counter-reset: source-line 0; }
@@ -149,15 +150,16 @@
     
 <script src="../site_libs/manuscript-notebook/headroom.min.js"></script>
 <script src="../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-c8ad9e5dbd60b7b70b38521ab19b7da4.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-cbf367297292b8e2858f4d7b7fd861d6.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-fcefc28376d5c884c459b8a65f2e5b99.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script src="../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
 <link href="../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
@@ -173,7 +175,7 @@
 </style>   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script> 
       </head>
 
-  <body class="quarto-notebook">
+  <body class="quarto-notebook quarto-light">
     <div id="quarto-embed-header" class="headroom fixed-top bg-primary">
       
       <a onclick="window.quartoBackToArticle(); return false;" class="btn btn-primary quarto-back-link" href=""><i class="bi bi-caret-left"></i> Back to Article</a>
@@ -747,11 +749,11 @@ Fit: lmer(formula = k ~ soil_0_20_clay + soil_0_20_pH_H2O + soil_0_20_Corg +
 
 Linear Hypotheses:
                        Estimate Std. Error z value Pr(&gt;|z|)   
-(Intercept) == 0       0.454128   0.358773   1.266  0.70480   
-soil_0_20_clay == 0   -0.016164   0.004854  -3.330  0.00542 **
-soil_0_20_pH_H2O == 0 -0.020791   0.021279  -0.977  0.87818   
-soil_0_20_Corg == 0    0.136661   0.048244   2.833  0.02876 * 
-soil_0_20_silt == 0    0.004076   0.003848   1.059  0.83553   
+(Intercept) == 0       0.454128   0.358773   1.266  0.70466   
+soil_0_20_clay == 0   -0.016164   0.004854  -3.330  0.00536 **
+soil_0_20_pH_H2O == 0 -0.020791   0.021279  -0.977  0.87780   
+soil_0_20_Corg == 0    0.136661   0.048244   2.833  0.02779 * 
+soil_0_20_silt == 0    0.004076   0.003848   1.059  0.83576   
 Fed == 0               0.005157   0.012867   0.401  0.99838   
 Ald == 0              -0.072344   0.145598  -0.497  0.99477   
 ---
@@ -789,9 +791,9 @@ Fit: lmer(formula = I(log(k * PS)) ~ soil_0_20_clay + soil_0_20_pH_H2O +
 Linear Hypotheses:
                       Estimate Std. Error z value Pr(&gt;|z|)    
 (Intercept) == 0      21.18866    3.96710   5.341   &lt;0.001 ***
-soil_0_20_clay == 0   -0.08522    0.04610  -1.849   0.3025    
+soil_0_20_clay == 0   -0.08522    0.04610  -1.849   0.3018    
 soil_0_20_pH_H2O == 0 -0.09210    0.19644  -0.469   0.9965    
-soil_0_20_Corg == 0    1.25026    0.46581   2.684   0.0423 *  
+soil_0_20_Corg == 0    1.25026    0.46581   2.684   0.0421 *  
 soil_0_20_silt == 0    0.00845    0.03953   0.214   1.0000    
 Fed == 0              -1.08433    0.14184  -7.644   &lt;0.001 ***
 Ald == 0              -8.63139    1.87796  -4.596   &lt;0.001 ***
@@ -973,7 +975,7 @@ k:log(PS) -0.843  0.944 -0.971</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb112"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a>fit.grud.Yrel     <span class="ot">&lt;-</span> <span class="fu">lmer</span>(Ymain_rel       <span class="sc">~</span> <span class="fu">log</span>(soil_0_20_P_CO2) <span class="sc">+</span> <span class="fu">log</span>(soil_0_20_P_AAE10) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>year) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site)  <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>block) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>Treatment), D)</span>
+<div class="sourceCode cell-code" id="cb112"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a>fit.grud.Yrel     <span class="ot">&lt;-</span> <span class="fu">lmer</span>(Ymain_rel       <span class="sc">~</span> <span class="fu">log</span>(soil_0_20_P_CO2) <span class="sc">*</span> <span class="fu">log</span>(soil_0_20_P_AAE10) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>year) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site)  <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>block) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>Treatment), D)</span>
 <span id="cb112-2"><a href="#cb112-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb112-3"><a href="#cb112-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb112-4"><a href="#cb112-4" aria-hidden="true" tabindex="-1"></a><span class="co"># this is hopeless, since cannot log becaus of 0's</span></span>
@@ -991,7 +993,7 @@ k:log(PS) -0.843  0.944 -0.971</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb116"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb116-1"><a href="#cb116-1" aria-hidden="true" tabindex="-1"></a>fit.grud.Pexport     <span class="ot">&lt;-</span> <span class="fu">lmer</span>(annual_P_uptake     <span class="sc">~</span> <span class="fu">log</span>(soil_0_20_P_CO2) <span class="sc">+</span> <span class="fu">log</span>(soil_0_20_P_AAE10) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>year) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site)  <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>block) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>Treatment), D)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb116"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb116-1"><a href="#cb116-1" aria-hidden="true" tabindex="-1"></a>fit.grud.Pexport     <span class="ot">&lt;-</span> <span class="fu">lmer</span>(annual_P_uptake     <span class="sc">~</span> <span class="fu">log</span>(soil_0_20_P_CO2) <span class="sc">*</span> <span class="fu">log</span>(soil_0_20_P_AAE10) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>year) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site)  <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>block) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>Treatment), D)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>boundary (singular) fit: see help('isSingular')</code></pre>
@@ -1012,7 +1014,7 @@ k:log(PS) -0.843  0.944 -0.971</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb122"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb122-1"><a href="#cb122-1" aria-hidden="true" tabindex="-1"></a>fit.grud.Pbalance     <span class="ot">&lt;-</span> <span class="fu">lmer</span>(annual_P_balance      <span class="sc">~</span> <span class="fu">log</span>(soil_0_20_P_CO2) <span class="sc">+</span> <span class="fu">log</span>(soil_0_20_P_AAE10)  <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>year) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site)  <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>block) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>Treatment), D)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb122"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb122-1"><a href="#cb122-1" aria-hidden="true" tabindex="-1"></a>fit.grud.Pbalance     <span class="ot">&lt;-</span> <span class="fu">lmer</span>(annual_P_balance      <span class="sc">~</span> <span class="fu">log</span>(soil_0_20_P_CO2) <span class="sc">*</span> <span class="fu">log</span>(soil_0_20_P_AAE10)  <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>year) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site)  <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>block) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>Treatment), D)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>boundary (singular) fit: see help('isSingular')</code></pre>
@@ -1032,9 +1034,9 @@ Fit: lm(formula = log(PS) ~ log(soil_0_20_P_CO2) + log(soil_0_20_P_AAE10),
 
 Linear Hypotheses:
                             Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept) == 0            -0.61404    0.20562  -2.986  0.00521 ** 
-log(soil_0_20_P_CO2) == 0    1.30106    0.05963  21.819  &lt; 0.001 ***
-log(soil_0_20_P_AAE10) == 0 -0.24892    0.05163  -4.821  &lt; 0.001 ***
+(Intercept) == 0            -0.61404    0.20562  -2.986  0.00501 ** 
+log(soil_0_20_P_CO2) == 0    1.30106    0.05963  21.819  &lt; 1e-04 ***
+log(soil_0_20_P_AAE10) == 0 -0.24892    0.05163  -4.821  &lt; 1e-04 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
@@ -1052,9 +1054,9 @@ Fit: lm(formula = k ~ log(soil_0_20_P_CO2) + log(soil_0_20_P_AAE10),
 
 Linear Hypotheses:
                              Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept) == 0             0.074843   0.026807   2.792     0.01 *  
-log(soil_0_20_P_CO2) == 0   -0.031362   0.007774  -4.034   &lt;0.001 ***
-log(soil_0_20_P_AAE10) == 0  0.029663   0.006731   4.407   &lt;0.001 ***
+(Intercept) == 0             0.074843   0.026807   2.792  0.00992 ** 
+log(soil_0_20_P_CO2) == 0   -0.031362   0.007774  -4.034  &lt; 0.001 ***
+log(soil_0_20_P_AAE10) == 0  0.029663   0.006731   4.407  &lt; 0.001 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
@@ -1074,7 +1076,7 @@ Linear Hypotheses:
                             Estimate Std. Error t value Pr(&gt;|t|)    
 (Intercept) == 0            -2.89619    0.20538 -14.102   &lt;0.001 ***
 log(soil_0_20_P_CO2) == 0    1.12637    0.05956  18.912   &lt;0.001 ***
-log(soil_0_20_P_AAE10) == 0 -0.10426    0.05157  -2.022    0.072 .  
+log(soil_0_20_P_AAE10) == 0 -0.10426    0.05157  -2.022   0.0718 .  
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
@@ -1086,38 +1088,45 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 <div class="cell-output cell-output-stdout">
 <pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite's method [
 lmerModLmerTest]
-Formula: Ymain_rel ~ log(soil_0_20_P_CO2) + log(soil_0_20_P_AAE10) + (1 |  
+Formula: Ymain_rel ~ log(soil_0_20_P_CO2) * log(soil_0_20_P_AAE10) + (1 |  
     year) + (1 | Site) + (1 | Site:block) + (1 | Site:Treatment)
    Data: D
 
-REML criterion at convergence: 1740.2
+REML criterion at convergence: 1735.2
 
 Scaled residuals: 
      Min       1Q   Median       3Q      Max 
--3.00124 -0.58425 -0.01625  0.57153  2.82374 
+-3.00402 -0.57958 -0.01179  0.54121  2.77443 
 
 Random effects:
  Groups         Name        Variance Std.Dev.
- Site:block     (Intercept)   2.612   1.616  
- Site:Treatment (Intercept)  15.818   3.977  
- year           (Intercept) 161.127  12.694  
- Site           (Intercept)  54.936   7.412  
- Residual                   196.854  14.030  
+ Site:block     (Intercept)   4.36    2.088  
+ Site:Treatment (Intercept)  17.59    4.194  
+ year           (Intercept) 161.25   12.698  
+ Site           (Intercept)  66.35    8.145  
+ Residual                   194.82   13.958  
 Number of obs: 212, groups:  
 Site:block, 16; Site:Treatment, 12; year, 5; Site, 4
 
 Fixed effects:
-                       Estimate Std. Error       df t value Pr(&gt;|t|)    
-(Intercept)            108.4942    17.6735  40.7465   6.139 2.81e-07 ***
-log(soil_0_20_P_CO2)     9.6918     4.2287  30.9801   2.292   0.0289 *  
-log(soil_0_20_P_AAE10)  -0.9326     4.1643  46.0411  -0.224   0.8238    
+                                            Estimate Std. Error      df t value
+(Intercept)                                  130.274     26.637  54.210   4.891
+log(soil_0_20_P_CO2)                          23.091     13.227  69.727   1.746
+log(soil_0_20_P_AAE10)                        -6.537      6.598  59.054  -0.991
+log(soil_0_20_P_CO2):log(soil_0_20_P_AAE10)   -3.110      2.990  76.182  -1.040
+                                            Pr(&gt;|t|)    
+(Intercept)                                 9.36e-06 ***
+log(soil_0_20_P_CO2)                          0.0853 .  
+log(soil_0_20_P_AAE10)                        0.3259    
+log(soil_0_20_P_CO2):log(soil_0_20_P_AAE10)   0.3016    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 Correlation of Fixed Effects:
-            (Intr) l(_0_20_P_C
-l(_0_20_P_C  0.830            
-l(_0_20_P_A -0.915 -0.858     </code></pre>
+                (Intr) lg(_0_20_P_CO2) l(_0_20_P_A
+lg(_0_20_P_CO2)  0.877                            
+l(_0_20_P_A     -0.961 -0.902                     
+l(_0_20_P_CO2): -0.732 -0.945           0.762     </code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -1126,38 +1135,45 @@ l(_0_20_P_A -0.915 -0.858     </code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite's method [
 lmerModLmerTest]
-Formula: annual_P_uptake ~ log(soil_0_20_P_CO2) + log(soil_0_20_P_AAE10) +  
+Formula: annual_P_uptake ~ log(soil_0_20_P_CO2) * log(soil_0_20_P_AAE10) +  
     (1 | year) + (1 | Site) + (1 | Site:block) + (1 | Site:Treatment)
    Data: D
 
-REML criterion at convergence: 1844.3
+REML criterion at convergence: 1841.5
 
 Scaled residuals: 
     Min      1Q  Median      3Q     Max 
--3.1941 -0.4246 -0.0380  0.3941  4.7946 
+-3.2119 -0.4370 -0.0545  0.4055  4.8125 
 
 Random effects:
- Groups         Name        Variance  Std.Dev.
- Site:block     (Intercept) 0.000e+00 0.000000
- Site:Treatment (Intercept) 1.036e-06 0.001018
- year           (Intercept) 7.372e+01 8.586275
- Site           (Intercept) 2.427e+01 4.926572
- Residual                   6.686e+01 8.177020
+ Groups         Name        Variance  Std.Dev. 
+ Site:block     (Intercept) 1.076e-08 0.0001037
+ Site:Treatment (Intercept) 6.076e-08 0.0002465
+ year           (Intercept) 7.371e+01 8.5853293
+ Site           (Intercept) 2.547e+01 5.0466063
+ Residual                   6.700e+01 8.1853038
 Number of obs: 259, groups:  
 Site:block, 16; Site:Treatment, 12; year, 6; Site, 4
 
 Fixed effects:
-                       Estimate Std. Error       df t value Pr(&gt;|t|)   
-(Intercept)             24.7259     8.5160  64.7088   2.903  0.00504 **
-log(soil_0_20_P_CO2)     4.5632     1.7896 205.5645   2.550  0.01151 * 
-log(soil_0_20_P_AAE10)   0.7243     1.8948 175.6048   0.382  0.70275   
+                                            Estimate Std. Error       df
+(Intercept)                                  30.6322    12.8437 109.2745
+log(soil_0_20_P_CO2)                          8.0686     6.0243 206.5243
+log(soil_0_20_P_AAE10)                       -0.8054     3.1256 154.0298
+log(soil_0_20_P_CO2):log(soil_0_20_P_AAE10)  -0.8135     1.3431 237.6372
+                                            t value Pr(&gt;|t|)  
+(Intercept)                                   2.385   0.0188 *
+log(soil_0_20_P_CO2)                          1.339   0.1819  
+log(soil_0_20_P_AAE10)                       -0.258   0.7970  
+log(soil_0_20_P_CO2):log(soil_0_20_P_AAE10)  -0.606   0.5453  
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 Correlation of Fixed Effects:
-            (Intr) l(_0_20_P_C
-l(_0_20_P_C  0.802            
-l(_0_20_P_A -0.859 -0.899     
+                (Intr) lg(_0_20_P_CO2) l(_0_20_P_A
+lg(_0_20_P_CO2)  0.871                            
+l(_0_20_P_A     -0.940 -0.921                     
+l(_0_20_P_CO2): -0.746 -0.955           0.794     
 optimizer (nloptwrap) convergence code: 0 (OK)
 boundary (singular) fit: see help('isSingular')</code></pre>
 </div>
@@ -1168,36 +1184,43 @@ boundary (singular) fit: see help('isSingular')</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite's method [
 lmerModLmerTest]
-Formula: annual_P_balance ~ log(soil_0_20_P_CO2) + log(soil_0_20_P_AAE10) +  
+Formula: annual_P_balance ~ log(soil_0_20_P_CO2) * log(soil_0_20_P_AAE10) +  
     (1 | year) + (1 | Site) + (1 | Site:block) + (1 | Site:Treatment)
    Data: D
 
-REML criterion at convergence: 2129.3
+REML criterion at convergence: 2125.7
 
 Scaled residuals: 
     Min      1Q  Median      3Q     Max 
--4.3544 -0.5456  0.0619  0.5653  2.8045 
+-4.3368 -0.5446  0.0639  0.5584  2.8114 
 
 Random effects:
  Groups         Name        Variance  Std.Dev. 
- Site:block     (Intercept) 0.000e+00  0.000000
- Site:Treatment (Intercept) 4.284e+02 20.698518
- year           (Intercept) 5.796e+01  7.613248
- Site           (Intercept) 1.382e-06  0.001176
- Residual                   1.145e+02 10.701982
+ Site:block     (Intercept) 0.000e+00 0.000e+00
+ Site:Treatment (Intercept) 4.332e+02 2.081e+01
+ year           (Intercept) 5.794e+01 7.612e+00
+ Site           (Intercept) 1.874e-07 4.329e-04
+ Residual                   1.149e+02 1.072e+01
 Number of obs: 274, groups:  
 Site:block, 16; Site:Treatment, 12; year, 6; Site, 4
 
 Fixed effects:
-                       Estimate Std. Error       df t value Pr(&gt;|t|)
-(Intercept)              6.5755    15.3463 150.9193   0.428    0.669
-log(soil_0_20_P_CO2)    -0.4298     4.2050 260.9577  -0.102    0.919
-log(soil_0_20_P_AAE10)  -0.5459     3.4874 264.0262  -0.157    0.876
+                                            Estimate Std. Error       df
+(Intercept)                                   3.6487    21.0770 216.6228
+log(soil_0_20_P_CO2)                         -2.4421    10.7384 264.8203
+log(soil_0_20_P_AAE10)                        0.1872     5.0343 264.0469
+log(soil_0_20_P_CO2):log(soil_0_20_P_AAE10)   0.4623     2.2911 262.7610
+                                            t value Pr(&gt;|t|)
+(Intercept)                                   0.173    0.863
+log(soil_0_20_P_CO2)                         -0.227    0.820
+log(soil_0_20_P_AAE10)                        0.037    0.970
+log(soil_0_20_P_CO2):log(soil_0_20_P_AAE10)   0.202    0.840
 
 Correlation of Fixed Effects:
-            (Intr) l(_0_20_P_C
-l(_0_20_P_C  0.754            
-l(_0_20_P_A -0.888 -0.754     
+                (Intr) lg(_0_20_P_CO2) l(_0_20_P_A
+lg(_0_20_P_CO2)  0.845                            
+l(_0_20_P_A     -0.942 -0.868                     
+l(_0_20_P_CO2): -0.684 -0.920           0.720     
 optimizer (nloptwrap) convergence code: 0 (OK)
 boundary (singular) fit: see help('isSingular')</code></pre>
 </div>
@@ -1207,23 +1230,23 @@ boundary (singular) fit: see help('isSingular')</code></pre>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>              R2m       R2c
-[1,] 0.0006758751 0.8095345</code></pre>
+[1,] 0.0008591812 0.8105528</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb138"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb138-1"><a href="#cb138-1" aria-hidden="true" tabindex="-1"></a>fit.grud.Pexport <span class="sc">|&gt;</span> <span class="fu">r.squaredGLMM</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>            R2m       R2c
-[1,] 0.06600072 0.6211875</code></pre>
+<pre><code>           R2m       R2c
+[1,] 0.0648535 0.6229641</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb140"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb140-1"><a href="#cb140-1" aria-hidden="true" tabindex="-1"></a>fit.grud.Yrel <span class="sc">|&gt;</span> <span class="fu">r.squaredGLMM</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>            R2m       R2c
-[1,] 0.07256889 0.5767479</code></pre>
+<pre><code>           R2m       R2c
+[1,] 0.0776019 0.5955972</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -1318,7 +1341,7 @@ boundary (singular) fit: see help('isSingular')</code></pre>
 <span id="cb143-83"><a href="#cb143-83" aria-hidden="true" tabindex="-1"></a>  <span class="co"># --- Ende der neuen Sektion ---</span></span>
 <span id="cb143-84"><a href="#cb143-84" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb143-85"><a href="#cb143-85" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Convert to data frame for kable</span></span>
-<span id="cb143-86"><a href="#cb143-86" aria-hidden="true" tabindex="-1"></a>  results_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Covariate =</span> <span class="fu">rownames</span>(results_matrix),</span>
+<span id="cb143-86"><a href="#cb143-86" aria-hidden="true" tabindex="-1"></a>  results_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="st">"Response"</span> <span class="ot">=</span> <span class="fu">rownames</span>(results_matrix),</span>
 <span id="cb143-87"><a href="#cb143-87" aria-hidden="true" tabindex="-1"></a>                           results_matrix,</span>
 <span id="cb143-88"><a href="#cb143-88" aria-hidden="true" tabindex="-1"></a>                           <span class="at">check.names =</span> <span class="cn">FALSE</span>, <span class="co"># Verhindert, dass R Spaltennamen ändert</span></span>
 <span id="cb143-89"><a href="#cb143-89" aria-hidden="true" tabindex="-1"></a>                           <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>)</span>
@@ -1334,40 +1357,37 @@ boundary (singular) fit: see help('isSingular')</code></pre>
 <span id="cb144-2"><a href="#cb144-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">PS =</span> fit.soil.PS,</span>
 <span id="cb144-3"><a href="#cb144-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">k =</span> fit.soil.k,</span>
 <span id="cb144-4"><a href="#cb144-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">'log(k*PS)'</span> <span class="ot">=</span> fit.soil.kPS,</span>
-<span id="cb144-5"><a href="#cb144-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">'k*log(PS)'</span> <span class="ot">=</span> fit.soil.kPS2,</span>
-<span id="cb144-6"><a href="#cb144-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">CO2 =</span> fit.soil.CO2,</span>
-<span id="cb144-7"><a href="#cb144-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">AAE10 =</span> fit.soil.AAE10</span>
-<span id="cb144-8"><a href="#cb144-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb144-5"><a href="#cb144-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">CO2 =</span> fit.soil.CO2,</span>
+<span id="cb144-6"><a href="#cb144-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">AAE10 =</span> fit.soil.AAE10</span>
+<span id="cb144-7"><a href="#cb144-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb144-8"><a href="#cb144-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb144-9"><a href="#cb144-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb144-10"><a href="#cb144-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb144-11"><a href="#cb144-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb144-12"><a href="#cb144-12" aria-hidden="true" tabindex="-1"></a>coef_table_soil <span class="ot">&lt;-</span> <span class="fu">create_coef_table</span>(lmer_models)</span>
-<span id="cb144-13"><a href="#cb144-13" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(coef_table_soil,</span>
-<span id="cb144-14"><a href="#cb144-14" aria-hidden="true" tabindex="-1"></a><span class="at">row.names =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb144-15"><a href="#cb144-15" aria-hidden="true" tabindex="-1"></a><span class="at">align =</span> <span class="fu">c</span>(<span class="st">"l"</span>, <span class="fu">rep</span>(<span class="st">"r"</span>, <span class="fu">ncol</span>(coef_table_soil) <span class="sc">-</span> <span class="dv">1</span>)),</span>
-<span id="cb144-16"><a href="#cb144-16" aria-hidden="true" tabindex="-1"></a><span class="at">escape =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb144-17"><a href="#cb144-17" aria-hidden="true" tabindex="-1"></a><span class="at">caption =</span> <span class="st">"Coefficient Table for Soil covariates. </span></span>
-<span id="cb144-18"><a href="#cb144-18" aria-hidden="true" tabindex="-1"></a><span class="st">Significant codes:  0 '</span><span class="sc">\\</span><span class="st">*</span><span class="sc">\\</span><span class="st">*</span><span class="sc">\\</span><span class="st">*' 0.001 '</span><span class="sc">\\</span><span class="st">*</span><span class="sc">\\</span><span class="st">*' 0.01 '</span><span class="sc">\\</span><span class="st">*' 0.05"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb144-11"><a href="#cb144-11" aria-hidden="true" tabindex="-1"></a>coef_table_soil <span class="ot">&lt;-</span> <span class="fu">create_coef_table</span>(lmer_models)</span>
+<span id="cb144-12"><a href="#cb144-12" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(coef_table_soil,</span>
+<span id="cb144-13"><a href="#cb144-13" aria-hidden="true" tabindex="-1"></a><span class="at">row.names =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb144-14"><a href="#cb144-14" aria-hidden="true" tabindex="-1"></a><span class="at">align =</span> <span class="fu">c</span>(<span class="st">"l"</span>, <span class="fu">rep</span>(<span class="st">"r"</span>, <span class="fu">ncol</span>(coef_table_soil) <span class="sc">-</span> <span class="dv">1</span>)),</span>
+<span id="cb144-15"><a href="#cb144-15" aria-hidden="true" tabindex="-1"></a><span class="at">escape =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb144-16"><a href="#cb144-16" aria-hidden="true" tabindex="-1"></a><span class="at">caption =</span> <span class="st">"Coefficient Table for Soil covariates. </span></span>
+<span id="cb144-17"><a href="#cb144-17" aria-hidden="true" tabindex="-1"></a><span class="st">Significant codes:  0 '</span><span class="sc">\\</span><span class="st">*</span><span class="sc">\\</span><span class="st">*</span><span class="sc">\\</span><span class="st">*' 0.001 '</span><span class="sc">\\</span><span class="st">*</span><span class="sc">\\</span><span class="st">*' 0.01 '</span><span class="sc">\\</span><span class="st">*' 0.05"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <caption>Coefficient Table for Soil covariates. Significant codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05</caption>
 <colgroup>
-<col style="width: 22%">
-<col style="width: 12%">
-<col style="width: 12%">
-<col style="width: 12%">
-<col style="width: 12%">
-<col style="width: 12%">
-<col style="width: 12%">
+<col style="width: 25%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
 </colgroup>
 <thead>
 <tr class="header">
-<th style="text-align: left;">Covariate</th>
+<th style="text-align: left;">Response</th>
 <th style="text-align: right;">PS</th>
 <th style="text-align: right;">k</th>
 <th style="text-align: right;">log(k*PS)</th>
-<th style="text-align: right;">k*log(PS)</th>
 <th style="text-align: right;">CO2</th>
 <th style="text-align: right;">AAE10</th>
 </tr>
@@ -1378,7 +1398,6 @@ boundary (singular) fit: see help('isSingular')</code></pre>
 <td style="text-align: right;">***21.444</td>
 <td style="text-align: right;">0.454</td>
 <td style="text-align: right;">***21.189</td>
-<td style="text-align: right;">1.673</td>
 <td style="text-align: right;">** 14.014</td>
 <td style="text-align: right;">** 23.126</td>
 </tr>
@@ -1387,7 +1406,6 @@ boundary (singular) fit: see help('isSingular')</code></pre>
 <td style="text-align: right;">***-8.706</td>
 <td style="text-align: right;">-0.072</td>
 <td style="text-align: right;">* -8.631</td>
-<td style="text-align: right;">-1.136</td>
 <td style="text-align: right;">-4.417</td>
 <td style="text-align: right;">* -9.473</td>
 </tr>
@@ -1396,7 +1414,6 @@ boundary (singular) fit: see help('isSingular')</code></pre>
 <td style="text-align: right;">***-1.068</td>
 <td style="text-align: right;">0.005</td>
 <td style="text-align: right;">-1.084</td>
-<td style="text-align: right;">* -0.200</td>
 <td style="text-align: right;">* -0.845</td>
 <td style="text-align: right;">-0.606</td>
 </tr>
@@ -1405,7 +1422,6 @@ boundary (singular) fit: see help('isSingular')</code></pre>
 <td style="text-align: right;">-0.006</td>
 <td style="text-align: right;">** -0.016</td>
 <td style="text-align: right;">-0.085</td>
-<td style="text-align: right;">* 0.054</td>
 <td style="text-align: right;">0.015</td>
 <td style="text-align: right;">-0.029</td>
 </tr>
@@ -1414,7 +1430,6 @@ boundary (singular) fit: see help('isSingular')</code></pre>
 <td style="text-align: right;">* 0.612</td>
 <td style="text-align: right;">** 0.137</td>
 <td style="text-align: right;">* 1.250</td>
-<td style="text-align: right;">* -0.342</td>
 <td style="text-align: right;">0.269</td>
 <td style="text-align: right;">***1.454</td>
 </tr>
@@ -1423,7 +1438,6 @@ boundary (singular) fit: see help('isSingular')</code></pre>
 <td style="text-align: right;">-0.018</td>
 <td style="text-align: right;">-0.021</td>
 <td style="text-align: right;">-0.092</td>
-<td style="text-align: right;">0.063</td>
 <td style="text-align: right;">0.124</td>
 <td style="text-align: right;">0.012</td>
 </tr>
@@ -1432,7 +1446,6 @@ boundary (singular) fit: see help('isSingular')</code></pre>
 <td style="text-align: right;">-0.000</td>
 <td style="text-align: right;">0.004</td>
 <td style="text-align: right;">0.008</td>
-<td style="text-align: right;">0.011</td>
 <td style="text-align: right;">-0.015</td>
 <td style="text-align: right;">* -0.049</td>
 </tr>
@@ -1441,7 +1454,6 @@ boundary (singular) fit: see help('isSingular')</code></pre>
 <td style="text-align: right;">0.393</td>
 <td style="text-align: right;">0.212</td>
 <td style="text-align: right;">0.368</td>
-<td style="text-align: right;">0.652</td>
 <td style="text-align: right;">0.362</td>
 <td style="text-align: right;">0.494</td>
 </tr>
@@ -1450,7 +1462,6 @@ boundary (singular) fit: see help('isSingular')</code></pre>
 <td style="text-align: right;">0.996</td>
 <td style="text-align: right;">0.915</td>
 <td style="text-align: right;">0.993</td>
-<td style="text-align: right;">0.819</td>
 <td style="text-align: right;">0.995</td>
 <td style="text-align: right;">0.997</td>
 </tr>
@@ -1459,7 +1470,7 @@ boundary (singular) fit: see help('isSingular')</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb145"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb145-1"><a href="#cb145-1" aria-hidden="true" tabindex="-1"></a>lmer_models_yield <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<div class="sourceCode cell-code" id="cb145"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb145-1"><a href="#cb145-1" aria-hidden="true" tabindex="-1"></a>lmer_models_yield_norm <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
 <span id="cb145-2"><a href="#cb145-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Yn-STP-CO2"</span> <span class="ot">=</span> fit.grud.CO2.Ynorm,</span>
 <span id="cb145-3"><a href="#cb145-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Yn-STP-AAE10"</span> <span class="ot">=</span> fit.grud.AAE10.Ynorm,</span>
 <span id="cb145-4"><a href="#cb145-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Yn-STP-GRUD"</span> <span class="ot">=</span> fit.grud.CO2.AAE10.Ynorm,</span>
@@ -1485,7 +1496,7 @@ boundary (singular) fit: see help('isSingular')</code></pre>
 <span id="cb145-24"><a href="#cb145-24" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb145-25"><a href="#cb145-25" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb145-26"><a href="#cb145-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb145-27"><a href="#cb145-27" aria-hidden="true" tabindex="-1"></a>coef_table_yield <span class="ot">&lt;-</span> <span class="fu">create_coef_table</span>(lmer_models_yield)</span>
+<span id="cb145-27"><a href="#cb145-27" aria-hidden="true" tabindex="-1"></a>coef_table_yield <span class="ot">&lt;-</span> <span class="fu">create_coef_table</span>(lmer_models_yield_norm)</span>
 <span id="cb145-28"><a href="#cb145-28" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(coef_table_yield,</span>
 <span id="cb145-29"><a href="#cb145-29" aria-hidden="true" tabindex="-1"></a><span class="at">row.names =</span> <span class="cn">FALSE</span>,</span>
 <span id="cb145-30"><a href="#cb145-30" aria-hidden="true" tabindex="-1"></a><span class="at">escape =</span> <span class="cn">FALSE</span>,</span>
@@ -1509,7 +1520,7 @@ boundary (singular) fit: see help('isSingular')</code></pre>
 </colgroup>
 <thead>
 <tr class="header">
-<th style="text-align: left;">Covariate</th>
+<th style="text-align: left;">Response</th>
 <th style="text-align: right;">Yn-STP-CO2</th>
 <th style="text-align: right;">Yn-STP-AAE10</th>
 <th style="text-align: right;">Yn-STP-GRUD</th>
@@ -1529,7 +1540,7 @@ boundary (singular) fit: see help('isSingular')</code></pre>
 <td style="text-align: right;">0.980</td>
 <td style="text-align: right;">***104.862</td>
 <td style="text-align: right;">***75.343</td>
-<td style="text-align: right;">***108.494</td>
+<td style="text-align: right;">***130.274</td>
 <td style="text-align: right;">56.375</td>
 </tr>
 <tr class="even">
@@ -1573,7 +1584,7 @@ boundary (singular) fit: see help('isSingular')</code></pre>
 <td style="text-align: right;"></td>
 <td style="text-align: right;"></td>
 <td style="text-align: right;">** 7.111</td>
-<td style="text-align: right;">-0.933</td>
+<td style="text-align: right;">-6.537</td>
 <td style="text-align: right;"></td>
 </tr>
 <tr class="even">
@@ -1584,7 +1595,7 @@ boundary (singular) fit: see help('isSingular')</code></pre>
 <td style="text-align: right;"></td>
 <td style="text-align: right;">** 8.853</td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">* 9.692</td>
+<td style="text-align: right;">23.091</td>
 <td style="text-align: right;"></td>
 </tr>
 <tr class="odd">
@@ -1595,7 +1606,7 @@ boundary (singular) fit: see help('isSingular')</code></pre>
 <td style="text-align: right;"></td>
 <td style="text-align: right;"></td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
+<td style="text-align: right;">-3.110</td>
 <td style="text-align: right;"></td>
 </tr>
 <tr class="even">
@@ -1606,7 +1617,7 @@ boundary (singular) fit: see help('isSingular')</code></pre>
 <td style="text-align: right;">0.014</td>
 <td style="text-align: right;">0.074</td>
 <td style="text-align: right;">0.063</td>
-<td style="text-align: right;">0.073</td>
+<td style="text-align: right;">0.078</td>
 <td style="text-align: right;">0.022</td>
 </tr>
 <tr class="odd">
@@ -1617,7 +1628,7 @@ boundary (singular) fit: see help('isSingular')</code></pre>
 <td style="text-align: right;">0.360</td>
 <td style="text-align: right;">0.569</td>
 <td style="text-align: right;">0.537</td>
-<td style="text-align: right;">0.577</td>
+<td style="text-align: right;">0.596</td>
 <td style="text-align: right;">0.439</td>
 </tr>
 </tbody>
@@ -1736,236 +1747,242 @@ sample estimates:
 
      </main>
 <!-- /main column -->  <script id="quarto-html-after-body" type="application/javascript">
-window.document.addEventListener("DOMContentLoaded", function (event) {
-  const toggleBodyColorMode = (bsSheetEl) => {
-    const mode = bsSheetEl.getAttribute("data-mode");
-    const bodyEl = window.document.querySelector("body");
-    if (mode === "dark") {
-      bodyEl.classList.add("quarto-dark");
-      bodyEl.classList.remove("quarto-light");
-    } else {
-      bodyEl.classList.add("quarto-light");
-      bodyEl.classList.remove("quarto-dark");
-    }
-  }
-  const toggleBodyColorPrimary = () => {
-    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
-    if (bsSheetEl) {
-      toggleBodyColorMode(bsSheetEl);
-    }
-  }
-  toggleBodyColorPrimary();  
-  const icon = "";
-  const anchorJS = new window.AnchorJS();
-  anchorJS.options = {
-    placement: 'right',
-    icon: icon
-  };
-  anchorJS.add('.anchored');
-  const isCodeAnnotation = (el) => {
-    for (const clz of el.classList) {
-      if (clz.startsWith('code-annotation-')) {                     
-        return true;
-      }
-    }
-    return false;
-  }
-  const onCopySuccess = function(e) {
-    // button target
-    const button = e.trigger;
-    // don't keep focus
-    button.blur();
-    // flash "checked"
-    button.classList.add('code-copy-button-checked');
-    var currentTitle = button.getAttribute("title");
-    button.setAttribute("title", "Copied!");
-    let tooltip;
-    if (window.bootstrap) {
-      button.setAttribute("data-bs-toggle", "tooltip");
-      button.setAttribute("data-bs-placement", "left");
-      button.setAttribute("data-bs-title", "Copied!");
-      tooltip = new bootstrap.Tooltip(button, 
-        { trigger: "manual", 
-          customClass: "code-copy-button-tooltip",
-          offset: [0, -8]});
-      tooltip.show();    
-    }
-    setTimeout(function() {
-      if (tooltip) {
-        tooltip.hide();
-        button.removeAttribute("data-bs-title");
-        button.removeAttribute("data-bs-toggle");
-        button.removeAttribute("data-bs-placement");
-      }
-      button.setAttribute("title", currentTitle);
-      button.classList.remove('code-copy-button-checked');
-    }, 1000);
-    // clear code selection
-    e.clearSelection();
-  }
-  const getTextToCopy = function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-    text: getTextToCopy
-  });
-  clipboard.on('success', onCopySuccess);
-  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-      text: getTextToCopy,
-      container: window.document.getElementById('quarto-embedded-source-code-modal')
-    });
-    clipboardModal.on('success', onCopySuccess);
-  }
-    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-    var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp('/' + window.location.host + '/');
-    var isInternal = (href) => {
-        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
-    }
-    // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
-    for (var i=0; i<links.length; i++) {
-      const link = links[i];
-      if (!isInternal(link.href)) {
-        // undo the damage that might have been done by quarto-nav.js in the case of
-        // links that we want to consider external
-        if (link.dataset.originalHref !== undefined) {
-          link.href = link.dataset.originalHref;
-        }
-      }
-    }
-  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
-    const config = {
-      allowHTML: true,
-      maxWidth: 500,
-      delay: 100,
-      arrow: false,
-      appendTo: function(el) {
-          return el.parentElement;
-      },
-      interactive: true,
-      interactiveBorder: 10,
-      theme: 'quarto',
-      placement: 'bottom-start',
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
     };
-    if (contentFn) {
-      config.content = contentFn;
-    }
-    if (onTriggerFn) {
-      config.onTrigger = onTriggerFn;
-    }
-    if (onUntriggerFn) {
-      config.onUntrigger = onUntriggerFn;
-    }
-    window.tippy(el, config); 
-  }
-  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
-  for (var i=0; i<noterefs.length; i++) {
-    const ref = noterefs[i];
-    tippyHover(ref, function() {
-      // use id or data attribute instead here
-      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
-      try { href = new URL(href).hash; } catch {}
-      const id = href.replace(/^#\/?/, "");
-      const note = window.document.getElementById(id);
-      if (note) {
-        return note.innerHTML;
-      } else {
-        return "";
-      }
-    });
-  }
-  const xrefs = window.document.querySelectorAll('a.quarto-xref');
-  const processXRef = (id, note) => {
-    // Strip column container classes
-    const stripColumnClz = (el) => {
-      el.classList.remove("page-full", "page-columns");
-      if (el.children) {
-        for (const child of el.children) {
-          stripColumnClz(child);
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
         }
       }
+      return false;
     }
-    stripColumnClz(note)
-    if (id === null || id.startsWith('sec-')) {
-      // Special case sections, only their first couple elements
-      const container = document.createElement("div");
-      if (note.children && note.children.length > 2) {
-        container.appendChild(note.children[0].cloneNode(true));
-        for (let i = 1; i < note.children.length; i++) {
-          const child = note.children[i];
-          if (child.tagName === "P" && child.innerText === "") {
-            continue;
-          } else {
-            container.appendChild(child.cloneNode(true));
-            break;
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
           }
         }
-        if (window.Quarto?.typesetMath) {
-          window.Quarto.typesetMath(container);
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
         }
-        return container.innerHTML
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
       } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
         if (window.Quarto?.typesetMath) {
           window.Quarto.typesetMath(note);
         }
-        return note.innerHTML;
-      }
-    } else {
-      // Remove any anchor links if they are present
-      const anchorLink = note.querySelector('a.anchorjs-link');
-      if (anchorLink) {
-        anchorLink.remove();
-      }
-      if (window.Quarto?.typesetMath) {
-        window.Quarto.typesetMath(note);
-      }
-      if (note.classList.contains("callout")) {
-        return note.outerHTML;
-      } else {
-        return note.innerHTML;
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
       }
     }
-  }
-  for (var i=0; i<xrefs.length; i++) {
-    const xref = xrefs[i];
-    tippyHover(xref, undefined, function(instance) {
-      instance.disable();
-      let url = xref.getAttribute('href');
-      let hash = undefined; 
-      if (url.startsWith('#')) {
-        hash = url;
-      } else {
-        try { hash = new URL(url).hash; } catch {}
-      }
-      if (hash) {
-        const id = hash.replace(/^#\/?/, "");
-        const note = window.document.getElementById(id);
-        if (note !== null) {
-          try {
-            const html = processXRef(id, note.cloneNode(true));
-            instance.setContent(html);
-          } finally {
-            instance.enable();
-            instance.show();
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
           }
         } else {
-          // See if we can fetch this
-          fetch(url.split('#')[0])
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
           .then(res => res.text())
           .then(html => {
             const parser = new DOMParser();
             const htmlDoc = parser.parseFromString(html, "text/html");
-            const note = htmlDoc.getElementById(id);
+            const note = htmlDoc.querySelector('main.content');
             if (note !== null) {
-              const html = processXRef(id, note);
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
               instance.setContent(html);
             } 
           }).finally(() => {
@@ -1973,185 +1990,161 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             instance.show();
           });
         }
-      } else {
-        // See if we can fetch a full url (with no hash to target)
-        // This is a special case and we should probably do some content thinning / targeting
-        fetch(url)
-        .then(res => res.text())
-        .then(html => {
-          const parser = new DOMParser();
-          const htmlDoc = parser.parseFromString(html, "text/html");
-          const note = htmlDoc.querySelector('main.content');
-          if (note !== null) {
-            // This should only happen for chapter cross references
-            // (since there is no id in the URL)
-            // remove the first header
-            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
-              note.children[0].remove();
-            }
-            const html = processXRef(null, note);
-            instance.setContent(html);
-          } 
-        }).finally(() => {
-          instance.enable();
-          instance.show();
-        });
-      }
-    }, function(instance) {
-    });
-  }
-      let selectedAnnoteEl;
-      const selectorForAnnotation = ( cell, annotation) => {
-        let cellAttr = 'data-code-cell="' + cell + '"';
-        let lineAttr = 'data-code-annotation="' +  annotation + '"';
-        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
-        return selector;
-      }
-      const selectCodeLines = (annoteEl) => {
-        const doc = window.document;
-        const targetCell = annoteEl.getAttribute("data-target-cell");
-        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
-        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
-        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
-        const lineIds = lines.map((line) => {
-          return targetCell + "-" + line;
-        })
-        let top = null;
-        let height = null;
-        let parent = null;
-        if (lineIds.length > 0) {
-            //compute the position of the single el (top and bottom and make a div)
-            const el = window.document.getElementById(lineIds[0]);
-            top = el.offsetTop;
-            height = el.offsetHeight;
-            parent = el.parentElement.parentElement;
-          if (lineIds.length > 1) {
-            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
-            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
-            height = bottom - top;
-          }
-          if (top !== null && height !== null && parent !== null) {
-            // cook up a div (if necessary) and position it 
-            let div = window.document.getElementById("code-annotation-line-highlight");
-            if (div === null) {
-              div = window.document.createElement("div");
-              div.setAttribute("id", "code-annotation-line-highlight");
-              div.style.position = 'absolute';
-              parent.appendChild(div);
-            }
-            div.style.top = top - 2 + "px";
-            div.style.height = height + 4 + "px";
-            div.style.left = 0;
-            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
-            if (gutterDiv === null) {
-              gutterDiv = window.document.createElement("div");
-              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
-              gutterDiv.style.position = 'absolute';
-              const codeCell = window.document.getElementById(targetCell);
-              const gutter = codeCell.querySelector('.code-annotation-gutter');
-              gutter.appendChild(gutterDiv);
-            }
-            gutterDiv.style.top = top - 2 + "px";
-            gutterDiv.style.height = height + 4 + "px";
-          }
-          selectedAnnoteEl = annoteEl;
-        }
-      };
-      const unselectCodeLines = () => {
-        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
-        elementsIds.forEach((elId) => {
-          const div = window.document.getElementById(elId);
-          if (div) {
-            div.remove();
-          }
-        });
-        selectedAnnoteEl = undefined;
-      };
-        // Handle positioning of the toggle
-    window.addEventListener(
-      "resize",
-      throttle(() => {
-        elRect = undefined;
-        if (selectedAnnoteEl) {
-          selectCodeLines(selectedAnnoteEl);
-        }
-      }, 10)
-    );
-    function throttle(fn, ms) {
-    let throttle = false;
-    let timer;
-      return (...args) => {
-        if(!throttle) { // first call gets through
-            fn.apply(this, args);
-            throttle = true;
-        } else { // all the others get throttled
-            if(timer) clearTimeout(timer); // cancel #2
-            timer = setTimeout(() => {
-              fn.apply(this, args);
-              timer = throttle = false;
-            }, ms);
-        }
-      };
-    }
-      // Attach click handler to the DT
-      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
-      for (const annoteDlNode of annoteDls) {
-        annoteDlNode.addEventListener('click', (event) => {
-          const clickedEl = event.target;
-          if (clickedEl !== selectedAnnoteEl) {
-            unselectCodeLines();
-            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
-            if (activeEl) {
-              activeEl.classList.remove('code-annotation-active');
-            }
-            selectCodeLines(clickedEl);
-            clickedEl.classList.add('code-annotation-active');
-          } else {
-            // Unselect the line
-            unselectCodeLines();
-            clickedEl.classList.remove('code-annotation-active');
-          }
-        });
-      }
-  const findCites = (el) => {
-    const parentEl = el.parentElement;
-    if (parentEl) {
-      const cites = parentEl.dataset.cites;
-      if (cites) {
-        return {
-          el,
-          cites: cites.split(' ')
-        };
-      } else {
-        return findCites(el.parentElement)
-      }
-    } else {
-      return undefined;
-    }
-  };
-  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
-  for (var i=0; i<bibliorefs.length; i++) {
-    const ref = bibliorefs[i];
-    const citeInfo = findCites(ref);
-    if (citeInfo) {
-      tippyHover(citeInfo.el, function() {
-        var popup = window.document.createElement('div');
-        citeInfo.cites.forEach(function(cite) {
-          var citeDiv = window.document.createElement('div');
-          citeDiv.classList.add('hanging-indent');
-          citeDiv.classList.add('csl-entry');
-          var biblioDiv = window.document.getElementById('ref-' + cite);
-          if (biblioDiv) {
-            citeDiv.innerHTML = biblioDiv.innerHTML;
-          }
-          popup.appendChild(citeDiv);
-        });
-        return popup.innerHTML;
+      }, function(instance) {
       });
     }
-  }
-});
-</script>  </div> <!-- /content -->  <script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>  </div> <!-- /content -->  <script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
 (function() {
   let previousOnload = window.onload;
   window.onload = () => {

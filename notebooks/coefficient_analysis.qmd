@@ -244,7 +244,7 @@ fit.grud.kPS      <- lm(I(log(k*PS))    ~ log(soil_0_20_P_CO2) + log(soil_0_20_P
 
 fit.grud.CO2.Yrel     <- lmer(Ymain_rel       ~ log(soil_0_20_P_CO2) + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
 fit.grud.AAE10.Yrel     <- lmer(Ymain_rel       ~ log(soil_0_20_P_AAE10) + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
-fit.grud.Yrel     <- lmer(Ymain_rel       ~ log(soil_0_20_P_CO2) + log(soil_0_20_P_AAE10) + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.grud.Yrel     <- lmer(Ymain_rel       ~ log(soil_0_20_P_CO2) * log(soil_0_20_P_AAE10) + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
 
 
 # this is hopeless, since cannot log becaus of 0's
@@ -252,7 +252,7 @@ fit.CO2.Pexport     <- lmer(annual_P_uptake     ~ log(soil_0_20_P_CO2) + (1|year
 
 fit.AAE10.Pexport     <- lmer(annual_P_uptake ~ log(soil_0_20_P_AAE10) + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
 
-fit.grud.Pexport     <- lmer(annual_P_uptake     ~ log(soil_0_20_P_CO2) + log(soil_0_20_P_AAE10) + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.grud.Pexport     <- lmer(annual_P_uptake     ~ log(soil_0_20_P_CO2) * log(soil_0_20_P_AAE10) + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
 
 
 fit.CO2.Pbalance     <- lmer(annual_P_balance      ~ log(soil_0_20_P_CO2)  + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
@@ -261,7 +261,7 @@ fit.CO2.Pbalance     <- lmer(annual_P_balance      ~ log(soil_0_20_P_CO2)  + (1|
 fit.AAE10.Pbalance     <- lmer(annual_P_balance      ~ log(soil_0_20_P_AAE10)  + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
 
 
-fit.grud.Pbalance     <- lmer(annual_P_balance      ~ log(soil_0_20_P_CO2) + log(soil_0_20_P_AAE10)  + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.grud.Pbalance     <- lmer(annual_P_balance      ~ log(soil_0_20_P_CO2) * log(soil_0_20_P_AAE10)  + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
 
 
 
@@ -370,7 +370,7 @@ create_coef_table <- function(lmer_models,
   # --- Ende der neuen Sektion ---
 
   # Convert to data frame for kable
-  results_df <- data.frame(Covariate = rownames(results_matrix),
+  results_df <- data.frame("Response" = rownames(results_matrix),
                            results_matrix,
                            check.names = FALSE, # Verhindert, dass R Spaltennamen ändert
                            stringsAsFactors = FALSE)
@@ -385,7 +385,6 @@ lmer_models <- list(
   PS = fit.soil.PS,
   k = fit.soil.k,
   'log(k*PS)' = fit.soil.kPS,
-  'k*log(PS)' = fit.soil.kPS2,
   CO2 = fit.soil.CO2,
   AAE10 = fit.soil.AAE10
 )
@@ -403,7 +402,7 @@ Significant codes:  0 '\\*\\*\\*' 0.001 '\\*\\*' 0.01 '\\*' 0.05")
 
 
 
-lmer_models_yield <- list(
+lmer_models_yield_norm <- list(
   "Yn-STP-CO2" = fit.grud.CO2.Ynorm,
   "Yn-STP-AAE10" = fit.grud.AAE10.Ynorm,
   "Yn-STP-GRUD" = fit.grud.CO2.AAE10.Ynorm,
@@ -429,7 +428,7 @@ lmer_models_export <- list(
 )
 
 
-coef_table_yield <- create_coef_table(lmer_models_yield)
+coef_table_yield <- create_coef_table(lmer_models_yield_norm)
 kable(coef_table_yield,
 row.names = FALSE,
 escape = FALSE,
