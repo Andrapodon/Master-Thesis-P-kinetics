@@ -146,13 +146,13 @@ wir sind abe nicht an einem Treatment effekt interesseiert. drum verwerfen wir T
 
 library(lmerTest)
 
-fit.soil.PS  <- lmer(log(PS)     ~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Fed + Ald  + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.soil.PS  <- lmer(log(PS)     ~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Feox + Alox  + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
 # fit.soil.PS2 <- lmer(log(PS)     ~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt  + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
-fit.soil.k   <- lmer(k           ~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Fed + Ald + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
-fit.soil.kPS <- lmer(I(log(k*PS))~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Fed + Ald + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
-fit.soil.kPS2<- lmer(I(k*log(PS))~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Fed + Ald + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
-fit.soil.CO2 <- lmer(log(soil_0_20_P_CO2)~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Fed + Ald + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
-fit.soil.AAE10<-lmer(log(soil_0_20_P_AAE10)~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Fed + Ald + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.soil.k   <- lmer(k           ~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Feox + Alox + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.soil.kPS <- lmer(I(log(k*PS))~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Feox + Alox + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.soil.kPS2<- lmer(I(k*log(PS))~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Feox + Alox + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.soil.CO2 <- lmer(log(soil_0_20_P_CO2)~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Feox + Alox + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.soil.AAE10<-lmer(log(soil_0_20_P_AAE10)~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Feox + Alox + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
 
 
 
