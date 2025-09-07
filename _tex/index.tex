@@ -942,15 +942,15 @@ Model & \(P_{desorb}\) & \(k\) & \(J_0\) & \(P_{CO_2}\) &
 \endhead
 \bottomrule\noalign{}
 \endlastfoot
-Intercept & 21.444*** & 0.454 & 21.189*** & 14.014** & 23.126** \\
-Ald & -8.706*** & -0.072 & -8.631* & -4.417 & -9.473* \\
-Fed & -1.068*** & 0.005 & -1.084 & -0.845* & -0.606 \\
-Clay & -0.006 & -0.016** & -0.085 & 0.015 & -0.029 \\
-\(C_{org}\) & 0.612* & 0.137** & 1.250* & 0.269 & 1.454*** \\
-pH & -0.018 & -0.021 & -0.092 & 0.124 & 0.012 \\
-Silt & -0.000 & 0.004 & 0.008 & -0.015 & -0.049* \\
-\(R^2_m\) & 0.393 & 0.212 & 0.368 & 0.362 & 0.494 \\
-\(R^2_c\) & 0.996 & 0.915 & 0.993 & 0.995 & 0.997 \\
+Intercept & -4.316 & 0.608 & -5.222 & -2.539 & 3.794 \\
+\(Al_{ox}\) & 0.603 & -0.129 & 0.367 & 0.051 & -1.568 \\
+\(Fe_{ox}\) & -0.053 & 0.001 & 0.248 & 0.058 & 0.195 \\
+Clay & -0.007 & -0.017** & -0.085 & 0.015 & -0.035 \\
+\(C_{org}\) & 0.635* & 0.137** & 1.290** & 0.277 & 1.453*** \\
+pH & -0.008 & -0.022 & -0.068 & 0.126 & 0.006 \\
+Silt & -0.010 & 0.004 & -0.011 & -0.022 & -0.046 \\
+\(R^2_m\) & 0.100 & 0.204 & 0.071 & 0.074 & 0.421 \\
+\(R^2_c\) & 0.954 & 0.963 & 0.910 & 0.925 & 0.975 \\
 
 \end{longtable}
 
@@ -965,11 +965,11 @@ and iron (\(Fe_{ox}\)) oxides had a highly significant negative effect
 on the \textbf{Desorbable P pool (}\(P_{desorb}\)), suggesting they bind
 P strongly. In contrast, \textbf{Organic Carbon (}\(C_{org}\)) had a
 significant positive effect on all capacity measures, especially
-\texttt{\$P\_\{AAE10\}\$}. The \textbf{Rate Constant (}\(k\)) was not
-significantly driven by the oxides, but showed a significant positive
-relationship with \texttt{\$C\_\{org\}\$} and a negative relationship
-with \texttt{Clay} content, indicating that the speed of P release is
-governed by different mechanisms than the total pool size.
+\(P_{AAE10}\). The \textbf{Rate Constant (}\(k\)) was not significantly
+driven by the oxides, but showed a significant positive relationship
+with \(C_{org}\) and a negative relationship with \texttt{Clay} content,
+indicating that the speed of P release is governed by different
+mechanisms than the total pool size.
 
 \subsection{Predictive Modeling of Agronomic
 Outcomes}\label{sec-agronomic-modeling}
@@ -1030,12 +1030,11 @@ Intercept & 1.059*** & 0.532*** & 1.096*** & 0.980 \\
 \href{https://Andrapodon.github.io/Master-Thesis-P-kinetics/index.qmd.html}{Article
 Notebook}}
 
-As shown in Table~\ref{tbl-ynorm-models}, both \texttt{\$P\_\{CO\_2\}\$}
-and \texttt{\$P\_\{AAE10\}\$} were highly significant predictors of
-site-normalized yield, with the model containing
-\texttt{\$P\_\{CO\_2\}\$} explaining the most variance (Marginal R² =
-0.218). In contrast, the kinetic parameters showed no significant
-predictive power for \texttt{\$Y\_\{norm\}\$}.
+As shown in Table~\ref{tbl-ynorm-models}, both \(P_{CO_2}\) and
+\(P_{AAE10}\) were highly significant predictors of site-normalized
+yield, with the model containing \(P_{CO_2}\) explaining the most
+variance (Marginal R² = 0.218). In contrast, the kinetic parameters
+showed no significant predictive power for \(Y_{norm}\).
 
 \subsubsection{\texorpdfstring{Predicting National-Normalized Yield
 (\(Y_{rel}\))}{Predicting National-Normalized Yield (Y\_\{rel\})}}\label{sec-yrel}
@@ -1091,10 +1090,10 @@ Notebook}}
 As seen in Table~\ref{tbl-yrel-models}, while the standard STP methods
 were also significant predictors, the kinetic model revealed a
 significant positive effect of the \textbf{Rate Constant (}\(k\)) and
-its interaction with \texttt{\$P\_\{desorb\}\$} (\texttt{\$J\_0\$}).
-This suggests that the speed of P release is a more important factor
-when comparing yields across the broader environmental gradient
-represented by the national average.
+its interaction with \(P_{desorb}\) (\(J_0\)). This suggests that the
+speed of P release is a more important factor when comparing yields
+across the broader environmental gradient represented by the national
+average.
 
 \subsubsection{\texorpdfstring{Predicting P-Export
 (\(P_{up}\))}{Predicting P-Export (P\_\{up\})}}\label{sec-pexport}
@@ -1148,10 +1147,10 @@ Intercept & 27.522*** & 8.090 & 30.632* & 29.599*** \\
 Notebook}}
 
 The results in Table~\ref{tbl-pexport-models} show that both
-\texttt{\$P\_\{CO\_2\}\$} and \texttt{\$P\_\{AAE10\}\$} were highly
-significant predictors, explaining around 6-7\% of the variance
-(marginal R²). This suggests that the size of the available P pool is a
-robust indicator of the amount of P a crop will take up.
+\(P_{CO_2}\) and \(P_{AAE10}\) were highly significant predictors,
+explaining around 6-7\% of the variance (marginal R²). This suggests
+that the size of the available P pool is a robust indicator of the
+amount of P a crop will take up.
 
 \subsubsection{\texorpdfstring{Predicting P-Balance
 (\(P_{bal}\))}{Predicting P-Balance (P\_\{bal\})}}\label{sec-pbalance}
@@ -1209,9 +1208,8 @@ As detailed in Table~\ref{tbl-pbalance-models}, the kinetic model
 explained \textbf{57\% of the variance} in P-Balance (marginal R² =
 0.572), with the \textbf{Desorbable P pool (}\(P_{desorb}\)) being the
 dominant, highly significant predictor. This indicates that the
-\texttt{\$P\_\{desorb\}\$} parameter from the kinetic experiment is a
-vastly superior measure of the soil's P budget compared to standard STP
-tests.
+\(P_{desorb}\) parameter from the kinetic experiment is a vastly
+superior measure of the soil's P budget compared to standard STP tests.
 
 \section{Discussion}\label{discussion}
 

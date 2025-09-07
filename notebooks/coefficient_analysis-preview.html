@@ -355,7 +355,7 @@ Attaching package: 'lmerTest'</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>fit.soil.PS  <span class="ot">&lt;-</span> <span class="fu">lmer</span>(<span class="fu">log</span>(PS)     <span class="sc">~</span> soil_0_20_clay<span class="sc">+</span> soil_0_20_pH_H2O <span class="sc">+</span> soil_0_20_Corg <span class="sc">+</span> soil_0_20_silt <span class="sc">+</span> Fed <span class="sc">+</span> Ald  <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>year) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site)  <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>block) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>Treatment), D)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>fit.soil.PS  <span class="ot">&lt;-</span> <span class="fu">lmer</span>(<span class="fu">log</span>(PS)     <span class="sc">~</span> soil_0_20_clay<span class="sc">+</span> soil_0_20_pH_H2O <span class="sc">+</span> soil_0_20_Corg <span class="sc">+</span> soil_0_20_silt <span class="sc">+</span> Feox <span class="sc">+</span> Alox  <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>year) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site)  <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>block) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>Treatment), D)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>boundary (singular) fit: see help('isSingular')</code></pre>
@@ -363,35 +363,35 @@ Attaching package: 'lmerTest'</code></pre>
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># fit.soil.PS2 &lt;- lmer(log(PS)     ~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt  + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>fit.soil.k   <span class="ot">&lt;-</span> <span class="fu">lmer</span>(k           <span class="sc">~</span> soil_0_20_clay<span class="sc">+</span> soil_0_20_pH_H2O <span class="sc">+</span> soil_0_20_Corg <span class="sc">+</span> soil_0_20_silt <span class="sc">+</span> Fed <span class="sc">+</span> Ald <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>year) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site)  <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>block) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>Treatment), D)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>fit.soil.k   <span class="ot">&lt;-</span> <span class="fu">lmer</span>(k           <span class="sc">~</span> soil_0_20_clay<span class="sc">+</span> soil_0_20_pH_H2O <span class="sc">+</span> soil_0_20_Corg <span class="sc">+</span> soil_0_20_silt <span class="sc">+</span> Feox <span class="sc">+</span> Alox <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>year) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site)  <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>block) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>Treatment), D)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>boundary (singular) fit: see help('isSingular')</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>fit.soil.kPS <span class="ot">&lt;-</span> <span class="fu">lmer</span>(<span class="fu">I</span>(<span class="fu">log</span>(k<span class="sc">*</span>PS))<span class="sc">~</span> soil_0_20_clay<span class="sc">+</span> soil_0_20_pH_H2O <span class="sc">+</span> soil_0_20_Corg <span class="sc">+</span> soil_0_20_silt <span class="sc">+</span> Fed <span class="sc">+</span> Ald <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>year) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site)  <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>block) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>Treatment), D)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>fit.soil.kPS <span class="ot">&lt;-</span> <span class="fu">lmer</span>(<span class="fu">I</span>(<span class="fu">log</span>(k<span class="sc">*</span>PS))<span class="sc">~</span> soil_0_20_clay<span class="sc">+</span> soil_0_20_pH_H2O <span class="sc">+</span> soil_0_20_Corg <span class="sc">+</span> soil_0_20_silt <span class="sc">+</span> Feox <span class="sc">+</span> Alox <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>year) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site)  <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>block) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>Treatment), D)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>boundary (singular) fit: see help('isSingular')</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>fit.soil.kPS2<span class="ot">&lt;-</span> <span class="fu">lmer</span>(<span class="fu">I</span>(k<span class="sc">*</span><span class="fu">log</span>(PS))<span class="sc">~</span> soil_0_20_clay<span class="sc">+</span> soil_0_20_pH_H2O <span class="sc">+</span> soil_0_20_Corg <span class="sc">+</span> soil_0_20_silt <span class="sc">+</span> Fed <span class="sc">+</span> Ald <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>year) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site)  <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>block) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>Treatment), D)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>fit.soil.kPS2<span class="ot">&lt;-</span> <span class="fu">lmer</span>(<span class="fu">I</span>(k<span class="sc">*</span><span class="fu">log</span>(PS))<span class="sc">~</span> soil_0_20_clay<span class="sc">+</span> soil_0_20_pH_H2O <span class="sc">+</span> soil_0_20_Corg <span class="sc">+</span> soil_0_20_silt <span class="sc">+</span> Feox <span class="sc">+</span> Alox <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>year) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site)  <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>block) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>Treatment), D)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>boundary (singular) fit: see help('isSingular')</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>fit.soil.CO2 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(<span class="fu">log</span>(soil_0_20_P_CO2)<span class="sc">~</span> soil_0_20_clay<span class="sc">+</span> soil_0_20_pH_H2O <span class="sc">+</span> soil_0_20_Corg <span class="sc">+</span> soil_0_20_silt <span class="sc">+</span> Fed <span class="sc">+</span> Ald <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>year) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site)  <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>block) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>Treatment), D)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>fit.soil.CO2 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(<span class="fu">log</span>(soil_0_20_P_CO2)<span class="sc">~</span> soil_0_20_clay<span class="sc">+</span> soil_0_20_pH_H2O <span class="sc">+</span> soil_0_20_Corg <span class="sc">+</span> soil_0_20_silt <span class="sc">+</span> Feox <span class="sc">+</span> Alox <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>year) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site)  <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>block) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>Treatment), D)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>boundary (singular) fit: see help('isSingular')</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>fit.soil.AAE10<span class="ot">&lt;-</span><span class="fu">lmer</span>(<span class="fu">log</span>(soil_0_20_P_AAE10)<span class="sc">~</span> soil_0_20_clay<span class="sc">+</span> soil_0_20_pH_H2O <span class="sc">+</span> soil_0_20_Corg <span class="sc">+</span> soil_0_20_silt <span class="sc">+</span> Fed <span class="sc">+</span> Ald <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>year) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site)  <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>block) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>Treatment), D)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>fit.soil.AAE10<span class="ot">&lt;-</span><span class="fu">lmer</span>(<span class="fu">log</span>(soil_0_20_P_AAE10)<span class="sc">~</span> soil_0_20_clay<span class="sc">+</span> soil_0_20_pH_H2O <span class="sc">+</span> soil_0_20_Corg <span class="sc">+</span> soil_0_20_silt <span class="sc">+</span> Feox <span class="sc">+</span> Alox <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>year) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site)  <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>block) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Site<span class="sc">:</span>Treatment), D)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>boundary (singular) fit: see help('isSingular')</code></pre>
@@ -401,8 +401,8 @@ Attaching package: 'lmerTest'</code></pre>
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">r.squaredGLMM</span>(fit.soil.kPS)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>           R2m       R2c
-[1,] 0.3681407 0.9929139</code></pre>
+<pre><code>            R2m       R2c
+[1,] 0.07061429 0.9095703</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -410,7 +410,7 @@ Attaching package: 'lmerTest'</code></pre>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>           R2m       R2c
-[1,] 0.6521416 0.8191785</code></pre>
+[1,] 0.3680394 0.8251728</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -683,13 +683,13 @@ crop        1.052981  4        1.006474</code></pre>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Type III Analysis of Variance Table with Satterthwaite's method
-                 Sum Sq Mean Sq NumDF  DenDF  F value    Pr(&gt;F)    
-soil_0_20_clay   0.0017  0.0017     1 39.832   0.0467   0.82993    
-soil_0_20_pH_H2O 0.0007  0.0007     1 38.367   0.0202   0.88762    
-soil_0_20_Corg   0.1525  0.1525     1 32.811   4.2087   0.04827 *  
-soil_0_20_silt   0.0000  0.0000     1 40.483   0.0002   0.98792    
-Fed              4.9643  4.9643     1 36.018 137.0324 7.807e-14 ***
-Ald              1.8349  1.8349     1 37.406  50.6502 1.865e-08 ***
+                   Sum Sq  Mean Sq NumDF  DenDF F value  Pr(&gt;F)  
+soil_0_20_clay   0.002084 0.002084     1 38.034  0.0569 0.81268  
+soil_0_20_pH_H2O 0.000134 0.000134     1 37.385  0.0037 0.95209  
+soil_0_20_Corg   0.161220 0.161220     1 31.904  4.4047 0.04384 *
+soil_0_20_silt   0.004848 0.004848     1 38.673  0.1324 0.71789  
+Feox             0.001153 0.001153     1  4.473  0.0315 0.86689  
+Alox             0.012462 0.012462     1  3.340  0.3405 0.59664  
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
@@ -702,20 +702,18 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
      Simultaneous Tests for General Linear Hypotheses
 
 Fit: lmer(formula = log(PS) ~ soil_0_20_clay + soil_0_20_pH_H2O + 
-    soil_0_20_Corg + soil_0_20_silt + Fed + Ald + (1 | year) + 
+    soil_0_20_Corg + soil_0_20_silt + Feox + Alox + (1 | year) + 
     (1 | Site) + (1 | Site:block) + (1 | Site:Treatment), data = D)
 
 Linear Hypotheses:
-                        Estimate Std. Error z value Pr(&gt;|z|)    
-(Intercept) == 0      21.4438130  2.6915204   7.967   &lt;0.001 ***
-soil_0_20_clay == 0   -0.0064543  0.0298519  -0.216    1.000    
-soil_0_20_pH_H2O == 0 -0.0179677  0.1262969  -0.142    1.000    
-soil_0_20_Corg == 0    0.6116152  0.2981307   2.052    0.202    
-soil_0_20_silt == 0   -0.0003927  0.0257799  -0.015    1.000    
-Fed == 0              -1.0676543  0.0912051 -11.706   &lt;0.001 ***
-Ald == 0              -8.7060240  1.2232898  -7.117   &lt;0.001 ***
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+                       Estimate Std. Error z value Pr(&gt;|z|)
+(Intercept) == 0      -4.315860   2.020856  -2.136    0.175
+soil_0_20_clay == 0   -0.007323   0.030690  -0.239    1.000
+soil_0_20_pH_H2O == 0 -0.007811   0.129128  -0.060    1.000
+soil_0_20_Corg == 0    0.635283   0.302698   2.099    0.190
+soil_0_20_silt == 0   -0.010246   0.028153  -0.364    0.999
+Feox == 0             -0.052740   0.297170  -0.177    1.000
+Alox == 0              0.603062   1.033522   0.584    0.989
 (Adjusted p values reported -- single-step method)</code></pre>
 </div>
 <details class="code-fold">
@@ -726,12 +724,12 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 <div class="cell-output cell-output-stdout">
 <pre><code>Type III Analysis of Variance Table with Satterthwaite's method
                     Sum Sq   Mean Sq NumDF  DenDF F value   Pr(&gt;F)   
-soil_0_20_clay   0.0126524 0.0126524     1 32.124 11.0892 0.002190 **
-soil_0_20_pH_H2O 0.0010892 0.0010892     1 38.528  0.9546 0.334637   
-soil_0_20_Corg   0.0091554 0.0091554     1 31.652  8.0242 0.007963 **
-soil_0_20_silt   0.0012806 0.0012806     1 13.842  1.1224 0.307539   
-Fed              0.0001832 0.0001832     1  2.350  0.1606 0.722155   
-Ald              0.0002817 0.0002817     1  2.262  0.2469 0.663422   
+soil_0_20_clay   0.0118462 0.0118462     1 39.973 10.7210 0.002191 **
+soil_0_20_pH_H2O 0.0011812 0.0011812     1 38.291  1.0690 0.307664   
+soil_0_20_Corg   0.0090425 0.0090425     1 35.487  8.1836 0.007040 **
+soil_0_20_silt   0.0012705 0.0012705     1 10.804  1.1498 0.306957   
+Feox             0.0000004 0.0000004     1  0.968  0.0003 0.988188   
+Alox             0.0004765 0.0004765     1  1.117  0.4312 0.620552   
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
@@ -744,18 +742,18 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
      Simultaneous Tests for General Linear Hypotheses
 
 Fit: lmer(formula = k ~ soil_0_20_clay + soil_0_20_pH_H2O + soil_0_20_Corg + 
-    soil_0_20_silt + Fed + Ald + (1 | year) + (1 | Site) + (1 | 
-    Site:block) + (1 | Site:Treatment), data = D)
+    soil_0_20_silt + Feox + Alox + (1 | year) + (1 | Site) + 
+    (1 | Site:block) + (1 | Site:Treatment), data = D)
 
 Linear Hypotheses:
                        Estimate Std. Error z value Pr(&gt;|z|)   
-(Intercept) == 0       0.454128   0.358773   1.266  0.70466   
-soil_0_20_clay == 0   -0.016164   0.004854  -3.330  0.00536 **
-soil_0_20_pH_H2O == 0 -0.020791   0.021279  -0.977  0.87780   
-soil_0_20_Corg == 0    0.136661   0.048244   2.833  0.02779 * 
-soil_0_20_silt == 0    0.004076   0.003848   1.059  0.83576   
-Fed == 0               0.005157   0.012867   0.401  0.99838   
-Ald == 0              -0.072344   0.145598  -0.497  0.99477   
+(Intercept) == 0       0.608405   0.351212   1.732  0.37916   
+soil_0_20_clay == 0   -0.016659   0.005088  -3.274  0.00736 **
+soil_0_20_pH_H2O == 0 -0.022256   0.021526  -1.034  0.84744   
+soil_0_20_Corg == 0    0.137353   0.048014   2.861  0.02613 * 
+soil_0_20_silt == 0    0.004093   0.003818   1.072  0.82652   
+Feox == 0              0.001024   0.054815   0.019  1.00000   
+Alox == 0             -0.128860   0.196235  -0.657  0.97804   
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
@@ -766,13 +764,13 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Type III Analysis of Variance Table with Satterthwaite's method
-                 Sum Sq Mean Sq NumDF  DenDF F value  Pr(&gt;F)  
-soil_0_20_clay   0.2899  0.2899     1 40.076  3.4177 0.07189 .
-soil_0_20_pH_H2O 0.0186  0.0186     1 38.805  0.2198 0.64181  
-soil_0_20_Corg   0.6111  0.6111     1 33.275  7.2042 0.01125 *
-soil_0_20_silt   0.0039  0.0039     1 30.169  0.0457 0.83217  
-Fed              4.9569  4.9569     1  1.276 58.4378 0.05081 .
-Ald              1.7919  1.7919     1  2.143 21.1247 0.03873 *
+                  Sum Sq Mean Sq NumDF  DenDF F value   Pr(&gt;F)   
+soil_0_20_clay   0.27384 0.27384     1 37.928  3.2643 0.078744 . 
+soil_0_20_pH_H2O 0.00989 0.00989     1 37.700  0.1179 0.733264   
+soil_0_20_Corg   0.63136 0.63136     1 32.622  7.5260 0.009801 **
+soil_0_20_silt   0.00591 0.00591     1 39.205  0.0705 0.792012   
+Feox             0.04398 0.04398     1  6.812  0.5242 0.493160   
+Alox             0.00897 0.00897     1  4.047  0.1069 0.759894   
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
@@ -785,18 +783,18 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
      Simultaneous Tests for General Linear Hypotheses
 
 Fit: lmer(formula = I(log(k * PS)) ~ soil_0_20_clay + soil_0_20_pH_H2O + 
-    soil_0_20_Corg + soil_0_20_silt + Fed + Ald + (1 | year) + 
+    soil_0_20_Corg + soil_0_20_silt + Feox + Alox + (1 | year) + 
     (1 | Site) + (1 | Site:block) + (1 | Site:Treatment), data = D)
 
 Linear Hypotheses:
-                      Estimate Std. Error z value Pr(&gt;|z|)    
-(Intercept) == 0      21.18866    3.96710   5.341   &lt;0.001 ***
-soil_0_20_clay == 0   -0.08522    0.04610  -1.849   0.3018    
-soil_0_20_pH_H2O == 0 -0.09210    0.19644  -0.469   0.9965    
-soil_0_20_Corg == 0    1.25026    0.46581   2.684   0.0421 *  
-soil_0_20_silt == 0    0.00845    0.03953   0.214   1.0000    
-Fed == 0              -1.08433    0.14184  -7.644   &lt;0.001 ***
-Ald == 0              -8.63139    1.87796  -4.596   &lt;0.001 ***
+                      Estimate Std. Error z value Pr(&gt;|z|)  
+(Intercept) == 0      -5.22226    2.66516  -1.959   0.2479  
+soil_0_20_clay == 0   -0.08506    0.04708  -1.807   0.3304  
+soil_0_20_pH_H2O == 0 -0.06835    0.19908  -0.343   0.9993  
+soil_0_20_Corg == 0    1.29049    0.47040   2.743   0.0368 *
+soil_0_20_silt == 0   -0.01141    0.04296  -0.266   0.9998  
+Feox == 0              0.24847    0.34319   0.724   0.9653  
+Alox == 0              0.36678    1.12170   0.327   0.9995  
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
@@ -842,15 +840,13 @@ k:log(PS) 53.624  53.624     1 248.29  0.7978 0.3726</code></pre>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Type III Analysis of Variance Table with Satterthwaite's method
-                  Sum Sq Mean Sq NumDF  DenDF F value  Pr(&gt;F)  
-soil_0_20_clay   0.01031 0.01031     1 39.033  0.3482 0.55854  
-soil_0_20_pH_H2O 0.03990 0.03990     1 36.270  1.3477 0.25326  
-soil_0_20_Corg   0.03609 0.03609     1 30.050  1.2192 0.27829  
-soil_0_20_silt   0.01225 0.01225     1 36.371  0.4139 0.52405  
-Fed              2.24907 2.24907     1  1.237 75.9765 0.04625 *
-Ald              0.37933 0.37933     1  1.859 12.8143 0.07780 .
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+                   Sum Sq  Mean Sq NumDF  DenDF F value Pr(&gt;F)
+soil_0_20_clay   0.009850 0.009850     1 37.545  0.3382 0.5643
+soil_0_20_pH_H2O 0.039312 0.039312     1 35.853  1.3498 0.2530
+soil_0_20_Corg   0.036439 0.036439     1 29.511  1.2512 0.2724
+soil_0_20_silt   0.025477 0.025477     1 38.291  0.8748 0.3555
+Feox             0.002090 0.002090     1  5.362  0.0718 0.7988
+Alox             0.000145 0.000145     1  3.535  0.0050 0.9476</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -859,12 +855,12 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>Type III Analysis of Variance Table with Satterthwaite's method
                   Sum Sq Mean Sq NumDF  DenDF F value    Pr(&gt;F)    
-soil_0_20_clay   0.02689 0.02689     1 33.372  1.1447   0.29233    
-soil_0_20_pH_H2O 0.00022 0.00022     1 36.721  0.0095   0.92271    
-soil_0_20_Corg   0.55693 0.55693     1 38.895 23.7089 1.902e-05 ***
-soil_0_20_silt   0.09825 0.09825     1 34.019  4.1824   0.04864 *  
-Fed              0.42176 0.42176     1  1.848 17.9545   0.05892 .  
-Ald              0.70761 0.70761     1  2.551 30.1233   0.01795 *  
+soil_0_20_clay   0.03920 0.03920     1 32.118  1.6338   0.21034    
+soil_0_20_pH_H2O 0.00006 0.00006     1 36.110  0.0025   0.96047    
+soil_0_20_Corg   0.55961 0.55961     1 37.514 23.3242 2.319e-05 ***
+soil_0_20_silt   0.08151 0.08151     1 33.313  3.3975   0.07421 .  
+Feox             0.01402 0.01402     1  3.547  0.5843   0.49229    
+Alox             0.07387 0.07387     1  2.696  3.0791   0.18781    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
@@ -1034,9 +1030,9 @@ Fit: lm(formula = log(PS) ~ log(soil_0_20_P_CO2) + log(soil_0_20_P_AAE10),
 
 Linear Hypotheses:
                             Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept) == 0            -0.61404    0.20562  -2.986  0.00501 ** 
-log(soil_0_20_P_CO2) == 0    1.30106    0.05963  21.819  &lt; 1e-04 ***
-log(soil_0_20_P_AAE10) == 0 -0.24892    0.05163  -4.821  &lt; 1e-04 ***
+(Intercept) == 0            -0.61404    0.20562  -2.986  0.00536 ** 
+log(soil_0_20_P_CO2) == 0    1.30106    0.05963  21.819  &lt; 0.001 ***
+log(soil_0_20_P_AAE10) == 0 -0.24892    0.05163  -4.821  &lt; 0.001 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
@@ -1054,9 +1050,9 @@ Fit: lm(formula = k ~ log(soil_0_20_P_CO2) + log(soil_0_20_P_AAE10),
 
 Linear Hypotheses:
                              Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept) == 0             0.074843   0.026807   2.792  0.00992 ** 
-log(soil_0_20_P_CO2) == 0   -0.031362   0.007774  -4.034  &lt; 0.001 ***
-log(soil_0_20_P_AAE10) == 0  0.029663   0.006731   4.407  &lt; 0.001 ***
+(Intercept) == 0             0.074843   0.026807   2.792   0.0102 *  
+log(soil_0_20_P_CO2) == 0   -0.031362   0.007774  -4.034   &lt;0.001 ***
+log(soil_0_20_P_AAE10) == 0  0.029663   0.006731   4.407   &lt;0.001 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
@@ -1076,7 +1072,7 @@ Linear Hypotheses:
                             Estimate Std. Error t value Pr(&gt;|t|)    
 (Intercept) == 0            -2.89619    0.20538 -14.102   &lt;0.001 ***
 log(soil_0_20_P_CO2) == 0    1.12637    0.05956  18.912   &lt;0.001 ***
-log(soil_0_20_P_AAE10) == 0 -0.10426    0.05157  -2.022   0.0718 .  
+log(soil_0_20_P_AAE10) == 0 -0.10426    0.05157  -2.022    0.072 .  
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
@@ -1374,14 +1370,6 @@ boundary (singular) fit: see help('isSingular')</code></pre>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <caption>Coefficient Table for Soil covariates. Significant codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05</caption>
-<colgroup>
-<col style="width: 25%">
-<col style="width: 14%">
-<col style="width: 14%">
-<col style="width: 14%">
-<col style="width: 14%">
-<col style="width: 14%">
-</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Response</th>
@@ -1395,75 +1383,75 @@ boundary (singular) fit: see help('isSingular')</code></pre>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">(Intercept)</td>
-<td style="text-align: right;">***21.444</td>
-<td style="text-align: right;">0.454</td>
-<td style="text-align: right;">***21.189</td>
-<td style="text-align: right;">** 14.014</td>
-<td style="text-align: right;">** 23.126</td>
+<td style="text-align: right;">-4.316</td>
+<td style="text-align: right;">0.608</td>
+<td style="text-align: right;">-5.222</td>
+<td style="text-align: right;">-2.539</td>
+<td style="text-align: right;">3.794</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Ald</td>
-<td style="text-align: right;">***-8.706</td>
-<td style="text-align: right;">-0.072</td>
-<td style="text-align: right;">* -8.631</td>
-<td style="text-align: right;">-4.417</td>
-<td style="text-align: right;">* -9.473</td>
+<td style="text-align: left;">Alox</td>
+<td style="text-align: right;">0.603</td>
+<td style="text-align: right;">-0.129</td>
+<td style="text-align: right;">0.367</td>
+<td style="text-align: right;">0.051</td>
+<td style="text-align: right;">-1.568</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Fed</td>
-<td style="text-align: right;">***-1.068</td>
-<td style="text-align: right;">0.005</td>
-<td style="text-align: right;">-1.084</td>
-<td style="text-align: right;">* -0.845</td>
-<td style="text-align: right;">-0.606</td>
+<td style="text-align: left;">Feox</td>
+<td style="text-align: right;">-0.053</td>
+<td style="text-align: right;">0.001</td>
+<td style="text-align: right;">0.248</td>
+<td style="text-align: right;">0.058</td>
+<td style="text-align: right;">0.195</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">soil_0_20_clay</td>
-<td style="text-align: right;">-0.006</td>
-<td style="text-align: right;">** -0.016</td>
+<td style="text-align: right;">-0.007</td>
+<td style="text-align: right;">** -0.017</td>
 <td style="text-align: right;">-0.085</td>
 <td style="text-align: right;">0.015</td>
-<td style="text-align: right;">-0.029</td>
+<td style="text-align: right;">-0.035</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">soil_0_20_Corg</td>
-<td style="text-align: right;">* 0.612</td>
+<td style="text-align: right;">* 0.635</td>
 <td style="text-align: right;">** 0.137</td>
-<td style="text-align: right;">* 1.250</td>
-<td style="text-align: right;">0.269</td>
-<td style="text-align: right;">***1.454</td>
+<td style="text-align: right;">** 1.290</td>
+<td style="text-align: right;">0.277</td>
+<td style="text-align: right;">***1.453</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">soil_0_20_pH_H2O</td>
-<td style="text-align: right;">-0.018</td>
-<td style="text-align: right;">-0.021</td>
-<td style="text-align: right;">-0.092</td>
-<td style="text-align: right;">0.124</td>
-<td style="text-align: right;">0.012</td>
+<td style="text-align: right;">-0.008</td>
+<td style="text-align: right;">-0.022</td>
+<td style="text-align: right;">-0.068</td>
+<td style="text-align: right;">0.126</td>
+<td style="text-align: right;">0.006</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">soil_0_20_silt</td>
-<td style="text-align: right;">-0.000</td>
+<td style="text-align: right;">-0.010</td>
 <td style="text-align: right;">0.004</td>
-<td style="text-align: right;">0.008</td>
-<td style="text-align: right;">-0.015</td>
-<td style="text-align: right;">* -0.049</td>
+<td style="text-align: right;">-0.011</td>
+<td style="text-align: right;">-0.022</td>
+<td style="text-align: right;">-0.046</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">R2m</td>
-<td style="text-align: right;">0.393</td>
-<td style="text-align: right;">0.212</td>
-<td style="text-align: right;">0.368</td>
-<td style="text-align: right;">0.362</td>
-<td style="text-align: right;">0.494</td>
+<td style="text-align: right;">0.100</td>
+<td style="text-align: right;">0.204</td>
+<td style="text-align: right;">0.071</td>
+<td style="text-align: right;">0.074</td>
+<td style="text-align: right;">0.421</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">R2c</td>
-<td style="text-align: right;">0.996</td>
-<td style="text-align: right;">0.915</td>
-<td style="text-align: right;">0.993</td>
-<td style="text-align: right;">0.995</td>
-<td style="text-align: right;">0.997</td>
+<td style="text-align: right;">0.954</td>
+<td style="text-align: right;">0.963</td>
+<td style="text-align: right;">0.910</td>
+<td style="text-align: right;">0.925</td>
+<td style="text-align: right;">0.975</td>
 </tr>
 </tbody>
 </table>
