@@ -2,7 +2,7 @@
 
 ## The Long-Term Phosphorus Fertilization Experiment {#sec-the-long-term-phosphorus-fertilization-experiment}
 
-The soil samples for this thesis originate from a set of six long-term field trials in Switzerland, established by Agroscope between 1989 and 1992. The primary objective of these experiments was to validate and re-evaluate Swiss phosphorus (P) fertilization guidelines by assessing long-term crop yield responses to varying P inputs across different pedoclimatic conditions. A detailed description of the experimental design and site characteristics can be found in [@hirte_yield_2021]
+The soil samples for this thesis originate from a set of six long-term field trials in Switzerland, established by Agroscope between 1989 and 1992. The primary objective of these experiments was to validate and re-evaluate Swiss phosphorus (P) fertilization guidelines by assessing long-term crop yield responses to varying P inputs across different pedoclimatic conditions. A detailed description of the experimental design and site characteristics can be found in [@hirteYieldResponseSoil2021]
 
 The experiment was set up as a **completely randomized block design** with four field replications at each site. The core of the experiment consists of six fixed-plot treatments representing different P fertilization levels, which were applied annually as superphosphate before tillage and sowing. These levels were based on percentages of the officially recommended P inputs: 0% (Zero), 33% (Deficit), 67% (Reduced), 100% (Norm), 133% (Elevated), and 167% (Surplus).
 
@@ -27,7 +27,7 @@ sites_df_corrected <- data.frame(
 knitr::kable(sites_df_corrected)
 ```
 
-Soil samples for this thesis were collected on \[Your Sampling Date\] from the topsoil layer (0-20 cm). \[Add any further specific details about your sampling strategy here\].
+Soil samples for this thesis were collected in the year 2022 from the topsoil layer (0-20 cm).
 
 ------------------------------------------------------------------------
 
@@ -35,7 +35,7 @@ Soil samples for this thesis were collected on \[Your Sampling Date\] from the t
 
 The analysis of phosphorus (P) desorption kinetics was based on the principles of sequential extraction established by Flossmann and Richter (1982). The original method is described below, followed by the specific protocol adapted for this study.
 
-### Original Method of Flossmann and Richter (1982) {#sec-original-method-of-flossmann-and-richter-(1982}
+### Original Method of Flossmann and Richter (1982) 
 
 The foundational method aims to characterize the P replenishment capacity of the soil. The procedure is as follows:
 
@@ -95,9 +95,9 @@ The response and predictor variables used in the linear mixed-effects models are
 #| tbl-cap: "Description of variables used in the agronomic models."
 
 variables_df <- data.frame(
-  Abbreviation = c("$Y_{rel}$","$Y_{norm}$", "$P_{up}$", "$P_{bal}$", "$k$", "$P_{desorb}$", "$J_0$", "$P_{CO2}$", "$P_{AAE10}$"),
-  `Full Name` = c("Relative Yield","Normalized Yield", "P Uptake", "P Balance", "Rate Constant", "Desorbable P", "Initial P Flux", "Water-Soluble P", "Chelate-Extractable P"),
-  Role = c("Response","Response", "Response", "Response", "Predictor", "Predictor", "Predictor", "Predictor", "Predictor"),
+  Abbreviation = c("$Y_{rel}$","$Y_{norm}$", "$P_{up}$", "$P_{bal}$", "$k$", "$P_{desorb}$", "$J_0$", "$P_{CO2}$", "$P_{AAE10}$","$Al_{ox}$","$Fe_{ox}$"),
+  `Full Name` = c("Relative Yield","Normalized Yield", "P Uptake", "P Balance", "Rate Constant", "Desorbable P", "Initial P Flux", "Water-Soluble P", "Chelate-Extractable P","Oxalate-extractable Al","Oxalate-extractable Fe"),
+  Role = c("Response","Response", "Response", "Response", "Predictor", "Predictor", "Predictor", "Predictor", "Predictor","Predictor","Predictor"),
   Description = c(
     "Plot yield normalized by the national mean yield for that year and crop.",
     "Plot yield normalized by the site-specific median yield of the highest P treatment for that year and crop.",
@@ -107,7 +107,9 @@ variables_df <- data.frame(
     "Maximum desorbable P, representing the size of the readily available P pool (mg P L⁻¹).",
     "Product of $k$ and $P_{desorb}$, representing the initial flux of P from the soil.",
     "Plant-available P measured by the CO₂-saturated water extraction method (mg P kg⁻¹).",
-    "Plant-available P measured by the ammonium-acetate-EDTA extraction method (mg P kg⁻¹)."
+    "Plant-available P measured by the ammonium-acetate-EDTA extraction method (mg P kg⁻¹).",
+    "Al extractable by oxalate ($mg~Fe~kg^{-1}$)",
+    "Fe extractable by oxalate ($mg~Fe~kg^{-1}$)"
   )
 )
 
@@ -123,6 +125,6 @@ Linear mixed-effects models (`lmer`) were used to test the relationships between
 -   **Fixed Effects**: These represent the main explanatory variables of interest whose effects we wanted to quantify. The fixed effects included the kinetic parameters ($k$, $P_{desorb}$, $J_0$) and the standard soil P tests ($P_w$, $P_{AAE10}$), along with their interactions.
 -   **Random Effects**: These were included to control for non-independence among observations. By including `(1 | Site)`, `(1 | Year)`, and `(1 | Crop)` as random intercepts, the model accounts for baseline differences in the response variable that are attributable to the specific location, growing season, or crop type, allowing for a more accurate estimation of the fixed effects.
 
-To identify the most informative and parsimonious model, a systematic feature selection process was conducted using the `mlr3` machine learning framework. This involved training and evaluating different combinations of predictor variables using nested cross-validation to ensure the robustness of the final selected model.
+To identify the most informative and parsimonious model, a systematic feature selection process was conducted using the `mlr3` ([@mlr3]) machine learning framework. This involved training and evaluating different combinations of predictor variables using nested cross-validation to ensure the robustness of the final selected model.
 
-All statistical analyses were performed in the R environment, utilizing the `nlme` package for kinetic modeling and the `lme4`, `lmerTest`, and `mlr3` packages for the final agronomic modeling and feature selection.
+All statistical analyses were performed in the R [@base] environment, utilizing the `nlme` [@nlme] package for kinetic modeling and the `lme4`[@lme4], `lmerTest` [@lmerTest], and `mlr3` packages for the final agronomic modeling and feature selection.

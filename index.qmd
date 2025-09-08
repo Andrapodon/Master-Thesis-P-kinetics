@@ -1,10 +1,5 @@
 ---
-# For Scolar Frontmatter doc: https://quarto.org/docs/authoring/front-matter.html
-title: Master Thesis
-execute: 
-  echo: false
-# pdf-engine: lualatex
-# date: 2024-10-16
+title: P-release kinetic as a predictor for P-availability in the STYCS Trials
 authors:
   - name: Marc Pérez
     affiliation: 
@@ -12,21 +7,13 @@ authors:
         city: Zurich
         state: Switzerland
         url: www.ethz.ch
-    roles: writing
-    corresponding: true
-bibliography: writing/references.bib
-# license: "CC BY-NC-SA"
-# citation: 
-# funding: "The author received no specific funding for this work."
-keywords:
-  - Phosphorus release kinetics
-  - Fertiizer requirements prediction
 abstract: > 
   Hier kommt das Abstract
 ---
 
+<!-- This command is required by your custom .sty file to create the title page -->
 
-{{< include writing/05-preface.qmd >}}
+<!-- The content below will now have the 'fancy' page style and numbering -->
 
 {{< include writing/10-abstract.qmd >}}
 
@@ -43,6 +30,8 @@ abstract: >
 {{< include writing/40-acknowledgments.qmd >}}
 
 {{< include writing/45-legal-disclosure.qmd >}}
+
+\newpage
 
 {{< include writing/50-references.qmd >}}
 

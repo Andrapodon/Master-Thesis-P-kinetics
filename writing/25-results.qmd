@@ -30,7 +30,8 @@ load("~/Documents/Master Thesis/Master-Thesis-P-kinetics/data/results_coefficien
 create_coef_table <- function(lmer_models, 
                               covariate_order = NULL, 
                               covariate_labels = NULL, # NEU: Benannter Vektor für Zeilennamen
-                              model_labels = NULL) {   # NEU: Benannter Vektor für Spaltennamen
+                              model_labels = NULL,
+                              descriptor = "Response") {   # NEU: Benannter Vektor für Spaltennamen
 
   # Extract coefficients and p-values (Ihre Originalfunktion, keine Änderung hier)
   extract_coef_info <- function(model) {
@@ -112,7 +113,7 @@ create_coef_table <- function(lmer_models,
   # --- Ende der neuen Sektion ---
 
   # Convert to data frame for kable
-  results_df <- data.frame("Model" = rownames(results_matrix),
+  results_df <- data.frame(descriptor = rownames(results_matrix),
                            results_matrix,
                            check.names = FALSE, # Verhindert, dass R Spaltennamen ändert
                            stringsAsFactors = FALSE)
@@ -138,7 +139,7 @@ Following the conceptual framework of Flossmann and Richter (1982), the first-or
 #| warning: false
 #| message: false
 #| out-width: "\\textwidth"
-#| fig-height: 6
+#| fig-height: 4
 
   ggplot(d[d$Treatment!="P100"&(d$Repetition==1|d$Repetition==2),], aes(y=Y1, x=t.min., col = Repetition)) +
    geom_point() +
@@ -199,7 +200,7 @@ pred_data <- d_plot %>%
 
 To validate the newly derived kinetic parameters against an established benchmark, the capacity ($P_{desorb}$) and kinetic ($k$) parameters were compared to data from Isotopic Exchange Kinetics (IEK) studies previously conducted on the same long-term trial sites by Demaria et al. (2013). This comparison aims to determine if the simpler, non-equilibrium desorption method used in this thesis captures similar aspects of soil P dynamics as the more complex, equilibrium-based IEK method.
 
-The size of the desorbable P pool ($P_{desorb}$) was compared against the long-term isotopically exchangeable P pool measured after 7 days ($E_{exp\_10080}$). The desorption rate constant ($k$) was compared against the IEK kinetic parameter measured after 24 hours ($n_{1440}$). Spearman's rank correlation was used to robustly test for monotonic trends between the different methods.
+The size of the desorbable P pool ($P_{desorb}$) was compared against the long-term isotopically exchangeable P pool measured after 7 days ($E_{7d}$). The desorption rate constant ($k$) was compared against the IEK kinetic parameter measured after 24 hours ($n_{1d}$). Spearman's rank correlation was used to robustly test for monotonic trends between the different methods.
 
 ```{r}
 #| label: fig-iek-comparison
@@ -255,9 +256,9 @@ p1
 p2
 ```
 
-The analysis revealed a statistically significant, moderate positive correlation between the capacity parameters, $P_{desorb}$ and $E_{exp\_10080}$ (fig-iek-comparison). The Spearman's rank correlation coefficient was `r round(spearman_capacity$estimate, 2)` with a p-value of `r format.pval(spearman_capacity$p.value, eps = 0.001)`.
+The analysis revealed a statistically significant, moderate positive correlation between the capacity parameters, $P_{desorb}$ and $E_{7d}$ (fig-iek-comparison). The Spearman's rank correlation coefficient was `r round(spearman_capacity$estimate, 2)` with a p-value of `r format.pval(spearman_capacity$p.value, eps = 0.001)`.
 
-Similarly, a statistically significant, moderate positive correlation was found between the kinetic parameters, $k$ and $n_{1440}$ (fig-iek-comparison). The Spearman's rank correlation coefficient was `r round(spearman_kinetic$estimate, 2)` with a p-value of `r format.pval(spearman_kinetic$p.value, eps = 0.001)`.
+Similarly, a statistically significant, moderate positive correlation was found between the kinetic parameters, $k$ and $n_{1d}$ (fig-iek-comparison). The Spearman's rank correlation coefficient was `r round(spearman_kinetic$estimate, 2)` with a p-value of `r format.pval(spearman_kinetic$p.value, eps = 0.001)`.
 
 These results indicate that the simpler, non-equilibrium desorption method used in this study successfully captures both the capacity and intensity aspects of soil P lability, providing results that are consistent with the more complex, equilibrium-based IEK method reported by Demaria et al. (2013).
 
@@ -383,6 +384,19 @@ To understand the underlying drivers of the standard and kinetic P parameters, a
 #| warning: false
 #| message: false
 
+fit.soil.PS  <- lmer(log(PS)     ~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Fed + Ald  + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+# fit.soil.PS2 <- lmer(log(PS)     ~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt  + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.soil.k   <- lmer(k           ~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Fed + Ald + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.soil.kPS <- lmer(I(log(k*PS))~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Fed + Ald + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.soil.kPS2<- lmer(I(k*log(PS))~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Fed + Ald + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.soil.CO2 <- lmer(log(soil_0_20_P_CO2)~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Fed + Ald + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.soil.AAE10<-lmer(log(soil_0_20_P_AAE10)~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Fed + Ald + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+
+
+
+
+
+
 lmer_models_soil <- list(
   "m.PS" = fit.soil.PS,
   "m.k" = fit.soil.k,
@@ -396,8 +410,8 @@ covariate_labels_soil_props <- c(
   "soil_0_20_clay" = "Clay",
   "soil_0_20_silt" = "Silt",
   "soil_0_20_pH_H2O" = "pH",
-  "Feox" = "$Fe_{ox}$",
-  "Alox" = "$Al_{ox}$",
+  "Fed" = "$Fe_{ox}$",
+  "Ald" = "$Al_{ox}$",
   "R2m" = "$R^2_m$",
   "R2c" = "$R^2_c$"
 )
@@ -416,7 +430,7 @@ results_table_soil <- create_coef_table(
 knitr::kable(results_table_soil, escape = FALSE, row.names = FALSE, format = "markdown")
 ```
 
-The analysis in @tbl-soil-prop-models reveals that the capacity-based P pools and the kinetic rate constant are controlled by different sets of soil properties. Both amorphous aluminum ($Al_{ox}$) and iron ($Fe_{ox}$) oxides had a highly significant negative effect on the **Desorbable P pool (**$P_{desorb}$), suggesting they bind P strongly. In contrast, **Organic Carbon (**$C_{org}$) had a significant positive effect on all capacity measures, especially `$P_{AAE10}$`. The **Rate Constant (**$k$) was not significantly driven by the oxides, but showed a significant positive relationship with `$C_{org}$` and a negative relationship with `Clay` content, indicating that the speed of P release is governed by different mechanisms than the total pool size.
+The analysis in @tbl-soil-prop-models reveals that the capacity-based P pools and the kinetic rate constant are controlled by different sets of soil properties. Both amorphous aluminum ($Al_{ox}$) and iron ($Fe_{ox}$) oxides had a highly significant negative effect on the **Desorbable P pool (**$P_{desorb}$), suggesting they bind P strongly. In contrast, **Organic Carbon (**$C_{org}$) had a significant positive effect on all capacity measures, especially $P_{AAE10}$. The **Rate Constant (**$k$) was not significantly driven by the oxides, but showed a significant positive relationship with $C_{org}$ and a negative relationship with `Clay` content, indicating that the speed of P release is governed by different mechanisms than the total pool size.
 
 ## Predictive Modeling of Agronomic Outcomes {#sec-agronomic-modeling}
 
@@ -441,20 +455,20 @@ lmer_models_yield_norm <- list(
 )
 covariate_labels <- c(
   "(Intercept)" = "Intercept",
-  "log(soil_0_20_P_CO2)" = "$log(P_{CO_2})$",
-  "log(soil_0_20_P_AAE10)" = "$log(P_{AAE10})$",
+  "log(soil_0_20_P_CO2)" = "$P_{CO_2}$",
+  "log(soil_0_20_P_AAE10)" = "$P_{AAE10}$",
   "k" = "$k$",
-  "log(PS)" = "$log(P_{desorb})$",
+  "log(PS)" = "$P_{desorb}$",
   "k:log(PS)" = "$J_0$",
   "log(soil_0_20_P_CO2):log(soil_0_20_P_AAE10)" = "$P_{CO_2} \\times P_{AAE10}$",
   "R2m" = "$R^2_m$",
   "R2c" = "$R^2_c$"
 )
 model_labels_ynorm <- c(
-  "Yn-STP-CO2"   = "$Y_{norm} \\sim P_{CO_2}$",
-  "Yn-STP-AAE10" = "$Y_{norm} \\sim P_{AAE10}$",
-  "Yn-STP-GRUD"  = "$Y_{norm} \\sim P_{CO_2}*P_{AAE10}$",
-  "Yn-Kinetic"   = "$Y_{norm} \\sim k * P_{desorb}$"
+  "Yn-STP-CO2"   = "$P_{CO_2}$",
+  "Yn-STP-AAE10" = "$P_{AAE10}$",
+  "Yn-STP-GRUD"  = "$P_{CO_2}*P_{AAE10}$",
+  "Yn-Kinetic"   = "$k * P_{desorb}$"
 )
 results_table_ynorm <- create_coef_table(
   lmer_models_yield_norm,
@@ -464,7 +478,7 @@ results_table_ynorm <- create_coef_table(
 knitr::kable(results_table_ynorm, escape = FALSE, row.names = FALSE, format = "markdown")
 ```
 
-As shown in @tbl-ynorm-models, both `$P_{CO_2}$` and `$P_{AAE10}$` were highly significant predictors of site-normalized yield, with the model containing `$P_{CO_2}$` explaining the most variance (Marginal R² = 0.218). In contrast, the kinetic parameters showed no significant predictive power for `$Y_{norm}$`.
+As shown in @tbl-ynorm-models, both $P_{CO_2}$ and $P_{AAE10}$ were highly significant predictors of site-normalized yield, with the model containing $P_{CO_2}$ explaining the most variance (Marginal R² = 0.218). In contrast, the kinetic parameters showed no significant predictive power for $Y_{norm}$.
 
 ### Predicting National-Normalized Yield ($Y_{rel}$) {#sec-yrel}
 
@@ -484,10 +498,10 @@ lmer_models_yield_rel <- list(
   "Yr-Kinetic"   = fit.kin.Yrel
 )
 model_labels_yrel <- c(
-  "Yr-STP-CO2"   = "$Y_{rel} \\sim P_{CO_2}$",
-  "Yr-STP-AAE10" = "$Y_{rel} \\sim P_{AAE10}$",
-  "Yr-STP-GRUD"  = "$Y_{rel} \\sim P_{CO_2}*P_{AAE10}$",
-  "Yr-Kinetic"   = "$Y_{rel} \\sim k * P_{desorb}$"
+  "Yr-STP-CO2"   = "$P_{CO_2}$",
+  "Yr-STP-AAE10" = "$P_{AAE10}$",
+  "Yr-STP-GRUD"  = "$P_{CO_2}*P_{AAE10}$",
+  "Yr-Kinetic"   = "$k * P_{desorb}$"
 )
 results_table_yrel <- create_coef_table(
   lmer_models_yield_rel,
@@ -497,7 +511,7 @@ results_table_yrel <- create_coef_table(
 knitr::kable(results_table_yrel, escape = FALSE, row.names = FALSE, format = "markdown")
 ```
 
-As seen in @tbl-yrel-models, while the standard STP methods were also significant predictors, the kinetic model revealed a significant positive effect of the **Rate Constant (**$k$) and its interaction with `$P_{desorb}$` (`$J_0$`). This suggests that the speed of P release is a more important factor when comparing yields across the broader environmental gradient represented by the national average.
+As seen in @tbl-yrel-models, while the standard STP methods were also significant predictors, the kinetic model revealed a significant positive effect of the **Rate Constant (**$k$) and its interaction with $P_{desorb}$ ($J_0$). This suggests that the speed of P release is a more important factor when comparing yields across the broader environmental gradient represented by the national average.
 
 ### Predicting P-Export ($P_{up}$) {#sec-pexport}
 
@@ -517,10 +531,10 @@ lmer_models_export <- list(
   "Kin_Pexport"   = fit.kin.Pexport
 )
 model_labels_export <- c(
-  "CO2_Pexport"   = "$P_{up} \\sim P_{CO_2}$",
-  "AAE10_Pexport" = "$P_{up} \\sim P_{AAE10}$",
-  "Grud_Pexport"  = "$P_{up} \\sim P_{CO_2}*P_{AAE10}$",
-  "Kin_Pexport"   = "$P_{up} \\sim k * P_{desorb}$"
+  "CO2_Pexport"   = "$P_{CO_2}$",
+  "AAE10_Pexport" = "$P_{AAE10}$",
+  "Grud_Pexport"  = "$P_{CO_2}*P_{AAE10}$",
+  "Kin_Pexport"   = "$k * P_{desorb}$"
 )
 results_table_export <- create_coef_table(
   lmer_models_export,
@@ -530,7 +544,7 @@ results_table_export <- create_coef_table(
 knitr::kable(results_table_export, escape = FALSE, row.names = FALSE, format = "markdown")
 ```
 
-The results in @tbl-pexport-models show that both `$P_{CO_2}$` and `$P_{AAE10}$` were highly significant predictors, explaining around 6-7% of the variance (marginal R²). This suggests that the size of the available P pool is a robust indicator of the amount of P a crop will take up.
+The results in @tbl-pexport-models show that both $P_{CO_2}$ and $P_{AAE10}$ were highly significant predictors, explaining around 6-7% of the variance (marginal R²). This suggests that the size of the available P pool is a robust indicator of the amount of P a crop will take up.
 
 ### Predicting P-Balance ($P_{bal}$) {#sec-pbalance}
 
@@ -550,10 +564,10 @@ lmer_models_balance <- list(
   "Kin_Pbalance"   = fit.kin.Pbalance
 )
 model_labels_balance <- c(
-  "CO2_Pbalance"   = "$P_{bal} \\sim P_{CO_2}$",
-  "AAE10_Pbalance" = "$P_{bal} \\sim P_{AAE10}$",
-  "Grud_Pbalance"  = "$P_{bal} \\sim P_{CO_2}*P_{AAE10}$",
-  "Kin_Pbalance"   = "$P_{bal} \\sim k * P_{desorb}$"
+  "CO2_Pbalance"   = "$P_{CO_2}$",
+  "AAE10_Pbalance" = "$P_{AAE10}$",
+  "Grud_Pbalance"  = "$P_{CO_2}*P_{AAE10}$",
+  "Kin_Pbalance"   = "$k * P_{desorb}$"
 )
 results_table_balance <- create_coef_table(
   lmer_models_balance,
@@ -563,4 +577,4 @@ results_table_balance <- create_coef_table(
 knitr::kable(results_table_balance, escape = FALSE, row.names = FALSE, format = "markdown")
 ```
 
-As detailed in @tbl-pbalance-models, the kinetic model explained **57% of the variance** in P-Balance (marginal R² = 0.572), with the **Desorbable P pool (**$P_{desorb}$) being the dominant, highly significant predictor. This indicates that the `$P_{desorb}$` parameter from the kinetic experiment is a vastly superior measure of the soil's P budget compared to standard STP tests.
+As detailed in @tbl-pbalance-models, the kinetic model explained **57% of the variance** in P-Balance (marginal R² = 0.572), with the **Desorbable P pool (**$P_{desorb}$) being the dominant, highly significant predictor. This indicates that the $P_{desorb}$ parameter from the kinetic experiment is a vastly superior measure of the soil's P budget compared to standard STP tests.

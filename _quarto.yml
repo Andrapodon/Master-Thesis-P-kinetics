@@ -8,85 +8,67 @@ csl: apa.csl
   
 manuscript:
   article: index.qmd
-  notebooks:
-    - notebook: notebooks/pretest.qmd
-      title: Model Setup
-    - notebook: notebooks/coefficient_analysis.qmd
-      title: Coefficient Analysis
-    - notebook: notebooks/mlr3.qmd
-      title: mlr3
-    - notebook: notebooks/results.qmd
-      title: Preliminary Results
-  resources:
-    - presentation/index.html
+  # (Your notebooks and resources here)
 
 # --- Format-specific settings ---
 format:
-  # HTML output settings
-  html:
-    lof: true
-    lot: true
-    number-sections: true
-    code-fold: true
-    comments:
-      hypothesis: true
-    other-links:
-    - text: Presentation
-      href: presentation/index.html
-    include-in-header:
-      - text: |
-          <style>
-          .quarto-notebook .cell-container .cell-decorator {
-            display: none;
-          }
-          </style>
-
-  # DOCX output settings
-  docx:
-    number-sections: true
-    lof: true
-    lot: true
+  # (Your html and docx settings here)
 
   # PDF output settings
   pdf:
     # --- Basic PDF setup ---
-    code-link: false
     documentclass: article
     papersize: a4
-    pdf-engine: lualatex # Corrected typo from lualateg
+    pdf-engine: lualatex
     number-sections: true
-    # Use classic LaTeX fonts
     mainfont: "Latin Modern Roman"
     sansfont: "Latin Modern Sans"
     monofont: "Latin Modern Mono"
+    notebook-links: false
     
-    # --- Add Lists of Figures and Tables ---
-    lof: true
-    lot: true
+    # --- Disable auto-generation of LoF/LoT ---
+    lof: false
+    lot: false
     
     # --- Custom LaTeX integration ---
-    # 1. Load packages and define metadata for your .sty file
+    # 1. Load packages and DEFINE the header style, but do not apply it yet.
     include-in-header:
       - text: |
           \usepackage{fancyhdr}
-          \pagestyle{fancy}
-          \fancyhf{}
-          \fancyhead[L]{\nouppercase{\leftmark}}
-          \fancyhead[R]{\thepage}
-          \renewcommand{\headrulewidth}{0.4pt}
           \usepackage[english,mt]{ethidsc}
-          \studentA{Marc Jerónimo Pérez y Ropero}
+          % Define the style but don't activate it with \pagestyle{fancy} here
+          \fancypagestyle{fancy}{
+            \fancyhf{}
+            \fancyhead[L]{\nouppercase{\leftmark}}
+            \fancyhead[R]{\thepage}
+            \renewcommand{\headrulewidth}{0.4pt}
+          }
+          \studentA{Marc Jerónimo Pérez y Roper}
           \ethidA{13-938-311}
           \emailA{marcpe@ethz.ch}
           \supervision{Prof. Dr. Emmanuel Frossard \\ Dr. Frank Liebisch}
           \declaration
           \infopage
 
-    # 2. Add content at the beginning of the document body
+    # 2. Add ToC, then forcefully switch page style and start numbering
     include-before-body:
       - text: |
-          \maketitle
           \tableofcontents
+          \cleardoublepage 
+          \pagestyle{fancy}
+          \pagenumbering{arabic}
+
+    # 3. Add content at the very end of the document
+    include-after-body:
+      - text: |
+          \newpage
+          \phantomsection
+          \addcontentsline{toc}{section}{\listfigurename}
+          \listoffigures
+          \newpage
+          \phantomsection
+          \addcontentsline{toc}{section}{\listtablename}
+          \listoftables
 
 # --- Execution settings ---
 execute:
