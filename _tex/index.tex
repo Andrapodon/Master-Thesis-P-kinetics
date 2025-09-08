@@ -155,6 +155,7 @@
 \usepackage[normalem]{ulem}
 \usepackage{makecell}
 \usepackage{xcolor}
+\pagenumbering{arabic}
 \usepackage{fancyhdr}
 \pagestyle{fancy}
 \fancyhf{}
@@ -213,7 +214,7 @@
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \urlstyle{same}
 \hypersetup{
-  pdftitle={Master Thesis},
+  pdftitle={P-release kinetic as a predictor for P-availability in the STYCS Trials},
   colorlinks=true,
   linkcolor={blue},
   filecolor={Maroon},
@@ -222,7 +223,8 @@
   pdfcreator={LaTeX via pandoc}}
 
 
-\title{Master Thesis}
+\title{P-release kinetic as a predictor for P-availability in the STYCS
+Trials}
 \author{Marc Pérez}
 \date{}
 \begin{document}
@@ -231,11 +233,8 @@
 Hier kommt das Abstract
 \end{abstract}
 
-\maketitle
 \tableofcontents
 
-\listoffigures
-\listoftables
 
 \section{Abstract}\label{abstract}
 
@@ -404,13 +403,8 @@ REC & Eutric Gleysol & 39 & 25 & 27 & 7.4 \\
 
 \end{longtable}
 
-\textsubscript{Source:
-\href{https://Andrapodon.github.io/Master-Thesis-P-kinetics/index.qmd.html}{Article
-Notebook}}
-
-Soil samples for this thesis were collected on {[}Your Sampling Date{]}
-from the topsoil layer (0-20 cm). {[}Add any further specific details
-about your sampling strategy here{]}.
+Soil samples for this thesis were collected in the year 2022 from the
+topsoil layer (0-20 cm).
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
@@ -422,8 +416,8 @@ principles of sequential extraction established by Flossmann and Richter
 (1982). The original method is described below, followed by the specific
 protocol adapted for this study.
 
-\subsubsection{Original Method of Flossmann and Richter (1982)
-\{\#sec-original-method-of-flossmann-and-richter-(1982\}}\label{original-method-of-flossmann-and-richter-1982-sec-original-method-of-flossmann-and-richter-1982}
+\subsubsection{Original Method of Flossmann and Richter
+(1982)}\label{original-method-of-flossmann-and-richter-1982}
 
 The foundational method aims to characterize the P replenishment
 capacity of the soil. The procedure is as follows:
@@ -562,10 +556,10 @@ The response and predictor variables used in the linear mixed-effects
 models are defined in the table below.
 
 \begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.0855}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.1447}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.0658}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.7039}}@{}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.0850}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.1503}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.0654}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.6993}}@{}}
 
 \caption{\label{tbl-variables}Description of variables used in the
 agronomic models.}
@@ -605,12 +599,12 @@ representing the size of the readily available P pool (mg P L⁻¹). \\
 by the CO₂-saturated water extraction method (mg P kg⁻¹). \\
 \(P_{AAE10}\) & Chelate-Extractable P & Predictor & Plant-available P
 measured by the ammonium-acetate-EDTA extraction method (mg P kg⁻¹). \\
+\(Al_{ox}\) & Oxalate-extractable Al & Predictor & Al extractable by
+oxalate (\(mg~Fe~kg^{-1}\)) \\
+\(Fe_{ox}\) & Oxalate-extractable Fe & Predictor & Fe extractable by
+oxalate (\(mg~Fe~kg^{-1}\)) \\
 
 \end{longtable}
-
-\textsubscript{Source:
-\href{https://Andrapodon.github.io/Master-Thesis-P-kinetics/index.qmd.html}{Article
-Notebook}}
 
 \paragraph{Linear Mixed-Effects Model
 Structure}\label{sec-linear-mixed-effects-model-structure}
@@ -643,21 +637,18 @@ Random Effects)}
 \end{itemize}
 
 To identify the most informative and parsimonious model, a systematic
-feature selection process was conducted using the \texttt{mlr3} machine
-learning framework. This involved training and evaluating different
-combinations of predictor variables using nested cross-validation to
-ensure the robustness of the final selected model.
+feature selection process was conducted using the \texttt{mlr3} ((Lang
+et al., 2019)) machine learning framework. This involved training and
+evaluating different combinations of predictor variables using nested
+cross-validation to ensure the robustness of the final selected model.
 
-All statistical analyses were performed in the R environment, utilizing
-the \texttt{nlme} package for kinetic modeling and the \texttt{lme4},
-\texttt{lmerTest}, and \texttt{mlr3} packages for the final agronomic
-modeling and feature selection.
+All statistical analyses were performed in the R (2025) environment,
+utilizing the \texttt{nlme} (Pinheiro et al., 2025) package for kinetic
+modeling and the \texttt{lme4}(Bates et al., 2015), \texttt{lmerTest}
+(Kuznetsova et al., 2017), and \texttt{mlr3} packages for the final
+agronomic modeling and feature selection.
 
 \section{Results}\label{results}
-
-\textsubscript{Source:
-\href{https://Andrapodon.github.io/Master-Thesis-P-kinetics/index.qmd.html}{Article
-Notebook}}
 
 The results of this study are presented in two main parts. First, the
 development and validation of the phosphorus (P) desorption kinetic
@@ -704,10 +695,6 @@ many intercepts are not zero.}
 
 \end{figure}%
 
-\textsubscript{Source:
-\href{https://Andrapodon.github.io/Master-Thesis-P-kinetics/index.qmd.html}{Article
-Notebook}}
-
 \subsubsection{Final Approach: Successful Non-Linear
 Model}\label{final-approach-successful-non-linear-model}
 
@@ -736,10 +723,6 @@ fits for P desorption over time. Points represent measured data and
 solid lines represent the fitted model for each replicate.}
 
 \end{figure}%
-
-\textsubscript{Source:
-\href{https://Andrapodon.github.io/Master-Thesis-P-kinetics/index.qmd.html}{Article
-Notebook}}
 
 \subsection{Comparison with Isotopic Exchange Kinetics (IEK)
 \{\#sec-comparison-with-isotopic-exchange-kinetics-(iek\}}\label{comparison-with-isotopic-exchange-kinetics-iek-sec-comparison-with-isotopic-exchange-kinetics-iek}
@@ -845,10 +828,6 @@ from 2017-2022.}
 
 \end{figure}%
 
-\textsubscript{Source:
-\href{https://Andrapodon.github.io/Master-Thesis-P-kinetics/index.qmd.html}{Article
-Notebook}}
-
 \textbf{Yield Metrics (}\(Y_{norm}\) and \(Y_{rel}\)): Both yield
 metrics showed a generally positive response to P fertilization. The
 site-normalized yield (\(Y_{norm}\)) shows the response relative to the
@@ -888,10 +867,6 @@ fertilization treatments and six experimental sites.}
 
 \end{figure}%
 
-\textsubscript{Source:
-\href{https://Andrapodon.github.io/Master-Thesis-P-kinetics/index.qmd.html}{Article
-Notebook}}
-
 \textbf{Standard STPs (}\(P_{CO_2}\) and \(P_{AAE10}\)): Both standard
 soil P tests showed a clear and consistent increase with rising P
 fertilization levels across all sites, confirming their sensitivity to
@@ -926,7 +901,13 @@ pH, and amorphous Al/Fe oxides. The models included random effects for
 \texttt{Site}, \texttt{Year}, and \texttt{Block}. The results are
 summarized in Table~\ref{tbl-soil-prop-models}.
 
-\begin{longtable}[]{@{}llllll@{}}
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.2090}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1940}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1343}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1194}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1642}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1791}}@{}}
 
 \caption{\label{tbl-soil-prop-models}Results of linear mixed-effects
 models predicting P parameters from intrinsic soil properties.
@@ -936,8 +917,19 @@ Significance codes: `\emph{\textbf{' p \textless{} 0.001, '}' p
 \tabularnewline
 
 \toprule\noalign{}
-Model & \(P_{desorb}\) & \(k\) & \(J_0\) & \(P_{CO_2}\) &
-\(P_{AAE10}\) \\
+\begin{minipage}[b]{\linewidth}\raggedright
+Fixed-effects
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\(P_{desorb}\)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\(k\)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\(J_0\)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\(P_{CO_2}\)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\(P_{AAE10}\)
+\end{minipage} \\
 \midrule\noalign{}
 \endhead
 \bottomrule\noalign{}
@@ -953,10 +945,6 @@ Silt & -0.010 & 0.004 & -0.011 & -0.022 & -0.046 \\
 \(R^2_c\) & 0.954 & 0.963 & 0.910 & 0.925 & 0.975 \\
 
 \end{longtable}
-
-\textsubscript{Source:
-\href{https://Andrapodon.github.io/Master-Thesis-P-kinetics/index.qmd.html}{Article
-Notebook}}
 
 The analysis in Table~\ref{tbl-soil-prop-models} reveals that the
 capacity-based P pools and the kinetic rate constant are controlled by
@@ -987,11 +975,11 @@ Table~\ref{tbl-ynorm-models}. For this metric, the standard STP methods
 proved to be the most effective predictors.
 
 \begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1931}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1724}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1793}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2414}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2138}}@{}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.3146}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1236}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1348}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2360}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1910}}@{}}
 
 \caption{\label{tbl-ynorm-models}Results of linear mixed-effects models
 predicting Site-Normalized Yield (\(Y_{norm}\)).}
@@ -1000,15 +988,15 @@ predicting Site-Normalized Yield (\(Y_{norm}\)).}
 
 \toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\raggedright
-Model
+Fixed-effects
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-\(Y_{norm} \sim P_{CO_2}\)
+\(P_{CO_2}\)
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-\(Y_{norm} \sim P_{AAE10}\)
+\(P_{AAE10}\)
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-\(Y_{norm} \sim P_{CO_2}*P_{AAE10}\)
+\(P_{CO_2}*P_{AAE10}\)
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-\(Y_{norm} \sim k * P_{desorb}\)
+\(k * P_{desorb}\)
 \end{minipage} \\
 \midrule\noalign{}
 \endhead
@@ -1017,18 +1005,14 @@ Model
 Intercept & 1.059*** & 0.532*** & 1.096*** & 0.980 \\
 \(k\) & & & & 2.262 \\
 \(J_0\) & & & & 0.931 \\
-\(log(P_{desorb})\) & & & & -0.063 \\
-\(log(P_{AAE10})\) & & 0.120*** & -0.006 & \\
-\(log(P_{CO_2})\) & 0.162*** & & 0.137 & \\
+\(P_{desorb}\) & & & & -0.063 \\
+\(P_{AAE10}\) & & 0.120*** & -0.006 & \\
+\(P_{CO_2}\) & 0.162*** & & 0.137 & \\
 \(P_{CO_2} \times P_{AAE10}\) & & & 0.016 & \\
 \(R^2_m\) & 0.218 & 0.198 & 0.220 & 0.014 \\
 \(R^2_c\) & 0.358 & 0.474 & 0.365 & 0.360 \\
 
 \end{longtable}
-
-\textsubscript{Source:
-\href{https://Andrapodon.github.io/Master-Thesis-P-kinetics/index.qmd.html}{Article
-Notebook}}
 
 As shown in Table~\ref{tbl-ynorm-models}, both \(P_{CO_2}\) and
 \(P_{AAE10}\) were highly significant predictors of site-normalized
@@ -1044,11 +1028,11 @@ kinetic parameters demonstrated a much stronger performance, as
 summarized in Table~\ref{tbl-yrel-models}.
 
 \begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1986}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1702}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1773}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2411}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2128}}@{}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.3146}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1236}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1348}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2360}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1910}}@{}}
 
 \caption{\label{tbl-yrel-models}Results of linear mixed-effects models
 predicting National-Normalized Yield (\(Y_{rel}\)).}
@@ -1057,15 +1041,15 @@ predicting National-Normalized Yield (\(Y_{rel}\)).}
 
 \toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\raggedright
-Model
+Fixed-effects
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-\(Y_{rel} \sim P_{CO_2}\)
+\(P_{CO_2}\)
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-\(Y_{rel} \sim P_{AAE10}\)
+\(P_{AAE10}\)
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-\(Y_{rel} \sim P_{CO_2}*P_{AAE10}\)
+\(P_{CO_2}*P_{AAE10}\)
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-\(Y_{rel} \sim k * P_{desorb}\)
+\(k * P_{desorb}\)
 \end{minipage} \\
 \midrule\noalign{}
 \endhead
@@ -1074,18 +1058,14 @@ Model
 Intercept & 104.862*** & 75.343*** & 130.274*** & 56.375 \\
 \(k\) & & & & 377.498** \\
 \(J_0\) & & & & 171.507** \\
-\(log(P_{desorb})\) & & & & -27.486* \\
-\(log(P_{AAE10})\) & & 7.111** & -6.537 & \\
-\(log(P_{CO_2})\) & 8.853** & & 23.091 & \\
+\(P_{desorb}\) & & & & -27.486* \\
+\(P_{AAE10}\) & & 7.111** & -6.537 & \\
+\(P_{CO_2}\) & 8.853** & & 23.091 & \\
 \(P_{CO_2} \times P_{AAE10}\) & & & -3.110 & \\
 \(R^2_m\) & 0.074 & 0.063 & 0.078 & 0.022 \\
 \(R^2_c\) & 0.569 & 0.537 & 0.596 & 0.439 \\
 
 \end{longtable}
-
-\textsubscript{Source:
-\href{https://Andrapodon.github.io/Master-Thesis-P-kinetics/index.qmd.html}{Article
-Notebook}}
 
 As seen in Table~\ref{tbl-yrel-models}, while the standard STP methods
 were also significant predictors, the kinetic model revealed a
@@ -1103,11 +1083,11 @@ with the kinetic model showing comparable, albeit non-significant,
 performance, as shown in Table~\ref{tbl-pexport-models}.
 
 \begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2044}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1679}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1752}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2409}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2117}}@{}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.3146}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1236}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1348}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2360}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1910}}@{}}
 
 \caption{\label{tbl-pexport-models}Results of linear mixed-effects
 models predicting P-Export (\(P_{up}\)).}
@@ -1116,15 +1096,15 @@ models predicting P-Export (\(P_{up}\)).}
 
 \toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\raggedright
-Model
+Fixed-effects
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-\(P_{up} \sim P_{CO_2}\)
+\(P_{CO_2}\)
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-\(P_{up} \sim P_{AAE10}\)
+\(P_{AAE10}\)
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-\(P_{up} \sim P_{CO_2}*P_{AAE10}\)
+\(P_{CO_2}*P_{AAE10}\)
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-\(P_{up} \sim k * P_{desorb}\)
+\(k * P_{desorb}\)
 \end{minipage} \\
 \midrule\noalign{}
 \endhead
@@ -1133,18 +1113,14 @@ Model
 Intercept & 27.522*** & 8.090 & 30.632* & 29.599*** \\
 \(k\) & & & & 22.622 \\
 \(J_0\) & & & & 11.928 \\
-\(log(P_{desorb})\) & & & & 1.954 \\
-\(log(P_{AAE10})\) & & 4.824*** & -0.805 & \\
-\(log(P_{CO_2})\) & 5.177*** & & 8.069 & \\
+\(P_{desorb}\) & & & & 1.954 \\
+\(P_{AAE10}\) & & 4.824*** & -0.805 & \\
+\(P_{CO_2}\) & 5.177*** & & 8.069 & \\
 \(P_{CO_2} \times P_{AAE10}\) & & & -0.814 & \\
 \(R^2_m\) & 0.064 & 0.073 & 0.065 & 0.064 \\
 \(R^2_c\) & 0.625 & 0.603 & 0.623 & 0.648 \\
 
 \end{longtable}
-
-\textsubscript{Source:
-\href{https://Andrapodon.github.io/Master-Thesis-P-kinetics/index.qmd.html}{Article
-Notebook}}
 
 The results in Table~\ref{tbl-pexport-models} show that both
 \(P_{CO_2}\) and \(P_{AAE10}\) were highly significant predictors,
@@ -1161,11 +1137,11 @@ showed no significant ability to predict the P-Balance, whereas the
 kinetic model was a powerful predictor.
 
 \begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1986}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1702}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1773}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2411}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2128}}@{}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.3146}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1236}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1348}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2360}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1910}}@{}}
 
 \caption{\label{tbl-pbalance-models}Results of linear mixed-effects
 models predicting P-Balance (\(P_{bal}\)).}
@@ -1174,15 +1150,15 @@ models predicting P-Balance (\(P_{bal}\)).}
 
 \toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\raggedright
-Model
+Fixed-effects
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-\(P_{bal} \sim P_{CO_2}\)
+\(P_{CO_2}\)
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-\(P_{bal} \sim P_{AAE10}\)
+\(P_{AAE10}\)
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-\(P_{bal} \sim P_{CO_2}*P_{AAE10}\)
+\(P_{CO_2}*P_{AAE10}\)
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-\(P_{bal} \sim k * P_{desorb}\)
+\(k * P_{desorb}\)
 \end{minipage} \\
 \midrule\noalign{}
 \endhead
@@ -1191,18 +1167,14 @@ Model
 Intercept & 4.441 & 7.691 & 3.649 & 43.833*** \\
 \(k\) & & & & 84.993 \\
 \(J_0\) & & & & 33.029 \\
-\(log(P_{desorb})\) & & & & 16.947*** \\
-\(log(P_{AAE10})\) & & -0.794 & 0.187 & \\
-\(log(P_{CO_2})\) & -0.928 & & -2.442 & \\
+\(P_{desorb}\) & & & & 16.947*** \\
+\(P_{AAE10}\) & & -0.794 & 0.187 & \\
+\(P_{CO_2}\) & -0.928 & & -2.442 & \\
 \(P_{CO_2} \times P_{AAE10}\) & & & 0.462 & \\
 \(R^2_m\) & 0.001 & 0.001 & 0.001 & 0.572 \\
 \(R^2_c\) & 0.810 & 0.807 & 0.811 & 0.744 \\
 
 \end{longtable}
-
-\textsubscript{Source:
-\href{https://Andrapodon.github.io/Master-Thesis-P-kinetics/index.qmd.html}{Article
-Notebook}}
 
 As detailed in Table~\ref{tbl-pbalance-models}, the kinetic model
 explained \textbf{57\% of the variance} in P-Balance (marginal R² =
@@ -1223,13 +1195,41 @@ superior measure of the soil's P budget compared to standard STP tests.
 
 \phantomsection\label{refs}
 \begin{CSLReferences}{1}{0}
-\bibitem[\citeproctext]{ref-hirte_yield_2021}
+\bibitem[\citeproctext]{ref-lme4}
+Bates, D., Mchler, M., Bolker, B., \& Walker, S. (2015). \emph{Fitting
+linear mixed-effects models using
+{\textbraceleft}lme4{\textbraceright}}. \emph{67}.
+\url{https://doi.org/10.18637/jss.v067.i01}
+
+\bibitem[\citeproctext]{ref-hirteYieldResponseSoil2021}
 Hirte, J., Richner, W., Orth, B., Liebisch, F., \& Flisch, R. (2021).
-Yield response to soil test phosphorus in switzerland: Pedoclimatic
+Yield response to soil test phosphorus in {Switzerland}: {Pedoclimatic}
 drivers of critical concentrations for optimal crop yields using
 multilevel modelling. \emph{Science of The Total Environment},
 \emph{755}, 143453.
 \url{https://doi.org/10.1016/j.scitotenv.2020.143453}
+
+\bibitem[\citeproctext]{ref-lmerTest}
+Kuznetsova, A., Brockhoff, P. B., \& Christensen, R. H. B. (2017).
+\emph{{\textbraceleft}lmerTest{\textbraceright} package: Tests in linear
+mixed effects models}. \emph{82}.
+\url{https://doi.org/10.18637/jss.v082.i13}
+
+\bibitem[\citeproctext]{ref-mlr3}
+Lang, M., Binder, M., Richter, J., Schratz, P., Pfisterer, F., Coors,
+S., Au, Q., Casalicchio, G., Kotthoff, L., \& Bischl, B. (2019).
+\emph{{\textbraceleft}mlr3{\textbraceright}: A modern object-oriented
+machine learning framework in {\textbraceleft}r{\textbraceright}}.
+\url{https://doi.org/10.21105/joss.01903}
+
+\bibitem[\citeproctext]{ref-nlme}
+Pinheiro, J., Bates, D., \& R Core Team. (2025). \emph{Nlme: Linear and
+nonlinear mixed effects models}.
+\url{https://doi.org/10.32614/CRAN.package.nlme}
+
+\bibitem[\citeproctext]{ref-base}
+R Core Team. (2025). \emph{R: A language and environment for statistical
+computing}. \url{https://www.R-project.org/}
 
 \end{CSLReferences}
 
@@ -1238,6 +1238,9 @@ multilevel modelling. \emph{Science of The Total Environment},
 \section{Supplements}\label{supplements}
 
 
+
+\listoffigures
+\listoftables
 
 
 \end{document}
