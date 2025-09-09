@@ -2,148 +2,11 @@
 
 ## The Long-Term Phosphorus Fertilization Experiment {#sec-the-long-term-phosphorus-fertilization-experiment}
 
-The soil samples for this thesis originate from a set of six long-term field trials in Switzerland, established by Agroscope between 1989 and 1992. The primary objective of these experiments was to validate and re-evaluate Swiss phosphorus (P) fertilization guidelines by assessing long-term crop yield responses to varying P inputs across different pedoclimatic conditions. A detailed description of the experimental design and site characteristics can be found in [@hirteYieldResponseSoil2021]
-
-The experiment was set up as a **completely randomized block design** with four field replications at each site. The core of the experiment consists of six fixed-plot treatments representing different P fertilization levels, which were applied annually as superphosphate before tillage and sowing. These levels were based on percentages of the officially recommended P inputs: 0% (Zero), 33% (Deficit), 67% (Reduced), 100% (Norm), 133% (Elevated), and 167% (Surplus).
-
-## Experimental Sites {#sec-experimental-sites}
-
-The six experimental sites are located in the main crop-growing regions of Switzerland: **Rümlang-Altwi (ALT)**, **Cadenazzo (CAD)**, **Ellighausen (ELL)**, **Grabs (GRA)**, **Oensingen (OEN)**, and **Zurich-Reckenholz (REC)**. The key soil properties are summarized below.
-
-
-
-Soil samples for this thesis were collected in the year 2022 from the topsoil layer (0-20 cm).
-
-------------------------------------------------------------------------
-
-## Phosphorus Desorption Kinetics {#sec-phosphorus-desorption-kinetics}
-
-The analysis of phosphorus (P) desorption kinetics was based on the principles of sequential extraction established by Flossmann and Richter (1982). The original method is described below, followed by the specific protocol adapted for this study.
-
-### Original Method of Flossmann and Richter (1982) 
-
-The foundational method aims to characterize the P replenishment capacity of the soil. The procedure is as follows:
-
-1.  **Removal of Soluble P**: 17.5 g of air-dried soil is shaken with 350 ml of deionized water for one hour at 25 ± 1°C. The suspension is centrifuged and the supernatant is decanted to remove the readily soluble P fraction. This first extract is referred to as:
-    -   **Solution A**: Contains easily soluble P, which is discarded.
-2.  **Kinetic Extraction**: The remaining soil pellet is resuspended with another 350 ml of deionized water. Subsamples of the suspension are taken at specific time intervals, yielding the following extracts for kinetic analysis:
-    -   **Solution B**: Subsample taken after **10 minutes**.
-    -   **Solution C**: Subsample taken after **30 minutes**.
-    -   **Solution D**: Subsample taken after **120 minutes**.
-3.  **Analysis**: The P concentration in Solutions B, C, and D is determined colorimetrically using the molybdenum blue method according to Murphy and Riley (1962).
-
-### Adapted Kinetic Protocol for This Study {#sec-adapted-kinetic-protocol-for-this-study}
-
-For this thesis, the original method was modified to capture the desorption process with a higher temporal resolution and using a different soil-to-solution ratio.
-
-1.  **Soil Suspension**: 10 g of air-dried soil was suspended in 200 ml of deionized water. Unlike the original protocol, a pre-washing step to remove soluble P was not performed, meaning the measured desorption includes both the release of readily soluble P and the subsequent replenishment from the solid phase.
-
-2.  **Kinetic Extraction**: The suspension was shaken continuously, and subsamples were taken at eight time points to generate a detailed kinetic curve. The resulting extracts were:
-
-    -   **Extract 1**: Subsample taken after **2 minutes**.
-    -   **Extract 2**: Subsample taken after **4 minutes**.
-    -   **Extract 3**: Subsample taken after **10 minutes**.
-    -   **Extract 4**: Subsample taken after **15 minutes**.
-    -   **Extract 5**: Subsample taken after **20 minutes**.
-    -   **Extract 6**: Subsample taken after **30 minutes**.
-    -   **Extract 7**: Subsample taken after **45 minutes**.
-    -   **Extract 8**: Subsample taken after **60 minutes**.
-
-3.  **Analysis**: Each subsample was immediately filtered. The concentration of orthophosphate in the filtered extracts was determined colorimetrically using the **malachite green method**.
-
-------------------------------------------------------------------------
-
-![Flow-chart of the adapted Kinetik-experiment after Flossmann & Richter.](/experiment-flow.png)
-
-## Statistical Analysis {#sec-statistical-analysis}
-
-The statistical workflow involved two main stages: 1) estimating the P desorption kinetic parameters from the laboratory data, and 2) using these parameters to model the agronomic outcomes from the long-term field experiment.
-
-### Modeling of Desorption Kinetics {#sec-modeling-of-desorption-kinetics}
-
-To derive the kinetic parameters, a non-linear mixed-effects model (`nlme`) was implemented. This approach was chosen to simultaneously estimate the rate constant ($k$) and the maximum desorbable P ($P_{desorb}$) directly from the time-series data for each soil sample. The model was fitted to the exact solution of the first-order rate equation:
-
-$$ P(t) = P_{desorb} \times (1 - e^{-k \times t'}) $$
-
-Where $P(t)$ is the P concentration at time $t$, and $t'$ is an adjusted time ($t_\text{min} + 3$ min) to account for rapid initial P dissolution. The overall means for $P_{desorb}$ and $k$ were modeled as **fixed effects**, while sample-specific deviations for both parameters were modeled as **random effects** to capture the unique characteristics of each soil sample.
-
-### Modeling of Agronomic Responses {#sec-modeling-of-agronomic-responses}
-
-The estimated kinetic parameters were merged with the agronomic and soil chemistry dataset from the years 2017-2022. A series of linear mixed-effects models were then constructed to evaluate the predictive power of these parameters.
-
-#### Variables Used in the Models {#sec-variables-used-in-the-models}
-
-The response and predictor variables used in the linear mixed-effects models are defined in the table below.
-
-
-
-#### Modeling of Soil and Agronomic Parameters
-
-To analyze the relationships between the P availability metrics, soil properties, and agronomic outcomes, two distinct types of linear mixed-effects models were constructed using the `lme4` [@R-lme4] and `lmerTest` [@R-lmerTest] packages. This approach was chosen to properly account for the hierarchical and nested structure of the STYCS experimental data.
-
-##### Models of P Availability Metrics as a Function of Soil Properties
-
-First, to investigate the underlying soil-chemical drivers of the different P availability metrics (both kinetic and static), a series of models was built to predict each metric from key soil properties.
-
-* **Fixed Effects Structure:** The fixed effects were identical for all models in this category and included the primary soil physical and chemical properties expected to influence P sorption and desorption: clay content, silt content, pH, organic carbon content, and dithionite-extractable iron ($Fe_d$) and aluminum ($Al_d$). The model took the form:
-    `P-Metric ~ soil_0_20_clay + soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Fed + Ald`
-
-* **Random Effects Structure:** The random effects structure was designed to account for the nested design of the STYCS experiment. Random intercepts were included for `year`, `Site`, and the nesting of `block` within `Site` and `Treatment` within `Site`.
-    * `(1|year)`: This term accounts for temporal variation, capturing baseline shifts that may occur across different years due to climatic differences.
-    * `(1|Site)`: This accounts for the inherent differences between the six experimental locations.
-    * `(1|Site:block)`: This term controls for spatial variability among the four experimental blocks *within* each site.
-    * `(1|Site:Treatment)`: This term accounts for how the effect of the long-term P fertilization treatments might vary randomly across the different sites.
-
-##### Comparative Models of Agronomic Outcomes
-
-To test the central hypothesis of this thesis, the predictive power of the kinetic parameters was directly compared against that of the standard STP methods (referred to as the "GRUD" system). For each agronomic response variable (Normalized Yield, P Uptake, and P Balance), two competing models were built. These models shared an identical random effects structure to ensure a fair comparison, differing only in their fixed effects.
-
-* **Random Effects Structure (for all agronomic models):** The random effect structure `(1|year) + (1|Site) + (1|Site:block)` was used to control for the experimental design, accounting for variations due to the growing season, location, and in-field spatial differences. This allows for the precise isolation of the fixed effects of interest.
-
-* **Model 1: The Kinetic Approach**
-    * **Fixed Effects:** This model used the kinetic parameters and their interaction: `k * log(PS)`. The interaction term is critical, as it tests the hypothesis that the agronomic benefit of a large desorbable P pool (`PS`) is dependent on the *rate* (`k`) at which that pool can be accessed by plants.
-    * **Specific Models:**
-        * `Ymain_norm ~ k * log(PS) + (1|year) + (1|Site) + (1|Site:block)`
-        * `annual_P_uptake ~ k * log(PS) + (1|year) + (1|Site) + (1|Site:block)`
-        * `annual_P_balance ~ k * log(PS) + (1|year) + (1|Site) + (1|Site:block)`
-
-* **Model 2: The Standard STP (GRUD) Approach**
-    * **Fixed Effects:** This model used the two standard Swiss soil tests and their interaction: `P_CO2 * P_AAE10`. Using both STP measures and their interaction allows the standard approach to be tested in its most comprehensive form.
-    * **Specific Models:**
-        * `Ymain_norm ~ P_CO2 * P_AAE10 + (1|year) + (1|Site) + (1|Site:block)`
-        * `annual_P_uptake ~ P_CO2 * P_AAE10 + (1|year) + (1|Site) + (1|Site:block)`
-        * `annual_P_balance ~ P_CO2 * P_AAE10 + (1|year) + (1|Site) + (1|Site:block)`
-
-The relative performance of these two sets of models was then evaluated to determine whether the kinetic parameters provided a significant improvement in predictive power for key agronomic outcomes.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# Materials and Methods {#sec-materials-and-methods}
-
-## The Long-Term Phosphorus Fertilization Experiment {#sec-the-long-term-phosphorus-fertilization-experiment}
-
 The soil samples for this thesis originate from a set of six long-term field trials in Switzerland, established by Agroscope between 1989 and 1992. The primary objective of these experiments was to validate and re-evaluate Swiss phosphorus (P) fertilization guidelines by assessing long-term crop yield responses to varying P inputs across different pedoclimatic conditions. A detailed description of the experimental design and site characteristics can be found in @hirteYieldResponseSoil2021.
 
 The experiment was set up as a **completely randomized block design** with four field replications at each site. The core of the experiment consists of six fixed-plot treatments representing different P fertilization levels, which were applied annually as superphosphate before tillage and sowing. These levels were based on percentages of the officially recommended P inputs: 0% (Zero), 33% (Deficit), 67% (Reduced), 100% (Norm), 133% (Elevated), and 167% (Surplus).
 
 ## Experimental Sites {#sec-experimental-sites}
-
-
 
 The six experimental sites are located in the main crop-growing regions of Switzerland: **Rümlang-Altwi (ALT)**, **Cadenazzo (CAD)**, **Ellighausen (ELL)**, **Grabs (GRA)**, **Oensingen (OEN)**, and **Zurich-Reckenholz (REC)**. The key soil properties are summarized below.
 
@@ -189,7 +52,7 @@ For this thesis, the original method was modified to capture the desorption proc
 
 2.  **Kinetic Extraction**: The remaining soil pellet was resuspended in 200 ml of fresh deionized water. The suspension was shaken continuously, and subsamples were taken at eight time points to generate a detailed kinetic curve: **2, 4, 10, 15, 20, 30, 45, and 60 minutes**.
 
-3.  **Analysis**: Each subsample was immediately filtered. The concentration of orthophosphate in the filtered extracts was determined colorimetrically using the **malachite green method**.
+3.  **Analysis**: Each subsample was immediately filtered. The concentration of orthophosphate in the filtered extracts was determined colorimetrically using the **malachite green method** [@VanVeldhoven1987Malachite].
 
 ------------------------------------------------------------------------
 
@@ -250,6 +113,14 @@ variables_df <- data.frame(
 knitr::kable(variables_df)
 ```
 
+
+### Model Assumptions and Diagnostics
+
+The validity of the linear mixed-effects models (`lmer`) relies on several key assumptions, primarily that the model residuals are normally distributed and homoscedastic (i.e., have constant variance across the range of predicted values). Prior to finalizing the models, these assumptions were rigorously checked through visual inspection of diagnostic plots, such as quantile-quantile (Q-Q) plots of the residuals and plots of residuals versus fitted values.
+
+Initial exploratory data analysis revealed that several of the predictor variables, most notably the desorbable P pool ($P_{desorb}$ or PS), were strongly right-skewed. Using such variables directly in the linear models would violate the assumptions of linearity and homoscedasticity, leading to potentially biased and unreliable coefficient estimates.
+
+To address this, various transformations (including square root and logarithmic) were tested on the skewed variables. The natural log-transformation (`log()`) was found to be the most effective at normalizing the distribution of `PS` and producing well-behaved model residuals that more closely met the required assumptions. Therefore, `log(PS)` was used as a fixed effect in all subsequent agronomic models to ensure the statistical validity of the results.
 
 #### Models of P Availability Metrics as a Function of Soil Properties
 
