@@ -1,7 +1,7 @@
 ---
 title: P-release kinetic as a predictor for P-availability in the STYCS Trials
 authors:
-  - name: Marc Pérez
+  - name: Marc Jerónimo Pérez y Ropero
     affiliation: 
       - name: ETH Zurich
         city: Zurich

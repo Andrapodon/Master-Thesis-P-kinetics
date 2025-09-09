@@ -10,7 +10,6 @@ The experiment was set up as a **completely randomized block design** with four 
 
 The six experimental sites are located in the main crop-growing regions of Switzerland: **Rümlang-Altwi (ALT)**, **Cadenazzo (CAD)**, **Ellighausen (ELL)**, **Grabs (GRA)**, **Oensingen (OEN)**, and **Zurich-Reckenholz (REC)**. The key soil properties are summarized below.
 
-
 ```{r}
 #| label: tbl-sites-corrected
 #| tbl-cap: "Soil characteristics of the six long-term experimental sites. Data adapted from Hirte et al. (2021)."
@@ -34,9 +33,9 @@ Soil samples for this thesis were collected in the year 2022 from the topsoil la
 
 ## Phosphorus Desorption Kinetics {#sec-phosphorus-desorption-kinetics}
 
-The analysis of phosphorus (P) desorption kinetics was based on the principles of sequential extraction established by @Flossmann1982. The original method is described below, followed by the specific protocol adapted for this study.
+The analysis of phosphorus (P) desorption kinetics was based on the principles of sequential extraction established by [@flossmannExtractionMethodCharacterizing1982]. The original method is described below, followed by the specific protocol adapted for this study.
 
-### Original Method of Flossmann and Richter (1982) 
+### Original Method of Flossmann and Richter (1982)
 
 The foundational method aims to characterize the P replenishment capacity of the soil. The procedure is as follows:
 
@@ -60,10 +59,7 @@ For this thesis, the original method was modified to capture the desorption proc
 
 ### Software and Statistical Environment
 
-All data processing, statistical modeling, and visualization were conducted using the R programming language (v. 4.2.2) [@R-base]. The primary packages used for the analysis were:
-- `nlme` [@R-nlme] for fitting the non-linear mixed-effects models to the kinetic data.
-- `lme4` [@R-lme4] and `lmerTest` [@R-lmerTest] for fitting and testing the linear mixed-effects models for agronomic and soil property analyses.
-- `mlr3` [@R-mlr3] for the systematic feature selection and model validation workflow.
+All data processing, statistical modeling, and visualization were conducted using the R programming language (v. 4.2.2) [@R-base]. The primary packages used for the analysis were: - `nlme` [@R-nlme] for fitting the non-linear mixed-effects models to the kinetic data. - `lme4` [@R-lme4] and `lmerTest` [@R-lmerTest] for fitting and testing the linear mixed-effects models for agronomic and soil property analyses. - `mlr3` [@R-mlr3] for the systematic feature selection and model validation workflow.
 
 ### Modeling of Desorption Kinetics {#sec-modeling-of-desorption-kinetics}
 
@@ -76,7 +72,6 @@ Where $P(t)$ is the P concentration at time $t$, and $t'$ is an adjusted time ($
 ### Comparative Modeling of Soil and Agronomic Parameters
 
 To test the hypotheses of this thesis, two distinct sets of linear mixed-effects models were constructed.
-
 
 ```{r}
 #| label: tbl-variables
@@ -113,7 +108,6 @@ variables_df <- data.frame(
 knitr::kable(variables_df)
 ```
 
-
 ### Model Assumptions and Diagnostics
 
 The validity of the linear mixed-effects models (`lmer`) relies on several key assumptions, primarily that the model residuals are normally distributed and homoscedastic (i.e., have constant variance across the range of predicted values). Prior to finalizing the models, these assumptions were rigorously checked through visual inspection of diagnostic plots, such as quantile-quantile (Q-Q) plots of the residuals and plots of residuals versus fitted values.
@@ -126,19 +120,21 @@ To address this, various transformations (including square root and logarithmic)
 
 First, to investigate the underlying soil-chemical drivers of the different P availability metrics (both kinetic and static), a series of models was built to predict each metric from key soil properties.
 
-* **Fixed Effects Structure:** The fixed effects were identical for all models in this category and included the primary soil physical and chemical properties: clay content, silt content, pH, organic carbon content, and dithionite-extractable iron ($Fe_d$) and aluminum ($Al_d$).
-* **Random Effects Structure:** The random effects structure accounted for the nested design of the STYCS experiment, with random intercepts for `year`, `Site`, `Site:block`, and `Site:Treatment`.
+-   **Fixed Effects Structure:** The fixed effects were identical for all models in this category and included the primary soil physical and chemical properties: clay content, silt content, pH, organic carbon content, and dithionite-extractable iron ($Fe_d$) and aluminum ($Al_d$).
+-   **Random Effects Structure:** The random effects structure accounted for the nested design of the STYCS experiment, with random intercepts for `year`, `Site`, `Site:block`, and `Site:Treatment`.
 
 #### Comparative Models of Agronomic Outcomes
 
 Second, the predictive power of the kinetic parameters was directly compared against that of the standard STP methods ("GRUD" system). For each agronomic response variable (Normalized Yield, P Uptake, and P Balance), two competing models were built. These models shared an identical random effects structure to ensure a fair comparison, differing only in their fixed effects.
 
-* **Random Effects Structure (for all agronomic models):** The structure `(1|year) + (1|Site) + (1|Site:block)` was used to control for variations due to the growing season, location, and in-field spatial differences.
+-   **Random Effects Structure (for all agronomic models):** The structure `(1|year) + (1|Site) + (1|Site:block)` was used to control for variations due to the growing season, location, and in-field spatial differences.
 
-* **Model 1: The Kinetic Approach**
-    * **Fixed Effects:** This model used the kinetic parameters and their interaction: `k * log(PS)`. The interaction term tests the hypothesis that the benefit of a large desorbable P pool (`PS`) depends on the *rate* (`k`) at which it can be accessed.
+-   **Model 1: The Kinetic Approach**
 
-* **Model 2: The Standard STP (GRUD) Approach**
-    * **Fixed Effects:** This model used the two standard Swiss soil tests and their interaction: `P_CO2 * P_AAE10`.
+    -   **Fixed Effects:** This model used the kinetic parameters and their interaction: `k * log(PS)`. The interaction term tests the hypothesis that the benefit of a large desorbable P pool (`PS`) depends on the *rate* (`k`) at which it can be accessed.
+
+-   **Model 2: The Standard STP (GRUD) Approach**
+
+    -   **Fixed Effects:** This model used the two standard Swiss soil tests and their interaction: `P_CO2 * P_AAE10`.
 
 The relative performance of these two sets of models was then evaluated to determine whether the kinetic parameters provided a significant improvement in predictive power for key agronomic outcomes. Further the relative performance of these two approaches, along with other combinations of predictor sets, was rigorously evaluated using a machine learning benchmark workflow implemented in the `mlr3` package [@R-mlr3]. The predictive power of each predictor set was quantified using **5-fold cross-validation**. Performance was measured as the percentage of explained variance on the hold-out data (1 - MSE / Var(y)), providing a robust and unbiased estimate of how well each model would generalize to new data. This benchmark allowed for a direct comparison of the information content provided by the kinetic parameters versus the standard soil tests for predicting key agronomic outcomes.

@@ -8,12 +8,67 @@ csl: apa.csl
   
 manuscript:
   article: index.qmd
+  notebooks:
+    # - notebook: notebooks/cars-plot.qmd
+    #   title: CarsPlot
+    - notebook: notebooks/pretest.qmd
+      title: Model Setup
+    - notebook: notebooks/coefficient_analysis.qmd
+      title: Coefficient Analysis
+    - notebook: notebooks/mlr3.qmd
+      title: mlr3
+    - notebook: notebooks/results.qmd
+      title: Preliminary Results
+    # - notebook: notebooks/presentation.qmd
+    #   title: presentation
+  # code-links:
+  #   - text: CarsPlot Code
+  #     icon: file-code
+  #     href: notebooks/cars-plot.qmd
+  resources:
+    # - data/cars.csv
+    - presentation/index.html
+
+
+# website:
+#   title: "My Project"
+#   navbar:
+#     left:
+#       - text: "Article"
+#         href: index.qmd
+#       - text: "Master Thesis Defense"
+#         href: notebooks/presentation.qmd
+#       - text: "Model Setup"
+#         href: notebooks/pretest.qmd
+#       - text: "Analysis of kinetic parameters and STP"
+#         href: notebooks/coefficient_analysis.qmd
+#       - text: "ML-approach to evaluate predictive power STP vs. kinetic parameters"
+
   # (Your notebooks and resources here)
 
 # --- Format-specific settings ---
 format:
   # (Your html and docx settings here)
+  html:
+    theme: cosmo
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    lof: true
+    lot: true
+    html-math-method: mathjax
+    grid:
+      sidebar-width: 300px
+      body-width: 900px
+      margin-width: 250px
 
+  # DOCX output settings
+  docx:
+    toc: true
+    toc-depth: 4
+    number-sections: true
+    lof: true
+    lot: true
   # PDF output settings
   pdf:
     # --- Basic PDF setup ---
@@ -43,7 +98,7 @@ format:
             \fancyhead[R]{\thepage}
             \renewcommand{\headrulewidth}{0.4pt}
           }
-          \studentA{Marc Jerónimo Pérez y Roper}
+          \studentA{Marc Jerónimo Pérez y Ropero}
           \ethidA{13-938-311}
           \emailA{marcpe@ethz.ch}
           \supervision{Prof. Dr. Emmanuel Frossard \\ Dr. Frank Liebisch}
