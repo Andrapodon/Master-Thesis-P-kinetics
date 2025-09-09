@@ -92,39 +92,74 @@ The response and predictor variables used in the linear mixed-effects models are
 
 ```{r}
 #| label: tbl-variables
-#| tbl-cap: "Description of variables used in the agronomic models."
+#| tbl-cap: "Description of variables used in the agronomic and soil models."
 
 variables_df <- data.frame(
-  Abbreviation = c("$Y_{rel}$","$Y_{norm}$", "$P_{up}$", "$P_{bal}$", "$k$", "$P_{desorb}$", "$J_0$", "$P_{CO2}$", "$P_{AAE10}$","$Al_{ox}$","$Fe_{ox}$"),
-  `Full Name` = c("Relative Yield","Normalized Yield", "P Uptake", "P Balance", "Rate Constant", "Desorbable P", "Initial P Flux", "Water-Soluble P", "Chelate-Extractable P","Oxalate-extractable Al","Oxalate-extractable Fe"),
-  Role = c("Response","Response", "Response", "Response", "Predictor", "Predictor", "Predictor", "Predictor", "Predictor","Predictor","Predictor"),
+  Abbreviation = c("$Y_{rel}$", "$Y_{norm}$", "$P_{up}$", "$P_{bal}$", 
+                   "$k$", "$P_{desorb}$", "$J_0$", 
+                   "$P_{CO2}$", "$P_{AAE10}$",
+                   "$Al_d$", "$Fe_d$"),
+  `Full Name` = c("Relative Yield", "Normalized Yield", "P Uptake", "P Balance", 
+                  "Rate Constant", "Desorbable P", "Initial P Flux", 
+                  "Water-Soluble P", "Chelate-Extractable P",
+                  "Dithionite-Extractable Al", "Dithionite-Extractable Fe"),
+  Unit = c("unitless", "unitless", "kg P ha⁻¹", "kg P ha⁻¹",
+           "min⁻¹", "mg P L⁻¹", "mg P L⁻¹ min⁻¹",
+           "mg P kg⁻¹", "mg P kg⁻¹",
+           "mg Al kg⁻¹", "mg Fe kg⁻¹"),
   Description = c(
     "Plot yield normalized by the national mean yield for that year and crop.",
     "Plot yield normalized by the site-specific median yield of the highest P treatment for that year and crop.",
-    "Total P removed by the harvested crop biomass over a growing season (kg P ha⁻¹).",
-    "Net P budget, calculated as P inputs (fertilizer) minus P outputs (uptake) (kg P ha⁻¹).",
-    "First-order rate constant of P desorption, representing the speed of P release (min⁻¹).",
-    "Maximum desorbable P, representing the size of the readily available P pool (mg P L⁻¹).",
+    "Total P removed by the harvested crop biomass over a growing season.",
+    "Net P budget, calculated as P inputs (fertilizer) minus P outputs (uptake).",
+    "First-order rate constant of P desorption, representing the speed of P release.",
+    "Maximum desorbable P, representing the size of the readily available P pool.",
     "Product of $k$ and $P_{desorb}$, representing the initial flux of P from the soil.",
-    "Plant-available P measured by the CO₂-saturated water extraction method (mg P kg⁻¹).",
-    "Plant-available P measured by the ammonium-acetate-EDTA extraction method (mg P kg⁻¹).",
-    "Al extractable by oxalate ($mg~Fe~kg^{-1}$)",
-    "Fe extractable by oxalate ($mg~Fe~kg^{-1}$)"
+    "Plant-available P measured by CO₂-saturated water extraction [@FAL1996Methodenbuch].",
+    "Plant-available P measured by the ammonium-acetate-EDTA extraction method [@FAL1996Methodenbuch].",
+    "Free Al oxides (crystalline and amorphous) extracted with dithionite-citrate-bicarbonate [@Mehra1960Iron].",
+    "Free Fe oxides (crystalline and amorphous) extracted with dithionite-citrate-bicarbonate [@Mehra1960Iron]."
   )
 )
 
 knitr::kable(variables_df)
 ```
 
-#### Linear Mixed-Effects Model Structure {#sec-linear-mixed-effects-model-structure}
+#### Modeling of Soil and Agronomic Parameters
 
-Linear mixed-effects models (`lmer`) were used to test the relationships between the predictor variables and each of the three response variables. The structure of these models was designed to account for the nested nature of the long-term experiment. A general form of the model is:
+To analyze the relationships between the P availability metrics, soil properties, and agronomic outcomes, two distinct types of linear mixed-effects models were constructed using the `lme4` [@R-lme4] and `lmerTest` [@R-lmerTest] packages. This approach was chosen to properly account for the hierarchical and nested structure of the STYCS experimental data.
 
-*Response Variable \~ Fixed Effects + (1 \| Random Effects)*
+##### Models of P Availability Metrics as a Function of Soil Properties
 
--   **Fixed Effects**: These represent the main explanatory variables of interest whose effects we wanted to quantify. The fixed effects included the kinetic parameters ($k$, $P_{desorb}$, $J_0$) and the standard soil P tests ($P_w$, $P_{AAE10}$), along with their interactions.
--   **Random Effects**: These were included to control for non-independence among observations. By including `(1 | Site)`, `(1 | Year)`, and `(1 | Crop)` as random intercepts, the model accounts for baseline differences in the response variable that are attributable to the specific location, growing season, or crop type, allowing for a more accurate estimation of the fixed effects.
+First, to investigate the underlying soil-chemical drivers of the different P availability metrics (both kinetic and static), a series of models was built to predict each metric from key soil properties.
 
-To identify the most informative and parsimonious model, a systematic feature selection process was conducted using the `mlr3` ([@mlr3]) machine learning framework. This involved training and evaluating different combinations of predictor variables using nested cross-validation to ensure the robustness of the final selected model.
+* **Fixed Effects Structure:** The fixed effects were identical for all models in this category and included the primary soil physical and chemical properties expected to influence P sorption and desorption: clay content, silt content, pH, organic carbon content, and dithionite-extractable iron ($Fe_d$) and aluminum ($Al_d$). The model took the form:
+    `P-Metric ~ soil_0_20_clay + soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Fed + Ald`
 
-All statistical analyses were performed in the R [@base] environment, utilizing the `nlme` [@nlme] package for kinetic modeling and the `lme4`[@lme4], `lmerTest` [@lmerTest], and `mlr3` packages for the final agronomic modeling and feature selection.
+* **Random Effects Structure:** The random effects structure was designed to account for the nested design of the STYCS experiment. Random intercepts were included for `year`, `Site`, and the nesting of `block` within `Site` and `Treatment` within `Site`.
+    * `(1|year)`: This term accounts for temporal variation, capturing baseline shifts that may occur across different years due to climatic differences.
+    * `(1|Site)`: This accounts for the inherent differences between the six experimental locations.
+    * `(1|Site:block)`: This term controls for spatial variability among the four experimental blocks *within* each site.
+    * `(1|Site:Treatment)`: This term accounts for how the effect of the long-term P fertilization treatments might vary randomly across the different sites.
+
+##### Comparative Models of Agronomic Outcomes
+
+To test the central hypothesis of this thesis, the predictive power of the kinetic parameters was directly compared against that of the standard STP methods (referred to as the "GRUD" system). For each agronomic response variable (Normalized Yield, P Uptake, and P Balance), two competing models were built. These models shared an identical random effects structure to ensure a fair comparison, differing only in their fixed effects.
+
+* **Random Effects Structure (for all agronomic models):** The random effect structure `(1|year) + (1|Site) + (1|Site:block)` was used to control for the experimental design, accounting for variations due to the growing season, location, and in-field spatial differences. This allows for the precise isolation of the fixed effects of interest.
+
+* **Model 1: The Kinetic Approach**
+    * **Fixed Effects:** This model used the kinetic parameters and their interaction: `k * log(PS)`. The interaction term is critical, as it tests the hypothesis that the agronomic benefit of a large desorbable P pool (`PS`) is dependent on the *rate* (`k`) at which that pool can be accessed by plants.
+    * **Specific Models:**
+        * `Ymain_norm ~ k * log(PS) + (1|year) + (1|Site) + (1|Site:block)`
+        * `annual_P_uptake ~ k * log(PS) + (1|year) + (1|Site) + (1|Site:block)`
+        * `annual_P_balance ~ k * log(PS) + (1|year) + (1|Site) + (1|Site:block)`
+
+* **Model 2: The Standard STP (GRUD) Approach**
+    * **Fixed Effects:** This model used the two standard Swiss soil tests and their interaction: `P_CO2 * P_AAE10`. Using both STP measures and their interaction allows the standard approach to be tested in its most comprehensive form.
+    * **Specific Models:**
+        * `Ymain_norm ~ P_CO2 * P_AAE10 + (1|year) + (1|Site) + (1|Site:block)`
+        * `annual_P_uptake ~ P_CO2 * P_AAE10 + (1|year) + (1|Site) + (1|Site:block)`
+        * `annual_P_balance ~ P_CO2 * P_AAE10 + (1|year) + (1|Site) + (1|Site:block)`
+
+The relative performance of these two sets of models was then evaluated to determine whether the kinetic parameters provided a significant improvement in predictive power for key agronomic outcomes.
