@@ -410,8 +410,8 @@ covariate_labels_soil_props <- c(
   "soil_0_20_clay" = "Clay",
   "soil_0_20_silt" = "Silt",
   "soil_0_20_pH_H2O" = "pH",
-  "Fed" = "$Fe_{ox}$",
-  "Ald" = "$Al_{ox}$",
+  "Fed" = "$Fe_{d}$",
+  "Ald" = "$Al_{d}$",
   "R2m" = "$R^2_m$",
   "R2c" = "$R^2_c$"
 )
@@ -428,9 +428,22 @@ results_table_soil <- create_coef_table(
   model_labels = model_labels_soil
 )
 knitr::kable(results_table_soil, escape = FALSE, row.names = FALSE, format = "markdown")
+
+
+# |descriptor |$P_{desorb}$ |$k$       |$J_0$     |$P_{CO_2}$ |$P_{AAE10}$ |
+# |:----------|:------------|:---------|:---------|:----------|:-----------|
+# |Intercept  |21.444       |0.454     |21.189    |14.014     |23.126      |
+# |$Al_{ox}$  |-8.706***    |-0.072*** |-8.631*** |-4.417***  |-9.473***   |
+# |$Fe_{ox}$  |-1.068***    |0.005     |-1.084*** |-0.845***  |-0.606***   |
+# |Clay       |-0.006***    |-0.016*** |-0.085*** |0.015      |-0.029***   |
+# |$C_{org}$  |0.612        |0.137     |1.250     |0.269      |1.454       |
+# |pH         |-0.018***    |-0.021*** |-0.092*** |0.124      |0.012       |
+# |Silt       |-0.000***    |0.004     |0.008     |-0.015***  |-0.049***   |
+# |$R^2_m$    |0.393        |0.212     |0.368     |0.362      |0.494       |
+# |$R^2_c$    |0.996        |0.915     |0.993     |0.995      |0.997       |
 ```
 
-The analysis in @tbl-soil-prop-models reveals that the capacity-based P pools and the kinetic rate constant are controlled by different sets of soil properties. Both amorphous aluminum ($Al_{ox}$) and iron ($Fe_{ox}$) oxides had a highly significant negative effect on the **Desorbable P pool (**$P_{desorb}$), suggesting they bind P strongly. In contrast, **Organic Carbon (**$C_{org}$) had a significant positive effect on all capacity measures, especially $P_{AAE10}$. The **Rate Constant (**$k$) was not significantly driven by the oxides, but showed a significant positive relationship with $C_{org}$ and a negative relationship with `Clay` content, indicating that the speed of P release is governed by different mechanisms than the total pool size.
+The analysis in @tbl-soil-prop-models reveals that the capacity-based P pools and the kinetic rate constant are controlled by different sets of soil properties. Both amorphous aluminum ($Al_{d}$) and iron ($Fe_{d}$) oxides had a highly significant negative effect on the **Desorbable P pool (**$P_{desorb}$), suggesting they bind P strongly. In contrast, **Organic Carbon (**$C_{org}$) had a significant positive effect on all capacity measures, especially $P_{AAE10}$. The **Rate Constant (**$k$) was not significantly driven by the oxides, but showed a significant positive relationship with $C_{org}$ and a negative relationship with `Clay` content, indicating that the speed of P release is governed by different mechanisms than the total pool size.
 
 ## Predictive Modeling of Agronomic Outcomes {#sec-agronomic-modeling}
 

@@ -40,7 +40,7 @@ The analysis of phosphorus (P) desorption kinetics was based on the principles o
 
 The foundational method aims to characterize the P replenishment capacity of the soil. The procedure is as follows:
 
-1.  **Removal of Soluble P**: 17.5 g of air-dried soil is shaken with 350 ml of deionized water for one hour at 25 ± 1°C. The suspension is centrifuged and the supernatant is decanted to remove the readily soluble P fraction.
+1.  **Removal of Soluble P**: 17.5 g of air-dried soil is shaken with 350 ml of deionized water for one hour at 120 Hz in a horizontal soil-shaker. The suspension is centrifuged at 4000 rpm for 15 minutes and the supernatant is decanted to remove the readily soluble P fraction.
 2.  **Kinetic Extraction**: The remaining soil pellet is resuspended with another 350 ml of deionized water. Subsamples of the suspension are taken at specific time intervals (e.g., 10, 30, and 120 minutes).
 3.  **Analysis**: The P concentration in the subsamples is determined colorimetrically.
 
