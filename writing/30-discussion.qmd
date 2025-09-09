@@ -1,1 +1,15 @@
 # Discussion
+
+This study aimed to determine if dynamic P desorption parameters could provide a more accurate prediction of agronomic outcomes than traditional static soil tests. The results reveal a complex story: the ideal P testing method is not universal but is instead contingent on the specific question being addressed, whether it is optimizing yield within a single field, comparing productivity across different regions, or managing long-term nutrient budgets.
+
+## Hypothesis 1: The Nuanced Role of Standard Soil Tests
+
+**Hypothesis 1a** posited that standard STP methods ($P_{CO_2}$ and $P_{AAE10}$) would correlate with the P-Balance but be weak predictors of crop yield. The findings challenge this hypothesis in two unexpected ways.
+
+First, the STP methods **failed completely to predict the P-Balance**. The models showed no relationship between these static tests and the long-term nutrient surplus or deficit, directly contradicting our hypothesis. This is a critical finding, as it suggests that while tests like $P_{CO_2}$ and $P_{AAE10}$ are sensitive to short-term changes from annual fertilization, they do not adequately capture the cumulative, long-term P status of the soil system.
+
+Second, the performance of STP methods in predicting yield was highly context-dependent. When predicting **site-normalized yield ($Y_{norm}$)**, which assesses the yield response relative to a site's own potential, the STP models were remarkably effective, explaining up to 22% of the variance. This result contradicts the part of our hypothesis that expected weak performance and suggests that for *within-field* management, where the goal is to ensure P is not limiting relative to that specific environment's potential, traditional capacity-based tests are well-suited and robust.
+
+However, when predicting **national-normalized yield ($Y_{rel}$)** and **P-uptake ($P_{up}$)**, the STP models performed poorly, aligning with our initial expectations. Their predictive power dropped significantly, and they were overshadowed by the immense influence of site and year effects. This highlights a crucial limitation: while standard tests may be sufficient for managing a single field, they are inadequate for comparing or predicting productivity across diverse pedoclimatic landscapes, where other factors become far more important than the soil's P capacity alone.
+
+Regarding **Hypothesis 1b**, the findings were largely supportive. The analysis of soil properties confirmed that STP values were significantly influenced by factors like organic carbon and pH, as anticipated. This reinforces the understanding that STP measurements are not pure measures of P but are instead complex indices reflecting a combination of P status and overarching soil chemistry.

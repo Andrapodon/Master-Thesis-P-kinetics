@@ -590,7 +590,7 @@ This result directly contradicts **Hypothesis 3**, which stated that a model inc
 
 A critical observation across all models is the large discrepancy between the marginal R² ($R^2_m$) and the conditional R² ($R^2_c$). The conditional R² represents the total variance explained by both the fixed effects (the predictors like $P_{CO_2}$ or *k*) and the random effects (such as `Site` and `year`).
 
-For instance, in the best-performing STP model (kinetic), the marginal R² is only 0.078, but the conditional R² is 0.596. This means that while the soil P measurements themselves explain about 8% of the yield variance, the combination of soil tests *plus* the site- and year-specific conditions explains nearly 60% of it. This pattern holds for all models and strongly suggests that pedoclimatic factors, captured by the `Site` and `year` random effects, are the dominant drivers of crop yield in this dataset, overshadowing the influence of the measured soil P parameters.
+For instance, in the best-performing STP model (STP-interaction), the marginal R² is only 0.078, but the conditional R² is 0.596. This means that while the soil P measurements themselves explain about 8% of the yield variance, the combination of soil tests *plus* the site- and year-specific conditions explains nearly 60% of it. This pattern holds for all models and strongly suggests that pedoclimatic factors, captured by the `Site` and `year` random effects, are the dominant drivers of crop yield in this dataset, overshadowing the influence of the measured soil P parameters.
 
 
 ### Predicting P-Uptake ($P_{up}$)
