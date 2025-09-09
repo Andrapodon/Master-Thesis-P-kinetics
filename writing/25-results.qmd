@@ -376,7 +376,7 @@ These initial observations suggest that the kinetic parameters, particularly the
 
 ## Predicting P Parameters from Soil Properties {#sec-p-params-soil-props}
 
-Linear mixed-effects models revealed that the capacity-based P pools ($P_{desorb}$, $P_{CO2}$, $P_{AAE10}$) and the kinetic rate constant (*k*) are controlled by different sets of soil properties (@tbl-soil-prop-models). Both amorphous aluminum ($Al_{ox}$) and iron ($Fe_{ox}$) oxides had a highly significant negative effect on the **Desorbable P pool ($P_{desorb}$)**, suggesting they bind P strongly. In contrast, **Organic Carbon ($C_{org}$)** had a significant positive effect on all capacity measures, especially $P_{AAE10}$. The **Rate Constant (*k*)** was not significantly driven by the oxides, but showed a significant positive relationship with $C_{org}$ and a negative relationship with `Clay` content, indicating that P release *speed* is governed by different mechanisms than the total pool *size*.
+To understand the underlying drivers of the standard and kinetic P parameters, and to test **Hypotheses 1b and 2b**, a series of linear mixed-effects models were fitted. Each model predicted one of the P parameters based on the core soil properties: organic carbon ($C_{org}$), clay content, silt content, pH, and dithionite-extractable Al ($Al_d$) and Fe ($Fe_d$). The results are summarized in @tbl-soil-prop-models.
 
 ```{r}
 #| label: tbl-soil-prop-models
@@ -445,6 +445,13 @@ knitr::kable(results_table_soil, escape = FALSE, row.names = FALSE, format = "ma
 # |$R^2_c$    |0.996        |0.915     |0.993     |0.995      |0.997       |
 ```
 
+The analysis reveals that the capacity-based P pools and the kinetic rate constant are controlled by different sets of soil properties, strongly supporting the hypotheses.
+
+In line with **Hypothesis 2b**, the kinetic capacity parameter, **Desorbable P ($P_{desorb}$)**, showed a highly significant negative relationship with both dithionite-extractable iron ($Fe_d$) and aluminum ($Al_d$). This provides strong evidence that the total pool of free oxides, which represent the primary P sorption surfaces in the soil, is a key factor controlling the size of the readily desorbable P pool.
+
+Also confirming **Hypothesis 2b**, the **Rate Constant (*k*)** was governed by a different set of properties. It was not significantly influenced by the free oxides but instead showed a significant negative relationship with `Clay` content and a positive relationship with organic carbon ($C_{org}$). This clearly distinguishes the kinetic component from the capacity component, suggesting that while oxides control *how much* P can be held, soil texture and organic matter influence *how fast* it can be released.
+
+The standard STP methods showed patterns consistent with **Hypothesis 1b**. **Organic Carbon ($C_{org}$)** had a highly significant positive effect on $P_{AAE10}$, and **pH** had a significant negative effect, as predicted. The relationship of the STP measures with the dithionite-extractable oxides was less consistent than that of $P_{desorb}$, with only $P_{AAE10}$ showing a significant negative link to $Al_d$.
 
 ## Predictive Modeling of Agronomic Outcomes {#sec-agronomic-modeling}
 
