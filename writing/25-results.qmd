@@ -113,7 +113,7 @@ create_coef_table <- function(lmer_models,
   # --- Ende der neuen Sektion ---
 
   # Convert to data frame for kable
-  results_df <- data.frame(descriptor = rownames(results_matrix),
+  results_df <- data.frame("Predictor/Model" = rownames(results_matrix),
                            results_matrix,
                            check.names = FALSE, # Verhindert, dass R Spaltennamen ändert
                            stringsAsFactors = FALSE)
@@ -430,11 +430,12 @@ results_table_soil <- create_coef_table(
 knitr::kable(results_table_soil, escape = FALSE, row.names = FALSE, format = "markdown")
 
 
+# Gemini, these are the results.
 # |descriptor |$P_{desorb}$ |$k$       |$J_0$     |$P_{CO_2}$ |$P_{AAE10}$ |
 # |:----------|:------------|:---------|:---------|:----------|:-----------|
 # |Intercept  |21.444       |0.454     |21.189    |14.014     |23.126      |
-# |$Al_{ox}$  |-8.706***    |-0.072*** |-8.631*** |-4.417***  |-9.473***   |
-# |$Fe_{ox}$  |-1.068***    |0.005     |-1.084*** |-0.845***  |-0.606***   |
+# |$Al_{d}$   |-8.706***    |-0.072*** |-8.631*** |-4.417***  |-9.473***   |
+# |$Fe_{d}$   |-1.068***    |0.005     |-1.084*** |-0.845***  |-0.606***   |
 # |Clay       |-0.006***    |-0.016*** |-0.085*** |0.015      |-0.029***   |
 # |$C_{org}$  |0.612        |0.137     |1.250     |0.269      |1.454       |
 # |pH         |-0.018***    |-0.021*** |-0.092*** |0.124      |0.012       |
@@ -489,6 +490,19 @@ results_table_ynorm <- create_coef_table(
   model_labels = model_labels_ynorm
 )
 knitr::kable(results_table_ynorm, escape = FALSE, row.names = FALSE, format = "markdown")
+
+# Gemini here are the results
+# Predictor/Model             |$P_{CO_2}$ |$P_{AAE10}$ |$P_{CO_2}*P_{AAE10}$ |$k * P_{desorb}$ |
+# |:---------------------------|:----------|:-----------|:--------------------|:----------------|
+# |Intercept                   |1.059***   |0.532***    |1.096***             |0.980            |
+# |$k$                         |           |            |                     |2.262            |
+# |$J_0$                       |           |            |                     |0.931            |
+# |$P_{desorb}$                |           |            |                     |-0.063           |
+# |$P_{AAE10}$                 |           |0.120***    |-0.006               |                 |
+# |$P_{CO_2}$                  |0.162***   |            |0.137                |                 |
+# |$P_{CO_2} \times P_{AAE10}$ |           |            |0.016                |                 |
+# |$R^2_m$                     |0.218      |0.198       |0.220                |0.014            |
+# |$R^2_c$                     |0.358      |0.474       |0.365                |0.360            |
 ```
 
 As shown in @tbl-ynorm-models, both $P_{CO_2}$ and $P_{AAE10}$ were highly significant predictors of site-normalized yield, with the model containing $P_{CO_2}$ explaining the most variance (Marginal R² = 0.218). In contrast, the kinetic parameters showed no significant predictive power for $Y_{norm}$.
@@ -522,6 +536,19 @@ results_table_yrel <- create_coef_table(
   model_labels = model_labels_yrel
 )
 knitr::kable(results_table_yrel, escape = FALSE, row.names = FALSE, format = "markdown")
+
+# Gemini here the results
+# |Predictor/Model             |$P_{CO_2}$ |$P_{AAE10}$ |$P_{CO_2}*P_{AAE10}$ |$k * P_{desorb}$ |
+# |:---------------------------|:----------|:-----------|:--------------------|:----------------|
+# |Intercept                   |104.862*** |75.343***   |130.274***           |56.375           |
+# |$k$                         |           |            |                     |377.498**        |
+# |$J_0$                       |           |            |                     |171.507**        |
+# |$P_{desorb}$                |           |            |                     |-27.486*         |
+# |$P_{AAE10}$                 |           |7.111**     |-6.537               |                 |
+# |$P_{CO_2}$                  |8.853**    |            |23.091               |                 |
+# |$P_{CO_2} \times P_{AAE10}$ |           |            |-3.110               |                 |
+# |$R^2_m$                     |0.074      |0.063       |0.078                |0.022            |
+# |$R^2_c$                     |0.569      |0.537       |0.596                |0.439            |
 ```
 
 As seen in @tbl-yrel-models, while the standard STP methods were also significant predictors, the kinetic model revealed a significant positive effect of the **Rate Constant (**$k$) and its interaction with $P_{desorb}$ ($J_0$). This suggests that the speed of P release is a more important factor when comparing yields across the broader environmental gradient represented by the national average.
@@ -555,6 +582,19 @@ results_table_export <- create_coef_table(
   model_labels = model_labels_export
 )
 knitr::kable(results_table_export, escape = FALSE, row.names = FALSE, format = "markdown")
+
+# Gemini, here are the results
+# |Predictor/Model             |$P_{CO_2}$ |$P_{AAE10}$ |$P_{CO_2}*P_{AAE10}$ |$k * P_{desorb}$ |
+# |:---------------------------|:----------|:-----------|:--------------------|:----------------|
+# |Intercept                   |27.522***  |8.090       |30.632*              |29.599***        |
+# |$k$                         |           |            |                     |22.622           |
+# |$J_0$                       |           |            |                     |11.928           |
+# |$P_{desorb}$                |           |            |                     |1.954            |
+# |$P_{AAE10}$                 |           |4.824***    |-0.805               |                 |
+# |$P_{CO_2}$                  |5.177***   |            |8.069                |                 |
+# |$P_{CO_2} \times P_{AAE10}$ |           |            |-0.814               |                 |
+# |$R^2_m$                     |0.064      |0.073       |0.065                |0.064            |
+# |$R^2_c$                     |0.625      |0.603       |0.623                |0.648            |
 ```
 
 The results in @tbl-pexport-models show that both $P_{CO_2}$ and $P_{AAE10}$ were highly significant predictors, explaining around 6-7% of the variance (marginal R²). This suggests that the size of the available P pool is a robust indicator of the amount of P a crop will take up.
@@ -588,6 +628,19 @@ results_table_balance <- create_coef_table(
   model_labels = model_labels_balance
 )
 knitr::kable(results_table_balance, escape = FALSE, row.names = FALSE, format = "markdown")
+
+# Gemini here are the results
+# |Predictor/Model             |$P_{CO_2}$ |$P_{AAE10}$ |$P_{CO_2}*P_{AAE10}$ |$k * P_{desorb}$ |
+# |:---------------------------|:----------|:-----------|:--------------------|:----------------|
+# |Intercept                   |4.441      |7.691       |3.649                |43.833***        |
+# |$k$                         |           |            |                     |84.993           |
+# |$J_0$                       |           |            |                     |33.029           |
+# |$P_{desorb}$                |           |            |                     |16.947***        |
+# |$P_{AAE10}$                 |           |-0.794      |0.187                |                 |
+# |$P_{CO_2}$                  |-0.928     |            |-2.442               |                 |
+# |$P_{CO_2} \times P_{AAE10}$ |           |            |0.462                |                 |
+# |$R^2_m$                     |0.001      |0.001       |0.001                |0.572            |
+# |$R^2_c$                     |0.810      |0.807       |0.811                |0.744            |
 ```
 
 As detailed in @tbl-pbalance-models, the kinetic model explained **57% of the variance** in P-Balance (marginal R² = 0.572), with the **Desorbable P pool (**$P_{desorb}$) being the dominant, highly significant predictor. This indicates that the $P_{desorb}$ parameter from the kinetic experiment is a vastly superior measure of the soil's P budget compared to standard STP tests.
