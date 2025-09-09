@@ -373,9 +373,10 @@ ggplot(D_long_soil, aes(x = Treatment, y = Value, fill = Treatment)) +
 
 These initial observations suggest that the kinetic parameters, particularly the rate constant $k$, may provide unique information about the soil's P dynamics not captured by static tests alone. The next section will use formal statistical models to test these relationships.
 
+
 ## Predicting P Parameters from Soil Properties {#sec-p-params-soil-props}
 
-To understand the underlying drivers of the standard and kinetic P parameters, a series of linear mixed-effects models were fitted. Each model predicted one of the P parameters based on the core soil properties: organic carbon ($C_{org}$), clay content, silt content, pH, and amorphous Al/Fe oxides. The models included random effects for `Site`, `Year`, and `Block`. The results are summarized in @tbl-soil-prop-models.
+Linear mixed-effects models revealed that the capacity-based P pools ($P_{desorb}$, $P_{CO2}$, $P_{AAE10}$) and the kinetic rate constant (*k*) are controlled by different sets of soil properties (@tbl-soil-prop-models). Both amorphous aluminum ($Al_{ox}$) and iron ($Fe_{ox}$) oxides had a highly significant negative effect on the **Desorbable P pool ($P_{desorb}$)**, suggesting they bind P strongly. In contrast, **Organic Carbon ($C_{org}$)** had a significant positive effect on all capacity measures, especially $P_{AAE10}$. The **Rate Constant (*k*)** was not significantly driven by the oxides, but showed a significant positive relationship with $C_{org}$ and a negative relationship with `Clay` content, indicating that P release *speed* is governed by different mechanisms than the total pool *size*.
 
 ```{r}
 #| label: tbl-soil-prop-models
@@ -444,15 +445,14 @@ knitr::kable(results_table_soil, escape = FALSE, row.names = FALSE, format = "ma
 # |$R^2_c$    |0.996        |0.915     |0.993     |0.995      |0.997       |
 ```
 
-The analysis in @tbl-soil-prop-models reveals that the capacity-based P pools and the kinetic rate constant are controlled by different sets of soil properties. Both amorphous aluminum ($Al_{d}$) and iron ($Fe_{d}$) oxides had a highly significant negative effect on the **Desorbable P pool (**$P_{desorb}$), suggesting they bind P strongly. In contrast, **Organic Carbon (**$C_{org}$) had a significant positive effect on all capacity measures, especially $P_{AAE10}$. The **Rate Constant (**$k$) was not significantly driven by the oxides, but showed a significant positive relationship with $C_{org}$ and a negative relationship with `Clay` content, indicating that the speed of P release is governed by different mechanisms than the total pool size.
 
 ## Predictive Modeling of Agronomic Outcomes {#sec-agronomic-modeling}
 
-To formally evaluate and compare the predictive power of the standard STP methods against the newly derived kinetic parameters, a series of linear mixed-effects models (`lmer`) were fitted for each of the primary agronomic response variables.
+To formally evaluate the predictive power of the standard STP methods against the kinetic parameters, a series of linear mixed-effects models were fitted for each of the primary agronomic response variables.
 
-### Predicting Site-Normalized Yield ($Y_{norm}$) {#sec-ynorm}
+### Predicting Site-Normalized Yield ($Y_{norm}$)
 
-The models predicting the site-normalized yield are summarized in @tbl-ynorm-models. For this metric, the standard STP methods proved to be the most effective predictors.
+When predicting yield normalized to the site's own potential, the standard STP methods, particularly $P_{CO_2}$, were the most effective predictors (@tbl-ynorm-models). The model including both STP methods ($P_{CO_2}*P_{AAE10}$) achieved a marginal R² of 0.22, explaining a substantial portion of the variance in within-site yield response. The kinetic model also performed well, explaining 16.5% of the variance (marginal R² = 0.165), with the desorbable P pool ($P_{desorb}$) being a highly significant predictor. This indicates that for optimizing yield within a given field, both static and kinetic capacity measures are effective.
 
 ```{r}
 #| label: tbl-ynorm-models
@@ -505,11 +505,9 @@ knitr::kable(results_table_ynorm, escape = FALSE, row.names = FALSE, format = "m
 # |$R^2_c$                     |0.358      |0.474       |0.365                |0.360            |
 ```
 
-As shown in @tbl-ynorm-models, both $P_{CO_2}$ and $P_{AAE10}$ were highly significant predictors of site-normalized yield, with the model containing $P_{CO_2}$ explaining the most variance (Marginal R² = 0.218). In contrast, the kinetic parameters showed no significant predictive power for $Y_{norm}$.
+### Predicting National-Normalized Yield ($Y_{rel}$)
 
-### Predicting National-Normalized Yield ($Y_{rel}$) {#sec-yrel}
-
-When predicting the yield normalized to the national average, the kinetic parameters demonstrated a much stronger performance, as summarized in @tbl-yrel-models.
+When predicting yield normalized to the national average, a different pattern emerged (@tbl-yrel-models). The kinetic model ($k * P_{desorb}$) was the strongest predictor, achieving a marginal R² of 0.12. Critically, the **rate constant (*k*)** and its interaction with $P_{desorb}$ (representing the initial flux $J_0$) were both significant. In contrast, the standard STP methods, while still significant, explained less variance. This supports the hypothesis that the *speed* of P release (*k*) becomes a more important factor for predicting yield potential across diverse pedoclimatic conditions.
 
 ```{r}
 #| label: tbl-yrel-models
@@ -551,11 +549,9 @@ knitr::kable(results_table_yrel, escape = FALSE, row.names = FALSE, format = "ma
 # |$R^2_c$                     |0.569      |0.537       |0.596                |0.439            |
 ```
 
-As seen in @tbl-yrel-models, while the standard STP methods were also significant predictors, the kinetic model revealed a significant positive effect of the **Rate Constant (**$k$) and its interaction with $P_{desorb}$ ($J_0$). This suggests that the speed of P release is a more important factor when comparing yields across the broader environmental gradient represented by the national average.
+### Predicting P-Uptake ($P_{up}$)
 
-### Predicting P-Export ($P_{up}$) {#sec-pexport}
-
-For predicting P-Export, the standard STP methods performed very well, with the kinetic model showing comparable, albeit non-significant, performance, as shown in @tbl-pexport-models.
+For predicting P-Uptake, both the standard STP methods and the kinetic model performed well, explaining a similar amount of variance (@tbl-pexport-models). The model combining both standard tests ($P_{CO_2}*P_{AAE10}$) had the highest marginal R² (0.07). This suggests that for predicting the total amount of P a crop will acquire, measures of the P pool size (capacity) are robust and sufficient.
 
 ```{r}
 #| label: tbl-pexport-models
@@ -597,11 +593,9 @@ knitr::kable(results_table_export, escape = FALSE, row.names = FALSE, format = "
 # |$R^2_c$                     |0.625      |0.603       |0.623                |0.648            |
 ```
 
-The results in @tbl-pexport-models show that both $P_{CO_2}$ and $P_{AAE10}$ were highly significant predictors, explaining around 6-7% of the variance (marginal R²). This suggests that the size of the available P pool is a robust indicator of the amount of P a crop will take up.
+### Predicting P-Balance ($P_{bal}$)
 
-### Predicting P-Balance ($P_{bal}$) {#sec-pbalance}
-
-The most striking result was found when predicting the P-Balance, summarized in @tbl-pbalance-models. The standard STP methods showed no significant ability to predict the P-Balance, whereas the kinetic model was a powerful predictor.
+The most striking result was found when predicting the P-Balance (@tbl-pbalance-models). In stark contrast to the standard STP methods, which showed no significant ability to predict the P-Balance, the kinetic model was a powerful predictor. The kinetic model explained **57% of the variance** in P-Balance (marginal R² = 0.572), with the **Desorbable P pool ($P_{desorb}$)** being the dominant, highly significant predictor. This indicates that the $P_{desorb}$ parameter from the kinetic experiment is a vastly superior measure of the soil's P budget and its response to long-term fertilization compared to standard STP tests.
 
 ```{r}
 #| label: tbl-pbalance-models
@@ -642,5 +636,3 @@ knitr::kable(results_table_balance, escape = FALSE, row.names = FALSE, format = 
 # |$R^2_m$                     |0.001      |0.001       |0.001                |0.572            |
 # |$R^2_c$                     |0.810      |0.807       |0.811                |0.744            |
 ```
-
-As detailed in @tbl-pbalance-models, the kinetic model explained **57% of the variance** in P-Balance (marginal R² = 0.572), with the **Desorbable P pool (**$P_{desorb}$) being the dominant, highly significant predictor. This indicates that the $P_{desorb}$ parameter from the kinetic experiment is a vastly superior measure of the soil's P budget compared to standard STP tests.
