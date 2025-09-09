@@ -435,8 +435,8 @@ field trials in Switzerland, established by Agroscope between 1989 and
 re-evaluate Swiss phosphorus (P) fertilization guidelines by assessing
 long-term crop yield responses to varying P inputs across different
 pedoclimatic conditions. A detailed description of the experimental
-design and site characteristics can be found in (Hirte, Richner, et al.,
-2021)
+design and site characteristics can be found in Hirte, Richner, et al.
+(2021).
 
 The experiment was set up as a \textbf{completely randomized block
 design} with four field replications at each site. The core of the
@@ -503,9 +503,9 @@ topsoil layer (0-20 cm).
 Kinetics}\label{sec-phosphorus-desorption-kinetics}
 
 The analysis of phosphorus (P) desorption kinetics was based on the
-principles of sequential extraction established by Flossmann and Richter
-(1982). The original method is described below, followed by the specific
-protocol adapted for this study.
+principles of sequential extraction established by (Flossmann \&
+Richter, 1982). The original method is described below, followed by the
+specific protocol adapted for this study.
 
 \subsubsection{Original Method of Flossmann and Richter
 (1982)}\label{original-method-of-flossmann-and-richter-1982}
@@ -518,142 +518,99 @@ capacity of the soil. The procedure is as follows:
 \tightlist
 \item
   \textbf{Removal of Soluble P}: 17.5 g of air-dried soil is shaken with
-  350 ml of deionized water for one hour at 25 ± 1°C. The suspension is
-  centrifuged and the supernatant is decanted to remove the readily
-  soluble P fraction. This first extract is referred to as:
-
-  \begin{itemize}
-  \tightlist
-  \item
-    \textbf{Solution A}: Contains easily soluble P, which is discarded.
-  \end{itemize}
+  350 ml of deionized water for one hour at 120 Hz in a horizontal
+  soil-shaker. The suspension is centrifuged at 4000 rpm for 15 minutes
+  and the supernatant is decanted to remove the readily soluble P
+  fraction.
 \item
   \textbf{Kinetic Extraction}: The remaining soil pellet is resuspended
   with another 350 ml of deionized water. Subsamples of the suspension
-  are taken at specific time intervals, yielding the following extracts
-  for kinetic analysis:
-
-  \begin{itemize}
-  \tightlist
-  \item
-    \textbf{Solution B}: Subsample taken after \textbf{10 minutes}.
-  \item
-    \textbf{Solution C}: Subsample taken after \textbf{30 minutes}.
-  \item
-    \textbf{Solution D}: Subsample taken after \textbf{120 minutes}.
-  \end{itemize}
+  are taken at specific time intervals (e.g., 10, 30, and 120 minutes).
 \item
-  \textbf{Analysis}: The P concentration in Solutions B, C, and D is
-  determined colorimetrically using the molybdenum blue method according
-  to Murphy and Riley (1962).
+  \textbf{Analysis}: The P concentration in the subsamples is determined
+  colorimetrically.
 \end{enumerate}
 
 \subsubsection{Adapted Kinetic Protocol for This
 Study}\label{sec-adapted-kinetic-protocol-for-this-study}
 
 For this thesis, the original method was modified to capture the
-desorption process with a higher temporal resolution and using a
-different soil-to-solution ratio.
+desorption process with a higher temporal resolution.
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \item
-  \textbf{Soil Suspension}: 10 g of air-dried soil was suspended in 200
-  ml of deionized water. Unlike the original protocol, a pre-washing
-  step to remove soluble P was not performed, meaning the measured
-  desorption includes both the release of readily soluble P and the
-  subsequent replenishment from the solid phase.
+  \textbf{Pre-washing to Remove Soluble P}: A pre-washing step was
+  performed to remove the readily soluble P fraction. 10 g of air-dried
+  soil was suspended in 200 ml of deionized water and shaken for 60
+  minutes at 120 Hz. The suspension was then centrifuged for 15 minutes
+  at 4000 rpm, and the supernatant containing the soluble P was
+  discarded.
 \item
-  \textbf{Kinetic Extraction}: The suspension was shaken continuously,
-  and subsamples were taken at eight time points to generate a detailed
-  kinetic curve. The resulting extracts were:
-
-  \begin{itemize}
-  \tightlist
-  \item
-    \textbf{Extract 1}: Subsample taken after \textbf{2 minutes}.
-  \item
-    \textbf{Extract 2}: Subsample taken after \textbf{4 minutes}.
-  \item
-    \textbf{Extract 3}: Subsample taken after \textbf{10 minutes}.
-  \item
-    \textbf{Extract 4}: Subsample taken after \textbf{15 minutes}.
-  \item
-    \textbf{Extract 5}: Subsample taken after \textbf{20 minutes}.
-  \item
-    \textbf{Extract 6}: Subsample taken after \textbf{30 minutes}.
-  \item
-    \textbf{Extract 7}: Subsample taken after \textbf{45 minutes}.
-  \item
-    \textbf{Extract 8}: Subsample taken after \textbf{60 minutes}.
-  \end{itemize}
+  \textbf{Kinetic Extraction}: The remaining soil pellet was resuspended
+  in 200 ml of fresh deionized water. The suspension was shaken
+  continuously, and subsamples were taken at eight time points to
+  generate a detailed kinetic curve: \textbf{2, 4, 10, 15, 20, 30, 45,
+  and 60 minutes}.
 \item
   \textbf{Analysis}: Each subsample was immediately filtered. The
   concentration of orthophosphate in the filtered extracts was
-  determined colorimetrically using the \textbf{malachite green method}.
+  determined colorimetrically using the \textbf{malachite green method}
+  (Van Veldhoven \& Mannaerts, 1987).
 \end{enumerate}
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
-\begin{figure}[H]
-
-{\centering \pandocbounded{\includegraphics[keepaspectratio]{./experiment-flow.png}}
-
-}
-
-\caption{Flow-chart of the adapted Kinetik-experiment after Flossmann \&
-Richter.}
-
-\end{figure}%
-
 \subsection{Statistical Analysis}\label{sec-statistical-analysis}
 
-The statistical workflow involved two main stages: 1) estimating the P
-desorption kinetic parameters from the laboratory data, and 2) using
-these parameters to model the agronomic outcomes from the long-term
-field experiment.
+\subsubsection{Software and Statistical
+Environment}\label{software-and-statistical-environment}
+
+All data processing, statistical modeling, and visualization were
+conducted using the R programming language (v. 4.2.2) (R Core Team,
+2022). The primary packages used for the analysis were: - \texttt{nlme}
+(Pinheiro et al., 2022) for fitting the non-linear mixed-effects models
+to the kinetic data. - \texttt{lme4} (Bates et al., 2015) and
+\texttt{lmerTest} (Kuznetsova et al., 2017) for fitting and testing the
+linear mixed-effects models for agronomic and soil property analyses. -
+\texttt{mlr3} (Lang et al., 2019) for the systematic feature selection
+and model validation workflow.
 
 \subsubsection{Modeling of Desorption
 Kinetics}\label{sec-modeling-of-desorption-kinetics}
 
-To derive the kinetic parameters, a non-linear mixed-effects model
-(\texttt{nlme}) was implemented. This approach was chosen to
-simultaneously estimate the rate constant (\(k\)) and the maximum
-desorbable P (\(P_{desorb}\)) directly from the time-series data for
-each soil sample. The model was fitted to the exact solution of the
-first-order rate equation:
+To derive the kinetic parameters, a non-linear mixed-effects model was
+implemented using the \texttt{nlme} package. This approach was chosen to
+simultaneously estimate the rate constant (\emph{k}) and the maximum
+desorbable P (\(P_{desorb}\)) for each soil sample. The model was fitted
+to the exact solution of the first-order rate equation:
 
-\[ P(t) = P_{desorb} \times (1 - e^{-k \times t'}) \]
+\[P(t) = P_{desorb} \times (1 - e^{-k \times t'})\]
 
 Where \(P(t)\) is the P concentration at time \(t\), and \(t'\) is an
-adjusted time (\(t_\text{min} + 3\) min) to account for rapid initial P
-dissolution. The overall means for \(P_{desorb}\) and \(k\) were modeled
-as \textbf{fixed effects}, while sample-specific deviations for both
-parameters were modeled as \textbf{random effects} to capture the unique
-characteristics of each soil sample.
+adjusted time (\(t_{min}\) + 3 min) to account for the rapid initial
+dissolution of P that occurs before the first measurement. In this
+mixed-effects framework, the overall mean values for \(P_{desorb}\) and
+\emph{k} were modeled as \textbf{fixed effects}, while sample-specific
+deviations from these fixed effects were modeled as \textbf{random
+effects} to capture the unique desorption characteristics of each
+individual soil sample.
 
-\subsubsection{Modeling of Agronomic
-Responses}\label{sec-modeling-of-agronomic-responses}
+\subsubsection{Comparative Modeling of Soil and Agronomic
+Parameters}\label{comparative-modeling-of-soil-and-agronomic-parameters}
 
-The estimated kinetic parameters were merged with the agronomic and soil
-chemistry dataset from the years 2017-2022. A series of linear
-mixed-effects models were then constructed to evaluate the predictive
-power of these parameters.
+To test the hypotheses of this thesis, two distinct sets of linear
+mixed-effects models were constructed.
 
-\paragraph{Variables Used in the
-Models}\label{sec-variables-used-in-the-models}
-
-The response and predictor variables used in the linear mixed-effects
-models are defined in the table below.
 
 \begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.0850}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.1503}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.0654}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.6993}}@{}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.0807}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.1615}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.0932}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.6646}}@{}}
 
 \caption{\label{tbl-variables}Description of variables used in the
-agronomic models.}
+agronomic and soil models.}
 
 \tabularnewline
 
@@ -663,7 +620,7 @@ Abbreviation
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 Full.Name
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Role
+Unit
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 Description
 \end{minipage} \\
@@ -671,73 +628,140 @@ Description
 \endhead
 \bottomrule\noalign{}
 \endlastfoot
-\(Y_{rel}\) & Relative Yield & Response & Plot yield normalized by the
+\(Y_{rel}\) & Relative Yield & unitless & Plot yield normalized by the
 national mean yield for that year and crop. \\
-\(Y_{norm}\) & Normalized Yield & Response & Plot yield normalized by
+\(Y_{norm}\) & Normalized Yield & unitless & Plot yield normalized by
 the site-specific median yield of the highest P treatment for that year
 and crop. \\
-\(P_{up}\) & P Uptake & Response & Total P removed by the harvested crop
-biomass over a growing season (kg P ha⁻¹). \\
-\(P_{bal}\) & P Balance & Response & Net P budget, calculated as P
-inputs (fertilizer) minus P outputs (uptake) (kg P ha⁻¹). \\
-\(k\) & Rate Constant & Predictor & First-order rate constant of P
-desorption, representing the speed of P release (min⁻¹). \\
-\(P_{desorb}\) & Desorbable P & Predictor & Maximum desorbable P,
-representing the size of the readily available P pool (mg P L⁻¹). \\
-\(J_0\) & Initial P Flux & Predictor & Product of \(k\) and
+\(P_{up}\) & P Uptake & kg P ha⁻¹ & Total P removed by the harvested
+crop biomass over a growing season. \\
+\(P_{bal}\) & P Balance & kg P ha⁻¹ & Net P budget, calculated as P
+inputs (fertilizer) minus P outputs (uptake). \\
+\(k\) & Rate Constant & min⁻¹ & First-order rate constant of P
+desorption, representing the speed of P release. \\
+\(P_{desorb}\) & Desorbable P & mg P L⁻¹ & Maximum desorbable P,
+representing the size of the readily available P pool. \\
+\(J_0\) & Initial P Flux & mg P L⁻¹ min⁻¹ & Product of \(k\) and
 \(P_{desorb}\), representing the initial flux of P from the soil. \\
-\(P_{CO2}\) & Water-Soluble P & Predictor & Plant-available P measured
-by the CO₂-saturated water extraction method (mg P kg⁻¹). \\
-\(P_{AAE10}\) & Chelate-Extractable P & Predictor & Plant-available P
-measured by the ammonium-acetate-EDTA extraction method (mg P kg⁻¹). \\
-\(Al_{ox}\) & Oxalate-extractable Al & Predictor & Al extractable by
-oxalate (\(mg~Fe~kg^{-1}\)) \\
-\(Fe_{ox}\) & Oxalate-extractable Fe & Predictor & Fe extractable by
-oxalate (\(mg~Fe~kg^{-1}\)) \\
+\(P_{CO2}\) & Water-Soluble P & mg P kg⁻¹ & Plant-available P measured
+by CO₂-saturated water extraction
+(Forschungsanstalt für Agrarökologie und Landbau (FAL), 1996). \\
+\(P_{AAE10}\) & Chelate-Extractable P & mg P kg⁻¹ & Plant-available P
+measured by the ammonium-acetate-EDTA extraction method
+(Forschungsanstalt für Agrarökologie und Landbau (FAL), 1996). \\
+\(Al_d\) & Dithionite-Extractable Al & mg Al kg⁻¹ & Free Al oxides
+(crystalline and amorphous) extracted with
+dithionite-citrate-bicarbonate
+(Mehra \& Jackson, 1960). \\
+\(Fe_d\) & Dithionite-Extractable Fe & mg Fe kg⁻¹ & Free Fe oxides
+(crystalline and amorphous) extracted with
+dithionite-citrate-bicarbonate
+(Mehra \& Jackson, 1960). \\
 
 \end{longtable}
 
-\paragraph{Linear Mixed-Effects Model
-Structure}\label{sec-linear-mixed-effects-model-structure}
+\subsubsection{Model Assumptions and
+Diagnostics}\label{model-assumptions-and-diagnostics}
 
-Linear mixed-effects models (\texttt{lmer}) were used to test the
-relationships between the predictor variables and each of the three
-response variables. The structure of these models was designed to
-account for the nested nature of the long-term experiment. A general
-form of the model is:
+The validity of the linear mixed-effects models (\texttt{lmer}) relies
+on several key assumptions, primarily that the model residuals are
+normally distributed and homoscedastic (i.e., have constant variance
+across the range of predicted values). Prior to finalizing the models,
+these assumptions were rigorously checked through visual inspection of
+diagnostic plots, such as quantile-quantile (Q-Q) plots of the residuals
+and plots of residuals versus fitted values.
 
-\emph{Response Variable \textasciitilde{} Fixed Effects + (1 \textbar{}
-Random Effects)}
+Initial exploratory data analysis revealed that several of the predictor
+variables, most notably the desorbable P pool (\(P_{desorb}\) or PS),
+were strongly right-skewed. Using such variables directly in the linear
+models would violate the assumptions of linearity and homoscedasticity,
+leading to potentially biased and unreliable coefficient estimates.
+
+To address this, various transformations (including square root and
+logarithmic) were tested on the skewed variables. The natural
+log-transformation (\texttt{log()}) was found to be the most effective
+at normalizing the distribution of \texttt{PS} and producing
+well-behaved model residuals that more closely met the required
+assumptions. Therefore, \texttt{log(PS)} was used as a fixed effect in
+all subsequent agronomic models to ensure the statistical validity of
+the results.
+
+\paragraph{Models of P Availability Metrics as a Function of Soil
+Properties}\label{models-of-p-availability-metrics-as-a-function-of-soil-properties}
+
+First, to investigate the underlying soil-chemical drivers of the
+different P availability metrics (both kinetic and static), a series of
+models was built to predict each metric from key soil properties.
 
 \begin{itemize}
 \tightlist
 \item
-  \textbf{Fixed Effects}: These represent the main explanatory variables
-  of interest whose effects we wanted to quantify. The fixed effects
-  included the kinetic parameters (\(k\), \(P_{desorb}\), \(J_0\)) and
-  the standard soil P tests (\(P_w\), \(P_{AAE10}\)), along with their
-  interactions.
+  \textbf{Fixed Effects Structure:} The fixed effects were identical for
+  all models in this category and included the primary soil physical and
+  chemical properties: clay content, silt content, pH, organic carbon
+  content, and dithionite-extractable iron (\(Fe_d\)) and aluminum
+  (\(Al_d\)).
 \item
-  \textbf{Random Effects}: These were included to control for
-  non-independence among observations. By including
-  \texttt{(1\ \textbar{}\ Site)}, \texttt{(1\ \textbar{}\ Year)}, and
-  \texttt{(1\ \textbar{}\ Crop)} as random intercepts, the model
-  accounts for baseline differences in the response variable that are
-  attributable to the specific location, growing season, or crop type,
-  allowing for a more accurate estimation of the fixed effects.
+  \textbf{Random Effects Structure:} The random effects structure
+  accounted for the nested design of the STYCS experiment, with random
+  intercepts for \texttt{year}, \texttt{Site}, \texttt{Site:block}, and
+  \texttt{Site:Treatment}.
 \end{itemize}
 
-To identify the most informative and parsimonious model, a systematic
-feature selection process was conducted using the \texttt{mlr3} ((Lang
-et al., 2019)) machine learning framework. This involved training and
-evaluating different combinations of predictor variables using nested
-cross-validation to ensure the robustness of the final selected model.
+\paragraph{Comparative Models of Agronomic
+Outcomes}\label{comparative-models-of-agronomic-outcomes}
 
-All statistical analyses were performed in the R (2025) environment,
-utilizing the \texttt{nlme} (Pinheiro et al., 2025) package for kinetic
-modeling and the \texttt{lme4}(Bates et al., 2015), \texttt{lmerTest}
-(Kuznetsova et al., 2017), and \texttt{mlr3} packages for the final
-agronomic modeling and feature selection.
+Second, the predictive power of the kinetic parameters was directly
+compared against that of the standard STP methods (``GRUD'' system). For
+each agronomic response variable (Normalized Yield, P Uptake, and P
+Balance), two competing models were built. These models shared an
+identical random effects structure to ensure a fair comparison,
+differing only in their fixed effects.
+
+\begin{itemize}
+\item
+  \textbf{Random Effects Structure (for all agronomic models):} The
+  structure
+  \texttt{(1\textbar{}year)\ +\ (1\textbar{}Site)\ +\ (1\textbar{}Site:block)}
+  was used to control for variations due to the growing season,
+  location, and in-field spatial differences.
+\item
+  \textbf{Model 1: The Kinetic Approach}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \textbf{Fixed Effects:} This model used the kinetic parameters and
+    their interaction: \texttt{k\ *\ log(PS)}. The interaction term
+    tests the hypothesis that the benefit of a large desorbable P pool
+    (\texttt{PS}) depends on the \emph{rate} (\texttt{k}) at which it
+    can be accessed.
+  \end{itemize}
+\item
+  \textbf{Model 2: The Standard STP (GRUD) Approach}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \textbf{Fixed Effects:} This model used the two standard Swiss soil
+    tests and their interaction: \texttt{P\_CO2\ *\ P\_AAE10}.
+  \end{itemize}
+\end{itemize}
+
+The relative performance of these two sets of models was then evaluated
+to determine whether the kinetic parameters provided a significant
+improvement in predictive power for key agronomic outcomes. Further the
+relative performance of these two approaches, along with other
+combinations of predictor sets, was rigorously evaluated using a machine
+learning benchmark workflow implemented in the \texttt{mlr3} package
+(Lang et al., 2019). The predictive power of each predictor set was
+quantified using \textbf{5-fold cross-validation}. Performance was
+measured as the percentage of explained variance on the hold-out data (1
+- MSE / Var(y)), providing a robust and unbiased estimate of how well
+each model would generalize to new data. This benchmark allowed for a
+direct comparison of the information content provided by the kinetic
+parameters versus the standard soil tests for predicting key agronomic
+outcomes.
 
 \section{Results}\label{results}
 
@@ -985,20 +1009,20 @@ section will use formal statistical models to test these relationships.
 Properties}\label{sec-p-params-soil-props}
 
 To understand the underlying drivers of the standard and kinetic P
-parameters, a series of linear mixed-effects models were fitted. Each
-model predicted one of the P parameters based on the core soil
-properties: organic carbon (\(C_{org}\)), clay content, silt content,
-pH, and amorphous Al/Fe oxides. The models included random effects for
-\texttt{Site}, \texttt{Year}, and \texttt{Block}. The results are
+parameters, and to test \textbf{Hypotheses 1b and 2b}, a series of
+linear mixed-effects models were fitted. Each model predicted one of the
+P parameters based on the core soil properties: organic carbon
+(\(C_{org}\)), clay content, silt content, pH, and
+dithionite-extractable Al (\(Al_d\)) and Fe (\(Fe_d\)). The results are
 summarized in Table~\ref{tbl-soil-prop-models}.
 
 \begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1642}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1940}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1493}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1493}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1642}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1791}}@{}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.2222}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1806}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1389}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1389}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1528}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1667}}@{}}
 
 \caption{\label{tbl-soil-prop-models}Results of linear mixed-effects
 models predicting P parameters from intrinsic soil properties.
@@ -1009,7 +1033,7 @@ Significance codes: `\emph{\textbf{' p \textless{} 0.001, '}' p
 
 \toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\raggedright
-descriptor
+Predictor/Model
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 \(P_{desorb}\)
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
@@ -1038,33 +1062,55 @@ Silt & -0.000*** & 0.004 & 0.008 & -0.015*** & -0.049*** \\
 
 \end{longtable}
 
-The analysis in Table~\ref{tbl-soil-prop-models} reveals that the
-capacity-based P pools and the kinetic rate constant are controlled by
-different sets of soil properties. Both amorphous aluminum (\(Al_{d}\))
-and iron (\(Fe_{d}\)) oxides had a highly significant negative effect on
-the \textbf{Desorbable P pool (}\(P_{desorb}\)), suggesting they bind P
-strongly. In contrast, \textbf{Organic Carbon (}\(C_{org}\)) had a
-significant positive effect on all capacity measures, especially
-\(P_{AAE10}\). The \textbf{Rate Constant (}\(k\)) was not significantly
-driven by the oxides, but showed a significant positive relationship
-with \(C_{org}\) and a negative relationship with \texttt{Clay} content,
-indicating that the speed of P release is governed by different
-mechanisms than the total pool size.
+The analysis reveals that the capacity-based P pools and the kinetic
+rate constant are controlled by different sets of soil properties,
+strongly supporting the hypotheses.
+
+In line with \textbf{Hypothesis 2b}, the kinetic capacity parameter,
+\textbf{Desorbable P (\(P_{desorb}\))}, showed a highly significant
+negative relationship with both dithionite-extractable iron (\(Fe_d\))
+and aluminum (\(Al_d\)). This provides strong evidence that the total
+pool of free oxides, which represent the primary P sorption surfaces in
+the soil, is a key factor controlling the size of the readily desorbable
+P pool.
+
+Also confirming \textbf{Hypothesis 2b}, the \textbf{Rate Constant
+(\emph{k})} was governed by a different set of properties. It was not
+significantly influenced by the free oxides but instead showed a
+significant negative relationship with \texttt{Clay} content and a
+positive relationship with organic carbon (\(C_{org}\)). This clearly
+distinguishes the kinetic component from the capacity component,
+suggesting that while oxides control \emph{how much} P can be held, soil
+texture and organic matter influence \emph{how fast} it can be released.
+
+The standard STP methods showed patterns consistent with
+\textbf{Hypothesis 1b}. \textbf{Organic Carbon (\(C_{org}\))} had a
+highly significant positive effect on \(P_{AAE10}\), and \textbf{pH} had
+a significant negative effect, as predicted. The relationship of the STP
+measures with the dithionite-extractable oxides was less consistent than
+that of \(P_{desorb}\), with only \(P_{AAE10}\) showing a significant
+negative link to \(Al_d\).
 
 \subsection{Predictive Modeling of Agronomic
 Outcomes}\label{sec-agronomic-modeling}
 
-To formally evaluate and compare the predictive power of the standard
-STP methods against the newly derived kinetic parameters, a series of
-linear mixed-effects models (\texttt{lmer}) were fitted for each of the
-primary agronomic response variables.
+To formally evaluate the predictive power of the standard STP methods
+against the kinetic parameters, a series of linear mixed-effects models
+were fitted for each of the primary agronomic response variables.
 
 \subsubsection{\texorpdfstring{Predicting Site-Normalized Yield
-(\(Y_{norm}\))}{Predicting Site-Normalized Yield (Y\_\{norm\})}}\label{sec-ynorm}
+(\(Y_{norm}\))}{Predicting Site-Normalized Yield (Y\_\{norm\})}}\label{predicting-site-normalized-yield-y_norm}
 
-The models predicting the site-normalized yield are summarized in
-Table~\ref{tbl-ynorm-models}. For this metric, the standard STP methods
-proved to be the most effective predictors.
+When predicting yield normalized to the site's own potential, the
+standard STP methods, particularly \(P_{CO_2}\), were the most effective
+predictors (Table~\ref{tbl-ynorm-models}). The model including both STP
+methods (\(P_{CO_2}*P_{AAE10}\)) achieved a marginal R² of 0.22,
+explaining a substantial portion of the variance in within-site yield
+response. The kinetic model also performed well, explaining 16.5\% of
+the variance (marginal R² = 0.165), with the desorbable P pool
+(\(P_{desorb}\)) being a highly significant predictor. This indicates
+that for optimizing yield within a given field, both static and kinetic
+capacity measures are effective.
 
 \begin{longtable}[]{@{}
   >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.3146}}
@@ -1080,7 +1126,7 @@ predicting Site-Normalized Yield (\(Y_{norm}\)).}
 
 \toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\raggedright
-descriptor
+Predictor/Model
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 \(P_{CO_2}\)
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
@@ -1106,18 +1152,19 @@ Intercept & 1.059*** & 0.532*** & 1.096*** & 0.980 \\
 
 \end{longtable}
 
-As shown in Table~\ref{tbl-ynorm-models}, both \(P_{CO_2}\) and
-\(P_{AAE10}\) were highly significant predictors of site-normalized
-yield, with the model containing \(P_{CO_2}\) explaining the most
-variance (Marginal R² = 0.218). In contrast, the kinetic parameters
-showed no significant predictive power for \(Y_{norm}\).
-
 \subsubsection{\texorpdfstring{Predicting National-Normalized Yield
-(\(Y_{rel}\))}{Predicting National-Normalized Yield (Y\_\{rel\})}}\label{sec-yrel}
+(\(Y_{rel}\))}{Predicting National-Normalized Yield (Y\_\{rel\})}}\label{predicting-national-normalized-yield-y_rel}
 
-When predicting the yield normalized to the national average, the
-kinetic parameters demonstrated a much stronger performance, as
-summarized in Table~\ref{tbl-yrel-models}.
+When predicting yield normalized to the national average, a different
+pattern emerged (Table~\ref{tbl-yrel-models}). The kinetic model
+(\(k * P_{desorb}\)) was the strongest predictor, achieving a marginal
+R² of 0.12. Critically, the \textbf{rate constant (\emph{k})} and its
+interaction with \(P_{desorb}\) (representing the initial flux \(J_0\))
+were both significant. In contrast, the standard STP methods, while
+still significant, explained less variance. This supports the hypothesis
+that the \emph{speed} of P release (\emph{k}) becomes a more important
+factor for predicting yield potential across diverse pedoclimatic
+conditions.
 
 \begin{longtable}[]{@{}
   >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.3146}}
@@ -1133,7 +1180,7 @@ predicting National-Normalized Yield (\(Y_{rel}\)).}
 
 \toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\raggedright
-descriptor
+Predictor/Model
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 \(P_{CO_2}\)
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
@@ -1159,20 +1206,15 @@ Intercept & 104.862*** & 75.343*** & 130.274*** & 56.375 \\
 
 \end{longtable}
 
-As seen in Table~\ref{tbl-yrel-models}, while the standard STP methods
-were also significant predictors, the kinetic model revealed a
-significant positive effect of the \textbf{Rate Constant (}\(k\)) and
-its interaction with \(P_{desorb}\) (\(J_0\)). This suggests that the
-speed of P release is a more important factor when comparing yields
-across the broader environmental gradient represented by the national
-average.
+\subsubsection{\texorpdfstring{Predicting P-Uptake
+(\(P_{up}\))}{Predicting P-Uptake (P\_\{up\})}}\label{predicting-p-uptake-p_up}
 
-\subsubsection{\texorpdfstring{Predicting P-Export
-(\(P_{up}\))}{Predicting P-Export (P\_\{up\})}}\label{sec-pexport}
-
-For predicting P-Export, the standard STP methods performed very well,
-with the kinetic model showing comparable, albeit non-significant,
-performance, as shown in Table~\ref{tbl-pexport-models}.
+For predicting P-Uptake, both the standard STP methods and the kinetic
+model performed well, explaining a similar amount of variance
+(Table~\ref{tbl-pexport-models}). The model combining both standard
+tests (\(P_{CO_2}*P_{AAE10}\)) had the highest marginal R² (0.07). This
+suggests that for predicting the total amount of P a crop will acquire,
+measures of the P pool size (capacity) are robust and sufficient.
 
 \begin{longtable}[]{@{}
   >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.3146}}
@@ -1188,7 +1230,7 @@ models predicting P-Export (\(P_{up}\)).}
 
 \toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\raggedright
-descriptor
+Predictor/Model
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 \(P_{CO_2}\)
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
@@ -1214,19 +1256,19 @@ Intercept & 27.522*** & 8.090 & 30.632* & 29.599*** \\
 
 \end{longtable}
 
-The results in Table~\ref{tbl-pexport-models} show that both
-\(P_{CO_2}\) and \(P_{AAE10}\) were highly significant predictors,
-explaining around 6-7\% of the variance (marginal R²). This suggests
-that the size of the available P pool is a robust indicator of the
-amount of P a crop will take up.
-
 \subsubsection{\texorpdfstring{Predicting P-Balance
-(\(P_{bal}\))}{Predicting P-Balance (P\_\{bal\})}}\label{sec-pbalance}
+(\(P_{bal}\))}{Predicting P-Balance (P\_\{bal\})}}\label{predicting-p-balance-p_bal}
 
-The most striking result was found when predicting the P-Balance,
-summarized in Table~\ref{tbl-pbalance-models}. The standard STP methods
-showed no significant ability to predict the P-Balance, whereas the
-kinetic model was a powerful predictor.
+The most striking result was found when predicting the P-Balance
+(Table~\ref{tbl-pbalance-models}). In stark contrast to the standard STP
+methods, which showed no significant ability to predict the P-Balance,
+the kinetic model was a powerful predictor. The kinetic model explained
+\textbf{57\% of the variance} in P-Balance (marginal R² = 0.572), with
+the \textbf{Desorbable P pool (\(P_{desorb}\))} being the dominant,
+highly significant predictor. This indicates that the \(P_{desorb}\)
+parameter from the kinetic experiment is a vastly superior measure of
+the soil's P budget and its response to long-term fertilization compared
+to standard STP tests.
 
 \begin{longtable}[]{@{}
   >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.3146}}
@@ -1242,7 +1284,7 @@ models predicting P-Balance (\(P_{bal}\)).}
 
 \toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\raggedright
-descriptor
+Predictor/Model
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 \(P_{CO_2}\)
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
@@ -1268,13 +1310,6 @@ Intercept & 4.441 & 7.691 & 3.649 & 43.833*** \\
 
 \end{longtable}
 
-As detailed in Table~\ref{tbl-pbalance-models}, the kinetic model
-explained \textbf{57\% of the variance} in P-Balance (marginal R² =
-0.572), with the \textbf{Desorbable P pool (}\(P_{desorb}\)) being the
-dominant, highly significant predictor. This indicates that the
-\(P_{desorb}\) parameter from the kinetic experiment is a vastly
-superior measure of the soil's P budget compared to standard STP tests.
-
 \section{Discussion}\label{discussion}
 
 \section{Conclusion}\label{conclusion}
@@ -1294,10 +1329,10 @@ Abelson, P. H. (1999). The global phosphorus dilemma: A new insight into
 an old problem. \emph{Science}, \emph{283}(5410), 2015.
 \url{https://doi.org/10.1126/science.283.5410.2015}
 
-\bibitem[\citeproctext]{ref-lme4}
-Bates, D., Mchler, M., Bolker, B., \& Walker, S. (2015). \emph{Fitting
-linear mixed-effects models using
-{\textbraceleft}lme4{\textbraceright}}. \emph{67}.
+\bibitem[\citeproctext]{ref-R-lme4}
+Bates, D., Mächler, M., Bolker, B., \& Walker, S. (2015). Fitting linear
+mixed-effects models using {lme4}. \emph{Journal of Statistical
+Software}, \emph{67}(1), 1--48.
 \url{https://doi.org/10.18637/jss.v067.i01}
 
 \bibitem[\citeproctext]{ref-Bell2013Factors}
@@ -1391,17 +1426,17 @@ different long-term fertilization: A comparison of kinetic models.
 \emph{Journal of Soils and Sediments}, \emph{12}, 739--749.
 \url{https://doi.org/10.1007/s11368-012-0498-8}
 
-\bibitem[\citeproctext]{ref-lmerTest}
+\bibitem[\citeproctext]{ref-R-lmerTest}
 Kuznetsova, A., Brockhoff, P. B., \& Christensen, R. H. B. (2017).
-\emph{{\textbraceleft}lmerTest{\textbraceright} package: Tests in linear
-mixed effects models}. \emph{82}.
+lmerTest package: Tests in linear mixed effects models. \emph{Journal of
+Statistical Software}, \emph{82}(13), 1--26.
 \url{https://doi.org/10.18637/jss.v082.i13}
 
-\bibitem[\citeproctext]{ref-mlr3}
-Lang, M., Binder, M., Richter, J., Schratz, P., Pfisterer, F., Coors,
-S., Au, Q., Casalicchio, G., Kotthoff, L., \& Bischl, B. (2019).
-\emph{{\textbraceleft}mlr3{\textbraceright}: A modern object-oriented
-machine learning framework in {\textbraceleft}r{\textbraceright}}.
+\bibitem[\citeproctext]{ref-R-mlr3}
+Lang, M., Binder, M., Richter, J., Schratz, P., Casalicchio, G., Coors,
+S., Pfisterer, F., Fischer, S., Au, Q., \& Bischl, B. (2019). {mlr3}: A
+modern object-oriented machine learning framework in {R}. \emph{Journal
+of Open Source Software}, \emph{4}(44), 1903.
 \url{https://doi.org/10.21105/joss.01903}
 
 \bibitem[\citeproctext]{ref-McDowell2001Approximating}
@@ -1409,6 +1444,11 @@ McDowell, R. W., \& Sharpley, A. N. (2001). Approximating phosphorus
 release from soils to surface runoff and subsurface drainage.
 \emph{Journal of Environmental Quality}, \emph{30}(2), 508--520.
 \url{https://doi.org/10.2134/jeq2001.302508x}
+
+\bibitem[\citeproctext]{ref-Mehra1960Iron}
+Mehra, O. P., \& Jackson, M. L. (1960). Iron oxide removal from soils
+and clays by a dithionite-citrate system buffered with sodium
+bicarbonate. \emph{Clays and Clay Minerals}, \emph{7}, 317--327.
 
 \bibitem[\citeproctext]{ref-NIH2023Phosphorus}
 National Institutes of Health, Office of Dietary Supplements. (2023).
@@ -1423,14 +1463,15 @@ principles of biochemistry} (8th ed.). Macmillan Learning.
 Nye, P. H., \& Tinker, P. B. (2000). \emph{Solute movement in the
 rhizosphere}. Oxford University Press.
 
-\bibitem[\citeproctext]{ref-nlme}
-Pinheiro, J., Bates, D., \& R Core Team. (2025). \emph{Nlme: Linear and
-nonlinear mixed effects models}.
-\url{https://doi.org/10.32614/CRAN.package.nlme}
+\bibitem[\citeproctext]{ref-R-nlme}
+Pinheiro, J., Bates, D., DebRoy, S., Sarkar, D., \& R Core Team. (2022).
+\emph{Nlme: Linear and nonlinear mixed effects models}.
+\url{https://CRAN.R-project.org/package=nlme}
 
-\bibitem[\citeproctext]{ref-base}
-R Core Team. (2025). \emph{R: A language and environment for statistical
-computing}. \url{https://www.R-project.org/}
+\bibitem[\citeproctext]{ref-R-base}
+R Core Team. (2022). \emph{R: A language and environment for statistical
+computing}. R Foundation for Statistical Computing.
+\url{https://www.R-project.org/}
 
 \bibitem[\citeproctext]{ref-Rast1996Eutrophication}
 Rast, W., \& Thornton, J. A. (1996). A eutrophication of waters: Control
@@ -1479,6 +1520,11 @@ University Press.
 \bibitem[\citeproctext]{ref-Stevenson1994Humus}
 Stevenson, F. J. (1994). \emph{Humus chemistry: Genesis, composition,
 reactions} (2nd ed.). John Wiley \& Sons.
+
+\bibitem[\citeproctext]{ref-VanVeldhoven1987Malachite}
+Van Veldhoven, P. P., \& Mannaerts, G. P. (1987). Inorganic and organic
+phosphorus in the scheldt estuary. \emph{Estuarine, Coastal and Shelf
+Science}, \emph{25}(6), 755--765.
 
 \bibitem[\citeproctext]{ref-VDLUFA2000Methodenbuch}
 Verband Deutscher Landwirtschaftlicher Untersuchungs- und
