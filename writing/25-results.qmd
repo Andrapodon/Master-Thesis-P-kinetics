@@ -455,7 +455,16 @@ The standard STP methods showed patterns consistent with **Hypothesis 1b**. **Or
 
 ## Predictive Modeling of Agronomic Outcomes {#sec-agronomic-modeling}
 
-To formally evaluate the predictive power of the standard STP methods against the kinetic parameters, a series of linear mixed-effects models were fitted for each of the primary agronomic response variables.
+To formally evaluate the predictive power of the standard STP methods against the kinetic parameters, a series of linear mixed-effects models were fitted for each of the primary agronomic response variables. To test the central hypotheses of this thesis, the predictive power of the kinetic parameters was directly compared against that of the standard STP methods for several key agronomic outcomes. For each response variable—Normalized Yield ($Y_{rel}$), P Uptake ($P_{up}$), and P Balance ($P_{bal}$)—a set of competing linear mixed-effects models was constructed.
+
+To ensure a fair comparison, all models shared an identical random effects structure (`(1|year) + (1|Site) + (1|Site:block)`), differing only in their fixed effects. Four distinct models were evaluated:
+* **$P_{CO_2}$ Model:** Used the standard water-soluble P test as the sole predictor.
+* **$P_{AAE10}$ Model:** Used the standard chelate-extractable P test as the sole predictor.
+* **STP Interaction Model:** Included both standard tests and their interaction term ($P_{CO_2} * P_{AAE10}$) to capture their combined effect.
+* **Kinetic Model:** Used the log-transformed desorbable P pool ($log(P_{desorb})$), the rate constant (*k*), and their interaction ($J_0$) as predictors.
+
+The performance of these models for each agronomic outcome is presented in the following sections.
+
 
 ### Predicting Site-Normalized Yield ($Y_{norm}$)
 
@@ -486,10 +495,10 @@ covariate_labels <- c(
   "R2c" = "$R^2_c$"
 )
 model_labels_ynorm <- c(
-  "Yn-STP-CO2"   = "$P_{CO_2}$",
+  "Yn-STP-CO2"   = "$P_{CO_2}",
   "Yn-STP-AAE10" = "$P_{AAE10}$",
-  "Yn-STP-GRUD"  = "$P_{CO_2}*P_{AAE10}$",
-  "Yn-Kinetic"   = "$k * P_{desorb}$"
+  "Yn-STP-GRUD"  = "STP-interaction",
+  "Yn-Kinetic"   = "kinetic"
 )
 results_table_ynorm <- create_coef_table(
   lmer_models_yield_norm,
@@ -515,14 +524,15 @@ knitr::kable(results_table_ynorm, escape = FALSE, row.names = FALSE, format = "m
 
 The analysis reveals a clear and striking difference between the predictive power of the standard STP methods and the kinetic parameters for site-normalized yield.
 
-The standard STP methods were highly effective predictors. Both the $P_{CO_2}$ and $P_{AAE10}$ models showed highly significant coefficients and explained a substantial portion of the variance, with marginal R² values of 0.218 and 0.198, respectively. The combined model ($P_{CO_2}*P_{AAE10}$) performed best overall, explaining 22% of the variance fixed effects. These results directly contradict **Hypothesis 1a**, which posited that these static measurements would be weak predictors of yield. For predicting yield relative to a site's own maximum potential, the standard soil tests perform very well.
+The standard STP methods were highly effective predictors. Both the $P_{CO_2}$ and $P_{AAE10}$ models showed highly significant coefficients and explained a substantial portion of the variance, with marginal R² values of 0.218 and 0.198, respectively. The combined model (STP-interaction) performed best overall, explaining 22% of the variance fixed effects. These results directly contradict **Hypothesis 1a**, which posited that these static measurements would be weak predictors of yield. For predicting yield relative to a site's own maximum potential, the standard soil tests perform very well.
 
-In stark contrast, the kinetic model (`k * P_desorb`) had virtually no predictive power for $Y_{norm}$. The model's marginal R² was only 0.014, and none of the kinetic parameters—neither the rate constant (*k*), the desorbable pool ($P_{desorb}$), nor their interaction—were statistically significant. This finding strongly refutes **Hypothesis 3** for this specific yield metric. The results suggest that when agronomic potential is evaluated within a single site (the function of site-normalization), the rate of P supply is not the limiting factor; rather, the overall capacity or size of the available P pool, as measured effectively by standard soil tests, is the dominant driver of the yield response.
+In stark contrast, the kinetic model had virtually no predictive power for $Y_{norm}$. The model's marginal R² was only 0.014, and none of the kinetic parameters—neither the rate constant (*k*), the desorbable pool ($P_{desorb}$), nor their interaction—were statistically significant. This finding strongly refutes **Hypothesis 3** for this specific yield metric. The results suggest that when agronomic potential is evaluated within a single site (the function of site-normalization), the rate of P supply is not the limiting factor; rather, the overall capacity or size of the available P pool, as measured effectively by standard soil tests, is the dominant driver of the yield response.
 
 
 ### Predicting National-Normalized Yield ($Y_{rel}$)
 
-When predicting yield normalized to the national average, a different pattern emerged (@tbl-yrel-models). The kinetic model ($k * P_{desorb}$) was the strongest predictor, achieving a marginal R² of 0.12. Critically, the **rate constant (*k*)** and its interaction with $P_{desorb}$ (representing the initial flux $J_0$) were both significant. In contrast, the standard STP methods, while still significant, explained less variance. This supports the hypothesis that the *speed* of P release (*k*) becomes a more important factor for predicting yield potential across diverse pedoclimatic conditions.
+The models predicting national-normalized yield ($Y_{rel}$) reveal that both standard and kinetic soil phosphorus tests struggle to explain the variance in crop yields on their own, though standard tests show slightly better performance in this context.
+
 
 ```{r}
 #| label: tbl-yrel-models
@@ -540,8 +550,8 @@ lmer_models_yield_rel <- list(
 model_labels_yrel <- c(
   "Yr-STP-CO2"   = "$P_{CO_2}$",
   "Yr-STP-AAE10" = "$P_{AAE10}$",
-  "Yr-STP-GRUD"  = "$P_{CO_2}*P_{AAE10}$",
-  "Yr-Kinetic"   = "$k * P_{desorb}$"
+  "Yr-STP-GRUD"  = "STP-interaction",
+  "Yr-Kinetic"   = "kinetic"
 )
 results_table_yrel <- create_coef_table(
   lmer_models_yield_rel,
@@ -564,9 +574,28 @@ knitr::kable(results_table_yrel, escape = FALSE, row.names = FALSE, format = "ma
 # |$R^2_c$                     |0.569      |0.537       |0.596                |0.439            |
 ```
 
+#### Performance of Standard STP Methods
+
+The models based on standard soil tests ($P_{CO_2}$ and $P_{AAE10}$) individually showed a significant, positive relationship with relative yield. When considered alone, both $P_{CO_2}$ and $P_{AAE10}$ were significant predictors, explaining 7.4% and 6.3% of the variance in yield, respectively (indicated by their marginal R², $R^2_m$). The model including their interaction term ($P_{CO_2}*P_{AAE10}$) performed slightly better, explaining 7.8% of the variance.
+
+These findings partially align with **Hypothesis 1a**, which posited that standard STP methods would be weak predictors of relative crop yield. The low marginal R² values confirm that these static measurements account for less than 8% of the yield variation, which is indeed a weak predictive performance.
+
+#### Performance of the Kinetic Model
+
+Contrary to expectations, the model based on kinetic parameters ($k * P_{desorb}$) demonstrated very low predictive power, with a marginal R² of just 2.2%. Although the desorption rate ($k$) and the initial P flux ($J_0$) showed a significant positive relationship with yield, the overall model performed worse than the standard STP methods.
+
+This result directly contradicts **Hypothesis 3**, which stated that a model incorporating kinetic parameters would explain a significantly greater proportion of the variance in relative yield compared to static STP measurements. For predicting national-normalized yield, the opposite appears to be true; the standard methods, while weak, still outperform the kinetic approach.
+
+#### The Role of Unmeasured Factors
+
+A critical observation across all models is the large discrepancy between the marginal R² ($R^2_m$) and the conditional R² ($R^2_c$). The conditional R² represents the total variance explained by both the fixed effects (the predictors like $P_{CO_2}$ or *k*) and the random effects (such as `Site` and `year`).
+
+For instance, in the best-performing STP model (kinetic), the marginal R² is only 0.078, but the conditional R² is 0.596. This means that while the soil P measurements themselves explain about 8% of the yield variance, the combination of soil tests *plus* the site- and year-specific conditions explains nearly 60% of it. This pattern holds for all models and strongly suggests that pedoclimatic factors, captured by the `Site` and `year` random effects, are the dominant drivers of crop yield in this dataset, overshadowing the influence of the measured soil P parameters.
+
+
 ### Predicting P-Uptake ($P_{up}$)
 
-For predicting P-Uptake, both the standard STP methods and the kinetic model performed well, explaining a similar amount of variance (@tbl-pexport-models). The model combining both standard tests ($P_{CO_2}*P_{AAE10}$) had the highest marginal R² (0.07). This suggests that for predicting the total amount of P a crop will acquire, measures of the P pool size (capacity) are robust and sufficient.
+When predicting P-uptake, both the standard and kinetic models demonstrate similarly weak predictive power, with none of the approaches standing out as superior.
 
 ```{r}
 #| label: tbl-pexport-models
@@ -584,8 +613,8 @@ lmer_models_export <- list(
 model_labels_export <- c(
   "CO2_Pexport"   = "$P_{CO_2}$",
   "AAE10_Pexport" = "$P_{AAE10}$",
-  "Grud_Pexport"  = "$P_{CO_2}*P_{AAE10}$",
-  "Kin_Pexport"   = "$k * P_{desorb}$"
+  "Grud_Pexport"  = "STP-interaction",
+  "Kin_Pexport"   = "kinetic"
 )
 results_table_export <- create_coef_table(
   lmer_models_export,
@@ -608,9 +637,26 @@ knitr::kable(results_table_export, escape = FALSE, row.names = FALSE, format = "
 # |$R^2_c$                     |0.625      |0.603       |0.623                |0.648            |
 ```
 
+#### Performance of Standard STP Methods
+
+The standard soil tests, $P_{CO_2}$ and $P_{AAE10}$, when modeled individually, were significant positive predictors of P-uptake. The $P_{AAE10}$ model performed slightly better, explaining 7.3% of the variance ($R^2_m$ = 0.073) compared to the $P_{CO_2}$ model's 6.4% ($R^2_m$ = 0.064). Interestingly, the interaction model did not improve but slightly decreased the explained variance ($R^2_m$ = 0.065), and the individual predictors lost their significance.
+
+These results are consistent with **Hypothesis 1a**, which predicted that standard STP methods would be weak predictors of agronomic outcomes like P-uptake. The low marginal R² values confirm that these static tests, while statistically significant on their own, account for a very small fraction of the variability in P-uptake by crops.
+
+#### Performance of the Kinetic Model
+
+The kinetic model performed on par with the standard individual tests, explaining 6.4% of the variance in P-uptake ($R^2_m$ = 0.064). However, none of the kinetic parameters (*k*, $P_{desorb}$, or $J_0$) emerged as individually significant predictors.
+
+This finding challenges **Hypothesis 3**, which anticipated that the kinetic parameters would offer significantly improved predictive power. For P-uptake, the kinetic model shows no advantage over the simpler, traditional STP methods. The dynamic measures of P supply do not appear to capture the mechanisms driving P-uptake any better than the static measures in this context.
+
+#### Dominance of Site and Year Effects
+
+As with the yield predictions, there is a vast difference between the marginal R² and conditional R² values across all P-uptake models. For example, the kinetic model's marginal R² is only 0.064, but its conditional R² is 0.648. This indicates that the fixed effects (the soil P measurements) explain about 6% of the variance, while the random effects (`Site` and `year`) account for the vast majority of the explained variance (around 58%). This again underscores that site-specific pedoclimatic conditions and year-to-year environmental variations are the primary factors controlling P-uptake, with the specific soil P status playing a minor, secondary role
+
+
 ### Predicting P-Balance ($P_{bal}$)
 
-The most striking result was found when predicting the P-Balance (@tbl-pbalance-models). In stark contrast to the standard STP methods, which showed no significant ability to predict the P-Balance, the kinetic model was a powerful predictor. The kinetic model explained **57% of the variance** in P-Balance (marginal R² = 0.572), with the **Desorbable P pool ($P_{desorb}$)** being the dominant, highly significant predictor. This indicates that the $P_{desorb}$ parameter from the kinetic experiment is a vastly superior measure of the soil's P budget and its response to long-term fertilization compared to standard STP tests.
+The prediction of the P-Balance ($P_{bal}$) reveals a stark and decisive contrast between the kinetic and standard STP approaches, providing the strongest evidence in favor of the kinetic methodology.
 
 ```{r}
 #| label: tbl-pbalance-models
@@ -628,8 +674,8 @@ lmer_models_balance <- list(
 model_labels_balance <- c(
   "CO2_Pbalance"   = "$P_{CO_2}$",
   "AAE10_Pbalance" = "$P_{AAE10}$",
-  "Grud_Pbalance"  = "$P_{CO_2}*P_{AAE10}$",
-  "Kin_Pbalance"   = "$k * P_{desorb}$"
+  "Grud_Pbalance"  = "STP-interaction",
+  "Kin_Pbalance"   = "kinetic"
 )
 results_table_balance <- create_coef_table(
   lmer_models_balance,
@@ -651,3 +697,19 @@ knitr::kable(results_table_balance, escape = FALSE, row.names = FALSE, format = 
 # |$R^2_m$                     |0.001      |0.001       |0.001                |0.572            |
 # |$R^2_c$                     |0.810      |0.807       |0.811                |0.744            |
 ```
+
+#### Performance of the Kinetic Model
+
+The kinetic model emerged as an exceptionally strong predictor of the P-Balance, explaining 57.2% of the variance ($R^2_m$ = 0.572). The desorbable P pool ($P_{desorb}$) was a highly significant predictor (p < 0.001). This result provides powerful support for the underlying premise of this thesis. The P-Balance represents the net result of P inputs and outputs over time, and the fact that $P_{desorb}$—a measure of the readily available P pool—so accurately reflects this balance is a significant finding.
+
+This strongly supports **Hypothesis 3**, which asserted that kinetic parameters would be more effective predictors than static tests. In the case of P-Balance, the kinetic model is not just an improvement; it is the only effective model.
+
+#### Performance of Standard STP Methods
+
+In stark contrast, all models based on the standard STP methods ($P_{CO_2}$, $P_{AAE10}$, and their interaction) completely failed to predict the P-Balance. Their marginal R² values were effectively zero ($R^2_m$ = 0.001), indicating they have no predictive power whatsoever for this crucial agronomic metric. None of the STP predictors were statistically significant.
+
+This finding directly contradicts **Hypothesis 1a**, which anticipated a significant correlation between the standard STP methods and the P-Balance. The results show no such relationship exists, suggesting that these static measurements do not adequately reflect the long-term phosphorus status of the soil as represented by the P-Balance.
+
+#### Interpreting the R² Discrepancy
+
+The dramatic difference in performance is clear from the R² values. While the conditional R² for the STP models is high (around 0.81), their marginal R² is 0.001. This indicates that all the explanatory power comes from the random effects (`Site` and `year`), and the STP measurements themselves contribute nothing. The kinetic model, however, has both a high marginal R² (0.572) and a high conditional R² (0.744). This demonstrates that the kinetic parameters are themselves powerful predictors, capturing a large portion of the variance that is independent of site and year effects.
