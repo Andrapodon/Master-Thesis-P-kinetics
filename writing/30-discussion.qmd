@@ -50,7 +50,6 @@ Ultimately, the successful validation of our derived parameters against establis
 #| message: false
 #| out-width: "\\textwidth"
 #| fig-height: 4
-#| dev: tikz
 
 # Make sure the required libraries are loaded
 library(ggplot2)

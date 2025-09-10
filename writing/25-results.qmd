@@ -191,7 +191,7 @@ pred_data <- d_plot %>%
    facet_grid(Treatment ~ Site,scales = "free_y") +
    theme_bw() +
    labs(x = TeX("$Time (min)$"),
-        y = TeX("$P_{V}(\\frac{mg}{L})$"));
+        y = TeX("$P_{V}$ $mgL^{-1}$"));
  suppressWarnings(print(p1))
 ```
 
@@ -469,7 +469,8 @@ The performance of these models for each agronomic outcome is presented in the f
 
 ### Predicting Site-Normalized Yield ($Y_{norm}$)
 
-When predicting yield normalized to the site's own potential, the standard STP methods, particularly $P_{CO_2}$, were the most effective predictors (@tbl-ynorm-models). The model including both STP methods ($P_{CO_2}*P_{AAE10}$) achieved a marginal $R^2$ of 0.22, explaining a substantial portion of the variance in within-site yield response. The kinetic model also performed well, explaining 16.5% of the variance (marginal $R^2$ = 0.165), with the desorbable P pool ($P_{desorb}$) being a highly significant predictor. This indicates that for optimizing yield within a given field, both static and kinetic capacity measures are effective.
+The analysis reveals a clear and striking difference between the predictive power of the standard STP methods and the kinetic parameters for site-normalized yield.
+
 
 ```{r}
 #| label: tbl-ynorm-models
@@ -523,11 +524,11 @@ knitr::kable(results_table_ynorm, escape = FALSE, row.names = FALSE, format = "m
 ```
 
 
-The analysis reveals a clear and striking difference between the predictive power of the standard STP methods and the kinetic parameters for site-normalized yield.
+
 
 The standard STP methods were highly effective predictors. Both the $P_{CO_2}$ and $P_{AAE10}$ models showed highly significant coefficients and explained a substantial portion of the variance, with marginal $R^2$ values of 0.218 and 0.198, respectively. The combined model (STP-interaction) performed best overall, explaining 22% of the variance fixed effects. These results directly contradict **Hypothesis 1a**, which posited that these static measurements would be weak predictors of yield. For predicting yield relative to a site's own maximum potential, the standard soil tests perform very well.
 
-In stark contrast, the kinetic model had virtually no predictive power for $Y_{norm}$. The model's marginal $R^2$ was only 0.014, and none of the kinetic parameters—neither the rate constant (*k*), the desorbable pool ($P_{desorb}$), nor their interaction—were statistically significant. This finding strongly refutes **Hypothesis 3** for this specific yield metric. The results suggest that when agronomic potential is evaluated within a single site (the function of site-normalization), the rate of P supply is not the limiting factor; rather, the overall capacity or size of the available P pool, as measured effectively by standard soil tests, is the dominant driver of the yield response.
+In stark contrast, the kinetic model had virtually no predictive power for $Y_{norm}$. The model's marginal $R^2$ was only 0.014, and none of the kinetic parameters—neither the rate constant (*k*), the desorbable pool ($P_{desorb}$), nor their interaction were statistically significant. This finding strongly refutes **Hypothesis 3** for this specific yield metric. The results suggest that when agronomic potential is evaluated within a single site (the function of site-normalization), the rate of P supply is not the limiting factor; rather, the overall capacity or size of the available P pool, as measured effectively by standard soil tests, is the dominant driver of the yield response.
 
 
 ### Predicting National-Normalized Yield ($Y_{rel}$)
