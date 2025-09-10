@@ -114,7 +114,7 @@ The validity of the linear mixed-effects models (`lmer`) relies on several key a
 
 Initial exploratory data analysis revealed that several of the predictor variables, most notably the desorbable P pool ($P_{desorb}$ or PS), were strongly right-skewed. Using such variables directly in the linear models would violate the assumptions of linearity and homoscedasticity, leading to potentially biased and unreliable coefficient estimates.
 
-To address this, various transformations (including square root and logarithmic) were tested on the skewed variables. The natural log-transformation (`log()`) was found to be the most effective at normalizing the distribution of `PS` and producing well-behaved model residuals that more closely met the required assumptions. Therefore, `log(PS)` was used as a fixed effect in all subsequent agronomic models to ensure the statistical validity of the results.
+To address this, various transformations (including square root and logarithmic) were tested on the skewed variables. The natural log-transformation (`log()`) was found to be the most effective at normalizing the distribution of $P_{desorb}$ and producing well-behaved model residuals that more closely met the required assumptions. Therefore, `log(PS)` was used as a fixed effect in all subsequent agronomic models to ensure the statistical validity of the results.
 
 #### Models of P Availability Metrics as a Function of Soil Properties
 
