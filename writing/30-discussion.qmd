@@ -8,8 +8,95 @@ This study aimed to determine if dynamic P desorption parameters could provide a
 
 First, the STP methods **failed completely to predict the P-Balance**. The models showed no relationship between these static tests and the long-term nutrient surplus or deficit, directly contradicting our hypothesis. This is a critical finding, as it suggests that while tests like $P_{CO_2}$ and $P_{AAE10}$ are sensitive to short-term changes from annual fertilization, they do not adequately capture the cumulative, long-term P status of the soil system.
 
-Second, the performance of STP methods in predicting yield was highly context-dependent. When predicting **site-normalized yield ($Y_{norm}$)**, which assesses the yield response relative to a site's own potential, the STP models were remarkably effective, explaining up to 22% of the variance. This result contradicts the part of our hypothesis that expected weak performance and suggests that for *within-field* management, where the goal is to ensure P is not limiting relative to that specific environment's potential, traditional capacity-based tests are well-suited and robust.
+Second, the performance of STP methods in predicting yield was highly context-dependent. When predicting **site-normalized yield (**$Y_{norm}$), which assesses the yield response relative to a site's own potential, the STP models were remarkably effective, explaining up to 22% of the variance. This result contradicts the part of our hypothesis that expected weak performance and suggests that for *within-field* management, where the goal is to ensure P is not limiting relative to that specific environment's potential, traditional capacity-based tests are well-suited and robust.
 
-However, when predicting **national-normalized yield ($Y_{rel}$)** and **P-uptake ($P_{up}$)**, the STP models performed poorly, aligning with our initial expectations. Their predictive power dropped significantly, and they were overshadowed by the immense influence of site and year effects. This highlights a crucial limitation: while standard tests may be sufficient for managing a single field, they are inadequate for comparing or predicting productivity across diverse pedoclimatic landscapes, where other factors become far more important than the soil's P capacity alone.
+However, when predicting **national-normalized yield (**$Y_{rel}$) and **P-uptake (**$P_{up}$), the STP models performed poorly, aligning with our initial expectations. The weak performance in predicting yield and P-uptake can likely be attributed to several factors. Firstly, crop yield in field settings is often co-limited by multiple factors beyond phosphorus. Year-to-year variations in climate, such as solar radiation and water availability, as well as the supply of other key nutrients like nitrogen, can become the primary drivers of productivity, masking the more subtle influence of soil P status [@Sadras2002; @Sinclair1998]. The large gap between the marginal and conditional R² in our models strongly suggests that these site- and year-specific variables, captured by the random effects, were indeed the dominant factors.
 
-Regarding **Hypothesis 1b**, the findings were largely supportive. The analysis of soil properties confirmed that STP values were significantly influenced by factors like organic carbon and pH, as anticipated. This reinforces the understanding that STP measurements are not pure measures of P but are instead complex indices reflecting a combination of P status and overarching soil chemistry.
+Furthermore, response variables like $P_{up}$ and $P_{bal}$ are calculated as the product of yield and P concentration, which can introduce and propagate measurement uncertainty. If yield itself is only weakly correlated with soil P status, this "noise" is carried into the derived variables, making it even more difficult to establish a clear statistical relationship [@Rowe2016LegacyP].
+
+The predictive weakness may also stem from the experimental design and modeling approach. This study utilized samples primarily from the P-deficient (0%) and P-sufficient (100% and 167%) treatments. Crop yield response to fertilizer typically follows a saturation curve, and it is possible that our dataset was concentrated on the less responsive parts of this curve, thus lacking statistical power in the most dynamic range [@Schlesinger2009]. While our use of a linear mixed-effects model was appropriate for the available data, it cannot capture the diminishing returns characteristic of crop nutrient response. As demonstrated by **Hirte et al. (2021)** on these same STYCS trials, non-linear models like the Mitscherlich equation are better suited for describing such saturation kinetics but would require data from the intermediate fertilization levels to be applied robustly [@Hirte2021Yield].
+
+Regarding **Hypothesis 1b**, the findings were largely supportive. The analysis of soil properties confirmed that STP measurements are not pure measures of P but are instead complex indices reflecting a combination of P status and overarching soil chemistry. The predicted negative relationship between **pH** and **$P_{AAE10}$** was observed, and the underlying chemical mechanisms for this are well-established, particularly in calcareous or high-pH soils like several in this study (e.g., ALT, GRA).
+
+The AAE10 method relies on two key components: ammonium acetate as a buffer and EDTA as a chelating agent to dissolve mineral-bound P. However, its effectiveness is compromised in soils with high pH and an abundance of free calcium ($Ca^{2+}$) and magnesium ($Mg^{2+}$) cations, often from calcium carbonates ($CaCO_3$). There are two primary reasons for this:
+
+1.  **Consumption of EDTA:** The primary role of EDTA is to bind to cations like iron and aluminum that precipitate phosphate, thereby releasing P into the solution. However, EDTA has a high affinity for divalent cations, so in calcareous soils, a significant portion of the EDTA is consumed by binding to the abundant free $Ca^{2+}$ and $Mg^{2+}$, making it less available to extract the target phosphate compounds [@Fixen1993].
+2.  **Buffering Capacity:** The acetate buffer in the AAE10 solution is designed to maintain a consistent pH. However, soils with high carbonate content have a strong natural buffering capacity that can resist the pH change intended by the extractant, further reducing its efficiency in dissolving pH-sensitive P minerals.
+
+This known limitation explains why $P_{AAE10}$ can underestimate plant-available P in calcareous soils and supports our finding of a significant pH-dependence. It underscores that the choice of an appropriate soil test must take into account the fundamental chemistry of the soil matrix itself.
+
+
+## Hypothesis 2: Characterizing P Desorption Kinetics
+
+**Hypothesis 2a** focused on the methodological feasibility of characterizing P desorption. It predicted that while the process would follow first-order kinetics, a non-linear modeling approach would be more robust than the original linearized method proposed by Flossmann & Richter (1982). The results from this thesis unequivocally support this hypothesis. Our initial attempts to linearize the desorption data failed systematically, with model intercepts deviating significantly from the required origin, thus violating a core assumption of the method. In contrast, the direct application of a non-linear mixed-effects model successfully captured the curvilinear nature of P release for nearly all samples. This confirms that while the foundational concept of first-order kinetics is sound, modern computational methods that avoid data transformation provide a far more accurate and statistically valid approach to parameter estimation [@Kuang2012Phosphorus].
+
+While the non-linear model proved robust, visual inspection of the kinetic curves revealed that two specific replicates—from the P100 and P166 treatments at the Ellighausen site—showed markedly higher and faster P release than their counterparts. To determine whether this was due to a methodological artifact or true field variability, the standard soil test results for all replicates at this site were examined (@fig-ell-outlier-check-dual-axis). The diagnostic plot clearly shows that these same two replicates also registered as significant outliers for both $P_{CO_2}$ and $P_{AAE10}$. This consistent pattern across three independent measurement techniques strongly suggests that the deviation is not a result of error in the kinetic procedure, but rather reflects genuine **micro-site heterogeneity**.
+
+Such heterogeneity could arise from several sources. One plausible explanation, given the decades-long application of Triple-Superphosphate (primarily monocalcium phosphate), is the presence of residual, undissolved fertilizer granules in the soil matrix. The accidental inclusion of even a single such particle in the 10g subsample for a specific replicate would lead to artificially inflated P values across all chemical extractions [@Sample2015]. This highlights a fundamental challenge in soil analysis and reinforces the importance of robust modeling. The use of a non-linear *mixed-effects* model is particularly advantageous in this context, as it is designed to handle such individual variations by estimating a common overall trend while allowing for random deviations for each sample, thereby preventing a few anomalous data points from unduly influencing the overall conclusions[@Fisher1925; Fisher1935; Yates1964; @VanEs2002].
+
+Ultimately, the successful validation of our derived parameters against established Isotopic Exchange Kinetic (IEK) data further solidifies the robustness of our methodological approach, demonstrating that this simpler extraction method effectively captures both the capacity ($P_{desorb}$) and intensity (*k*) aspects of P dynamics.
+
+
+```{r}
+#| label: fig-ell-outlier-check-dual-axis
+#| fig-cap: "Diagnostic plot for P_AAE10 (left axis) and P_CO2 (right axis) for all replicates at the Ellighausen (ELL) site, faceted by P fertilization treatment."
+#| echo: true
+
+# Make sure the required libraries are loaded
+library(ggplot2)
+library(dplyr)
+
+# Filter for the Ellighausen site and select relevant columns
+ell_data <- D %>%
+  filter(Site == "Ellighausen") %>%
+  select(Treatment, Rep, soil_0_20_P_CO2, soil_0_20_P_AAE10)
+
+# Determine the scaling factor for the secondary axis.
+# This is a common approach: divide the range of the primary variable by the range of the secondary.
+scaling_factor <- max(ell_data$soil_0_20_P_AAE10, na.rm = TRUE) / max(ell_data$soil_0_20_P_CO2, na.rm = TRUE)
+
+# Create the plot
+ggplot(ell_data, aes(x = as.factor(Rep), group = 1)) +
+  # Plot the first variable (P_AAE10) - this will use the primary (left) y-axis
+  geom_line(aes(y = soil_0_20_P_AAE10), color = "blue") +
+  geom_point(aes(y = soil_0_20_P_AAE10), color = "blue", size = 4) +
+
+  # Plot the second variable (P_CO2) - transform it by the scaling factor
+  geom_line(aes(y = soil_0_20_P_CO2 * scaling_factor), color = "red") +
+  geom_point(aes(y = soil_0_20_P_CO2 * scaling_factor), color = "red", size = 4) +
+
+  # Create the secondary y-axis
+  scale_y_continuous(
+    # Features for the primary y-axis
+    name = "P_AAE10 (mg/kg)",
+
+    # Add the secondary y-axis and define its properties
+    sec.axis = sec_axis(
+      # The transformation here is the INVERSE of the one we applied to the data
+      trans = ~ . / scaling_factor,
+      name = "P_CO2 (mg/kg)"
+    )
+  ) +
+  facet_wrap(~ Treatment, scales = "free_y") +
+  labs(
+    title = "Standard Soil P Tests at Ellighausen",
+    x = "Replicate Number",
+    y = "P Concentration (mg/kg)" # This label is now redundant but kept for convention
+  ) +
+  theme_bw() +
+  # Adjust colors for the axis titles and text to match the lines
+  theme(
+    axis.title.y.left = element_text(color = "blue"),
+    axis.text.y.left = element_text(color = "blue"),
+    axis.title.y.right = element_text(color = "red"),
+    axis.text.y.right = element_text(color = "red")
+  )
+```
+
+
+**Hypothesis 2b** predicted that the derived kinetic parameters would be significantly influenced by fundamental soil properties, and this was also strongly supported by the findings. The analysis revealed a clear and meaningful separation in the drivers of the capacity and kinetic components. The desorbable P pool ($P_{desorb}$), representing the quantity of readily available P, was strongly and negatively correlated with dithionite-extractable iron and aluminum. This aligns perfectly with established soil science principles, as these free oxides provide the primary sorption surfaces that bind P, thereby controlling the size of the exchangeable pool [@Brady2016Soils; @Sposito2008Chemistry].
+
+Conversely, the rate constant (*k*), which represents the speed of P release, was not primarily driven by the oxide content but was instead significantly related to soil texture (clay content) and pH. The negative relationship with clay content is logical, as higher clay content can increase the tortuosity of diffusion pathways, effectively slowing the movement of phosphate from the solid phase to the bulk solution [@Nye2000Solute]. The influence of pH is also consistent with known phosphate chemistry, as pH governs the speciation of orthophosphate ions and their affinity for mineral surfaces [@Sparks2003Environmental]. These distinct relationships confirm that $P_{desorb}$ and *k* are not redundant parameters; they represent fundamentally different aspects of P availability—the size of the pool and the rate of access to it—which are governed by different soil-chemical and physical properties.
+
+
+
