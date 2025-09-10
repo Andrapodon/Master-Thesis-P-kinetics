@@ -839,8 +839,8 @@ solid lines represent the fitted model for each replicate.}
 
 \end{figure}%
 
-\subsection{Comparison with Isotopic Exchange Kinetics (IEK)
-\{\#sec-comparison-with-isotopic-exchange-kinetics-(iek\}}\label{comparison-with-isotopic-exchange-kinetics-iek-sec-comparison-with-isotopic-exchange-kinetics-iek}
+\subsection{Comparison with Isotopic Exchange Kinetics
+(IEK)}\label{comparison-with-isotopic-exchange-kinetics-iek}
 
 To validate the newly derived kinetic parameters against an established
 benchmark, the capacity (\(P_{desorb}\)) and kinetic (\(k\)) parameters
@@ -943,7 +943,7 @@ from 2017-2022.}
 
 \end{figure}%
 
-\textbf{Yield Metrics (}\(Y_{norm}\) and \(Y_{rel}\)): Both yield
+\textbf{Yield Metrics (\(Y_{norm}\) and \(Y_{rel}\))}: Both yield
 metrics showed a generally positive response to P fertilization. The
 site-normalized yield (\(Y_{norm}\)) shows the response relative to the
 site's potential for that year, with most yields plateauing around the
@@ -951,12 +951,12 @@ Norm (100\%) treatment. The national-normalized yield (\(Y_{rel}\))
 provides a broader context, showing how yields at each site compare to
 the national average.
 
-\textbf{P Uptake (}\(P_{up}\)): P uptake by crops followed a similar
+\textbf{P Uptake (\(P_{up}\))}: P uptake by crops followed a similar
 trend to yield, increasing with fertilization, often continuing to
 increase at the highest fertilization levels, suggesting luxury
 consumption.
 
-\textbf{P Balance (}\(P_{bal}\)): The P balance showed a strong, linear
+\textbf{P Balance (\(P_{bal}\))}: The P balance showed a strong, linear
 relationship with fertilization. The Zero and Deficit treatments
 resulted in a negative balance (mining soil P), while the Elevated and
 Surplus treatments led to a significant P surplus.
@@ -987,18 +987,18 @@ soil P tests showed a clear and consistent increase with rising P
 fertilization levels across all sites, confirming their sensitivity to
 management.
 
-\textbf{Kinetic Parameters (}\(k\), \(P_{desorb}\), and \(J_0\)): *
-\textbf{Desorbable P (}\(P_{desorb}\)): This parameter behaved very
+\textbf{Kinetic Parameters (}\(k\), \(P_{desorb}\), and \(J_0\)):
+\textbf{Desorbable P (\(P_{desorb}\))}: This parameter behaved very
 similarly to the standard STPs, increasing steadily with P fertilization
-and confirming its role as a ``capacity'' indicator. * \textbf{Rate
-Constant (}\(k\)): The rate constant showed a more complex pattern, with
-no strong, consistent trend with fertilization. This suggests that while
-fertilization increases the \emph{amount} of available P, it may not
-change the intrinsic \emph{release rate}. * \textbf{Initial P Flux
-(}\(J_0\)): As the product of \(P_{desorb}\) and \(k\), this parameter
-integrates both capacity and intensity. It showed a strong positive
-response to fertilization, driven primarily by the increase in
-\(P_{desorb}\).
+and confirming its role as a ``capacity'' indicator.\\
+\textbf{Rate Constant (\(k\))}: The rate constant showed a more complex
+pattern, with no strong, consistent trend with fertilization. This
+suggests that while fertilization increases the \emph{amount} of
+available P, it may not change the intrinsic \emph{release rate}.
+\textbf{Initial P Flux (\(J_0\))}: As the product of \(P_{desorb}\) and
+\(k\), this parameter integrates both capacity and intensity. It showed
+a strong positive response to fertilization, driven primarily by the
+increase in \(P_{desorb}\).
 
 These initial observations suggest that the kinetic parameters,
 particularly the rate constant \(k\), may provide unique information
@@ -1108,14 +1108,14 @@ To ensure a fair comparison, all models shared an identical random
 effects structure
 (\texttt{(1\textbar{}year)\ +\ (1\textbar{}Site)\ +\ (1\textbar{}Site:block)}),
 differing only in their fixed effects. Four distinct models were
-evaluated: * \textbf{\(P_{CO_2}\) Model:} Used the standard
-water-soluble P test as the sole predictor. * \textbf{\(P_{AAE10}\)
-Model:} Used the standard chelate-extractable P test as the sole
-predictor. * \textbf{STP Interaction Model:} Included both standard
-tests and their interaction term (\(P_{CO_2} * P_{AAE10}\)) to capture
-their combined effect. * \textbf{Kinetic Model:} Used the
-log-transformed desorbable P pool (\(log(P_{desorb})\)), the rate
-constant (\emph{k}), and their interaction (\(J_0\)) as predictors.
+evaluated: \textbf{\(P_{CO_2}\) Model:} Used the standard water-soluble
+P test as the sole predictor. \textbf{\(P_{AAE10}\) Model:} Used the
+standard chelate-extractable P test as the sole predictor. \textbf{STP
+Interaction Model:} Included both standard tests and their interaction
+term (\(P_{CO_2} * P_{AAE10}\)) to capture their combined effect.
+\textbf{Kinetic Model:} Used the log-transformed desorbable P pool
+(\(log(P_{desorb})\)), the rate constant (\emph{k}), and their
+interaction (\(J_0\)) as predictors.
 
 The performance of these models for each agronomic outcome is presented
 in the following sections.
@@ -1123,23 +1123,16 @@ in the following sections.
 \subsubsection{\texorpdfstring{Predicting Site-Normalized Yield
 (\(Y_{norm}\))}{Predicting Site-Normalized Yield (Y\_\{norm\})}}\label{predicting-site-normalized-yield-y_norm}
 
-When predicting yield normalized to the site's own potential, the
-standard STP methods, particularly \(P_{CO_2}\), were the most effective
-predictors (Table~\ref{tbl-ynorm-models}). The model including both STP
-methods (\(P_{CO_2}*P_{AAE10}\)) achieved a marginal \(R^2\) of 0.22,
-explaining a substantial portion of the variance in within-site yield
-response. The kinetic model also performed well, explaining 16.5\% of
-the variance (marginal \(R^2\) = 0.165), with the desorbable P pool
-(\(P_{desorb}\)) being a highly significant predictor. This indicates
-that for optimizing yield within a given field, both static and kinetic
-capacity measures are effective.
+The analysis reveals a clear and striking difference between the
+predictive power of the standard STP methods and the kinetic parameters
+for site-normalized yield.
 
 \begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.3784}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1351}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1622}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2162}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1081}}@{}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.3733}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1467}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1600}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2133}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1067}}@{}}
 
 \caption{\label{tbl-ynorm-models}Results of linear mixed-effects models
 predicting Site-Normalized Yield (\(Y_{norm}\)).}
@@ -1150,12 +1143,13 @@ predicting Site-Normalized Yield (\(Y_{norm}\)).}
 \begin{minipage}[b]{\linewidth}\raggedright
 Predictor/Model
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-\(P_{CO_2} |\)P\_\{AAE10\}\$
+\(P_{CO_2}\)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\(P_{AAE10}\)
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 STP-interaction
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 kinetic
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 \end{minipage} \\
 \midrule\noalign{}
 \endhead
@@ -1173,10 +1167,6 @@ Intercept & 1.059*** & 0.532*** & 1.096*** & 0.980 \\
 
 \end{longtable}
 
-The analysis reveals a clear and striking difference between the
-predictive power of the standard STP methods and the kinetic parameters
-for site-normalized yield.
-
 The standard STP methods were highly effective predictors. Both the
 \(P_{CO_2}\) and \(P_{AAE10}\) models showed highly significant
 coefficients and explained a substantial portion of the variance, with
@@ -1190,7 +1180,7 @@ site's own maximum potential, the standard soil tests perform very well.
 In stark contrast, the kinetic model had virtually no predictive power
 for \(Y_{norm}\). The model's marginal \(R^2\) was only 0.014, and none
 of the kinetic parameters---neither the rate constant (\emph{k}), the
-desorbable pool (\(P_{desorb}\)), nor their interaction---were
+desorbable pool (\(P_{desorb}\)), nor their interaction were
 statistically significant. This finding strongly refutes
 \textbf{Hypothesis 3} for this specific yield metric. The results
 suggest that when agronomic potential is evaluated within a single site
@@ -1611,12 +1601,31 @@ more robust than the original linearized method proposed by Flossmann \&
 Richter (1982). The results from this thesis unequivocally support this
 hypothesis. Our initial attempts to linearize the desorption data failed
 systematically, with model intercepts deviating significantly from the
-required origin, thus violating a core assumption of the method. In
-contrast, the direct application of a non-linear mixed-effects model
+required origin, thus violating a core assumption of the method.
+
+This statistical failure has a fundamental chemical basis. The
+linearized model requires an \emph{a priori} estimate of the maximum
+desorbable P pool (\(P_{desorb}\)), which Flossmann and Richter
+approximated by subtracting a water-soluble P measurement from a
+stronger chemical extractant (e.g.,
+\(P_{desorb} \approx P_{CAL} - P_{H2O}\)). However, in all but the most
+severely depleted soils, the P value from the stronger extractant is
+orders of magnitude greater than that from water
+(\(P_{CAL} >> P_{H2O}\)). This leads to an estimated \(P_{desorb}\) that
+is vastly higher than the actual solubility limit of phosphate in the
+soil solution. A kinetic desorption curve in water can physically only
+plateau at the concentration dictated by mineral solubility; by
+providing the model with a theoretical maximum that is chemically
+unattainable, the linearization becomes mathematically invalid. This
+explains why the linearized approach failed and underscores the
+necessity of a method that does not rely on such flawed assumptions.
+
+In contrast, the direct application of a non-linear mixed-effects model
 successfully captured the curvilinear nature of P release for nearly all
-samples. This confirms that while the foundational concept of
-first-order kinetics is sound, modern computational methods that avoid
-data transformation provide a far more accurate and statistically valid
+samples by estimating \(P_{desorb}\) directly from the kinetic data
+itself. This confirms that while the foundational concept of first-order
+kinetics is sound, modern computational methods that avoid data
+transformation provide a far more accurate and statistically valid
 approach to parameter estimation (Kuang et al., 2012).
 
 While the non-linear model proved robust, visual inspection of the
@@ -1639,14 +1648,14 @@ explanation, given the decades-long application of Triple-Superphosphate
 undissolved fertilizer granules in the soil matrix. The accidental
 inclusion of even a single such particle in the 10g subsample for a
 specific replicate would lead to artificially inflated P values across
-all chemical extractions. This highlights a fundamental challenge in
-soil analysis and reinforces the importance of robust modeling. The use
-of a non-linear \emph{mixed-effects} model is particularly advantageous
-in this context, as it is designed to handle such individual variations
-by estimating a common overall trend while allowing for random
-deviations for each sample, thereby preventing a few anomalous data
-points from unduly influencing the overall conclusions{[}Fisher (1925);
-Fisher1935; Yates1964; Van Es et al. (2002){]}.
+all chemical extractions (Fisher, 1925). This highlights a fundamental
+challenge in soil analysis and reinforces the importance of robust
+modeling. The use of a non-linear \emph{mixed-effects} model is
+particularly advantageous in this context, as it is designed to handle
+such individual variations by estimating a common overall trend while
+allowing for random deviations for each sample, thereby preventing a few
+anomalous data points from unduly influencing the overall conclusions
+{[}Fisher (1925); Fisher1935; Yates1964; Van Es et al. (2002){]}.
 
 Ultimately, the successful validation of our derived parameters against
 established Isotopic Exchange Kinetic (IEK) data further solidifies the
@@ -1695,6 +1704,70 @@ orthophosphate ions and their affinity for mineral surfaces (Sparks,
 different aspects of P availability---the size of the pool and the rate
 of access to it---which are governed by different soil-chemical and
 physical properties.
+
+\subsection{Hypothesis 3: The Context-Dependent Power of Kinetic
+Parameters}\label{hypothesis-3-the-context-dependent-power-of-kinetic-parameters}
+
+The central hypothesis of this thesis predicted that a model
+incorporating kinetic parameters (\emph{k} and \(P_{desorb}\)) would
+explain a significantly greater proportion of the variance in agronomic
+outcomes compared to models based on standard, static STP measurements.
+The results provide a nuanced verdict: the hypothesis was strongly
+supported in one context, but clearly refuted in others, revealing that
+the utility of kinetic parameters is highly dependent on the specific
+agronomic question being addressed.
+
+The most compelling support for \textbf{Hypothesis 3} came from the
+prediction of the \textbf{P-Balance (\(P_{bal}\))}. In this analysis,
+the kinetic model, driven by the desorbable P pool (\(P_{desorb}\)), was
+exceptionally powerful, explaining over 57\% of the variance. In stark
+contrast, the standard STP models had zero predictive power. This is the
+most significant finding of this study. The P-Balance represents the
+long-term integration of nutrient inputs and outputs, and the fact that
+a kinetic capacity parameter (\(P_{desorb}\)) so perfectly captures this
+state demonstrates its superiority for assessing the cumulative effects
+of soil management. It suggests that while standard tests reflect the
+immediate chemical environment, \(P_{desorb}\) provides a more holistic
+measure of the soil's P supply capacity and its legacy from past
+fertilization.
+
+However, when predicting yield and P-uptake, the hypothesis was not
+supported. The reasons for this are likely multifaceted and highlight
+several limitations of the current study. A primary factor is that the P
+fertilization levels analyzed (0\%, 100\%, and 167\%) may not have
+created conditions where P was the primary limiting factor for yield.
+The standard 100\% fertilization rate in the STYCS trial is already
+designed for optimal yield, and decades of application at this level
+have likely led to significant ``legacy P'' accumulation (Hirte et al.,
+2018). Consequently, the 167\% treatment would only add to this surplus,
+while the 0\% treatment represents an extreme deficiency. A direct
+comparison between kinetic and static tests would be far more powerful
+if intermediate levels (e.g., 33\% and 67\%) were included, as this is
+the range where the \emph{rate} of P supply is most likely to be a
+yield-limiting factor.
+
+Furthermore, the linear mixed-effects models used, while appropriate for
+the data structure, could not account for two major sources of
+variation. First, as seen in the exploratory analysis in with the
+mlr3-model-comparisons, weather variables alone were often strong
+predictors of yield. The \texttt{(1\textbar{}year)} and
+\texttt{(1\textbar{}Site)} random effects in our models are proxies for
+this, bundling complex pedoclimatic information---such as growing degree
+days, soil moisture patterns, and soil textural differences---into
+single terms. These effects were so large that they overshadowed the
+more subtle influence of soil P status. Future studies could improve
+predictive power by incorporating specific weather covariates as fixed
+effects, allowing for a clearer isolation of the soil P signal.
+
+Second, the assumption of a linear P response is a simplification. As
+shown by \textbf{Hirte et al.~(2021)}, crop yield response to P is
+non-linear and best described by a saturation curve. This is
+particularly relevant given the high yields observed at some sites, such
+as Cadenazzo, where relative yields reached up to 300\% in some years, a
+level far beyond any plausible linear response to P. A more robust
+modeling approach would involve fitting non-linear models, though this
+would, as previously noted, require data from the full spectrum of
+fertilization treatments.
 
 \section{Conclusion}\label{conclusion}
 
