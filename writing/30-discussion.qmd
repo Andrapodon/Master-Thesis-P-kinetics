@@ -39,7 +39,7 @@ Ultimately, the successful validation of our derived parameters against establis
 
 ```{r}
 #| label: fig-ell-outlier-check-dual-axis
-#| fig-cap: "Diagnostic plot for $P_{\\text{AAE10}}$ (left axis) and $P_{\\text{CO_2}}$ (right axis) for all replicates at the Ellighausen (ELL) site, faceted by P fertilization treatment."
+#| fig-cap: "Diagnostic plot for $P_{\\text{AAE10}}$ (left axis) and $P_{\\text{CO2}}$ (right axis) for all replicates at the Ellighausen (ELL) site, faceted by P fertilization treatment."
 #| echo: false
 #| warning: false
 #| message: false
