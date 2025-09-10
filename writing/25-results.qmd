@@ -196,7 +196,7 @@ pred_data <- d_plot %>%
 ```
 
 
-## Comparison with Isotopic Exchange Kinetics (IEK) {#sec-comparison-with-isotopic-exchange-kinetics-(iek}
+## Comparison with Isotopic Exchange Kinetics (IEK)
 
 To validate the newly derived kinetic parameters against an established benchmark, the capacity ($P_{desorb}$) and kinetic ($k$) parameters were compared to data from Isotopic Exchange Kinetics (IEK) studies previously conducted on the same long-term trial sites by Demaria et al. (2013). This comparison aims to determine if the simpler, non-equilibrium desorption method used in this thesis captures similar aspects of soil P dynamics as the more complex, equilibrium-based IEK method.
 
@@ -214,7 +214,6 @@ The size of the desorbable P pool ($P_{desorb}$) was compared against the long-t
 #|   - "Capacity: $P_{\\text{desorb}}$ vs $E_{\\text{7d}}$"
 #|   - "Kinetics: k vs $n_{\\text{1d}}$"
 #| layout-ncol: 2
-#| dev: tikz
 
 library(ggplot2)
 library(dplyr)
@@ -313,11 +312,11 @@ ggplot(D_long_agronomic, aes(x = Treatment, y = Value, fill = Treatment)) +
         legend.position = "none")
 ```
 
-**Yield Metrics (**$Y_{norm}$ and $Y_{rel}$): Both yield metrics showed a generally positive response to P fertilization. The site-normalized yield ($Y_{norm}$) shows the response relative to the site's potential for that year, with most yields plateauing around the Norm (100%) treatment. The national-normalized yield ($Y_{rel}$) provides a broader context, showing how yields at each site compare to the national average.
+**Yield Metrics ($Y_{norm}$ and $Y_{rel}$)**: Both yield metrics showed a generally positive response to P fertilization. The site-normalized yield ($Y_{norm}$) shows the response relative to the site's potential for that year, with most yields plateauing around the Norm (100%) treatment. The national-normalized yield ($Y_{rel}$) provides a broader context, showing how yields at each site compare to the national average.
 
-**P Uptake (**$P_{up}$): P uptake by crops followed a similar trend to yield, increasing with fertilization, often continuing to increase at the highest fertilization levels, suggesting luxury consumption.
+**P Uptake ($P_{up}$)**: P uptake by crops followed a similar trend to yield, increasing with fertilization, often continuing to increase at the highest fertilization levels, suggesting luxury consumption.
 
-**P Balance (**$P_{bal}$): The P balance showed a strong, linear relationship with fertilization. The Zero and Deficit treatments resulted in a negative balance (mining soil P), while the Elevated and Surplus treatments led to a significant P surplus.
+**P Balance ($P_{bal}$)**: The P balance showed a strong, linear relationship with fertilization. The Zero and Deficit treatments resulted in a negative balance (mining soil P), while the Elevated and Surplus treatments led to a significant P surplus.
 
 ### Soil P Parameters as a Function of P Fertilization {#sec-soil-p-parameters-as-a-function-of-p-fertilization}
 
@@ -369,7 +368,9 @@ ggplot(D_long_soil, aes(x = Treatment, y = Value, fill = Treatment)) +
 
 **Standard STPs (**$P_{CO_2}$ and $P_{AAE10}$): Both standard soil P tests showed a clear and consistent increase with rising P fertilization levels across all sites, confirming their sensitivity to management.
 
-**Kinetic Parameters (**$k$, $P_{desorb}$, and $J_0$): \* **Desorbable P (**$P_{desorb}$): This parameter behaved very similarly to the standard STPs, increasing steadily with P fertilization and confirming its role as a "capacity" indicator. \* **Rate Constant (**$k$): The rate constant showed a more complex pattern, with no strong, consistent trend with fertilization. This suggests that while fertilization increases the *amount* of available P, it may not change the intrinsic *release rate*. \* **Initial P Flux (**$J_0$): As the product of $P_{desorb}$ and $k$, this parameter integrates both capacity and intensity. It showed a strong positive response to fertilization, driven primarily by the increase in $P_{desorb}$.
+**Kinetic Parameters (**$k$, $P_{desorb}$, and $J_0$): 
+**Desorbable P ($P_{desorb}$)**: This parameter behaved very similarly to the standard STPs, increasing steadily with P fertilization and confirming its role as a "capacity" indicator.  
+**Rate Constant ($k$)**: The rate constant showed a more complex pattern, with no strong, consistent trend with fertilization. This suggests that while fertilization increases the *amount* of available P, it may not change the intrinsic *release rate*.  **Initial P Flux ($J_0$)**: As the product of $P_{desorb}$ and $k$, this parameter integrates both capacity and intensity. It showed a strong positive response to fertilization, driven primarily by the increase in $P_{desorb}$.
 
 These initial observations suggest that the kinetic parameters, particularly the rate constant $k$, may provide unique information about the soil's P dynamics not captured by static tests alone. The next section will use formal statistical models to test these relationships.
 
@@ -458,10 +459,10 @@ The standard STP methods showed patterns consistent with **Hypothesis 1b**. **Or
 To formally evaluate the predictive power of the standard STP methods against the kinetic parameters, a series of linear mixed-effects models were fitted for each of the primary agronomic response variables. To test the central hypotheses of this thesis, the predictive power of the kinetic parameters was directly compared against that of the standard STP methods for several key agronomic outcomes. For each response variable—Normalized Yield ($Y_{rel}$), P Uptake ($P_{up}$), and P Balance ($P_{bal}$)—a set of competing linear mixed-effects models was constructed.
 
 To ensure a fair comparison, all models shared an identical random effects structure (`(1|year) + (1|Site) + (1|Site:block)`), differing only in their fixed effects. Four distinct models were evaluated:
-* **$P_{CO_2}$ Model:** Used the standard water-soluble P test as the sole predictor.
-* **$P_{AAE10}$ Model:** Used the standard chelate-extractable P test as the sole predictor.
-* **STP Interaction Model:** Included both standard tests and their interaction term ($P_{CO_2} * P_{AAE10}$) to capture their combined effect.
-* **Kinetic Model:** Used the log-transformed desorbable P pool ($log(P_{desorb})$), the rate constant (*k*), and their interaction ($J_0$) as predictors.
+**$P_{CO_2}$ Model:** Used the standard water-soluble P test as the sole predictor.
+**$P_{AAE10}$ Model:** Used the standard chelate-extractable P test as the sole predictor.
+**STP Interaction Model:** Included both standard tests and their interaction term ($P_{CO_2} * P_{AAE10}$) to capture their combined effect.
+**Kinetic Model:** Used the log-transformed desorbable P pool ($log(P_{desorb})$), the rate constant (*k*), and their interaction ($J_0$) as predictors.
 
 The performance of these models for each agronomic outcome is presented in the following sections.
 
@@ -495,7 +496,7 @@ covariate_labels <- c(
   "R2c" = "$R^2_c$"
 )
 model_labels_ynorm <- c(
-  "Yn-STP-CO2"   = "$P_{CO_2}",
+  "Yn-STP-CO2"   = "$P_{CO_2}$",
   "Yn-STP-AAE10" = "$P_{AAE10}$",
   "Yn-STP-GRUD"  = "STP-interaction",
   "Yn-Kinetic"   = "kinetic"
