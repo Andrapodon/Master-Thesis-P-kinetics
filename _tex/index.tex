@@ -67,6 +67,46 @@
 \fi
 \makeatother
 
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{241,243,245}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.40,0.45,0.13}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\BuiltInTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\ExtensionTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.28,0.35,0.67}{#1}}
+\newcommand{\ImportTok}[1]{\textcolor[rgb]{0.00,0.46,0.62}{#1}}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.07,0.07,0.07}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
 
 \usepackage{longtable,booktabs,array}
 \usepackage{calc} % for calculating minipage widths
@@ -1514,7 +1554,7 @@ cumulative, long-term P status of the soil system.
 
 Second, the performance of STP methods in predicting yield was highly
 context-dependent. When predicting \textbf{site-normalized yield
-(\(Y_{norm}\))}, which assesses the yield response relative to a site's
+(}\(Y_{norm}\)), which assesses the yield response relative to a site's
 own potential, the STP models were remarkably effective, explaining up
 to 22\% of the variance. This result contradicts the part of our
 hypothesis that expected weak performance and suggests that for
@@ -1523,21 +1563,229 @@ limiting relative to that specific environment's potential, traditional
 capacity-based tests are well-suited and robust.
 
 However, when predicting \textbf{national-normalized yield
-(\(Y_{rel}\))} and \textbf{P-uptake (\(P_{up}\))}, the STP models
-performed poorly, aligning with our initial expectations. Their
-predictive power dropped significantly, and they were overshadowed by
-the immense influence of site and year effects. This highlights a
-crucial limitation: while standard tests may be sufficient for managing
-a single field, they are inadequate for comparing or predicting
-productivity across diverse pedoclimatic landscapes, where other factors
-become far more important than the soil's P capacity alone.
+(}\(Y_{rel}\)) and \textbf{P-uptake (}\(P_{up}\)), the STP models
+performed poorly, aligning with our initial expectations. The weak
+performance in predicting yield and P-uptake can likely be attributed to
+several factors. Firstly, crop yield in field settings is often
+co-limited by multiple factors beyond phosphorus. Year-to-year
+variations in climate, such as solar radiation and water availability,
+as well as the supply of other key nutrients like nitrogen, can become
+the primary drivers of productivity, masking the more subtle influence
+of soil P status (Sadras, 2002; Sinclair, 1998). The large gap between
+the marginal and conditional R² in our models strongly suggests that
+these site- and year-specific variables, captured by the random effects,
+were indeed the dominant factors.
+
+Furthermore, response variables like \(P_{up}\) and \(P_{bal}\) are
+calculated as the product of yield and P concentration, which can
+introduce and propagate measurement uncertainty. If yield itself is only
+weakly correlated with soil P status, this ``noise'' is carried into the
+derived variables, making it even more difficult to establish a clear
+statistical relationship (Rowe et al., 2016).
+
+The predictive weakness may also stem from the experimental design and
+modeling approach. This study utilized samples primarily from the
+P-deficient (0\%) and P-sufficient (100\% and 167\%) treatments. Crop
+yield response to fertilizer typically follows a saturation curve, and
+it is possible that our dataset was concentrated on the less responsive
+parts of this curve, thus lacking statistical power in the most dynamic
+range (Schlesinger, 2009). While our use of a linear mixed-effects model
+was appropriate for the available data, it cannot capture the
+diminishing returns characteristic of crop nutrient response. As
+demonstrated by \textbf{Hirte et al.~(2021)} on these same STYCS trials,
+non-linear models like the Mitscherlich equation are better suited for
+describing such saturation kinetics but would require data from the
+intermediate fertilization levels to be applied robustly (Hirte,
+Stüssel, et al., 2021).
 
 Regarding \textbf{Hypothesis 1b}, the findings were largely supportive.
-The analysis of soil properties confirmed that STP values were
-significantly influenced by factors like organic carbon and pH, as
-anticipated. This reinforces the understanding that STP measurements are
-not pure measures of P but are instead complex indices reflecting a
-combination of P status and overarching soil chemistry.
+The analysis of soil properties confirmed that STP measurements are not
+pure measures of P but are instead complex indices reflecting a
+combination of P status and overarching soil chemistry. The predicted
+negative relationship between \textbf{pH} and \textbf{\(P_{AAE10}\)} was
+observed, and the underlying chemical mechanisms for this are
+well-established, particularly in calcareous or high-pH soils like
+several in this study (e.g., ALT, GRA).
+
+The AAE10 method relies on two key components: ammonium acetate as a
+buffer and EDTA as a chelating agent to dissolve mineral-bound P.
+However, its effectiveness is compromised in soils with high pH and an
+abundance of free calcium (\(Ca^{2+}\)) and magnesium (\(Mg^{2+}\))
+cations, often from calcium carbonates (\(CaCO_3\)). There are two
+primary reasons for this:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Consumption of EDTA:} The primary role of EDTA is to bind to
+  cations like iron and aluminum that precipitate phosphate, thereby
+  releasing P into the solution. However, EDTA has a high affinity for
+  divalent cations, so in calcareous soils, a significant portion of the
+  EDTA is consumed by binding to the abundant free \(Ca^{2+}\) and
+  \(Mg^{2+}\), making it less available to extract the target phosphate
+  compounds (Fixen \& Grove, 1993).
+\item
+  \textbf{Buffering Capacity:} The acetate buffer in the AAE10 solution
+  is designed to maintain a consistent pH. However, soils with high
+  carbonate content have a strong natural buffering capacity that can
+  resist the pH change intended by the extractant, further reducing its
+  efficiency in dissolving pH-sensitive P minerals.
+\end{enumerate}
+
+This known limitation explains why \(P_{AAE10}\) can underestimate
+plant-available P in calcareous soils and supports our finding of a
+significant pH-dependence. It underscores that the choice of an
+appropriate soil test must take into account the fundamental chemistry
+of the soil matrix itself.
+
+\subsection{Hypothesis 2: Characterizing P Desorption
+Kinetics}\label{hypothesis-2-characterizing-p-desorption-kinetics}
+
+\textbf{Hypothesis 2a} focused on the methodological feasibility of
+characterizing P desorption. It predicted that while the process would
+follow first-order kinetics, a non-linear modeling approach would be
+more robust than the original linearized method proposed by Flossmann \&
+Richter (1982). The results from this thesis unequivocally support this
+hypothesis. Our initial attempts to linearize the desorption data failed
+systematically, with model intercepts deviating significantly from the
+required origin, thus violating a core assumption of the method. In
+contrast, the direct application of a non-linear mixed-effects model
+successfully captured the curvilinear nature of P release for nearly all
+samples. This confirms that while the foundational concept of
+first-order kinetics is sound, modern computational methods that avoid
+data transformation provide a far more accurate and statistically valid
+approach to parameter estimation (Kuang et al., 2012).
+
+While the non-linear model proved robust, visual inspection of the
+kinetic curves revealed that two specific replicates---from the P100 and
+P166 treatments at the Ellighausen site---showed markedly higher and
+faster P release than their counterparts. To determine whether this was
+due to a methodological artifact or true field variability, the standard
+soil test results for all replicates at this site were examined
+(Figure~\ref{fig-ell-outlier-check-dual-axis}). The diagnostic plot
+clearly shows that these same two replicates also registered as
+significant outliers for both \(P_{CO_2}\) and \(P_{AAE10}\). This
+consistent pattern across three independent measurement techniques
+strongly suggests that the deviation is not a result of error in the
+kinetic procedure, but rather reflects genuine \textbf{micro-site
+heterogeneity}.
+
+Such heterogeneity could arise from several sources. One plausible
+explanation, given the decades-long application of Triple-Superphosphate
+(primarily monocalcium phosphate), is the presence of residual,
+undissolved fertilizer granules in the soil matrix. The accidental
+inclusion of even a single such particle in the 10g subsample for a
+specific replicate would lead to artificially inflated P values across
+all chemical extractions. This highlights a fundamental challenge in
+soil analysis and reinforces the importance of robust modeling. The use
+of a non-linear \emph{mixed-effects} model is particularly advantageous
+in this context, as it is designed to handle such individual variations
+by estimating a common overall trend while allowing for random
+deviations for each sample, thereby preventing a few anomalous data
+points from unduly influencing the overall conclusions{[}Fisher (1925);
+Fisher1935; Yates1964; Van Es et al. (2002){]}.
+
+Ultimately, the successful validation of our derived parameters against
+established Isotopic Exchange Kinetic (IEK) data further solidifies the
+robustness of our methodological approach, demonstrating that this
+simpler extraction method effectively captures both the capacity
+(\(P_{desorb}\)) and intensity (\emph{k}) aspects of P dynamics.
+
+\phantomsection\label{cell-fig-ell-outlier-check-dual-axis}
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Make sure the required libraries are loaded}
+\FunctionTok{library}\NormalTok{(ggplot2)}
+\FunctionTok{library}\NormalTok{(dplyr)}
+
+\CommentTok{\# Filter for the Ellighausen site and select relevant columns}
+\NormalTok{ell\_data }\OtherTok{\textless{}{-}}\NormalTok{ D }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(Site }\SpecialCharTok{==} \StringTok{"Ellighausen"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(Treatment, Rep, soil\_0\_20\_P\_CO2, soil\_0\_20\_P\_AAE10)}
+
+\CommentTok{\# Determine the scaling factor for the secondary axis.}
+\CommentTok{\# This is a common approach: divide the range of the primary variable by the range of the secondary.}
+\NormalTok{scaling\_factor }\OtherTok{\textless{}{-}} \FunctionTok{max}\NormalTok{(ell\_data}\SpecialCharTok{$}\NormalTok{soil\_0\_20\_P\_AAE10, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{/} \FunctionTok{max}\NormalTok{(ell\_data}\SpecialCharTok{$}\NormalTok{soil\_0\_20\_P\_CO2, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)}
+
+\CommentTok{\# Create the plot}
+\FunctionTok{ggplot}\NormalTok{(ell\_data, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \FunctionTok{as.factor}\NormalTok{(Rep), }\AttributeTok{group =} \DecValTok{1}\NormalTok{)) }\SpecialCharTok{+}
+  \CommentTok{\# Plot the first variable (P\_AAE10) {-} this will use the primary (left) y{-}axis}
+  \FunctionTok{geom\_line}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ soil\_0\_20\_P\_AAE10), }\AttributeTok{color =} \StringTok{"blue"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ soil\_0\_20\_P\_AAE10), }\AttributeTok{color =} \StringTok{"blue"}\NormalTok{, }\AttributeTok{size =} \DecValTok{4}\NormalTok{) }\SpecialCharTok{+}
+
+  \CommentTok{\# Plot the second variable (P\_CO2) {-} transform it by the scaling factor}
+  \FunctionTok{geom\_line}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ soil\_0\_20\_P\_CO2 }\SpecialCharTok{*}\NormalTok{ scaling\_factor), }\AttributeTok{color =} \StringTok{"red"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ soil\_0\_20\_P\_CO2 }\SpecialCharTok{*}\NormalTok{ scaling\_factor), }\AttributeTok{color =} \StringTok{"red"}\NormalTok{, }\AttributeTok{size =} \DecValTok{4}\NormalTok{) }\SpecialCharTok{+}
+
+  \CommentTok{\# Create the secondary y{-}axis}
+  \FunctionTok{scale\_y\_continuous}\NormalTok{(}
+    \CommentTok{\# Features for the primary y{-}axis}
+    \AttributeTok{name =} \StringTok{"P\_AAE10 (mg/kg)"}\NormalTok{,}
+
+    \CommentTok{\# Add the secondary y{-}axis and define its properties}
+    \AttributeTok{sec.axis =} \FunctionTok{sec\_axis}\NormalTok{(}
+      \CommentTok{\# The transformation here is the INVERSE of the one we applied to the data}
+      \AttributeTok{trans =} \SpecialCharTok{\textasciitilde{}}\NormalTok{ . }\SpecialCharTok{/}\NormalTok{ scaling\_factor,}
+      \AttributeTok{name =} \StringTok{"P\_CO2 (mg/kg)"}
+\NormalTok{    )}
+\NormalTok{  ) }\SpecialCharTok{+}
+  \FunctionTok{facet\_wrap}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\NormalTok{ Treatment, }\AttributeTok{scales =} \StringTok{"free\_y"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}
+    \AttributeTok{title =} \StringTok{"Standard Soil P Tests at Ellighausen"}\NormalTok{,}
+    \AttributeTok{x =} \StringTok{"Replicate Number"}\NormalTok{,}
+    \AttributeTok{y =} \StringTok{"P Concentration (mg/kg)"} \CommentTok{\# This label is now redundant but kept for convention}
+\NormalTok{  ) }\SpecialCharTok{+}
+  \FunctionTok{theme\_bw}\NormalTok{() }\SpecialCharTok{+}
+  \CommentTok{\# Adjust colors for the axis titles and text to match the lines}
+  \FunctionTok{theme}\NormalTok{(}
+    \AttributeTok{axis.title.y.left =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{color =} \StringTok{"blue"}\NormalTok{),}
+    \AttributeTok{axis.text.y.left =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{color =} \StringTok{"blue"}\NormalTok{),}
+    \AttributeTok{axis.title.y.right =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{color =} \StringTok{"red"}\NormalTok{),}
+    \AttributeTok{axis.text.y.right =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{color =} \StringTok{"red"}\NormalTok{)}
+\NormalTok{  )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[H]
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{index_files/figure-pdf/fig-ell-outlier-check-dual-axis-1.pdf}}
+
+}
+
+\caption{\label{fig-ell-outlier-check-dual-axis}Diagnostic plot for
+P\_AAE10 (left axis) and P\_CO2 (right axis) for all replicates at the
+Ellighausen (ELL) site, faceted by P fertilization treatment.}
+
+\end{figure}%
+
+\textbf{Hypothesis 2b} predicted that the derived kinetic parameters
+would be significantly influenced by fundamental soil properties, and
+this was also strongly supported by the findings. The analysis revealed
+a clear and meaningful separation in the drivers of the capacity and
+kinetic components. The desorbable P pool (\(P_{desorb}\)), representing
+the quantity of readily available P, was strongly and negatively
+correlated with dithionite-extractable iron and aluminum. This aligns
+perfectly with established soil science principles, as these free oxides
+provide the primary sorption surfaces that bind P, thereby controlling
+the size of the exchangeable pool (Brady \& Weil, 2016; Sposito, 2008).
+
+Conversely, the rate constant (\emph{k}), which represents the speed of
+P release, was not primarily driven by the oxide content but was instead
+significantly related to soil texture (clay content) and pH. The
+negative relationship with clay content is logical, as higher clay
+content can increase the tortuosity of diffusion pathways, effectively
+slowing the movement of phosphate from the solid phase to the bulk
+solution (Nye \& Tinker, 2000). The influence of pH is also consistent
+with known phosphate chemistry, as pH governs the speciation of
+orthophosphate ions and their affinity for mineral surfaces (Sparks,
+2003). These distinct relationships confirm that \(P_{desorb}\) and
+\emph{k} are not redundant parameters; they represent fundamentally
+different aspects of P availability---the size of the pool and the rate
+of access to it---which are governed by different soil-chemical and
+physical properties.
 
 \section{Conclusion}\label{conclusion}
 
@@ -1585,6 +1833,15 @@ Fardeau, J. C., Morel, C., \& Boniface, R. (1991). Phosphate ion
 transfer from soil to soil solution: Kinetic parameters.
 \emph{Agronomie}, \emph{11}(9), 787--797.
 \url{https://doi.org/10.1051/agro:19910908}
+
+\bibitem[\citeproctext]{ref-Fisher1925}
+Fisher, R. A. (1925). \emph{Statistical methods for research workers}.
+Oliver; Boyd.
+
+\bibitem[\citeproctext]{ref-Fixen1993}
+Fixen, P. E., \& Grove, J. H. (1993). Testing soils for phosphorus.
+\emph{Soil Science Society of America Book Series}, \emph{3}, 141--180.
+\url{https://doi.org/10.2136/sssabookser3.2ed.c11}
 
 \bibitem[\citeproctext]{ref-flossmannExtractionMethodCharacterizing1982}
 Flossmann, R., \& Richter, D. (1982). \emph{Extraction method for
@@ -1706,13 +1963,22 @@ and management. In G. E. Likens (Ed.), \emph{Limnology and oceanography}
 (pp. 253--289). Chapman \& Hall.
 
 \bibitem[\citeproctext]{ref-Rowe2016LegacyP}
-Rowe, H., Withers, P. J. A., Baas, P., Chan, N. P., Doody, M., Holiman,
-J., Jacobs, B., Li, H., MacKay, R. T. E. M., O'Dwyer, M. D. C. P.,
-O'Keeffe, M. G., O'Rourke, G. F. S. F. T. G. T., Rafferty, S. M., \&
-Carton, O. T. (2016). Integrating legacy soil phosphorus into
-sustainable nutrient management strategies for future food, bioenergy
-and water security. \emph{Nutrient Cycling in Agroecosystems},
-\emph{104}, 393--412. \url{https://doi.org/10.1007/s10705-015-9726-1}
+Rowe, H., Withers, P. J. A., Baas, P., Chan, N. I., Doody, D., Holiman,
+J., Jacobs, B., Li, H., MacDonald, G. K., McDowell, R., Sharpley, A. N.,
+Shen, J., Salm, C. van der, \& Weigelt, A. (2016). Integrating legacy
+phosphorus into sustainable nutrient management strategies for future
+food, bioenergy and water security. \emph{Nutrient Cycling in
+Agroecosystems}, \emph{104}(3), 393--412.
+\url{https://doi.org/10.1007/s10705-015-9726-1}
+
+\bibitem[\citeproctext]{ref-Sadras2002}
+Sadras, V. O. (2002). Co-limitation of crop yield by water and nitrogen
+in semi-arid environments. \emph{Agronomie}, \emph{22}(5), 433--445.
+\url{https://doi.org/10.1051/agro:2002018}
+
+\bibitem[\citeproctext]{ref-Schlesinger2009}
+Schlesinger, W. H. (2009). \emph{Biogeochemistry: An analysis of global
+change} (2nd ed.). Academic Press.
 
 \bibitem[\citeproctext]{ref-Schofield1955Potassium}
 Schofield, R. K. (1955). Can a precise meaning be given to 'available'
@@ -1736,6 +2002,11 @@ Agriculture and the environment}. American Society of Agronomy, Crop
 Science Society of America, Soil Science Society of America.
 \url{https://doi.org/10.2134/agronmonogr46}
 
+\bibitem[\citeproctext]{ref-Sinclair1998}
+Sinclair, T. R. (1998). Historical changes in harvest index and crop
+nitrogen accumulation. \emph{Crop Science}, \emph{38}(3), 638--643.
+\url{https://doi.org/10.2135/cropsci1998.0011183X003800030002x}
+
 \bibitem[\citeproctext]{ref-Sparks2003Environmental}
 Sparks, D. L. (2003). \emph{Environmental soil chemistry} (2nd ed.).
 Academic Press. \url{https://doi.org/10.1016/B978-0-12-656446-4.50001-X}
@@ -1747,6 +2018,11 @@ University Press.
 \bibitem[\citeproctext]{ref-Stevenson1994Humus}
 Stevenson, F. J. (1994). \emph{Humus chemistry: Genesis, composition,
 reactions} (2nd ed.). John Wiley \& Sons.
+
+\bibitem[\citeproctext]{ref-VanEs2002}
+Van Es, H. M., Van Kessel, C., \& Richter, D. D. (2002). Spatial
+analysis of agricultural field trials. \emph{Agronomy Journal},
+\emph{94}(1), 283--296. \url{https://doi.org/10.2134/agronj2002.2830}
 
 \bibitem[\citeproctext]{ref-VanVeldhoven1987Malachite}
 Van Veldhoven, P. P., \& Mannaerts, G. P. (1987). Inorganic and organic
