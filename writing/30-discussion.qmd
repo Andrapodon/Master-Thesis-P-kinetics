@@ -10,7 +10,7 @@ First, the STP methods **failed completely to predict the P-Balance**. The model
 
 Second, the performance of STP methods in predicting yield was highly context-dependent. When predicting **site-normalized yield (**$Y_{norm}$), which assesses the yield response relative to a site's own potential, the STP models were remarkably effective, explaining up to 22% of the variance. This result contradicts the part of our hypothesis that expected weak performance and suggests that for *within-field* management, where the goal is to ensure P is not limiting relative to that specific environment's potential, traditional capacity-based tests are well-suited and robust.
 
-However, when predicting **national-normalized yield (**$Y_{rel}$) and **P-uptake (**$P_{up}$), the STP models performed poorly, aligning with our initial expectations. The weak performance in predicting yield and P-uptake can likely be attributed to several factors. Firstly, crop yield in field settings is often co-limited by multiple factors beyond phosphorus. Year-to-year variations in climate, such as solar radiation and water availability, as well as the supply of other key nutrients like nitrogen, can become the primary drivers of productivity, masking the more subtle influence of soil P status [@Sadras2002; @Sinclair1998]. The large gap between the marginal and conditional R² in our models strongly suggests that these site- and year-specific variables, captured by the random effects, were indeed the dominant factors.
+However, when predicting **national-normalized yield (**$Y_{rel}$) and **P-uptake (**$P_{up}$), the STP models performed poorly, aligning with our initial expectations. The weak performance in predicting yield and P-uptake can likely be attributed to several factors. Firstly, crop yield in field settings is often co-limited by multiple factors beyond phosphorus. Year-to-year variations in climate, such as solar radiation and water availability, as well as the supply of other key nutrients like nitrogen, can become the primary drivers of productivity, masking the more subtle influence of soil P status [@Sadras2002; @Sinclair1998]. The large gap between the marginal and conditional $R^2$ in our models strongly suggests that these site- and year-specific variables, captured by the random effects, were indeed the dominant factors.
 
 Furthermore, response variables like $P_{up}$ and $P_{bal}$ are calculated as the product of yield and P concentration, which can introduce and propagate measurement uncertainty. If yield itself is only weakly correlated with soil P status, this "noise" is carried into the derived variables, making it even more difficult to establish a clear statistical relationship [@Rowe2016LegacyP].
 
@@ -39,8 +39,13 @@ Ultimately, the successful validation of our derived parameters against establis
 
 ```{r}
 #| label: fig-ell-outlier-check-dual-axis
-#| fig-cap: "Diagnostic plot for P_AAE10 (left axis) and P_CO2 (right axis) for all replicates at the Ellighausen (ELL) site, faceted by P fertilization treatment."
-#| echo: true
+#| fig-cap: "Diagnostic plot for $P_{\\text{AAE10}}$ (left axis) and $P_{\\text{CO_2}}$ (right axis) for all replicates at the Ellighausen (ELL) site, faceted by P fertilization treatment."
+#| echo: false
+#| warning: false
+#| message: false
+#| out-width: "\\textwidth"
+#| fig-height: 4
+#| dev: tikz
 
 # Make sure the required libraries are loaded
 library(ggplot2)
@@ -68,18 +73,18 @@ ggplot(ell_data, aes(x = as.factor(Rep), group = 1)) +
   # Create the secondary y-axis
   scale_y_continuous(
     # Features for the primary y-axis
-    name = "P_AAE10 (mg/kg)",
+    name = TeX("$P_{AAE10}$ (mg/kg)"),
 
     # Add the secondary y-axis and define its properties
     sec.axis = sec_axis(
       # The transformation here is the INVERSE of the one we applied to the data
       trans = ~ . / scaling_factor,
-      name = "P_CO2 (mg/kg)"
+      name = TeX("$P_{CO_2}$ (mg/kg)")
     )
   ) +
   facet_wrap(~ Treatment, scales = "free_y") +
   labs(
-    title = "Standard Soil P Tests at Ellighausen",
+    title = "Standard Soil P Tests at Ellighausen 2022",
     x = "Replicate Number",
     y = "P Concentration (mg/kg)" # This label is now redundant but kept for convention
   ) +
