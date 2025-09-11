@@ -191,7 +191,7 @@ pred_data <- d_plot %>%
    facet_grid(Treatment ~ Site,scales = "free_y") +
    theme_bw() +
    labs(x = TeX("$Time (min)$"),
-        y = TeX("$P_{V}$ $mgL^{-1}$"));
+        y = TeX("$P_{V}$ $mg~L^{-1}$"));
  suppressWarnings(print(p1))
 ```
 
@@ -472,7 +472,7 @@ A preliminary visual analysis of the agronomic data revealed a significant anoma
 
 A simple label swap between `P0` and `P166` was hypothesized and tested (@fig-yield-cadenazzo-fix). While this correction established a more monotonic trend, the resulting pattern remained questionable, with the corrected `P166` yield being inexplicably higher than the `P100` and `P133` treatments, which is not a typical biological response.
 
-Unfortunately, a deeper investigation into the cause of this anomaly was impossible, as the corresponding soil analysis data (STPs, organic carbon, etc.) for the Cadenazzo site were unavailable due to sample loss. Without this data, it cannot be determined whether the issue stems from a persistent micro-site anomaly, a more complex data recording error, or other unknown factors. Given these unresolved inconsistencies and the site's unusually high productivity, the Cadenazzo data was retained in the models but is recognized as a significant source of unexplained variance that likely contributed to the poor predictive performance of all models for yield-related metrics like `$Y_{norm}$` and `$Y_{rel}$`.
+Unfortunately, a deeper investigation into the cause of this anomaly was impossible, as the corresponding soil analysis data (STPs, organic carbon, etc.) for the Cadenazzo site were unavailable due to sample loss. Without this data, it cannot be determined whether the issue stems from a persistent micro-site anomaly, a more complex data recording error, or other unknown factors. Given these unresolved inconsistencies and the site's unusually high productivity, the Cadenazzo data was retained in the models but is recognized as a significant source of unexplained variance that likely contributed to the poor predictive performance of all models for yield-related metrics like $Y_{norm}$ and $Y_{rel}$.
 
 ```{r}
 #| label: fig-yield-comparison
