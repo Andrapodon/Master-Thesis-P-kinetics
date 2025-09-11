@@ -48,7 +48,9 @@ format:
     lot: true
 
   # In _quarto.yml, replace your current pdf: block with this one
+# In _quarto.yml, replace your current pdf: block with this one
 
+# In _quarto.yml, replace your entire pdf: block with this one
   pdf:
     documentclass: article
     papersize: a4
@@ -65,42 +67,50 @@ format:
       - text: |
           \usepackage{graphicx}
           \usepackage{pdfpages}
-          \usepackage[a4paper, top=3cm, bottom=3cm, left=3.5cm, right=3.5cm]{geometry} % Adds page margins
-          \usepackage{fancyhdr} % Loads the header/footer package
+          \usepackage[a4paper, top=3cm, bottom=3cm, left=3.5cm, right=3.5cm]{geometry}
+          \usepackage{fancyhdr}
 
-          % --- Title Page Definition ---
+          % --- Custom Title Page Definition (Robust Version) ---
           \makeatletter
-          \renewcommand{\maketitle}{
+          \renewcommand{\maketitle}{%
             \begin{titlepage}
-              \thispagestyle{empty} % No header/footer on title page
+              \thispagestyle{empty}
               \centering
+              
               \vspace*{1cm}
               \includegraphics[width=6cm]{images/eth_logo.png}
-              \vspace{1cm}
-              {\Large Eidgenössische Technische Hochschule Zürich \\ Swiss Federal Institute of Technology Zurich \par}
+              
+              \vspace{2cm}
+              {\Large Eidgenössische Technische Hochschule Zürich \par}
+              {\Large Swiss Federal Institute of Technology Zurich \par}
+              
               \vspace{2.5cm}
-              {\Large Master's thesis \par}
+              {\Large Master's thesis\par}
               \vspace{0.5cm}
-              {\large Master's degree programme in Agricultural Sciences \par}
+              {\large Master's degree programme in Agricultural Sciences\par}
+              
               \vfill
               {\huge \bfseries \@title \par}
+              
               \vfill
               {\Large \@author \par}
               {\large Student No. 13-938-311 \par}
+              
               \vspace{2cm}
               \begin{tabular}{ll}
                 \bfseries Supervisor: & Prof. Dr. Emmanuel Frossard \\
                 & Institute of Agricultural Sciences, ETH Zurich \\
                 \\
                 \bfseries Advisor: & Dr. Frank Liebisch \\
-                & Agroscope \\
+                & Water Protection and Substance Flows, Agroscope Reckenholz \\
               \end{tabular}
+              
               \vfill
               {\large \@date \par}
             \end{titlepage}
           }
           \makeatother
-          % --- End of Title Page Definition ---
+          % --- End of Custom Title Page Definition ---
 
           % --- Header Style Definition for Main Document ---
           \fancypagestyle{fancy}{
@@ -112,20 +122,12 @@ format:
 
     include-before-body:
       - text: |
-          \maketitle
+          \cleardoublepage
           \tableofcontents
-          \cleardoublepage % This ensures the content starts on a new right-hand page
+          \cleardoublepage 
           \pagestyle{fancy}
           \pagenumbering{arabic}
 
     include-after-body:
       - text: |
-          \newpage
-          \phantomsection
-          \addcontentsline{toc}{section}{\listfigurename}
-          \listoffigures
-          \newpage
-          \phantomsection
-          \addcontentsline{toc}{section}{\listtablename}
-          \listoftables
-
+          \includepdf[pages=-]{declaration.pdf}

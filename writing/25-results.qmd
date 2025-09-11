@@ -139,14 +139,14 @@ Following the conceptual framework of Flossmann and Richter (1982), the first-or
 #| warning: false
 #| message: false
 #| out-width: "\\textwidth"
-#| fig-height: 4
+#| fig-height: 5
 
   ggplot(d[d$Treatment!="P100"&(d$Repetition==1|d$Repetition==2),], aes(y=Y1, x=t.min., col = Repetition)) +
    geom_point() +
    facet_grid(Site ~ Treatment) +
    theme_bw() +
    labs(x=TeX("$Time (min)$"),
-        y=TeX("$ln(1-\\frac{P}{P_S})$")) +
+        y=TeX("$ln(1-P/P_{desorb})$")) +
    geom_smooth(method="lm", alpha = 0.3)
 ```
 
