@@ -466,6 +466,69 @@ To ensure a fair comparison, all models shared an identical random effects struc
 
 The performance of these models for each agronomic outcome is presented in the following sections.
 
+### Anomaly in the Cadenazzo Yield Data
+
+A preliminary visual analysis of the agronomic data revealed a significant anomaly at the Cadenazzo (CAD) site. As shown in @fig-yield-comparison, the Cadenazzo site exhibited substantially higher overall yields than all other locations. More critically, the yield response to P fertilization did not follow the expected agronomic trend. The zero-fertilizer treatment (`P0`) showed the highest median yield, while the surplus treatment (`P166`) was among the lowest.
+
+A simple label swap between `P0` and `P166` was hypothesized and tested (@fig-yield-cadenazzo-fix). While this correction established a more monotonic trend, the resulting pattern remained questionable, with the corrected `P166` yield being inexplicably higher than the `P100` and `P133` treatments, which is not a typical biological response.
+
+Unfortunately, a deeper investigation into the cause of this anomaly was impossible, as the corresponding soil analysis data (STPs, organic carbon, etc.) for the Cadenazzo site were unavailable due to sample loss. Without this data, it cannot be determined whether the issue stems from a persistent micro-site anomaly, a more complex data recording error, or other unknown factors. Given these unresolved inconsistencies and the site's unusually high productivity, the Cadenazzo data was retained in the models but is recognized as a significant source of unexplained variance that likely contributed to the poor predictive performance of all models for yield-related metrics like `$Y_{norm}$` and `$Y_{rel}$`.
+
+```{r}
+#| label: fig-yield-comparison
+#| fig-cap: "Annual dry matter yield across P fertilization treatments, faceted by experimental site, highlighting the anomalous pattern at Cadenazzo (CAD)."
+#| echo: false
+
+library(ggplot2)
+ggplot(D, aes(x = Treatment, y = annual_yield_mp_DM, fill = Treatment)) +
+  geom_boxplot(alpha = 0.8) +
+  facet_wrap(~ Site, scales = "free_y") +
+  labs(
+    title = "Annual Dry Matter Yield by Site and P Treatment",
+    x = "P Fertilization Treatment",
+    y = "Annual Yield (kg DM / ha)"
+  ) +
+  theme_bw() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "none"
+  )
+```
+
+```{r}
+#| label: fig-yield-cadenazzo-fix
+#| fig-cap: "Comparison of Cadenazzo yields with original and swapped (P0 <> P166) treatment labels."
+#| echo: false
+
+D_corrected <- D
+rows_to_swap <- D_corrected$Site == "Cadenazzo" & (D_corrected$Treatment == "P0" | D_corrected$Treatment == "P166")
+D_corrected$Treatment[rows_to_swap] <- ifelse(
+  D_corrected$Treatment[rows_to_swap] == "P0", "P166", "P0"
+)
+
+D$version <- "Original"
+D_corrected$version <- "Corrected"
+
+cadenazzo_comparison <- rbind(
+  D %>% filter(Site == "Cadenazzo"),
+  D_corrected %>% filter(Site == "Cadenazzo")
+)
+
+ggplot(cadenazzo_comparison, aes(x = Treatment, y = annual_yield_mp_DM, fill = Treatment)) +
+  geom_boxplot(alpha = 0.8) +
+  facet_wrap(~ version) +
+  labs(
+    title = "Yields at Cadenazzo: Original vs. Corrected Treatment Labels",
+    x = "P Fertilization Treatment",
+    y = "Annual Yield (kg DM / ha)"
+  ) +
+  theme_bw() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "none"
+  )
+```
+
 
 ### Predicting Site-Normalized Yield ($Y_{norm}$)
 
