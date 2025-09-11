@@ -12,9 +12,7 @@ abstract: >
 ---
 
 
-{{< include writing/10-abstract.qmd >}}
 
-\newpage
 
 {{< include writing/15-intro.qmd >}}
 
