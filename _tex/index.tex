@@ -1124,6 +1124,67 @@ interaction (\(J_0\)) as predictors.
 The performance of these models for each agronomic outcome is presented
 in the following sections.
 
+\subsubsection{Anomaly in the Cadenazzo Yield
+Data}\label{anomaly-in-the-cadenazzo-yield-data}
+
+A preliminary visual analysis of the agronomic data revealed a
+significant anomaly at the Cadenazzo (CAD) site. As shown in
+Figure~\ref{fig-yield-comparison}, the Cadenazzo site exhibited
+substantially higher overall yields than all other locations. More
+critically, the yield response to P fertilization did not follow the
+expected agronomic trend. The zero-fertilizer treatment (\texttt{P0})
+showed the highest median yield, while the surplus treatment
+(\texttt{P166}) was among the lowest.
+
+A simple label swap between \texttt{P0} and \texttt{P166} was
+hypothesized and tested (Figure~\ref{fig-yield-cadenazzo-fix}). While
+this correction established a more monotonic trend, the resulting
+pattern remained questionable, with the corrected \texttt{P166} yield
+being inexplicably higher than the \texttt{P100} and \texttt{P133}
+treatments, which is not a typical biological response.
+
+Unfortunately, a deeper investigation into the cause of this anomaly was
+impossible, as the corresponding soil analysis data (STPs, organic
+carbon, etc.) for the Cadenazzo site were unavailable due to sample
+loss. Without this data, it cannot be determined whether the issue stems
+from a persistent micro-site anomaly, a more complex data recording
+error, or other unknown factors. Given these unresolved inconsistencies
+and the site's unusually high productivity, the Cadenazzo data was
+retained in the models but is recognized as a significant source of
+unexplained variance that likely contributed to the poor predictive
+performance of all models for yield-related metrics like
+\texttt{\$Y\_\{norm\}\$} and \texttt{\$Y\_\{rel\}\$}.
+
+\phantomsection\label{cell-fig-yield-comparison}
+\begin{figure}[H]
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{index_files/figure-pdf/fig-yield-comparison-1.pdf}}
+
+}
+
+\caption{\label{fig-yield-comparison}Annual dry matter yield across P
+fertilization treatments, faceted by experimental site, highlighting the
+anomalous pattern at Cadenazzo (CAD).}
+
+\end{figure}%
+
+\phantomsection\label{cell-fig-yield-cadenazzo-fix}
+\begin{figure}[H]
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{index_files/figure-pdf/fig-yield-cadenazzo-fix-1.pdf}}
+
+}
+
+\caption{\label{fig-yield-cadenazzo-fix}Comparison of Cadenazzo yields
+with original and swapped (P0 \textless\textgreater{} P166) treatment
+labels.}
+
+\end{figure}%
+
 \subsubsection{\texorpdfstring{Predicting Site-Normalized Yield
 (\(Y_{norm}\))}{Predicting Site-Normalized Yield (Y\_\{norm\})}}\label{predicting-site-normalized-yield-y_norm}
 
@@ -1809,9 +1870,9 @@ long-term nutrient budget. The interpretation of this is critical: the
 P-Balance is an indicator of nutrient stewardship and environmental
 risk. A soil with a highly positive P-Balance has a large store of
 ``legacy P,'' which can sustain future crops but also poses a risk of
-loss to the environment. The success of \texttt{\$P\_\{desorb\}\$} as a
-predictor means it is a far superior metric for assessing this long-term
-soil P status and sustainability than conventional STPs.
+loss to the environment. The success of \(P_{desorb}\) as a predictor
+means it is a far superior metric for assessing this long-term soil P
+status and sustainability than conventional STPs.
 
 Furthermore, this study provides evidence questioning the concurrent use
 of multiple STP methods. While systems like GRUD and VDLUFA employ two
