@@ -1,11 +1,11 @@
-project:  
+project:
   type: manuscript
   execute-dir: project
 
 # --- Top-level settings ---
 bibliography: references.bib
 csl: apa.csl
-  
+
 manuscript:
   article: index.qmd
   notebooks:
@@ -21,34 +21,12 @@ manuscript:
       title: Preliminary Results
     # - notebook: notebooks/presentation.qmd
     #   title: presentation
-  # code-links:
-  #   - text: CarsPlot Code
-  #     icon: file-code
-  #     href: notebooks/cars-plot.qmd
   resources:
     # - data/cars.csv
     - presentation/index.html
 
-
-# website:
-#   title: "My Project"
-#   navbar:
-#     left:
-#       - text: "Article"
-#         href: index.qmd
-#       - text: "Master Thesis Defense"
-#         href: notebooks/presentation.qmd
-#       - text: "Model Setup"
-#         href: notebooks/pretest.qmd
-#       - text: "Analysis of kinetic parameters and STP"
-#         href: notebooks/coefficient_analysis.qmd
-#       - text: "ML-approach to evaluate predictive power STP vs. kinetic parameters"
-
-  # (Your notebooks and resources here)
-
 # --- Format-specific settings ---
 format:
-  # (Your html and docx settings here)
   html:
     theme: cosmo
     toc: true
@@ -62,16 +40,14 @@ format:
       body-width: 900px
       margin-width: 250px
 
-  # DOCX output settings
   docx:
     toc: true
     toc-depth: 4
     number-sections: true
     lof: true
     lot: true
-  # PDF output settings
+
   pdf:
-    # --- Basic PDF setup ---
     documentclass: article
     papersize: a4
     pdf-engine: lualatex
@@ -80,51 +56,69 @@ format:
     sansfont: "Latin Modern Sans"
     monofont: "Latin Modern Mono"
     notebook-links: false
-    
-    # --- Disable auto-generation of LoF/LoT ---
     lof: false
     lot: false
     
-    # --- Custom LaTeX integration ---
-    # 1. Load packages and DEFINE the header style, but do not apply it yet.
     include-in-header:
       - text: |
+          \usepackage{graphicx}
+          \usepackage{pdfpages}
           \usepackage{fancyhdr}
-          \usepackage[english,mt]{ethidsc}
-          % Define the style but don't activate it with \pagestyle{fancy} here
+
+          % --- New Title Page Definition ---
+          \makeatletter
+          \renewcommand{\maketitle}{
+            \begin{titlepage}
+              \centering
+              \vspace*{1cm}
+              \includegraphics[width=6cm]{images/eth_logo.png}
+              
+              \vspace{1cm}
+              {\Large Eidgenössische Technische Hochschule Zürich \\ Swiss Federal Institute of Technology Zurich \par}
+              
+              \vspace{2.5cm}
+              
+              {\Large Master's thesis \par}
+              \vspace{0.5cm}
+              {\large Master's degree programme in Agricultural Sciences \par}
+              
+              \vfill
+              
+              {\huge \bfseries \@title \par}
+              
+              \vfill
+              
+              {\Large \@author \par}
+              {\large Student No. 13-938-311 \par}
+              
+              \vspace{2cm}
+              
+              \begin{tabular}{ll}
+                \bfseries Supervisor: & Prof. Dr. Emmanuel Frossard \\
+                & Institute of Agricultural Sciences, ETH Zurich \\
+                \\
+                \bfseries Advisor: & Dr. Frank Liebisch \\
+                & Agroscope \\
+              \end{tabular}
+              
+              \vfill
+              
+              {\large \@date \par}
+              
+            \end{titlepage}
+          }
+          \makeatother
+          % --- End of New Title Page Definition ---
+
+          % --- This is the header style for the main document pages ---
           \fancypagestyle{fancy}{
             \fancyhf{}
             \fancyhead[L]{\nouppercase{\leftmark}}
             \fancyhead[R]{\thepage}
             \renewcommand{\headrulewidth}{0.4pt}
           }
-          \studentA{Marc Jerónimo Pérez y Ropero}
-          \ethidA{13-938-311}
-          \emailA{marcpe@ethz.ch}
-          \supervision{Prof. Dr. Emmanuel Frossard \\ Dr. Frank Liebisch}
-          \declaration
-          \infopage
 
-    # 2. Add ToC, then forcefully switch page style and start numbering
     include-before-body:
       - text: |
           \tableofcontents
-          \cleardoublepage 
-          \pagestyle{fancy}
-          \pagenumbering{arabic}
-
-    # 3. Add content at the very end of the document
-    include-after-body:
-      - text: |
-          \newpage
-          \phantomsection
-          \addcontentsline{toc}{section}{\listfigurename}
-          \listoffigures
-          \newpage
-          \phantomsection
-          \addcontentsline{toc}{section}{\listtablename}
-          \listoftables
-
-# --- Execution settings ---
-execute:
-  freeze: true
+          \

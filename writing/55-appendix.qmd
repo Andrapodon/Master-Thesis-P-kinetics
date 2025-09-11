@@ -1,1 +1,15 @@
 # Appendix
+
+## Supplementary Materials and Reproducibility
+
+This Master's thesis was produced using a fully reproducible workflow with the **Quarto** publishing system. All data, R scripts, and analytical notebooks used to generate the figures, tables, and results presented in this work are openly available.
+
+The complete project can be cloned from the author's GitHub repository, which contains the raw data, the R code for the kinetic and statistical models, and the Quarto source files.
+
+**GitHub Repository URL:** [**\[https://github.com/Andrapodon/Master-Thesis-P-kinetics\]**](https://github.com/Andrapodon/Master-Thesis-P-kinetics)
+
+A rendered version of the full project, including the analytical notebooks that document the development process, is also available as a GitHub Pages website at the following URL:
+
+**GitHub Pages Site URL:** [**\[https://andrapodon.github.io/Master-Thesis-P-kinetics/\]**](https://andrapodon.github.io/Master-Thesis-P-kinetics/)
+
+This approach ensures full transparency and allows for the complete replication of the findings presented in this thesis.

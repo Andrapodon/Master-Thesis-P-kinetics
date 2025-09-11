@@ -8,33 +8,47 @@ authors:
         state: Switzerland
         url: www.ethz.ch
 abstract: > 
-  Hier kommt das Abstract
+  Traditional static soil tests (STPs) for phosphorus (P) often fail to predict agronomic outcomes because they do not account for the kinetic nature of P supply to plant roots. This thesis investigated whether P desorption kinetic parameters could serve as more effective predictors. Using soils from the long-term Swiss agricultural experiment (STYCS), a sequential extraction method was refined and modeled with a non-linear approach to derive the desorbable P pool ($P_{desorb}$) and a rate constant (*k*). The predictive power of these kinetic parameters was compared against standard Swiss STPs ($P_{CO_2}$ and $P_{AAE10}$) for various agronomic outcomes using linear mixed-effects models. The results revealed a highly context-dependent performance. For predicting site-normalized yield, STPs were superior, while for national-normalized yield and P-uptake, both methods performed poorly, with their predictive signals being overshadowed by dominant pedoclimatic factors. Furthermore, the two STP methods provided largely redundant information, as their combination did not improve predictive power. The most significant finding was the exceptional success of the kinetic model in predicting the long-term P-Balance, a key indicator of nutrient stewardship. The $P_{desorb}$ parameter alone explained 57% of the variance, whereas STP models showed no predictive power. This study concludes that the ideal soil P test is purpose-dependent: while traditional STPs remain adequate for within-field fertility management, kinetic parameters are a vastly superior tool for assessing the long-term P status and sustainability of agricultural soils.
 ---
 
-<!-- This command is required by your custom .sty file to create the title page -->
-
-<!-- The content below will now have the 'fancy' page style and numbering -->
 
 {{< include writing/10-abstract.qmd >}}
 
+\newpage
+
 {{< include writing/15-intro.qmd >}}
+
+\newpage
 
 {{< include writing/20-methods.qmd >}}
 
+\newpage
+
 {{< include writing/25-results.qmd >}}
+
+\newpage
 
 {{< include writing/30-discussion.qmd >}}
 
+\newpage
+
 {{< include writing/35-conclusion.qmd >}}
+
+\newpage
 
 {{< include writing/40-acknowledgments.qmd >}}
 
-{{< include writing/45-legal-disclosure.qmd >}}
 
 \newpage
 
 {{< include writing/50-references.qmd >}}
 
+\newpage
+
+
 {{< include writing/55-appendix.qmd >}}
 
-{{< include writing/60-supplements.qmd >}}
+\newpage
+
+
+{{< include writing/45-legal-disclosure.qmd >}}

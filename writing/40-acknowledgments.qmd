@@ -1,1 +1,4 @@
 # Acknowledgments
+
+
+I would also like to acknowledge the use of Google's Gemini language model in the preparation of this thesis. It served as a valuable programming assistant for debugging R and LaTeX code, and as an editorial tool for improving language, formatting, and the overall structure of the manuscript, particularly in the discussion and conclusion sections.

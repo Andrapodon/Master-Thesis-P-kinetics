@@ -1,1 +1,1 @@
-# Legal Disclosure
+\includepdf[pages=-]{declaration.pdf}
