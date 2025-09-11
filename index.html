@@ -404,10 +404,11 @@ window.Quarto = {
   </ul></li>
   </ul></li>
   <li><a href="#acknowledgments" id="toc-acknowledgments" class="nav-link" data-scroll-target="#acknowledgments"><span class="header-section-number">6</span> Acknowledgments</a></li>
-  <li><a href="#legal-disclosure" id="toc-legal-disclosure" class="nav-link" data-scroll-target="#legal-disclosure"><span class="header-section-number">7</span> Legal Disclosure</a></li>
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">8</span> References</a></li>
-  <li><a href="#appendix" id="toc-appendix" class="nav-link" data-scroll-target="#appendix"><span class="header-section-number">9</span> Appendix</a></li>
-  <li><a href="#supplements" id="toc-supplements" class="nav-link" data-scroll-target="#supplements"><span class="header-section-number">10</span> Supplements</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">7</span> References</a></li>
+  <li><a href="#appendix" id="toc-appendix" class="nav-link" data-scroll-target="#appendix"><span class="header-section-number">8</span> Appendix</a>
+  <ul class="collapse">
+  <li><a href="#supplementary-materials-and-reproducibility" id="toc-supplementary-materials-and-reproducibility" class="nav-link" data-scroll-target="#supplementary-materials-and-reproducibility"><span class="header-section-number">8.1</span> Supplementary Materials and Reproducibility</a></li>
+  </ul></li>
   </ul>
 <div class="quarto-alternate-notebooks"><h2>Notebooks</h2><ul><li><a href="notebooks/coefficient_analysis-preview.html"><i class="bi bi-journal-code"></i>Coefficient Analysis</a></li><li><a href="notebooks/mlr3-preview.html"><i class="bi bi-journal-code"></i>mlr3</a></li><li><a href="notebooks/pretest-preview.html"><i class="bi bi-journal-code"></i>Model Setup</a></li><li><a href="notebooks/results-preview.html"><i class="bi bi-journal-code"></i>Preliminary Results</a></li></ul></div></nav>
 </div>
@@ -987,7 +988,7 @@ Table&nbsp;3: Results of linear mixed-effects models predicting P parameters fro
 <h3 data-number="4.5.1" class="anchored" data-anchor-id="anomaly-in-the-cadenazzo-yield-data"><span class="header-section-number">4.5.1</span> Anomaly in the Cadenazzo Yield Data</h3>
 <p>A preliminary visual analysis of the agronomic data revealed a significant anomaly at the Cadenazzo (CAD) site. As shown in <a href="#fig-yield-comparison" class="quarto-xref">Figure&nbsp;6</a>, the Cadenazzo site exhibited substantially higher overall yields than all other locations. More critically, the yield response to P fertilization did not follow the expected agronomic trend. The zero-fertilizer treatment (<code>P0</code>) showed the highest median yield, while the surplus treatment (<code>P166</code>) was among the lowest.</p>
 <p>A simple label swap between <code>P0</code> and <code>P166</code> was hypothesized and tested (<a href="#fig-yield-cadenazzo-fix" class="quarto-xref">Figure&nbsp;7</a>). While this correction established a more monotonic trend, the resulting pattern remained questionable, with the corrected <code>P166</code> yield being inexplicably higher than the <code>P100</code> and <code>P133</code> treatments, which is not a typical biological response.</p>
-<p>Unfortunately, a deeper investigation into the cause of this anomaly was impossible, as the corresponding soil analysis data (STPs, organic carbon, etc.) for the Cadenazzo site were unavailable due to sample loss. Without this data, it cannot be determined whether the issue stems from a persistent micro-site anomaly, a more complex data recording error, or other unknown factors. Given these unresolved inconsistencies and the site’s unusually high productivity, the Cadenazzo data was retained in the models but is recognized as a significant source of unexplained variance that likely contributed to the poor predictive performance of all models for yield-related metrics like <code>$Y_{norm}$</code> and <code>$Y_{rel}$</code>.</p>
+<p>Unfortunately, a deeper investigation into the cause of this anomaly was impossible, as the corresponding soil analysis data (STPs, organic carbon, etc.) for the Cadenazzo site were unavailable due to sample loss. Without this data, it cannot be determined whether the issue stems from a persistent micro-site anomaly, a more complex data recording error, or other unknown factors. Given these unresolved inconsistencies and the site’s unusually high productivity, the Cadenazzo data was retained in the models but is recognized as a significant source of unexplained variance that likely contributed to the poor predictive performance of all models for yield-related metrics like <span class="math inline">\(Y_{norm}\)</span> and <span class="math inline">\(Y_{rel}\)</span>.</p>
 <div id="cell-fig-yield-comparison" class="cell">
 <div class="cell-output-display">
 <div id="fig-yield-comparison" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -1529,13 +1530,10 @@ Figure&nbsp;8: Diagnostic plot for <span class="math inline">\(P_{\text{AAE10}}\
 </section>
 <section id="acknowledgments" class="level1" data-number="6">
 <h1 data-number="6"><span class="header-section-number">6</span> Acknowledgments</h1>
-</section>
-<section id="legal-disclosure" class="level1" data-number="7">
-<h1 data-number="7"><span class="header-section-number">7</span> Legal Disclosure</h1>
 <div style="page-break-after: always;"></div>
 </section>
-<section id="references" class="level1" data-number="8">
-<h1 data-number="8"><span class="header-section-number">8</span> References</h1>
+<section id="references" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> References</h1>
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list">
 <div id="ref-Abelson1999Dilemma" class="csl-entry" role="listitem">
 Abelson, P. H. (1999). The global phosphorus dilemma: A new insight into an old problem. <em>Science</em>, <em>283</em>(5410), 2015. <a href="https://doi.org/10.1126/science.283.5410.2015">https://doi.org/10.1126/science.283.5410.2015</a>
@@ -1671,11 +1669,17 @@ Verband Deutscher Landwirtschaftlicher Untersuchungs- und Forschungsanstalten (V
 </div>
 </div>
 </section>
-<section id="appendix" class="level1" data-number="9">
-<h1 data-number="9"><span class="header-section-number">9</span> Appendix</h1>
+<section id="appendix" class="level1" data-number="8">
+<h1 data-number="8"><span class="header-section-number">8</span> Appendix</h1>
+<section id="supplementary-materials-and-reproducibility" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="supplementary-materials-and-reproducibility"><span class="header-section-number">8.1</span> Supplementary Materials and Reproducibility</h2>
+<p>This Master’s thesis was produced using a fully reproducible workflow with the <strong>Quarto</strong> publishing system. All data, R scripts, and analytical notebooks used to generate the figures, tables, and results presented in this work are openly available.</p>
+<p>The complete project can be cloned from the author’s GitHub repository, which contains the raw data, the R code for the kinetic and statistical models, and the Quarto source files.</p>
+<p><strong>GitHub Repository URL:</strong> <strong>[https://github.com/Andrapodon/Master-Thesis-P-kinetics]</strong></p>
+<p>A rendered version of the full project, including the analytical notebooks that document the development process, is also available as a GitHub Pages website at the following URL:</p>
+<p><strong>GitHub Pages Site URL:</strong> <strong>[https://andrapodon.github.io/Master-Thesis-P-kinetics/]</strong></p>
+<p>This approach ensures full transparency and allows for the complete replication of the findings presented in this thesis.</p>
 </section>
-<section id="supplements" class="level1" data-number="10">
-<h1 data-number="10"><span class="header-section-number">10</span> Supplements</h1>
 </section>
 
 </main>
