@@ -29,13 +29,12 @@ knitr::kable(sites_df_corrected)
 
 Soil samples for this thesis were collected in the year 2022 from the topsoil layer (0-20 cm).
 
-------------------------------------------------------------------------
 
 ## Phosphorus Desorption Kinetics {#sec-phosphorus-desorption-kinetics}
 
-The analysis of phosphorus (P) desorption kinetics was based on the principles of sequential extraction established by [@flossmannExtractionMethodCharacterizing1982]. The original method is described below, followed by the specific protocol adapted for this study.
+The analysis of phosphorus (P) desorption kinetics was based on the principles of sequential extraction established by @flossmannExtractionMethodCharacterizing1982. The original method is described below, followed by the specific protocol adapted for this study.
 
-### Original Method of Flossmann and Richter (1982)
+### Original Method of Flossmann and Richter
 
 The foundational method aims to characterize the P replenishment capacity of the soil. The procedure is as follows:
 
@@ -53,7 +52,6 @@ For this thesis, the original method was modified to capture the desorption proc
 
 3.  **Analysis**: Each subsample was immediately filtered. The concentration of orthophosphate in the filtered extracts was determined colorimetrically using the **malachite green method** [@VanVeldhoven1987Malachite].
 
-------------------------------------------------------------------------
 
 ## Statistical Analysis {#sec-statistical-analysis}
 
@@ -82,7 +80,7 @@ variables_df <- data.frame(
                    "$k$", "$P_{desorb}$", "$J_0$", 
                    "$P_{CO2}$", "$P_{AAE10}$",
                    "$Al_d$", "$Fe_d$"),
-  `Full Name` = c("Relative Yield", "Normalized Yield", "P Uptake", "P Balance", 
+  `Variable` = c("Relative Yield", "Normalized Yield", "P Uptake", "P Balance", 
                   "Rate Constant", "Desorbable P", "Initial P Flux", 
                   "Water-Soluble P", "Chelate-Extractable P",
                   "Dithionite-Extractable Al", "Dithionite-Extractable Fe"),
