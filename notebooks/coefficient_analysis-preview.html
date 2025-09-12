@@ -615,13 +615,13 @@ Fit: lmer(formula = k ~ soil_0_20_clay + soil_0_20_pH_H2O + soil_0_20_Corg +
 
 Linear Hypotheses:
                        Estimate Std. Error z value Pr(&gt;|z|)   
-(Intercept) == 0       0.608405   0.351212   1.732  0.37842   
-soil_0_20_clay == 0   -0.016659   0.005088  -3.274  0.00665 **
-soil_0_20_pH_H2O == 0 -0.022256   0.021526  -1.034  0.84771   
-soil_0_20_Corg == 0    0.137353   0.048014   2.861  0.02618 * 
-soil_0_20_silt == 0    0.004093   0.003818   1.072  0.82649   
+(Intercept) == 0       0.608405   0.351212   1.732  0.37779   
+soil_0_20_clay == 0   -0.016659   0.005088  -3.274  0.00681 **
+soil_0_20_pH_H2O == 0 -0.022256   0.021526  -1.034  0.84776   
+soil_0_20_Corg == 0    0.137353   0.048014   2.861  0.02610 * 
+soil_0_20_silt == 0    0.004093   0.003818   1.072  0.82645   
 Feox == 0              0.001024   0.054815   0.019  1.00000   
-Alox == 0             -0.128860   0.196235  -0.657  0.97804   
+Alox == 0             -0.128860   0.196235  -0.657  0.97807   
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
@@ -650,12 +650,12 @@ Fit: lmer(formula = I(log(k * PS)) ~ soil_0_20_clay + soil_0_20_pH_H2O +
 
 Linear Hypotheses:
                       Estimate Std. Error z value Pr(&gt;|z|)  
-(Intercept) == 0      -5.22226    2.66516  -1.959   0.2477  
-soil_0_20_clay == 0   -0.08506    0.04708  -1.807   0.3305  
+(Intercept) == 0      -5.22226    2.66516  -1.959   0.2475  
+soil_0_20_clay == 0   -0.08506    0.04708  -1.807   0.3307  
 soil_0_20_pH_H2O == 0 -0.06835    0.19908  -0.343   0.9993  
-soil_0_20_Corg == 0    1.29049    0.47040   2.743   0.0363 *
+soil_0_20_Corg == 0    1.29049    0.47040   2.743   0.0366 *
 soil_0_20_silt == 0   -0.01141    0.04296  -0.266   0.9998  
-Feox == 0              0.24847    0.34319   0.724   0.9651  
+Feox == 0              0.24847    0.34319   0.724   0.9652  
 Alox == 0              0.36678    1.12170   0.327   0.9995  
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
@@ -832,7 +832,7 @@ Fit: lm(formula = log(PS) ~ log(soil_0_20_P_CO2) + log(soil_0_20_P_AAE10),
 
 Linear Hypotheses:
                             Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept) == 0            -0.61404    0.20562  -2.986  0.00534 ** 
+(Intercept) == 0            -0.61404    0.20562  -2.986  0.00517 ** 
 log(soil_0_20_P_CO2) == 0    1.30106    0.05963  21.819  &lt; 0.001 ***
 log(soil_0_20_P_AAE10) == 0 -0.24892    0.05163  -4.821  &lt; 0.001 ***
 ---
@@ -849,7 +849,7 @@ Fit: lm(formula = k ~ log(soil_0_20_P_CO2) + log(soil_0_20_P_AAE10),
 
 Linear Hypotheses:
                              Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept) == 0             0.074843   0.026807   2.792  0.00955 ** 
+(Intercept) == 0             0.074843   0.026807   2.792  0.00972 ** 
 log(soil_0_20_P_CO2) == 0   -0.031362   0.007774  -4.034  &lt; 0.001 ***
 log(soil_0_20_P_AAE10) == 0  0.029663   0.006731   4.407  &lt; 0.001 ***
 ---
@@ -868,7 +868,7 @@ Linear Hypotheses:
                             Estimate Std. Error t value Pr(&gt;|t|)    
 (Intercept) == 0            -2.89619    0.20538 -14.102   &lt;0.001 ***
 log(soil_0_20_P_CO2) == 0    1.12637    0.05956  18.912   &lt;0.001 ***
-log(soil_0_20_P_AAE10) == 0 -0.10426    0.05157  -2.022   0.0719 .  
+log(soil_0_20_P_AAE10) == 0 -0.10426    0.05157  -2.022   0.0723 .  
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
