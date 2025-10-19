@@ -58,7 +58,7 @@ D <- D %>%
 # It contains both your factor columns and your scaled numeric columns.
 # You can now use it directly in your lmer() models.
 
-fit.soil.PS  <- lmer(log(PS)     ~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Feox + Alox  + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.soil.PS  <- lmer(PS     ~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Feox + Alox  + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
 # fit.soil.PS2 <- lmer(log(PS)     ~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt  + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
 fit.soil.k   <- lmer(k           ~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Feox + Alox + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
 fit.soil.kPS <- lmer(I(k*PS)~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Feox + Alox + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
@@ -106,7 +106,7 @@ fit.AAE10.Pbalance     <- lmer(annual_P_balance      ~ log(soil_0_20_P_AAE10)  +
 
 fit.grud.Pbalance     <- lmer(annual_P_balance      ~ log(soil_0_20_P_CO2) * log(soil_0_20_P_AAE10)  + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
 
-lmer_models <- list(
+lmer_models_soil <- list(
   PS = fit.soil.PS,
   k = fit.soil.k,
   'log(k*PS)' = fit.soil.kPS,
@@ -120,12 +120,9 @@ lmer_models_yield_norm <- list(
   "Yn-STP-CO2" = fit.grud.CO2.Ynorm,
   "Yn-STP-AAE10" = fit.grud.AAE10.Ynorm,
   "Yn-STP-GRUD" = fit.grud.CO2.AAE10.Ynorm,
-  "Yn-Kinetic" = fit.kin.Ynorm,
-  "Yr-STP-CO2" = fit.grud.CO2.Yrel,
-  "Yr-STP-AAE10" = fit.grud.AAE10.Yrel,
-  "Yr-STP-GRUD" = fit.grud.Yrel,
-  "Yr-Kinetic" = fit.kin.Yrel
+  "Yn-Kinetic" = fit.kin.Ynorm
 )
+  
 
 lmer_models_balance <- list(
   CO2_Pbalance = fit.CO2.Pbalance,
@@ -152,7 +149,7 @@ create_coef_table <- function(lmer_models,
                               covariate_order = NULL, 
                               covariate_labels = NULL, # NEU: Benannter Vektor für Zeilennamen
                               model_labels = NULL,
-                              descriptor = "Response") {   # NEU: Benannter Vektor für Spaltennamen
+                              descriptor = "Model") {   # NEU: Benannter Vektor für Spaltennamen
 
   # Extract coefficients and p-values (Ihre Originalfunktion, keine Änderung hier)
   extract_coef_info <- function(model) {
@@ -234,7 +231,7 @@ create_coef_table <- function(lmer_models,
   # --- Ende der neuen Sektion ---
 
   # Convert to data frame for kable
-  results_df <- data.frame("Predictor" = rownames(results_matrix),
+  results_df <- data.frame("Model" = rownames(results_matrix),
                            results_matrix,
                            check.names = FALSE, # Verhindert, dass R Spaltennamen ändert
                            stringsAsFactors = FALSE)
@@ -427,7 +424,7 @@ p_base <- ggplot() +
   theme_bw(base_size = 14)
 ```
 
-## QI: Method Validation
+## Method Validation
 
 ```{r}
 #| echo: false
@@ -438,7 +435,7 @@ p_base <- ggplot() +
 p_base + labs(title = "Step 1: Raw Experimental Data")
 ```
 
-## QI: Method Validation
+## Method Validation
 
 
 ```{r}
@@ -453,7 +450,7 @@ p_base +
 ```
 
 
-## QI: Method Validation
+## Method Validation
 
 
 ```{r}
@@ -468,7 +465,7 @@ p_base +
 ```
 
 
-## QI: Method Validation
+## Method Validation
 
 
 ```{r}
@@ -503,42 +500,132 @@ p_base +
 ```
 
 
-##
+## The Competing Predictors
 
-[**Relevant Variables**]{.underline}
+We compared two approaches to predict agronomic outcomes:
 
-**Soil Variables:**
+::: {.columns}
 
--   $P-CO_2$ & $P-AAE10$ stand for the **GRUD STP-measurements** in \[$g~P/kg ~ Soil$\]
--   $k$($s^{-1}$) can be interpreted as the **relative speed of net-desorption** of orthophosphate
--   $k*PS$($g~Ps^{-1}$) can be interpreted as the **average net-release speed**
--   $PS$($mg~P/L~H_2O$) is the **equilibrium concentration of $PO_4^{3-}$ of the net-desorption** experiment
--   From the 0-20cm Horizon: Clay-, Silt-,$C_{org}$-content and pH
+::: {.column width="50%"}
+**The Standard Method**
 
-**Yield Variables:**
+-   **$P_{CO2}$**
+-   **$P_{AAE10}$**
 
--   For a year $X$ and crop $C$ $Y_{main-rel}$ stands for $Y_{main-rel}:=Y_C^{X}/mean(Y_C~\text{in year}~X~\text{in CH})$
--   For every year:site:crop combination the yield was normalised using: $Y_\text{norm}:=Y/median(Y_{P166})$
--   The P-Export was calculated as the **P-Uptake of the main product**
--   The P-Balance was calculated as the difference $P_{Fertilized}-\text{P-Export}$
-
-## Research Questions
-
--   I: Is the **method** presented by Flossmann and Richter (1982) with the double extraction **replicable** with the soils from the **STYCS-trial**?
--   II: How do GRUD-measurements of **STP** **correlate** to the soil properties $C_\text{org}$**-content, clay-content, silt-content and pH**?
--   III: Are the kinetic coefficients $k$ **and** $PS$ **correlated to soil properties**?
--   IV: How well can current GRUD methods of **STP** ($P-CO_2$ & $P-AAE10$) **predict** the **Yield-parameters, P-Export and P-Balance**?
--   V: How well can the **kinetic parameters** $k$ & $PS$ **predict Yield-parameters, P-Export and P-Balance**?
-
-## QI: Replicability of kinetic model in STYCS
-
-::: notes
-The estimation of the Plateau PS as proposed by Flossman und Richter was over 10 times higher than the observed concentrations in the experiment. As a consequence the linearization of the data-points did not deliver models with low $R^2$ and significant parameter estimations. To this end I took more measurements and attempted to use a non-linear-regression to simultaneously estimate PS and k. Those models were calculated for every site:treatment combination and delivered favourable predictions, although some experimantal errors or block effects were observable. 
+These are static "snapshots" of the soil's P capacity.
 :::
 
+::: {.column width="50%"}
+**The Kinetic Method**
+
+-   **PS ($P^S$):** The **size** of the available P pool.
+-   **k:** The **rate** of P release.
+
+This approach measures P as a dynamic process.
+:::
+
+:::
+
+## Measuring Success: The Key Outcomes
+
+We tested the models against three agronomic metrics:
+
+**1. Normalized Yield ($Y_{norm}$)**
+- How well did the crop perform relative to its maximum potential at that specific site?
+
+**2. P-Export ($P_{up}$)**
+- How much phosphorus did the crop remove from the field?
+
+**3. P-Balance ($P_{bal}$)**
+- What is the long-term surplus or deficit of P in the soil? This is a key indicator of sustainability.
 
 
+## How We Compared the Models
 
+To ensure a fair and robust comparison, we used a consistent statistical approach:
+
+**1. Linear Mixed-Effects Models (`lmer`)**
+   - We built a separate model for each agronomic outcome (Yield, P-Export, P-Balance).
+   - This approach accounts for the nested structure of the STYCS experiment (sites, years, blocks).
+
+**2. Standardized Coefficients (β)**
+   - All numeric variables were **scaled and centered** (mean=0, sd=1).
+   - This allows us to directly compare the effect size of each predictor. A larger coefficient means a stronger effect.
+
+**3. The Comparison**
+   - In the following tables, **each column represents a separate model** where we test a different set of predictors.
+   
+   
+## What Do the P Metrics Actually Measure?
+
+A robust P metric should reflect both the soil's inherent properties (like texture and pH) and the impact of management (fertilization). We modeled each metric to see what drives it.
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+
+
+highlight_significant_cells <- function(df) {
+  df_highlighted <- df
+
+  for (col in names(df)[-1]) {
+    df_highlighted[[col]] <- cell_spec(df[[col]],
+      format = "html",
+      color = case_when(
+        grepl("\\*\\*\\*", df[[col]]) ~ "red",
+        grepl("\\*\\*", df[[col]])    ~ "orange",
+        grepl("\\*", df[[col]])       ~ "yellow",
+        TRUE                          ~ "white"
+      ),
+      bold = grepl("\\*", df[[col]])
+    )
+  }
+
+  return(df_highlighted)
+}
+
+# Define the new, clean names for the table
+lmer_models_soil <- list(
+  "m.PS" = fit.soil.PS,
+  "m.k" = fit.soil.k,
+  "m.log(k*PS)" = fit.soil.kPS,
+  "m.PCO2" = fit.soil.CO2,
+  "m.PAAE10" = fit.soil.AAE10
+)
+covariate_labels_soil_props <- c(
+  "(Intercept)" = "Intercept",
+  "soil_0_20_Corg" = "$C_{org}$",
+  "soil_0_20_clay" = "Clay",
+  "soil_0_20_silt" = "Silt",
+  "soil_0_20_pH_H2O" = "pH",
+  "Fed" = "$Fe_{d}$",
+  "Ald" = "$Al_{d}$",
+  "R2m" = "$R^2_m$",
+  "R2c" = "$R^2_c$"
+)
+model_labels_soil <- c(
+  "m.PCO2" = "$P_{CO_2}$",
+  "m.PAAE10" = "$P_{AAE10}$",
+  "m.PS" = "$PS$",
+  "m.k" = "$k$",
+  "m.log(k*PS)" = "$J_0$"
+)
+results_table_soil <- create_coef_table(
+  lmer_models_soil,
+  covariate_labels = covariate_labels_soil_props,
+  model_labels = model_labels_soil
+)
+
+
+results_table_soil <- results_table_soil[-1, ]
+
+# Apply formatting and display
+coef_table_soil_highlighted <- highlight_significant_cells(results_table_soil)
+kable(coef_table_soil_highlighted,
+      escape = FALSE, format = "html", row.names = FALSE) %>%
+  kable_styling(full_width = FALSE, position = "left")
+```
 # QII & III: STP, k & PS correlate to soil properties?
 
 The following random structure was chosen:
@@ -548,7 +635,7 @@ The following random structure was chosen:
 ## Do P-CO2, P_AAE10, k and PS correlate with soil characteristics?
 
 ```{r}
-coef_table_soil <- create_coef_table(lmer_models)
+coef_table_soil <- create_coef_table(lmer_models_soil)
 
 # highlight_significant_cells <- function(df) {
 #   df_highlighted <- df
