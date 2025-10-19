@@ -254,17 +254,17 @@ create_coef_table <- function(lmer_models,
 -   Could a kinetic desorption-model better explain the soil status and yield data?
 
 
-## Experimental Setup
+## The STYCS Experiment
 
 -   LTE STYCS, all treatment conditions equal except P-fertilization, which is in 6 Levels, 3 were considered($P0$,$P100$,$P166$)
 -   4 Sites regarded; Ellighausen, Rümlang-Altwi, Oensingen, Zürich-Reckenholz
 -   5 Sites, 4 blocks per site, 6 Treatment-Levels, 4 Repetitions
--   Years 2022 was modelled, kinetic data was collected for year 2022
+-   Years 2017-2022 were modelled, kinetic data was collected only for year 2022
 
 
 ![](https://www.agroscope.admin.ch/agroscope/en/home/topics/environment-resources/monitoring-analytics/long-term-trials/stycs/_jcr_content/par/columncontrols/items/0/column/image/image.imagespooler.jpg/1617866324311/Feld-STYCS.jpg){fig-align="center"}
 
-## Kinetic Model
+## A kinetic Approach to P
 
 ::: {.columns}
 
@@ -361,9 +361,7 @@ ggplot(df_conceptual, aes(x = t, y = P)) +
 ![](Experimental_Setup.png){fig-align="center"}
 
 
-## QI: Replicability of kinetic model in STYCS
 
-## QI: Replicability (Step 1: The Data)
 
 ```{r}
 #| label: fig-replicability-setup
@@ -429,48 +427,83 @@ p_base <- ggplot() +
   theme_bw(base_size = 14)
 ```
 
-Our Goal: To find the best model for our kinetic data. First, here are the raw data points from the experiment.
+## QI: Method Validation
 
 ```{r}
 #| echo: false
 #| message: false
 #| warning: false
-#| fig-height: 7
+#| fig-height: 9
+#| fig-width: 16
 p_base + labs(title = "Step 1: Raw Experimental Data")
 ```
 
-## QI: Replicability (Step 2: The Flawed Model)
+## QI: Method Validation
 
-We first tested the original, linearized method from the 1980s. As you can see from the dashed lines, the predictions provide a very poor fit to the actual data.
 
 ```{r}
 #| echo: false
 #| message: false
 #| warning: false
-#| fig-height: 7
+#| fig-height: 9
+#| fig-width: 16
 p_base +
   geom_line(data = pred_data_flawed, aes(x = t.dt, y = pred_Pv_flawed, color = Repetition), linetype = "dashed", size = 1) +
   labs(title = "Step 2: The Flawed Linearized Model Fit")
 ```
 
 
-## QI: Replicability (Step 3: The Successful Model)
+## QI: Method Validation
 
-Because the old method failed, we adopted a modern non-linear approach. The solid lines show our final model, which accurately captures the desorption process. This gave us high confidence in our derived $k$ and $PS$ parameters.
 
 ```{r}
 #| echo: false
 #| message: false
 #| warning: false
-#| fig-height: 7
+#| fig-height: 9
+#| fig-width: 16
 p_base +
   geom_line(data = pred_data, aes(x = t.dt, y = pred_Pv, color = Repetition), size = 1) +
   labs(title = "Step 3: The Successful Non-Linear Model Fit")
 ```
 
 
+## QI: Method Validation
 
-## Could a kinetic desorption-model better explain the soil status and yield data?
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+#| fig-height: 9
+#| fig-width: 16
+
+# Create the data for the hline
+hline_data_comparison <- d_plot %>%
+  select(Site, Treatment, Repetition, Pv_Olsen.mg.L., Pv_labile.mg.L.) %>%
+  mutate(flawed_estimate = Pv_Olsen.mg.L. - Pv_labile.mg.L.) %>%
+  distinct()
+
+# Create the final comparison plot
+p_base +
+  # Plot 1: Our successful non-linear model fit
+  geom_line(data = pred_data, aes(x = t.dt, y = pred_Pv, col = Repetition), size = 1) +
+  
+  # Plot 2: The flawed P-Olsen - P-labile estimate
+  geom_hline(
+    data = hline_data_comparison,
+    aes(yintercept = flawed_estimate, color = Repetition),
+    linetype = "dashed", size = 1.2
+  ) +
+  
+  labs(
+    title = "Successful Fit vs. Flawed Assumption",
+    subtitle = "Solid lines = Our successful model | Dashed lines = Flawed P-Olsen estimate"
+  )
+```
+
+
+##
 
 [**Relevant Variables**]{.underline}
 
@@ -504,42 +537,6 @@ The estimation of the Plateau PS as proposed by Flossman und Richter was over 10
 :::
 
 
-```{r}
-Res <- nlsList(Pv.mg.L. ~ PS * (1 - exp(-k * (t.dt))) | uid, d[, c("Pv.mg.L.", "ui", "t.dt","uid")],  start=list(PS=0.1,k=0.2))
-# summary(Res)
-# d$nls_pred <- predict(Res)
-
-# Extract coefficients from the nlsList results
-nls_coefs <- coef(Res)
-nls_coefs$uid <- rownames(nls_coefs)
-
-
-d_plot <- merge(d, nls_coefs, by = "uid")
-
-# Most straightforward approach - create curves manually
-time_seq <- seq(min(d$t.dt, na.rm = TRUE), max(d$t.dt, na.rm = TRUE), length.out = 100)
-
-# Create prediction data
-pred_data <- d_plot %>%
-  select(uid, Site, Treatment, Repetition, PS, k,ui,Pv_Olsen.mg.L.,Pv_labile.mg.L.) %>%
-  distinct() %>%
-  crossing(t.dt = time_seq) %>%
-  mutate(pred_Pv = PS * (1 - exp(-k * (t.dt))))
-
-hline_data <- d_plot %>%
-  select(Site, Treatment, Repetition, Pv_Olsen.mg.L., Pv_labile.mg.L.) %>%
-  distinct()
-
-ggplot() +
-  geom_point(data = d_plot, aes(y = Pv.mg.L., x = t.dt, col = Repetition)) +
-  geom_line(data = pred_data, aes(x = t.dt, y = pred_Pv, col = Repetition), size = 0.5) +
-  geom_hline(data = hline_data, 
-             aes(yintercept = Pv_Olsen.mg.L.-Pv_labile.mg.L., color = Repetition),
-             linetype = "dashed", size = 0.7) +
-  facet_grid(Treatment ~ Site,scales = "free_y") +
-  labs(x = TeX("$Time (min)$"),
-       y = TeX("$P_{V}(\\frac{mg}{L})$"))
-```
 
 
 # QII & III: STP, k & PS correlate to soil properties?
