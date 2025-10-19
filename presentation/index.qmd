@@ -39,7 +39,7 @@ suppressPackageStartupMessages({
 options(warn = -1)
 load("~/Documents/Master Thesis/Master-Thesis-P-kinetics/data/results_coefficient_analysis")
 RES <- readRDS("~/Documents/Master Thesis/Master-Thesis-P-kinetics/data/RES.rds")
-d <- RES$data
+d <- d[d$Site!="Cadenazzo",]
 
 ```
 
@@ -53,15 +53,14 @@ d <- RES$data
 
 -   Could a kinetic desorption-model better explain the soil status and yield data?
 
-    ![GRUD 2017](https://www.agroscope.admin.ch/agroscope/de/home/themen/pflanzenbau/ackerbau/Pflanzenernaehrung/grud/_jcr_content/par/columncontrols/items/0/column/image/image.imagespooler.jpg/1497864223201/2017-GRUD-duengung.jpg){fig-align="center"}
 
 ## Experimental Setup
 
 -   LTE STYCS, all treatment conditions equal except P-fertilization, which is in 6 Levels, 3 were considered($P0$,$P100$,$P166$)
--   5 Sites regarded; Cadenazzo, Ellighausen, Rümlang-Altwi, Oensingen, Zürich-Reckenholz
+-   4 Sites regarded; Ellighausen, Rümlang-Altwi, Oensingen, Zürich-Reckenholz
 -   5 Sites, 4 blocks per site, 6 Treatment-Levels, 4 Repetitions
--   Years 2017-2022 were observed, kinetic data was collected for year 2022 and used to predict 2017-2022
--   kinetic data worth one year vs STP worth 6 years to predict the same data-set
+-   Years 2022 was modelled, kinetic data was collected for year 2022
+
 
 ![](https://www.agroscope.admin.ch/agroscope/en/home/topics/environment-resources/monitoring-analytics/long-term-trials/stycs/_jcr_content/par/columncontrols/items/0/column/image/image.imagespooler.jpg/1617866324311/Feld-STYCS.jpg){fig-align="center"}
 
@@ -74,7 +73,7 @@ Flossmann & Richter conducted in 1982 experiments that should:
 
 The net-desorption was observed, a kinetic of first order was assumed: $$\frac{dP}{dt}=k\times(P^S-P)$$ When solved with $P(0)=0$, the following equation was obtained: $$P(t)=P^S\times(1-e^{-kt})$$ The researchers estimated the plateau $P^S=P_\text{CAL/Olsen}-P_{H_2O}$ and linearized as follows: $$log(1-\frac{P(t)}{P^S})=-kt$$ $PS$, $k$ and $k*PS$ were extracted, $k*PS$ being the average net-release speed.
 
-## Kinetic-Experiment Setup
+## Adapted Kinetic-Experiment Setup
 
 ![](Experimental_Setup.png){fig-align="center"}
 
@@ -107,17 +106,13 @@ The net-desorption was observed, a kinetic of first order was assumed: $$\frac{d
 
 ## QI: Replicability of kinetic model in STYCS
 
-**Observation**
-
--   The estimation $PS=P_{Olsen}-P_{H_2O}$ did not deliver reasonable and significant models in terms of residuals and significance
-
 ::: notes
 The estimation of the Plateau PS as proposed by Flossman und Richter was over 10 times higher than the observed concentrations in the experiment. As a consequence the linearization of the data-points did not deliver models with low $R^2$ and significant parameter estimations. To this end I took more measurements and attempted to use a non-linear-regression to simultaneously estimate PS and k. Those models were calculated for every site:treatment combination and delivered favourable predictions, although some experimantal errors or block effects were observable. 
 :::
 
 
 ```{r}
-Res <- nlsList(Pv.mg.L. ~ PS * (1 - exp(-k * (t.dt))) | uid, d[, c("Pv.mg.L.", "uid", "t.dt")],  start=list(PS=0.1,k=0.2))
+Res <- nlsList(Pv.mg.L. ~ PS * (1 - exp(-k * (t.dt))) | uid, d[, c("Pv.mg.L.", "ui", "t.dt","uid")],  start=list(PS=0.1,k=0.2))
 # summary(Res)
 # d$nls_pred <- predict(Res)
 
@@ -133,15 +128,21 @@ time_seq <- seq(min(d$t.dt, na.rm = TRUE), max(d$t.dt, na.rm = TRUE), length.out
 
 # Create prediction data
 pred_data <- d_plot %>%
-  select(uid, Site, Treatment, Repetition, PS, k) %>%
+  select(uid, Site, Treatment, Repetition, PS, k,ui,Pv_Olsen.mg.L.,Pv_labile.mg.L.) %>%
   distinct() %>%
   crossing(t.dt = time_seq) %>%
   mutate(pred_Pv = PS * (1 - exp(-k * (t.dt))))
 
+hline_data <- d_plot %>%
+  select(Site, Treatment, Repetition, Pv_Olsen.mg.L., Pv_labile.mg.L.) %>%
+  distinct()
 
 ggplot() +
   geom_point(data = d_plot, aes(y = Pv.mg.L., x = t.dt, col = Repetition)) +
   geom_line(data = pred_data, aes(x = t.dt, y = pred_Pv, col = Repetition), size = 0.5) +
+  geom_hline(data = hline_data, 
+             aes(yintercept = Pv_Olsen.mg.L.-Pv_labile.mg.L., color = Repetition),
+             linetype = "dashed", size = 0.7) +
   facet_grid(Treatment ~ Site,scales = "free_y") +
   labs(x = TeX("$Time (min)$"),
        y = TeX("$P_{V}(\\frac{mg}{L})$"))
@@ -157,7 +158,7 @@ The following random structure was chosen:
 ## Do P-CO2, P_AAE10, k and PS correlate with soil characteristics?
 
 ```{r}
-coef_table_soil <- create_coef_table(lmer_models, sig_threshold = 0.001)
+coef_table_soil <- create_coef_table(lmer_models)
 
 # highlight_significant_cells <- function(df) {
 #   df_highlighted <- df
@@ -234,7 +235,7 @@ kable(coef_table_soil_highlighted,
 ```{r}
 
 
-coef_table_yield <- create_coef_table(lmer_models_yield, sig_threshold = 0.001)
+coef_table_yield <- create_coef_table(lmer_models_yield_norm)
 # Apply formatting
 coef_table_yield_highlighted <- highlight_significant_cells(coef_table_yield)
 
@@ -271,7 +272,7 @@ kable(coef_table_yield_highlighted,
 ```{r}
 
 
-coef_table_export <- create_coef_table(lmer_models_export, sig_threshold = 0.001)
+coef_table_export <- create_coef_table(lmer_models_export)
 # Apply formatting
 coef_table_export_highlighted <- highlight_significant_cells(coef_table_export)
 
@@ -304,7 +305,7 @@ kable(coef_table_export_highlighted,
 ```{r}
 
 
-coef_table_balance <- create_coef_table(lmer_models_balance, sig_threshold = 0.001)
+coef_table_balance <- create_coef_table(lmer_models_balance)
 # Apply formatting
 coef_table_balance_highlighted <- highlight_significant_cells(coef_table_balance)
 
