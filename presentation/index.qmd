@@ -33,6 +33,7 @@ suppressPackageStartupMessages({
   library(MuMIn)
   library(kableExtra)
   library(dplyr)
+  library(lmerTest)
 
 })
 
@@ -40,6 +41,106 @@ options(warn = -1)
 load("~/Documents/Master Thesis/Master-Thesis-P-kinetics/data/results_coefficient_analysis")
 RES <- readRDS("~/Documents/Master Thesis/Master-Thesis-P-kinetics/data/RES.rds")
 d <- d[d$Site!="Cadenazzo",]
+
+D <- RES$D2
+
+# 'd' is your starting dataframe with all 2017-2022 data
+
+# This single command creates your final, ready-to-use dataframe.
+D <- D %>%
+  # First, convert all categorical columns to factors.
+  mutate(across(c(site, Site, Treatment, Rep,rep, block, year, uid, ui, location), as.factor)) %>%
+  
+  # SECOND, on that same dataframe, scale all the columns that are still numeric.
+  mutate(across(where(is.numeric), scale))
+
+# That's it! 'd_prepared_for_modeling' is the only dataframe you need.
+# It contains both your factor columns and your scaled numeric columns.
+# You can now use it directly in your lmer() models.
+
+fit.soil.PS  <- lmer(log(PS)     ~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Feox + Alox  + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+# fit.soil.PS2 <- lmer(log(PS)     ~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt  + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.soil.k   <- lmer(k           ~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Feox + Alox + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.soil.kPS <- lmer(I(log(k*PS))~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Feox + Alox + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.soil.kPS2<- lmer(I(k*log(PS))~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Feox + Alox + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.soil.CO2 <- lmer(log(soil_0_20_P_CO2)~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Feox + Alox + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.soil.AAE10<-lmer(log(soil_0_20_P_AAE10)~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Feox + Alox + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+
+fit.kin.Yrel     <- lmer(Ymain_rel         ~ k * log(PS)  + (1|year) + (1|Site)  + (1|Site:block), D)
+fit.grud.CO2.Ynorm     <- lmer(Ymain_norm    ~ log(soil_0_20_P_CO2) + (1|year) + (1|Site)  + (1|Site:block), D, subset = Treatment != "P166")
+r.squaredGLMM(fit.grud.CO2.Ynorm)
+fit.grud.AAE10.Ynorm   <- lmer(Ymain_norm    ~ log(soil_0_20_P_AAE10) + (1|year) + (1|Site)  + (1|Site:block), D, subset = Treatment != "P166")
+r.squaredGLMM(fit.grud.AAE10.Ynorm)
+fit.grud.CO2.AAE10.Ynorm <- lmer(Ymain_norm  ~ log(soil_0_20_P_CO2) * log(soil_0_20_P_AAE10) + (1|year) + (1|Site)  + (1|Site:block), D, subset = Treatment != "P166")
+r.squaredGLMM(fit.grud.CO2.AAE10.Ynorm)
+# compare with k*log(PS)
+fit.kin.Ynorm   <- lmer(Ymain_norm       ~ k*log(PS) + (1|year) + (1|Site)  + (1|Site:block), D, subset = Treatment != "P166")
+r.squaredGLMM(fit.kin.Ynorm)
+
+fit.kin.Ynorm    <- lmer(Ymain_norm       ~ k * log(PS) + (1|year) + (1|Site)  + (1|Site:block), D, subset = Treatment != "P166")
+fit.kin.Pexport  <- lmer(annual_P_uptake  ~ k * log(PS) + (1|year) + (1|Site)  + (1|Site:block), D)
+fit.kin.Pbalance <- lmer(annual_P_balance ~ k * log(PS) + (1|year) + (1|Site)  + (1|Site:block), D)
+
+fit.grud.PS       <- lm(log(PS)         ~ log(soil_0_20_P_CO2) + log(soil_0_20_P_AAE10), D)
+fit.grud.k        <- lm(k               ~ log(soil_0_20_P_CO2) + log(soil_0_20_P_AAE10), D)
+fit.grud.kPS      <- lm(I(log(k*PS))    ~ log(soil_0_20_P_CO2) + log(soil_0_20_P_AAE10), D)
+
+fit.grud.CO2.Yrel     <- lmer(Ymain_rel       ~ log(soil_0_20_P_CO2) + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.grud.AAE10.Yrel     <- lmer(Ymain_rel       ~ log(soil_0_20_P_AAE10) + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.grud.Yrel     <- lmer(Ymain_rel       ~ log(soil_0_20_P_CO2) * log(soil_0_20_P_AAE10) + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+
+
+# this is hopeless, since cannot log becaus of 0's
+fit.CO2.Pexport     <- lmer(annual_P_uptake     ~ log(soil_0_20_P_CO2) + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+
+fit.AAE10.Pexport     <- lmer(annual_P_uptake ~ log(soil_0_20_P_AAE10) + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+
+fit.grud.Pexport     <- lmer(annual_P_uptake     ~ log(soil_0_20_P_CO2) * log(soil_0_20_P_AAE10) + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+
+
+fit.CO2.Pbalance     <- lmer(annual_P_balance      ~ log(soil_0_20_P_CO2)  + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+
+
+fit.AAE10.Pbalance     <- lmer(annual_P_balance      ~ log(soil_0_20_P_AAE10)  + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+
+
+fit.grud.Pbalance     <- lmer(annual_P_balance      ~ log(soil_0_20_P_CO2) * log(soil_0_20_P_AAE10)  + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+
+lmer_models <- list(
+  PS = fit.soil.PS,
+  k = fit.soil.k,
+  'log(k*PS)' = fit.soil.kPS,
+  CO2 = fit.soil.CO2,
+  AAE10 = fit.soil.AAE10
+)
+
+
+
+lmer_models_yield_norm <- list(
+  "Yn-STP-CO2" = fit.grud.CO2.Ynorm,
+  "Yn-STP-AAE10" = fit.grud.AAE10.Ynorm,
+  "Yn-STP-GRUD" = fit.grud.CO2.AAE10.Ynorm,
+  "Yn-Kinetic" = fit.kin.Ynorm,
+  "Yr-STP-CO2" = fit.grud.CO2.Yrel,
+  "Yr-STP-AAE10" = fit.grud.AAE10.Yrel,
+  "Yr-STP-GRUD" = fit.grud.Yrel,
+  "Yr-Kinetic" = fit.kin.Yrel
+)
+
+lmer_models_balance <- list(
+  CO2_Pbalance = fit.CO2.Pbalance,
+  AAE10_Pbalance = fit.AAE10.Pbalance,
+  Grud_Pbalance = fit.grud.Pbalance,
+  Kin_Pbalance = fit.kin.Pbalance
+)
+
+lmer_models_export <- list(
+  CO2_Pexport = fit.CO2.Pexport,
+  AAE10_Pexport = fit.AAE10.Pexport,
+  Grud_Pexport = fit.grud.Pexport,
+  Kin_Pexport = fit.kin.Pexport
+)
+
 
 ```
 
