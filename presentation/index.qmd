@@ -61,10 +61,10 @@ D <- D %>%
 fit.soil.PS  <- lmer(log(PS)     ~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Feox + Alox  + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
 # fit.soil.PS2 <- lmer(log(PS)     ~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt  + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
 fit.soil.k   <- lmer(k           ~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Feox + Alox + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
-fit.soil.kPS <- lmer(I(log(k*PS))~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Feox + Alox + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.soil.kPS <- lmer(I(k*PS)~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Feox + Alox + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
 fit.soil.kPS2<- lmer(I(k*log(PS))~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Feox + Alox + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
-fit.soil.CO2 <- lmer(log(soil_0_20_P_CO2)~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Feox + Alox + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
-fit.soil.AAE10<-lmer(log(soil_0_20_P_AAE10)~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Feox + Alox + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.soil.CO2 <- lmer(soil_0_20_P_CO2~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Feox + Alox + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
+fit.soil.AAE10<-lmer(soil_0_20_P_AAE10~ soil_0_20_clay+ soil_0_20_pH_H2O + soil_0_20_Corg + soil_0_20_silt + Feox + Alox + (1|year) + (1|Site)  + (1|Site:block) + (1|Site:Treatment), D)
 
 fit.kin.Yrel     <- lmer(Ymain_rel         ~ k * log(PS)  + (1|year) + (1|Site)  + (1|Site:block), D)
 fit.grud.CO2.Ynorm     <- lmer(Ymain_norm    ~ log(soil_0_20_P_CO2) + (1|year) + (1|Site)  + (1|Site:block), D, subset = Treatment != "P166")
@@ -144,6 +144,105 @@ lmer_models_export <- list(
 
 ```
 
+
+
+```{r}
+#| echo: false
+create_coef_table <- function(lmer_models, 
+                              covariate_order = NULL, 
+                              covariate_labels = NULL, # NEU: Benannter Vektor für Zeilennamen
+                              model_labels = NULL,
+                              descriptor = "Response") {   # NEU: Benannter Vektor für Spaltennamen
+
+  # Extract coefficients and p-values (Ihre Originalfunktion, keine Änderung hier)
+  extract_coef_info <- function(model) {
+    # ... (keine Änderung, Ihr Code bleibt hier)
+    coef_matrix <- summary(model)|> coef()
+    estimates <- coef_matrix[, 1]
+    p_values <- coef_matrix[, ncol(coef_matrix)]
+    formatted_coef <- sapply(seq_along(estimates), function(i) {
+      est_str <- sprintf("%.3f", estimates[i])
+      stars <- if (p_values[i] < 0.001) "***" else
+               if (p_values[i] < 0.01) "** " else
+               if (p_values[i] < 0.05) "* " else  ""
+      paste0(est_str,stars)
+    })
+    names(formatted_coef) <- rownames(coef_matrix)
+    return(formatted_coef)
+  }
+
+  # Extract R-squared values (Ihre Originalfunktion, keine Änderung hier)
+  extract_r_squared <- function(model) {
+    # ... (keine Änderung, Ihr Code bleibt hier)
+    r2_values <- MuMIn::r.squaredGLMM(model) # MuMIn:: hinzugefügt für Klarheit
+    return(c(
+      R2m = sprintf("%.3f", r2_values[1, "R2m"]),
+      R2c = sprintf("%.3f", r2_values[1, "R2c"])
+    ))
+  }
+
+  # Daten extrahieren (Ihr Originalcode)
+  all_coefs <- lapply(lmer_models, extract_coef_info)
+  all_r_squared <- lapply(lmer_models, extract_r_squared)
+  all_covariate_names <- unique(unlist(lapply(all_coefs, names)))
+
+  if (is.null(covariate_order)) {
+    covariate_order <- c("(Intercept)", sort(all_covariate_names[all_covariate_names != "(Intercept)"]))
+  }
+  covariate_order <- covariate_order[covariate_order %in% all_covariate_names]
+  final_order <- c(covariate_order, "R2m", "R2c")
+
+  # Matrix erstellen (Ihr Originalcode)
+  results_matrix <- matrix("",
+                           nrow = length(final_order),
+                           ncol = length(lmer_models),
+                           dimnames = list(final_order, names(lmer_models)))
+
+  # Matrix füllen (Ihr Originalcode)
+  for (model_name in names(lmer_models)) {
+    model_coefs <- all_coefs[[model_name]]
+    for (covar in names(model_coefs)) {
+      if (covar %in% covariate_order) {
+        results_matrix[covar, model_name] <- model_coefs[covar]
+      }
+    }
+    r2_values <- all_r_squared[[model_name]]
+    results_matrix["R2m", model_name] <- r2_values["R2m"]
+    results_matrix["R2c", model_name] <- r2_values["R2c"]
+  }
+
+  # --- NEU: Zeilen- und Spaltennamen ersetzen ---
+  
+  # Ersetze die Zeilennamen (Kovariaten), falls covariate_labels übergeben wurde
+  if (!is.null(covariate_labels)) {
+    # Finde die Übereinstimmungen in den aktuellen Zeilennamen
+    row_matches <- match(rownames(results_matrix), names(covariate_labels))
+    # Ersetze nur die, die gefunden wurden
+    new_rownames <- rownames(results_matrix)
+    new_rownames[!is.na(row_matches)] <- covariate_labels[row_matches[!is.na(row_matches)]]
+    rownames(results_matrix) <- new_rownames
+  }
+  
+  # Ersetze die Spaltennamen (Modelle), falls model_labels übergeben wurde
+  if (!is.null(model_labels)) {
+    col_matches <- match(colnames(results_matrix), names(model_labels))
+    new_colnames <- colnames(results_matrix)
+    new_colnames[!is.na(col_matches)] <- model_labels[col_matches[!is.na(col_matches)]]
+    colnames(results_matrix) <- new_colnames
+  }
+  
+  # --- Ende der neuen Sektion ---
+
+  # Convert to data frame for kable
+  results_df <- data.frame("Predictor" = rownames(results_matrix),
+                           results_matrix,
+                           check.names = FALSE, # Verhindert, dass R Spaltennamen ändert
+                           stringsAsFactors = FALSE)
+  
+  results_df
+}
+```
+
 ## Introduction
 
 -   In my Internship I studied the current GRUD, particularly Mg, P and K
@@ -167,12 +266,95 @@ lmer_models_export <- list(
 
 ## Kinetic Model
 
-Flossmann & Richter conducted in 1982 experiments that should:
+::: {.columns}
 
--   improve the classification of P-supply in soils
--   work in tandem with a current STP-method e.g. CAL or Olsen
+::: {.column width="45%"}
+The net-desorption was modeled using a first-order kinetic equation:
 
-The net-desorption was observed, a kinetic of first order was assumed: $$\frac{dP}{dt}=k\times(P^S-P)$$ When solved with $P(0)=0$, the following equation was obtained: $$P(t)=P^S\times(1-e^{-kt})$$ The researchers estimated the plateau $P^S=P_\text{CAL/Olsen}-P_{H_2O}$ and linearized as follows: $$log(1-\frac{P(t)}{P^S})=-kt$$ $PS$, $k$ and $k*PS$ were extracted, $k*PS$ being the average net-release speed.
+**1. The Rate of Release:**
+The change in P over time is proportional to the remaining desorbable P.
+$$\frac{dP}{dt}=k \times (P^S-P)$$
+
+**2. The Solution:**
+When solved, this gives us the equation for the curve:
+$$P(t)=P^S \times (1-e^{-kt})$$
+
+- **$P^S$ (PS):** The maximum desorbable P pool.
+- **$k$:** The first-order rate constant.
+
+:::
+
+::: {.column width="55%"}
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+#| fig-align: "center"
+#| fig-height: 7
+
+library(ggplot2)
+
+# Parameters for our ideal curve
+PS <- 0.8 # The plateau
+k <- 0.1   # The rate constant
+
+# Create plot data
+t <- seq(0, 120, length.out = 100)
+P <- PS * (1 - exp(-k * t))
+df_conceptual <- data.frame(t, P)
+
+# Calculate half-life and tangent parameters
+tau <- log(2) / k
+P_tau <- PS / 2
+slope_tau <- k * PS / 2
+intercept_tau <- (PS / 2) * (1 - log(2))
+
+# --- NEW DARKER COLORS ---
+dark_purple <- "#9A51E0"
+dark_orange <- "#D97F22"
+dark_cyan <- "#48B6D5"
+dark_green <- "#2ABD4A"
+
+# Create a separate data frame for annotations
+annotation_data <- data.frame(
+  x = c(50, tau, 25),
+  y = c(PS + 0.05, -0.05, 0.5),
+  label = c(
+    "'PS (The desorbable P pool)'",
+    "paste(tau, ' = ', frac(ln(2), k), ' (Half-life)')",
+    "paste('Rate at half-life = ', frac(k %*% PS, 2))"
+  ),
+  color = c(dark_orange, dark_cyan, dark_green), # Using new darker colors
+  angle = c(0, 0, 18)
+)
+
+# Create the plot
+ggplot(df_conceptual, aes(x = t, y = P)) +
+  geom_line(color = dark_purple, size = 1.5) + # Using new darker purple
+  geom_hline(yintercept = PS, linetype = "dashed", color = dark_orange, size = 1) + # Using new darker orange
+  geom_segment(aes(x = tau, y = 0, xend = tau, yend = P_tau), linetype = "dotted", color = dark_cyan) + # Using new darker cyan
+  geom_segment(aes(x = 0, y = P_tau, xend = tau, yend = P_tau), linetype = "dotted", color = dark_cyan) + # Using new darker cyan
+  geom_abline(intercept = intercept_tau, slope = slope_tau, linetype = "dashed", color = dark_green, size = 1) + # Using new darker green
+  geom_text(
+    data = annotation_data,
+    aes(x = x, y = y, label = label, color = I(color), angle = angle),
+    size = 5,
+    parse = TRUE
+  ) +
+  labs(
+    title = "Simulated Kinetic Model",
+    x = "Time (t)",
+    y = "P desorbed (mg/L)"
+  ) +
+  theme_minimal(base_size = 16) +
+  theme(
+    plot.title = element_text(hjust = 0.5)
+  ) +
+  coord_cartesian(ylim = c(0, 1), clip = "off")
+```
+:::
+
+:::
 
 ## Adapted Kinetic-Experiment Setup
 
