@@ -363,22 +363,18 @@ ggplot(df_conceptual, aes(x = t, y = P)) +
 
 ## QI: Replicability of kinetic model in STYCS
 
-## QI: Replicability of kinetic model in STYCS
-
-::: {.incremental}
--   **The Challenge:** The original, linearized method requires an *a priori* estimate of the P-pool ($P^S \approx P_{Olsen} - P_{H_2O}$).
--   **The Observation:** This estimate was chemically invalid, leading to poor model fits.
--   **The Solution:** We adopted a robust non-linear regression to estimate parameters directly from the data.
-:::
+## QI: Replicability (Step 1: The Data)
 
 ```{r}
-#| label: fig-replicability-dynamic
+#| label: fig-replicability-setup
 #| echo: false
 #| message: false
 #| warning: false
-#| fig-height: 7
+#| include: false 
+# This chunk does all calculations for the next 3 slides and is hidden
 
-# This single chunk controls the entire plot sequence.
+library(dplyr); library(ggplot2); library(nlme); library(latex2exp)
+
 Res <- nlsList(Pv.mg.L. ~ PS * (1 - exp(-k * (t.dt))) | uid, d[, c("Pv.mg.L.", "ui", "t.dt","uid")],  start=list(PS=0.1,k=0.2))
 # summary(Res)
 # d$nls_pred <- predict(Res)
@@ -404,76 +400,75 @@ hline_data <- d_plot %>%
   select(Site, Treatment, Repetition, Pv_Olsen.mg.L., Pv_labile.mg.L.) %>%
   distinct()
 
-# --- Step 1: All calculations are done upfront ---
-# (This is the same calculation code as before)
-library(dplyr); library(ggplot2); library(nlme); library(latex2exp)
+# Step 1: Prepare data and fit the flawed linearized model
 d_linear <- d_plot %>%
-  mutate(flawed_PS = Pv_Olsen.mg.L., Y1 = log(1 - (Pv.mg.L. / flawed_PS))) %>%
+  mutate(
+    flawed_PS = Pv_Olsen.mg.L.,
+    Y1 = log(1 - (Pv.mg.L. / flawed_PS))
+  ) %>%
   filter(is.finite(Y1))
+
 res_linear <- lmList(Y1 ~ t.dt | uid, data = d_linear, na.action = na.pass)
 coefs_linear <- coef(res_linear)
 coefs_linear$k_flawed <- -coefs_linear$t.dt
 coefs_linear$uid <- rownames(coefs_linear)
+
+# Step 2: Generate predictions from the flawed model
 pred_data_flawed <- d_plot %>%
-  select(uid, Site, Treatment, Repetition, Pv_Olsen.mg.L.) %>% distinct() %>%
+  select(uid, Site, Treatment, Repetition, Pv_Olsen.mg.L.) %>%
+  distinct() %>%
   left_join(select(coefs_linear, uid, k_flawed), by = "uid") %>%
   crossing(t.dt = seq(0, 60, length.out = 100)) %>%
   mutate(pred_Pv_flawed = Pv_Olsen.mg.L. * (1 - exp(-k_flawed * t.dt)))
 
-# --- Step 2: Define the three plot versions ---
+# Step 3: Define the base plot object
 p_base <- ggplot() +
   geom_point(data = d_plot, aes(y = Pv.mg.L., x = t.dt, col = Repetition), alpha = 0.7) +
   facet_grid(Treatment ~ Site, scales = "free_y") +
   labs(x = TeX("$Time (min)$"), y = TeX("$P_{V}(\\frac{mg}{L})$")) +
   theme_bw(base_size = 14)
+```
 
-p1 <- p_base + labs(title = "Step 1: Raw Experimental Data")
-p2 <- p_base +
+Our Goal: To find the best model for our kinetic data. First, here are the raw data points from the experiment.
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+#| fig-height: 7
+p_base + labs(title = "Step 1: Raw Experimental Data")
+```
+
+## QI: Replicability (Step 2: The Flawed Model)
+
+We first tested the original, linearized method from the 1980s. As you can see from the dashed lines, the predictions provide a very poor fit to the actual data.
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+#| fig-height: 7
+p_base +
   geom_line(data = pred_data_flawed, aes(x = t.dt, y = pred_Pv_flawed, color = Repetition), linetype = "dashed", size = 1) +
   labs(title = "Step 2: The Flawed Linearized Model Fit")
-p3 <- p_base +
+```
+
+
+## QI: Replicability (Step 3: The Successful Model)
+
+Because the old method failed, we adopted a modern non-linear approach. The solid lines show our final model, which accurately captures the desorption process. This gave us high confidence in our derived $k$ and $PS$ parameters.
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+#| fig-height: 7
+p_base +
   geom_line(data = pred_data, aes(x = t.dt, y = pred_Pv, color = Repetition), size = 1) +
   labs(title = "Step 3: The Successful Non-Linear Model Fit")
-
-# --- Step 3: Dynamically display the correct plot ---
-# This uses revealjs's internal state to decide which plot to show
-# .fragment(0) is the first state, .fragment(1) is the second, etc.
-knitr::asis_output(
-  '<
-  .fragment , data-fragment-index="0">
-  '
-)
-print(p1)
-knitr::asis_output(
-  '<
-  /div>
-  '
-)
-
-knitr::asis_output(
-  '<
-  .fragment , data-fragment-index="1">
-  '
-)
-print(p2)
-knitr::asis_output(
-  '<
-  /div>
-  '
-)
-
-knitr::asis_output(
-  '<
-  .fragment , data-fragment-index="2">
-  '
-)
-print(p3)
-knitr::asis_output(
-  '<
-  /div>
-  '
-)
 ```
+
+
 
 ## Could a kinetic desorption-model better explain the soil status and yield data?
 
