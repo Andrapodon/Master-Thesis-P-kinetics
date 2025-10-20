@@ -501,6 +501,7 @@ These are static "snapshots" of the soil's P capacity.
 
 -   **PS (**$P^S$): The **size** of the available P pool.
 -   **k:** The **rate** of P release.
+-   $J_0=k*P^S$ The maximal desorption speed/initial Flow
 
 This approach measures P as a dynamic process.
 :::
