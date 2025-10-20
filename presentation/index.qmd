@@ -655,7 +655,6 @@ kable(coef_table_yield_highlighted,
 
 ```
 
-
 ## Predicting P-Export: A mixed Picture
 
 ```{r}
@@ -693,7 +692,6 @@ kable(coef_table_export_highlighted,
 ```
 
 **Observation:** Here, the results are less clear. P-Export is a more complex variable to predict, and no single model or predictor stands out as being consistently powerful. \## P-balance model summary:
-
 
 ## Predicting P-Balance: The Kinetic Model is Superior
 
@@ -733,20 +731,16 @@ kable(coef_table_balance_highlighted,
 1.  **A Robust Kinetic Model was Developed**
     -   The original linearized method was shown to be invalid for these soils.
     -   Our non-linear approach provided a superior and statistically robust fit.
-
 2.  **Predictive Power is Purpose-Dependent**
     -   For **predicting yield**, the standard soil test ($P_{AAE10}$) was the most effective predictor.
-
 3.  **Kinetics Excel for Long-Term Assessment**
     -   For **predicting the P-Balance**, the kinetic parameter `PS` (the P pool) was vastly superior, while standard tests showed no predictive power.
-    
-    
+
 ## The Right Tool for the Right Job
 
 My research concludes that the ideal soil P test depends on the question being asked:
 
-::: {.columns}
-
+::::: columns
 ::: {.column width="50%"}
 **For Routine Fertilization**
 
@@ -762,5 +756,4 @@ To answer a policymaker's question: *"Is this soil's P status sustainable?"*
 
 **A Kinetic Approach is the superior and necessary tool.**
 :::
-
-:::
+:::::
