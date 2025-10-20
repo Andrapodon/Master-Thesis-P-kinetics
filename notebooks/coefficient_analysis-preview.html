@@ -584,7 +584,7 @@ Fit: lmer(formula = log(PS) ~ soil_0_20_clay + soil_0_20_pH_H2O +
 
 Linear Hypotheses:
                        Estimate Std. Error z value Pr(&gt;|z|)
-(Intercept) == 0      -4.315984   2.026178  -2.130    0.177
+(Intercept) == 0      -4.315984   2.026178  -2.130    0.175
 soil_0_20_clay == 0   -0.007322   0.030690  -0.239    1.000
 soil_0_20_pH_H2O == 0 -0.007820   0.129130  -0.061    1.000
 soil_0_20_Corg == 0    0.635270   0.302698   2.099    0.189
@@ -618,13 +618,13 @@ Fit: lmer(formula = k ~ soil_0_20_clay + soil_0_20_pH_H2O + soil_0_20_Corg +
 
 Linear Hypotheses:
                        Estimate Std. Error z value Pr(&gt;|z|)   
-(Intercept) == 0       0.608404   0.351212   1.732  0.37845   
-soil_0_20_clay == 0   -0.016659   0.005088  -3.274  0.00645 **
-soil_0_20_pH_H2O == 0 -0.022256   0.021526  -1.034  0.84760   
-soil_0_20_Corg == 0    0.137353   0.048014   2.861  0.02635 * 
-soil_0_20_silt == 0    0.004094   0.003818   1.072  0.82643   
+(Intercept) == 0       0.608404   0.351212   1.732  0.37844   
+soil_0_20_clay == 0   -0.016659   0.005088  -3.274  0.00683 **
+soil_0_20_pH_H2O == 0 -0.022256   0.021526  -1.034  0.84750   
+soil_0_20_Corg == 0    0.137353   0.048014   2.861  0.02612 * 
+soil_0_20_silt == 0    0.004094   0.003818   1.072  0.82673   
 Feox == 0              0.001024   0.054815   0.019  1.00000   
-Alox == 0             -0.128860   0.196235  -0.657  0.97802   
+Alox == 0             -0.128860   0.196235  -0.657  0.97804   
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
@@ -653,10 +653,10 @@ Fit: lmer(formula = I(log(k * PS)) ~ soil_0_20_clay + soil_0_20_pH_H2O +
 
 Linear Hypotheses:
                       Estimate Std. Error z value Pr(&gt;|z|)  
-(Intercept) == 0      -5.22214    2.67612  -1.951   0.2526  
-soil_0_20_clay == 0   -0.08506    0.04708  -1.807   0.3302  
+(Intercept) == 0      -5.22214    2.67612  -1.951   0.2528  
+soil_0_20_clay == 0   -0.08506    0.04708  -1.807   0.3311  
 soil_0_20_pH_H2O == 0 -0.06836    0.19908  -0.343   0.9993  
-soil_0_20_Corg == 0    1.29047    0.47039   2.743   0.0361 *
+soil_0_20_Corg == 0    1.29047    0.47039   2.743   0.0372 *
 soil_0_20_silt == 0   -0.01141    0.04296  -0.266   0.9998  
 Feox == 0              0.24813    0.34612   0.717   0.9669  
 Alox == 0              0.36766    1.13436   0.324   0.9995  
@@ -847,9 +847,9 @@ Fit: lm(formula = k ~ log(soil_0_20_P_CO2) + log(soil_0_20_P_AAE10),
 
 Linear Hypotheses:
                              Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept) == 0             0.101007   0.029593   3.413  0.00153 ** 
+(Intercept) == 0             0.101007   0.029593   3.413  0.00148 ** 
 log(soil_0_20_P_CO2) == 0   -0.027290   0.007637  -3.573  &lt; 0.001 ***
-log(soil_0_20_P_AAE10) == 0  0.021789   0.007612   2.863  0.00795 ** 
+log(soil_0_20_P_AAE10) == 0  0.021789   0.007612   2.863  0.00724 ** 
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
@@ -866,7 +866,7 @@ Linear Hypotheses:
                             Estimate Std. Error t value Pr(&gt;|t|)    
 (Intercept) == 0            -3.67498    0.24189 -15.193   &lt;0.001 ***
 log(soil_0_20_P_CO2) == 0    0.91106    0.06243  14.594   &lt;0.001 ***
-log(soil_0_20_P_AAE10) == 0  0.06769    0.06222   1.088    0.392    
+log(soil_0_20_P_AAE10) == 0  0.06769    0.06222   1.088    0.391    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
