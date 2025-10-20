@@ -405,6 +405,33 @@ tmp <- tmp[match(D2$uuid, tmp$uuid),]
 # check: cbind(tmp$uid, D2$uid)
 D2$Ymain_norm <- tmp$Ymain_norm
 
+oxides <- read.csv(file = "~/Documents/Master Thesis/Master-Thesis-P-kinetics/data/oxides.csv", na.strings = c("", "n.a."))
+
+D2 <- left_join(D2,oxides,by="ui")
+
+IEK <- read.csv(file = "~/Documents/Master Thesis/Master-Thesis-P-kinetics/data/IEK.csv", na.strings = c("", "n.a."))
+
+IEK_wide <- IEK %>%
+  pivot_wider(
+    id_cols = uid,  # The column that uniquely identifies each sample
+    names_from = IEK_time, # The column containing the time points (e.g., 1, 10, 30)
+    values_from = c(n,E_mod, rt_R, E_exp), # The columns whose values you want to spread out
+    names_sep = "_" # Separator for the new column names (e.g., E_exp_1, E_exp_10)
+  )
+
+# Step 3: Inspect the new wide-format dataframe
+# It should now have one row per 'uid'
+print("First few rows of the new wide-format IEK data:")
+head(IEK_wide)
+
+print("Column names of the new wide-format IEK data:")
+names(IEK_wide)
+# The new names will look like: "E_exp_1", "E_exp_10", "rt_R_1", "rt_R_10", etc.
+
+# Step 4: Merge the wide IEK data with your main dataframe D
+# Now that both have one row per uid, we can perform a clean join.
+D2 <- D2 %>%
+  left_join(IEK_wide, by = "uid")
 
 
 
