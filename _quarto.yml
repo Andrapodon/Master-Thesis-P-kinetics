@@ -19,7 +19,7 @@ manuscript:
       title: mlr3
     - notebook: notebooks/results.qmd
       title: Preliminary Results
-    - notebook: notebooks/presentation.qmd
+  #  - notebook: notebooks/presentation.qmd
     #   title: presentation
   resources:
     # - data/cars.csv
