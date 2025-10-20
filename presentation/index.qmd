@@ -9,6 +9,7 @@ format:
     embed-resources: true
     theme: dracula
     incremental: true
+    math-method: mathjax
 ---
 
 ```{r setup}
@@ -622,7 +623,7 @@ results_table_soil <- results_table_soil[-1, ]
 
 # Apply formatting and display
 coef_table_soil_highlighted <- highlight_significant_cells(results_table_soil)
-kable(coef_table_soil_highlighted,
+kable(coef_table_soil_highlighted,format.args = list(math_method = "mathjax"),
       escape = FALSE, format = "html", row.names = FALSE) %>%
   kable_styling(full_width = FALSE, position = "left")
 ```
