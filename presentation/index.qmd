@@ -35,6 +35,7 @@ suppressPackageStartupMessages({
   library(kableExtra)
   library(dplyr)
   library(lmerTest)
+  library(webshot2)
 
 })
 
@@ -141,8 +142,6 @@ lmer_models_export <- list(
 
 
 ```
-
-
 
 ```{r}
 #| echo: false
@@ -251,7 +250,6 @@ create_coef_table <- function(lmer_models,
 
 -   Could a kinetic desorption-model better explain the soil status and yield data?
 
-
 ## The STYCS Experiment
 
 -   LTE STYCS, all treatment conditions equal except P-fertilization, which is in 6 Levels, 3 were considered($P0$,$P100$,$P166$)
@@ -259,27 +257,20 @@ create_coef_table <- function(lmer_models,
 -   5 Sites, 4 blocks per site, 6 Treatment-Levels, 4 Repetitions
 -   Years 2017-2022 were modelled, kinetic data was collected only for year 2022
 
-
 ![](https://www.agroscope.admin.ch/agroscope/en/home/topics/environment-resources/monitoring-analytics/long-term-trials/stycs/_jcr_content/par/columncontrols/items/0/column/image/image.imagespooler.jpg/1617866324311/Feld-STYCS.jpg){fig-align="center"}
 
 ## A kinetic Approach to P
 
-::: {.columns}
-
+::::: columns
 ::: {.column width="45%"}
 The net-desorption was modeled using a first-order kinetic equation:
 
-**1. The Rate of Release:**
-The change in P over time is proportional to the remaining desorbable P.
-$$\frac{dP}{dt}=k \times (P^S-P)$$
+**1. The Rate of Release:** The change in P over time is proportional to the remaining desorbable P. $$\frac{dP}{dt}=k \times (P^S-P)$$
 
-**2. The Solution:**
-When solved, this gives us the equation for the curve:
-$$P(t)=P^S \times (1-e^{-kt})$$
+**2. The Solution:** When solved, this gives us the equation for the curve: $$P(t)=P^S \times (1-e^{-kt})$$
 
-- **$P^S$ (PS):** The maximum desorbable P pool.
-- **$k$:** The first-order rate constant.
-
+-   $P^S$ (PS): The maximum desorbable P pool.
+-   $k$: The first-order rate constant.
 :::
 
 ::: {.column width="55%"}
@@ -351,15 +342,11 @@ ggplot(df_conceptual, aes(x = t, y = P)) +
   coord_cartesian(ylim = c(0, 1), clip = "off")
 ```
 :::
-
-:::
+:::::
 
 ## Adapted Kinetic-Experiment Setup
 
 ![](Experimental_Setup.png){fig-align="center"}
-
-
-
 
 ```{r}
 #| label: fig-replicability-setup
@@ -438,7 +425,6 @@ p_base + labs(title = "Step 1: Raw Experimental Data")
 
 ## Method Validation
 
-
 ```{r}
 #| echo: false
 #| message: false
@@ -450,9 +436,7 @@ p_base +
   labs(title = "Step 2: The Flawed Linearized Model Fit")
 ```
 
-
 ## Method Validation
-
 
 ```{r}
 #| echo: false
@@ -465,9 +449,7 @@ p_base +
   labs(title = "Step 3: The Successful Non-Linear Model Fit")
 ```
 
-
 ## Method Validation
-
 
 ```{r}
 #| echo: false
@@ -500,18 +482,16 @@ p_base +
   )
 ```
 
-
 ## The Competing Predictors
 
 We compared two approaches to predict agronomic outcomes:
 
-::: {.columns}
-
+::::: columns
 ::: {.column width="50%"}
 **The Standard Method**
 
--   **$P_{CO2}$**
--   **$P_{AAE10}$**
+-   $P_{CO2}$
+-   $P_{AAE10}$
 
 These are static "snapshots" of the soil's P capacity.
 :::
@@ -519,44 +499,33 @@ These are static "snapshots" of the soil's P capacity.
 ::: {.column width="50%"}
 **The Kinetic Method**
 
--   **PS ($P^S$):** The **size** of the available P pool.
+-   **PS (**$P^S$): The **size** of the available P pool.
 -   **k:** The **rate** of P release.
 
 This approach measures P as a dynamic process.
 :::
-
-:::
+:::::
 
 ## Measuring Success: The Key Outcomes
 
 We tested the models against three agronomic metrics:
 
-**1. Normalized Yield ($Y_{norm}$)**
-- How well did the crop perform relative to its maximum potential at that specific site?
+**1. Normalized Yield (**$Y_{norm}$) - How well did the crop perform relative to its maximum potential at that specific site?
 
-**2. P-Export ($P_{up}$)**
-- How much phosphorus did the crop remove from the field?
+**2. P-Export (**$P_{up}$) - How much phosphorus did the crop remove from the field?
 
-**3. P-Balance ($P_{bal}$)**
-- What is the long-term surplus or deficit of P in the soil? This is a key indicator of sustainability.
-
+**3. P-Balance (**$P_{bal}$) - What is the long-term surplus or deficit of P in the soil? This is a key indicator of sustainability.
 
 ## How We Compared the Models
 
 To ensure a fair and robust comparison, we used a consistent statistical approach:
 
-**1. Linear Mixed-Effects Models (`lmer`)**
-   - We built a separate model for each agronomic outcome (Yield, P-Export, P-Balance).
-   - This approach accounts for the nested structure of the STYCS experiment (sites, years, blocks).
+**1. Linear Mixed-Effects Models (`lmer`)** - We built a separate model for each agronomic outcome (Yield, P-Export, P-Balance). - This approach accounts for the nested structure of the STYCS experiment (sites, years, blocks).
 
-**2. Standardized Coefficients (β)**
-   - All numeric variables were **scaled and centered** (mean=0, sd=1).
-   - This allows us to directly compare the effect size of each predictor. A larger coefficient means a stronger effect.
+**2. Standardized Coefficients (β)** - All numeric variables were **scaled and centered** (mean=0, sd=1). - This allows us to directly compare the effect size of each predictor. A larger coefficient means a stronger effect.
 
-**3. The Comparison**
-   - In the following tables, **each column represents a separate model** where we test a different set of predictors.
-   
-   
+**3. The Comparison** - In the following tables, **each column represents a separate model** where we test a different set of predictors.
+
 ## What Do the P Metrics Actually Measure?
 
 A robust P metric should reflect both the soil's inherent properties (like texture and pH) and the impact of management (fertilization). We modeled each metric to see what drives it.
@@ -596,21 +565,21 @@ lmer_models_soil <- list(
 )
 covariate_labels_soil_props <- c(
   "(Intercept)" = "Intercept",
-  "soil_0_20_Corg" = "$C_{org}$",
+  "soil_0_20_Corg" = "C-org",
   "soil_0_20_clay" = "Clay",
   "soil_0_20_silt" = "Silt",
   "soil_0_20_pH_H2O" = "pH",
-  "Fed" = "$Fe_{d}$",
-  "Ald" = "$Al_{d}$",
-  "R2m" = "$R^2_m$",
-  "R2c" = "$R^2_c$"
+  "Fed" = "Fed",
+  "Ald" = "Ald",
+  "R2m" = "marginal R²",
+  "R2c" = "conditional R²"
 )
 model_labels_soil <- c(
-  "m.PCO2" = "$P_{CO_2}$",
-  "m.PAAE10" = "$P_{AAE10}$",
-  "m.PS" = "$PS$",
-  "m.k" = "$k$",
-  "m.log(k*PS)" = "$J_0$"
+  "m.PCO2" = "P-CO2",
+  "m.PAAE10" = "P-AAE10",
+  "m.PS" = "PS",
+  "m.k" = "k",
+  "m.log(k*PS)" = "J0"
 )
 results_table_soil <- create_coef_table(
   lmer_models_soil,
@@ -627,6 +596,7 @@ kable(coef_table_soil_highlighted,format.args = list(math_method = "mathjax"),
       escape = FALSE, format = "html", row.names = FALSE) %>%
   kable_styling(full_width = FALSE, position = "left")
 ```
+
 ## Predicting Yield: The Standard Test Excels
 
 First, we tested which P metric was best at predicting site-normalized yield ($Y_{norm}$).
@@ -650,20 +620,20 @@ lmer_models_yield <- list(
 # Define the clean labels for the table
 covariate_labels <- c(
   "(Intercept)" = "Intercept",
-  "log(soil_0_20_P_CO2)" = "$P_{CO_2}$",
-  "log(soil_0_20_P_AAE10)" = "$P_{AAE10}$",
-  "k" = "$k$",
-  "log(PS)" = "$PS$",
-  "k:log(PS)" = "$J_0$",
-  "log(soil_0_20_P_CO2):log(soil_0_20_P_AAE10)" = "$P_{CO_2} \\times P_{AAE10}$",
-  "R2m" = "$R^2_m$",
-  "R2c" = "$R^2_c$")
+  "log(soil_0_20_P_CO2)" = "P-CO2",
+  "log(soil_0_20_P_AAE10)" = "P-AAE10",
+  "k" = "k",
+  "log(PS)" = "PS",
+  "k:log(PS)" = "J0",
+  "log(soil_0_20_P_CO2):log(soil_0_20_P_AAE10)" = "P-CO2 * P-AAE10",
+  "R2m" = "marginal R²",
+  "R2c" = "conditional R²")
 
 model_labels_yield <- c(
   "GRUD" = "GRUD Model",
   "Kinetic" = "Kinetic Model",
-  "P_CO2" = "$P_{CO_2}$ only",
-  "P_AAE10" = "$P_{AAE10}$ only"
+  "P_CO2" = "P-CO2 only",
+  "P_AAE10" = "P-AAE10 only"
 )
 
 # Create and filter the table
@@ -677,52 +647,70 @@ results_table_yield <- results_table_yield[-1, ] # Remove intercept
 # Display the table
 coef_table_yield_highlighted <- highlight_significant_cells(results_table_yield)
 kable(coef_table_yield_highlighted,
-      escape = FALSE, format = "html", row.names = FALSE,
-      format.args = list(math_method = "mathjax")) %>%
+     escape = FALSE, format = "html", row.names = FALSE,
+    format.args = list(math_method = "mathjax")) %>%
   kable_styling(full_width = FALSE, position = "left")
+
 
 ```
 
 
-## P-Export model summary:
+## Predicting P-Export: A mixed Picture
 
 ```{r}
+#| label: create-p-export-table-image
+#| echo: false
+#| message: false
+#| warning: false
 
 
-coef_table_export <- create_coef_table(lmer_models_export)
-# Apply formatting
-coef_table_export_highlighted <- highlight_significant_cells(coef_table_export)
+# Define models and labels
+# ... (use the same covariate_labels and model_labels as before) ...
+lmer_models_export <- list(
+  "P_CO2" = fit.CO2.Pexport,
+  "P_AAE10" = fit.AAE10.Pexport,
+  "GRUD" = fit.grud.Pexport,
+  "Kinetic" = fit.kin.Pexport
+)
 
-# Display with kable
+
+
+
+# Create, filter, and highlight the table
+results_table_export <- create_coef_table(lmer_models_export, covariate_labels = covariate_labels, model_labels = model_labels_yield)
+results_table_export <- results_table_export[-1, ]
+coef_table_export_highlighted <- highlight_significant_cells(results_table_export)
+
+# Build the kable object
 kable(coef_table_export_highlighted,
-      escape = FALSE,
-      format = "html",
+      escape = FALSE, format = "html",
       row.names = FALSE,
-      caption = "Coefficient Table for P-export.  
-      Significant codes:  0 '***' 0.001 '**' 0.01 '*' 0.05") |>
-  kable_styling(full_width = FALSE, position = "left")
+      format.args = list(math_method = "mathjax")) %>%
+  kable_styling(full_width = FALSE, font_size = 18)
 
-
-
-
+# Save the kable object as a PNG image
 ```
 
-::: notes
--   columns are models, rows are covariates used, cells are effects with significance
--   P-CO2 significant alone and in combination with P-AAE10
--   $R^2_c$ seem inflated in comparison to $R^2_m$ confounded effects?
-:::
+**Observation:** Here, the results are less clear. P-Export is a more complex variable to predict, and no single model or predictor stands out as being consistently powerful. \## P-balance model summary:
 
-**Observations**
 
--   P-CO2 did show strong effects in predicting Pexport
-
-## P-balance model summary:
+## Predicting P-Balance: The Kinetic Model is Superior
 
 ```{r}
 
+lmer_models_balance <- list(
+  "P_CO2" = fit.CO2.Pbalance,
+  "P_AAE10" = fit.AAE10.Pbalance,
+  "GRUD" = fit.grud.Pbalance,
+  "Kinetic" = fit.kin.Pbalance
+)
 
-coef_table_balance <- create_coef_table(lmer_models_balance)
+
+
+
+
+coef_table_balance <- create_coef_table(lmer_models_balance, covariate_labels = covariate_labels, model_labels = model_labels_yield)
+coef_table_balance <- coef_table_balance[-1,]
 # Apply formatting
 coef_table_balance_highlighted <- highlight_significant_cells(coef_table_balance)
 
@@ -731,8 +719,7 @@ kable(coef_table_balance_highlighted,
       escape = FALSE,
       format = "html",
       row.names = FALSE,
-      caption = "Coefficient Table for P-balance.  
-      Significant codes:  0 '***' 0.001 '**' 0.01 '*' 0.05") |>
+      ) |>
   kable_styling(full_width = FALSE, position = "left")
 
 
@@ -740,21 +727,39 @@ kable(coef_table_balance_highlighted,
 
 ```
 
-::: notes
--   columns are models, rows are covariates used, cells are effects with significance
--   P-Balance correlates strongly to PS and $R^2_m=0.52$ is substantial compared to grud STP
+## Key Findings
+
+1.  **A Robust Kinetic Model was Developed**
+    -   The original linearized method was shown to be invalid for these soils.
+    -   Our non-linear approach provided a superior and statistically robust fit.
+
+2.  **Predictive Power is Purpose-Dependent**
+    -   For **predicting yield**, the standard soil test ($P_{AAE10}$) was the most effective predictor.
+
+3.  **Kinetics Excel for Long-Term Assessment**
+    -   For **predicting the P-Balance**, the kinetic parameter `PS` (the P pool) was vastly superior, while standard tests showed no predictive power.
+    
+    
+## The Right Tool for the Right Job
+
+My research concludes that the ideal soil P test depends on the question being asked:
+
+::: {.columns}
+
+::: {.column width="50%"}
+**For Routine Fertilization**
+
+To answer a farmer's question: *"Is P limiting my yield this year?"*
+
+**The Standard Soil Tests are effective and well-suited.**
 :::
 
-**Observation**
+::: {.column width="50%"}
+**For Long-Term Sustainability**
 
--   $PS$ showed the strongest effect in predicting P_balance and k showed substantial $R^2_m$
+To answer a policymaker's question: *"Is this soil's P status sustainable?"*
 
-## Concluding Remarcs
+**A Kinetic Approach is the superior and necessary tool.**
+:::
 
-- The net-desorption of P probably follows a first-order-kinetic, but $PS$ is difficult to directly estimate.
-- The kinetic parameters $k$ and $PS$ could comparably and sometimes better explain Ynorm, Yrel and P-Balance.
-- Regarding the difference between $R^2_m$ and $R^2_C$ confounded effects seem to be buried in the sites.
-- P-CO2 and P-AAE10 are not as well explainable as $PS$ and $k$, in particular not by clay-content.
-- P-CO2 correlated however significantly with P-Export
-
-Thank you for your attention
+:::
