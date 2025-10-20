@@ -627,123 +627,62 @@ kable(coef_table_soil_highlighted,format.args = list(math_method = "mathjax"),
       escape = FALSE, format = "html", row.names = FALSE) %>%
   kable_styling(full_width = FALSE, position = "left")
 ```
-# QII & III: STP, k & PS correlate to soil properties?
+## Predicting Yield: The Standard Test Excels
 
-The following random structure was chosen:
-
-`(1|year) + (1|Site)  + (1|Site:block) + (Treatment|Site)`
-
-## Do P-CO2, P_AAE10, k and PS correlate with soil characteristics?
+First, we tested which P metric was best at predicting site-normalized yield ($Y_{norm}$).
 
 ```{r}
-coef_table_soil <- create_coef_table(lmer_models_soil)
+#| echo: false
+#| message: false
+#| warning: false
 
-# highlight_significant_cells <- function(df) {
-#   df_highlighted <- df
-# 
-#   # Loop through data columns (excluding Covariate column)
-#   for (col in names(df)[-1]) {
-#     df_highlighted[[col]] <- cell_spec(df[[col]],
-#                                        format = "html",
-#                                        color = ifelse(grepl("\\*", df[[col]]), "red", "white"),
-#                                        bold = grepl("\\*", df[[col]]))
-#   }
-# 
-#   return(df_highlighted)
-# }
+# Define the models for this comparison
 
-highlight_significant_cells <- function(df) {
-  df_highlighted <- df
-
-  for (col in names(df)[-1]) {
-    df_highlighted[[col]] <- cell_spec(df[[col]],
-      format = "html",
-      color = case_when(
-        grepl("\\*\\*\\*", df[[col]]) ~ "red",
-        grepl("\\*\\*", df[[col]])    ~ "orange",
-        grepl("\\*", df[[col]])       ~ "yellow",
-        TRUE                          ~ "white"
-      ),
-      bold = grepl("\\*", df[[col]])
-    )
-  }
-
-  return(df_highlighted)
-}
-
-
-# Apply formatting
-coef_table_soil_highlighted <- highlight_significant_cells(coef_table_soil)
-
-# Display with kable
-kable(coef_table_soil_highlighted,
-      escape = FALSE,
-      format = "html",
-      row.names = FALSE,
-      caption = "Coefficient Table for Soil Covariates.  
-      Significant codes:  0 '***' 0.001 '**' 0.01 '*' 0.05") |>
-  kable_styling(full_width = FALSE, position = "left")
+lmer_models_yield <- list(
+  "P_CO2" = fit.grud.CO2.Ynorm,
+  "P_AAE10" = fit.grud.AAE10.Ynorm,
+  "GRUD" = fit.grud.CO2.AAE10.Ynorm,
+  "Kinetic" = fit.kin.Ynorm
+)
 
 
 
-```
+# Define the clean labels for the table
+covariate_labels <- c(
+  "(Intercept)" = "Intercept",
+  "log(soil_0_20_P_CO2)" = "$P_{CO_2}$",
+  "log(soil_0_20_P_AAE10)" = "$P_{AAE10}$",
+  "k" = "$k$",
+  "log(PS)" = "$PS$",
+  "k:log(PS)" = "$J_0$",
+  "log(soil_0_20_P_CO2):log(soil_0_20_P_AAE10)" = "$P_{CO_2} \\times P_{AAE10}$",
+  "R2m" = "$R^2_m$",
+  "R2c" = "$R^2_c$")
 
-::: notes
--   columns are models, rows are covariates used, cells are effects with significance
--   all but $k$ correlated to treatment
--   $k$ correlated to pH and silt
--   Plateau, P-CO2 and P-AAE10 correlated to Corg, unexpected
--   P-CO2, P-AAE10 no correlation with clay
--   P-AAE10 positive correlation to pH, surprising, should be negative
--   $k*log(PS)$ correlated to pH, silt and clay and weaker to Treatment
--   $R^2_m=0.85$ is remarkable
-:::
+model_labels_yield <- c(
+  "GRUD" = "GRUD Model",
+  "Kinetic" = "Kinetic Model",
+  "P_CO2" = "$P_{CO_2}$ only",
+  "P_AAE10" = "$P_{AAE10}$ only"
+)
 
-**Observation**
+# Create and filter the table
+results_table_yield <- create_coef_table(
+  lmer_models_yield,
+  covariate_labels = covariate_labels,
+  model_labels = model_labels_yield
+)
+results_table_yield <- results_table_yield[-1, ] # Remove intercept
 
--   P-CO2 and P-AAE10 did not correlate with clay-content
--   k does not correlate with Treatment but with pH and silt-content
--   $k*log(PS)$ had significant effects for clay- and silt-content as well as pH, but lower in Treatment
--   PS was the covariate best predicted by soil properties: $R^2_m=0.858$
-
-# QIV & V: Correlation k, PS & STP to Yield and P-metrics
-
-## Yield model summary:
-
-```{r}
-
-
-coef_table_yield <- create_coef_table(lmer_models_yield_norm)
-# Apply formatting
-coef_table_yield_highlighted <- highlight_significant_cells(coef_table_yield)
-
-# Display with kable
+# Display the table
+coef_table_yield_highlighted <- highlight_significant_cells(results_table_yield)
 kable(coef_table_yield_highlighted,
-      escape = FALSE,
-      format = "html",
-      row.names = FALSE,
-      caption = "Coefficient Table for Yield Variables.  
-      Significant codes:  0 '***' 0.001 '**' 0.01 '*' 0.05") |>
+      escape = FALSE, format = "html", row.names = FALSE,
+      format.args = list(math_method = "mathjax")) %>%
   kable_styling(full_width = FALSE, position = "left")
-
-
-
 
 ```
 
-::: notes
--   columns are models, rows are covariates used, cells are effects with significance
--   $R^2_m$ for Ynorm-models is notably hugher than Yrel
--   P-CO2 and P-AAE10 had significant effect separately, but not combined and no increase in $R^2_m$, although this is grud interpretation
--   Ynorm correlated to $k$ and $k*log(PS)$
--   Yrel did not show any correlation, except for P-AAE10,
--   for Yrel $R^2_c$ are very big comared to $R^2_m$, confounded information in the sites or normalize through national mean problematic?
-:::
-
-**Observation**
-
--   $k*log(PS)$ and $k$ showed the strongest effects in the prediction of Ynorm and Yrel
--   P-AAE10 did show a significant effect in prediction of Yrel
 
 ## P-Export model summary:
 
