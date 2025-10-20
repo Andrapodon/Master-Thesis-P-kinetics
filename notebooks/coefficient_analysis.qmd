@@ -33,7 +33,7 @@ suppressPackageStartupMessages({
 
 options(warn = -1)
 RES <- readRDS("~/Documents/Master Thesis/Master-Thesis-P-kinetics/data/RES.rds")
-D <- RES$D
+D <- RES$D2
 d <- RES$data
 ```
 
@@ -487,7 +487,7 @@ print(spearman_kinetic)
 
 
 
-
+D$Site |> unique()
 save.image(file = "~/Documents/Master Thesis/Master-Thesis-P-kinetics/data/results_coefficient_analysis")
 
 

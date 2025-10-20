@@ -217,8 +217,8 @@ report(fit.grud.Pbalance)
 here I also show the non linear mixed models, following the Mitscherlich saturation curve:
 
 ```{r}
-#|code-fold: true
-#|echo: false
+#| eval: false
+#| include: false
 
 
 library(nlme)
@@ -229,20 +229,20 @@ D$Site  <- as.factor(D$Site)
 D$block <- as.factor(D$block)
 D$crop <- as.factor(D$crop)
 # Fit the model
-fit.mitscherlich.CO2.Yrel <- nlme(
-  Ymain_rel ~ A * (1 - exp(-k * soil_0_20_P_CO2 + E)),                
-  fixed = A + k + E ~ soil_0_20_clay + soil_0_20_pH_H2O + ansum_sun + ansum_prec,
-  random = A ~ 1 | year/Site/block,
-  data = D,
-  subset = Treatment != "P166",
-  start = c(
-    A = 1100, A1 = 0, A2 = 0, A3 = 0, A4 = 0,
-    k = 0.05, k1 = 0, k2 = 0, k3 = 0, k4 = 0,
-    E = -3, E1 = 0, E2 = 0, E3 = 0, E4 = 0
-  ),
-  control = nlmeControl(maxIter = 500),
-  na.action = na.omit
-)
+# fit.mitscherlich.CO2.Yrel <- nlme(
+#   Ymain_rel ~ A * (1 - exp(-k * soil_0_20_P_CO2 + E)),                
+#   fixed = A + k + E ~ soil_0_20_clay + soil_0_20_pH_H2O + ansum_sun + ansum_prec,
+#   random = A ~ 1 | year/Site/block,
+#   data = D,
+#   subset = Treatment != "P166",
+#   start = c(
+#     A = 1100, A1 = 0, A2 = 0, A3 = 0, A4 = 0,
+#     k = 0.05, k1 = 0, k2 = 0, k3 = 0, k4 = 0,
+#     E = -3, E1 = 0, E2 = 0, E3 = 0, E4 = 0
+#   ),
+#   control = nlmeControl(maxIter = 500),
+#   na.action = na.omit
+# )
 
 summary(fit.mitscherlich.CO2.Yrel)
 anova(fit.mitscherlich.CO2.Yrel)
@@ -276,20 +276,20 @@ r.square.CO2 <- 1-sum(residuals(fit.mitscherlich.CO2.Yrel)^2)/sum((D$Ymain_rel-m
 
 
 
-fit.mitscherlich.CO2.Ynorm <- nlme(
-  Ymain_norm ~ A * (1 - exp(-k * kPS + E)),                
-  fixed = A + k + E ~ soil_0_20_clay + soil_0_20_pH_H2O + ansum_sun + ansum_prec,
-  random = A ~ 1 | year/Site/block,
-  data = D,
-  subset = Treatment != "P166",
-  start = c(
-    A = 6, A1 = 0, A2 = 0, A3 = 0, A4 = 0,
-    k = 3, k1 = 0, k2 = 0, k3 = 0, k4 = 0,
-    E = -3, E1 = 0, E2 = 0, E3 = 0, E4 = 0
-  ),
-  control = nlmeControl(maxIter = 1500),
-  na.action = na.omit
-)
+# fit.mitscherlich.CO2.Ynorm <- nlme(
+#   Ymain_norm ~ A * (1 - exp(-k * kPS + E)),                
+#   fixed = A + k + E ~ soil_0_20_clay + soil_0_20_pH_H2O + ansum_sun + ansum_prec,
+#   random = A ~ 1 | year/Site/block,
+#   data = D,
+#   subset = Treatment != "P166",
+#   start = c(
+#     A = 6, A1 = 0, A2 = 0, A3 = 0, A4 = 0,
+#     k = 3, k1 = 0, k2 = 0, k3 = 0, k4 = 0,
+#     E = -3, E1 = 0, E2 = 0, E3 = 0, E4 = 0
+#   ),
+#   control = nlmeControl(maxIter = 1500),
+#   na.action = na.omit
+# )
 
 summary(fit.mitscherlich.CO2.Yrel)
 anova(fit.mitscherlich.CO2.Yrel)
@@ -326,7 +326,7 @@ r.square.CO2 <- 1-sum(residuals(fit.mitscherlich.CO2.Yrel)^2)/sum((D$Ymain_rel-m
 
 ```
 
-With the covariate and random effect used as by Juliane Hirte we obtain  $R^2=$ `{r} r.square.CO2`, I don't know how to interpret that, I fear that the model is overfitting data.
+With the covariate and random effect used as by Juliane Hirte we obtain  , I don't know how to interpret that, I fear that the model is overfitting data.
 
 
 ### How do GRUD-measurements of $C_P$ relate to the soil properties $C_\text{org}$-content, clay-content, silt-content and pH?
@@ -351,8 +351,8 @@ fit.soil.AAE10 |> r.squaredGLMM()
 Given the comparably low solubility of $PO_4^{3-}$ in the water-soil interface,  most P is transported to the rhizosphere via diffusion. As a consequence the intensity of $PO_4^{3-}$ might not adequately account for the P-uptake in the harvested plant. Since the diffusion process is in its velocity a kinetic and in its finally reached intensity a thermodynamic process, the inclusion of kinetic parameters might well improve the performance. 
 
 ```{r}
-#|code-fold: true
-#|echo: false
+#| eval: false
+#| include: false
 
 fit.mitscherlich.PS.Yrel <- nlme(
   Ymain_rel ~ A * (1 - exp(-r * PS + E)),                
@@ -398,7 +398,7 @@ r.square.kPS <- 1-sum(residuals(fit.mitscherlich.kPS.Yrel)^2)/sum((D$Ymain_rel-m
 
 ```
 
-With the covariate and random effect used as by Juliane Hirte we obtain  $R^2=$ `{r} r.square.PS`, I don't know how to interpret that, I fear that the model is overfitting data, the same might be true for the model that used $k\times PS$ as a predictor with $R^2=$ `{r} r.square.kPS`.
+With the covariate and random effect used as by Juliane Hirte we obtain   I don't know how to interpret that, I fear that the model is overfitting data, the same might be true for the model that used $k\times PS$ as a predictor with .
 
 
 I also tried more conservative models, where I log-transformed the concentrations and PS, also I was more cautious with random effects. This resulted in coefficients that were not as straight-forward as the mitscherlich coefficients to interpret.
