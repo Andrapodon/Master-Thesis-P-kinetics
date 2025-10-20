@@ -686,12 +686,10 @@ kable(coef_table_export_highlighted,
       escape = FALSE, format = "html",
       row.names = FALSE,
       format.args = list(math_method = "mathjax")) %>%
-  kable_styling(full_width = FALSE, font_size = 18)
+  kable_styling(full_width = FALSE, position = "left")
 
 # Save the kable object as a PNG image
 ```
-
-**Observation:** Here, the results are less clear. P-Export is a more complex variable to predict, and no single model or predictor stands out as being consistently powerful. \## P-balance model summary:
 
 ## Predicting P-Balance: The Kinetic Model is Superior
 

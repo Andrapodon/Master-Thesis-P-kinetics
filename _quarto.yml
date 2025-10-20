@@ -1,29 +1,30 @@
 project:
-  type: manuscript
+  type: website
+  output-dir: docs
   execute-dir: project
+
+# --- Website Navigation ---
+website:
+  title: "P-Kinetics"
+  navbar:
+    left:
+      - href: index.html
+        text: "Thesis"
+      - href: presentation/index.html
+        text: "Presentation"
+  sidebar:
+    - title: "Notebooks"
+      style: "docked"
+      background: light
+      contents:
+        - notebooks/pretest.qmd
+        - notebooks/coefficient_analysis.qmd
+        - notebooks/mlr3.qmd
+        - notebooks/results.qmd
 
 # --- Top-level settings ---
 bibliography: references.bib
 csl: apa.csl
-
-manuscript:
-  article: index.qmd
-  notebooks:
-    # - notebook: notebooks/cars-plot.qmd
-    #   title: CarsPlot
-    - notebook: notebooks/pretest.qmd
-      title: Model Setup
-    - notebook: notebooks/coefficient_analysis.qmd
-      title: Coefficient Analysis
-    - notebook: notebooks/mlr3.qmd
-      title: mlr3
-    - notebook: notebooks/results.qmd
-      title: Preliminary Results
-    - notebook: presentation/index.qmd
-      title: presentation
-  resources:
-    # - data/cars.csv
-    - presentation/index.html
 
 # --- Format-specific settings ---
 format:
@@ -47,10 +48,6 @@ format:
     lof: true
     lot: true
 
-  # In _quarto.yml, replace your current pdf: block with this one
-# In _quarto.yml, replace your current pdf: block with this one
-
-# In _quarto.yml, replace your entire pdf: block with this one
   pdf:
     documentclass: article
     papersize: a4
@@ -66,6 +63,7 @@ format:
     include-in-header:
       - text: |
           \usepackage{graphicx}
+          \graphicspath{{./}}
           \usepackage{pdfpages}
           \usepackage[a4paper, top=3cm, bottom=3cm, left=3.5cm, right=3.5cm]{geometry}
           \usepackage{fancyhdr}
@@ -128,6 +126,4 @@ format:
           \pagestyle{fancy}
           \pagenumbering{arabic}
 
-    include-after-body:
-      - text: |
-          \includepdf[pages=-]{declaration.pdf}
+   
