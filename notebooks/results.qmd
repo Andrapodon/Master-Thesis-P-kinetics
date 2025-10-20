@@ -326,7 +326,7 @@ r.square.CO2 <- 1-sum(residuals(fit.mitscherlich.CO2.Yrel)^2)/sum((D$Ymain_rel-m
 
 ```
 
-With the covariate and random effect used as by Juliane Hirte we obtain  $R^2=$ `{r} r.square.CO2`, I don't know how to interpret that, I fear that the model is overfitting data.
+With the covariate and random effect used as by Juliane Hirte we obtain  , I don't know how to interpret that, I fear that the model is overfitting data.
 
 
 ### How do GRUD-measurements of $C_P$ relate to the soil properties $C_\text{org}$-content, clay-content, silt-content and pH?
@@ -398,7 +398,7 @@ r.square.kPS <- 1-sum(residuals(fit.mitscherlich.kPS.Yrel)^2)/sum((D$Ymain_rel-m
 
 ```
 
-With the covariate and random effect used as by Juliane Hirte we obtain  $R^2=$ `{r} r.square.PS`, I don't know how to interpret that, I fear that the model is overfitting data, the same might be true for the model that used $k\times PS$ as a predictor with $R^2=$ `{r} r.square.kPS`.
+With the covariate and random effect used as by Juliane Hirte we obtain   I don't know how to interpret that, I fear that the model is overfitting data, the same might be true for the model that used $k\times PS$ as a predictor with .
 
 
 I also tried more conservative models, where I log-transformed the concentrations and PS, also I was more cautious with random effects. This resulted in coefficients that were not as straight-forward as the mitscherlich coefficients to interpret.
