@@ -126,4 +126,6 @@ format:
           \pagestyle{fancy}
           \pagenumbering{arabic}
 
-   
+    include-after-body:
+      - text: |
+          \includepdf[pages=-]{declaration.pdf}
